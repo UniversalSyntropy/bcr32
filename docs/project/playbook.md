@@ -16,9 +16,9 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | none (4.1 closed on branch `r1c/p4-capture-tool`, not merged) |
-| Next step | 4.2 Backup (R1c, needs the owner) or 2.4 Quick start and tasks (R1b) |
-| R1 progress | 15 of 27 steps done, 12 remain |
+| Current step | none (2.4 closed on branch `r1b/p2-quick-start`, not merged) |
+| Next step | 4.2 Backup (R1c, needs the owner) or 2.5 Glossary (R1b) |
+| R1 progress | 16 of 27 steps done, 11 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing. The repo is public since 2026-11-11 |
 | Last updated | 2026-11-11 (end of session 7) |
@@ -75,7 +75,7 @@ Goal: every control, mode, menu, value and procedure, with a glossary, three ind
 | 2.1 | Restructure | one file per chapter in `docs/manual/` | docs-check, no broken links | 50k | about 35k | ✅ | [manual index](../manual/README.md); 13 chapter files (0 to 12); the old reference file is removed; section map, tests and links point at the chapters; branch `r1b/p2-restructure`, not merged |
 | 2.2 | Source pass, pages 14–25 | sequencer and settings re-read against page images | coverage-check for those pages | 100k | about 70k | ✅ | read the text of pp. 14–25 against chapters 2 to 9 and 12, plus the page images of pp. 16–19; 10 corrections or additions; 211 data `ref` values now cite manual pages; branch `r1b/p2-source-pass-14-25`, not merged |
 | 2.3 | Source pass, pages 26–35 | controller tables entered in full | coverage-check for those pages | 90k | about 45k | ✅ | chapter 8.4 now has ten subsections (modes, LED options, PC, CC, NRPN, Note, PB, AT, GS, MMC); 6 errata rows added; section map points each table at its own heading; page images read for pp. 26–27 and 34; branch `r1b/p2-source-pass-26-35`, not merged |
-| 2.4 | Quick start and tasks | quick start, "how do I" chapter | docs-check | 60k | | ☐ | |
+| 2.4 | Quick start and tasks | quick start, "how do I" chapter | docs-check | 60k | about 40k | ✅ | [chapter 10](../manual/10-quick-lookup-how-do-i.md): ZAQ quick start, CTRL quick start, 40 task rows with chapter links; branch `r1b/p2-quick-start`, not merged; steps unverified on a unit |
 | 2.5 | Glossary | terms, first-use links in every file | docs-check glossary rule | 40k | | ☐ | |
 | 2.6 | Generated tables and indexes | control tables, three indexes, `llms-full.txt` | gen-tables check | 40k | | ☐ | |
 | 2.7 | Known issues | research user reports, build the register | every row has source, firmware, status | 60k | | ☐ | |
@@ -124,6 +124,15 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 2.4
+
+- **Closed:** step 2.4 on branch `r1b/p2-quick-start`. Nothing was sent to the unit. Not merged, not pushed.
+- **Proved:** `npm run check` passes (117 tests, docs-check clean on 42 files, coverage-check 0 findings, privacy clean).
+- **Added:** chapter 10 now holds a ZAQ quick start, a CTRL quick start and a task lookup in four tables. Chapter 0 links to it. The chapter keeps its title, so no anchor broke.
+- **Open:** the manual says "toggle" for mute and skip, not turn or push. A note in chapter 10 asks for a test. Add it to the errata table in step 2.8 if the owner agrees.
+- **Next:** step 2.5 (glossary) or step 4.2 (backup, needs the owner).
+- **Know this:** the quick start steps are from the manual only. The CTRL quick start result cites the verified CC 97, 65, 66, 98 capture.
 
 ### 2026-11-11, references and parking
 

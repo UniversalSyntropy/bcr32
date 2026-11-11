@@ -4,6 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-11
 
+- Added two quick starts (sequencer and controller) and a task lookup to chapter 10 of the manual. The lookup gives key sequences and chapter links. The steps come from the manual and are unverified on a unit.
 - Added a references page for web UI examples and for the public BCR32 editor `bcr32-studio`, with a note on which facts we checked.
 - Added the `midi-capture` tool in `tools/midi-capture`. It lists MIDI ports, logs timestamped messages as JSON Lines, and sends test messages to loopback ports only. It has a selftest, tests and a README.
 - Source pass on manual pages 26 to 35. Chapter 8.4 now holds the full setup tables for PC, CC, NRPN, Note, PB, AT, GS and MMC. It also holds the LED style table and the mode tables. Added six errata rows.
