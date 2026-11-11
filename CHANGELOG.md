@@ -4,6 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-11
 
+- Added the unit session script (`docs/guides/unit-session-script.md`). It has 10 read and listen tests, a 15-shot photo list and one gated tier 1 test. A table maps the 13 errata rows to tests. Draft; nobody tried it on a unit.
 - Added the recovery runbook (`docs/guides/recovery-runbook.md`): six recovery steps, least invasive first, with what the vendor documents and what stays unknown. Draft for the owner's review; nothing in it was tried on a unit.
 - Added four check tools in `tools/`: `privacy-check`, `docs-check`, `coverage-check` and `gen-tables`. `npm run check` and CI run them. `npm run hooks` installs git hooks that stop a commit with personal data.
 - Added the section map of the official manual in `data/devices/bcr32/section-map.json`: 36 parts with page numbers, each with the heading that covers it.

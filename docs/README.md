@@ -13,6 +13,7 @@ last_updated: 2026-11-11
 | [Connect to Ableton Live](guides/connect-to-ableton-live.md) | USB-MIDI setup, track routing, clock master | draft, unverified |
 | [Troubleshooting](guides/troubleshooting.md) | Symptoms and fixes | draft, unverified |
 | [Recovery runbook](guides/recovery-runbook.md) | Steps to recover a unit, least invasive first, with the unknowns | draft, unverified |
+| [Unit session script](guides/unit-session-script.md) | Ordered tests for the first session at a real unit: display reads, MIDI listening, photos | draft, unverified |
 | [Playbook and live status](project/playbook.md) | Task list, current step, steps remaining, handover notes | live |
 | [Project plan](project/plan.md) | Phases, acceptance tests, routing, estimates, risks | draft, awaiting approval |
 | [Architecture note](project/architecture.md) | Device data, packages, view state, overlay, MIDI seams | draft |
