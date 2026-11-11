@@ -15,6 +15,12 @@ Control IDs used across the docs: B<n> = button, E<n> = encoder, SEL = select en
 
 ## Project
 
+- [Playbook and live status](docs/project/playbook.md): the task list with the current step and what remains
+- [Project plan](docs/project/plan.md): phases for the manual, the BCR2000 and Zaquencer guide and the web panel (draft, awaiting approval)
+- [Architecture note](docs/project/architecture.md): device data model, packages, view state, label overlay, MIDI seams (design, not built)
+- [Decision log](docs/project/decisions.md): decisions with reasons
+- [Unit safety protocol](docs/project/unit-safety.md): backup-first rules and risk tiers for tests on a real unit
+- [Parking file](docs/project/parking.md): ideas not yet planned
 - [README](README.md): overview and status
 - [Contributing](CONTRIBUTING.md): privacy rules and documentation standard
 - [Changelog](CHANGELOG.md)
