@@ -41,7 +41,7 @@ The BCR32 is a MIDI controller and 4-track, 32-step sequencer. The official manu
 
 **Please do not** post a serial number, a photo that shows one, or files from the vendor.
 
-*This project is unofficial. It is not affiliated with or endorsed by Behringer or Music Tribe. Behringer is a trademark of Music Tribe Global Brands Ltd.*
+*This project is unofficial. It is not affiliated with or endorsed by Behringer or Music Tribe. Behringer and Music Tribe are trademarks of their owners.*
 
 ## Before you post
 

@@ -4,7 +4,7 @@ Unofficial documentation and tools for the Behringer BCR32 MIDI controller and s
 
 The BCR32 combines two devices: a 4-track, 32-step sequencer (the "Zaquencer", with MIDI, USB-MIDI and CV/gate outputs) and a 32-encoder MIDI controller. This repo restructures the official manual into a quick, searchable reference, and adds setup guides and tools as they're written.
 
-> **Note:** This project is not affiliated with or endorsed by Behringer or Music Tribe. Behringer is a trademark of Music Tribe Global Brands Ltd.
+> **Note:** This project is not affiliated with or endorsed by Behringer or Music Tribe. Behringer and Music Tribe are trademarks of their owners.
 
 ## Start here
 

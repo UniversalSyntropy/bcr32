@@ -64,7 +64,7 @@ Scan date 2026-11-11, branch `r1a/p3-unit-session`, 21 commits.
 
 - **Names.** "Behringer", "Music Tribe", "BCR32", "Zaquencer" and "Control Tribe" belong to their owners. The repo uses them to name the product it documents.
 - **Notice.** The README states: not affiliated with or endorsed by Behringer or Music Tribe. Keep this notice on every public page, the repo description and the announcement.
-- **Owner of the mark.** The README names Music Tribe Global Brands Ltd as the owner of the Behringer mark. Check this against the current legal footer on the vendor site before publishing.
+- **Owner of the mark.** The notice names no legal entity: "Behringer and Music Tribe are trademarks of their owners." This avoids a wrong company name (decided 2026-11-11).
 - **Name of the repo.** `bcr32` is the model name. The description says "unofficial". Do not use a vendor logo or a vendor colour scheme as branding.
 - **Panel drawings.** R2 draws the panel in our own style from our own data. Do not trace or copy the vendor illustration.
 

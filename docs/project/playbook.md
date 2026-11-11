@@ -131,7 +131,7 @@ Newest first. One entry per session: what closed, what is next, anything the nex
 - **Proved:** the history scan (21 commits, patches, messages, authors) found only two no-reply addresses. The tree scan is clean. No image, SysEx or secret was ever committed.
 - **Added:** the [publish checklist](publish-checklist.md), the [announcement draft](announcement-draft.md), the correction issue template. The README now states MIT for `packages/` and `data/`.
 - **Next:** the owner decides P1 to P5 in the checklist. On his go: merge to `main`, push, set description and topics, make the repo public. Then step 2.1.
-- **Know this:** the public repo shows the GitHub account name. Check the Music Tribe trademark line against the vendor footer before publishing.
+- **Know this:** the public repo shows the GitHub account name.
 
 ### 2026-11-11, step 3.3
 
