@@ -1,0 +1,8 @@
+{
+  "name": "@bcr32/midi-capture",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Lists MIDI ports, logs timestamped messages to a file and sends test messages to loopback ports (macOS).",
+  "license": "MIT",
+  "type": "module"
+}

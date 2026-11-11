@@ -16,3 +16,6 @@ LIVE-STATUS.md
 
 # Agent worktrees
 .claude/worktrees/
+
+# midi-capture build output
+tools/midi-capture/build/

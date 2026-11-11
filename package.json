@@ -26,6 +26,8 @@
     "check:coverage": "node tools/coverage-check/src/cli.ts",
     "check:privacy": "node tools/privacy-check/src/cli.ts tracked",
     "hooks": "node tools/privacy-check/src/cli.ts install-hooks",
+    "build:midi-capture": "mkdir -p tools/midi-capture/build && swiftc -O -swift-version 5 -o tools/midi-capture/build/midi-capture tools/midi-capture/src/main.swift",
+    "midi-capture": "tools/midi-capture/build/midi-capture",
     "check": "npm run lint:md && npm run typecheck && npm test && npm run check:schema && npm run validate:data && npm run check:tables && npm run check:docs && npm run check:coverage && npm run check:privacy"
   },
   "devDependencies": {

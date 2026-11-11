@@ -16,9 +16,9 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | none (2.3 closed on branch `r1b/p2-source-pass-26-35`, not merged) |
-| Next step | 2.4 Quick start and tasks (R1b) or 4.1 Capture tool (R1c) |
-| R1 progress | 14 of 27 steps done, 13 remain |
+| Current step | none (4.1 closed on branch `r1c/p4-capture-tool`, not merged) |
+| Next step | 4.2 Backup (R1c, needs the owner) or 2.4 Quick start and tasks (R1b) |
+| R1 progress | 15 of 27 steps done, 12 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing. The repo is public since 2026-11-11 |
 | Last updated | 2026-11-11 |
@@ -90,7 +90,7 @@ R1c can run beside R1b. Steps 4.5 and 4.6 are time-boxed: they report what the e
 
 | Step | Task | Goal | Gate | Est. | Actual | Status | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 4.1 | Capture tool | `tools/midi-capture`: lists ports, logs timestamped messages to a file, sends test messages | logs a known message correctly | 40k | | ☐ | must run in the desktop session of the unit's computer; a remote shell sees no MIDI ports |
+| 4.1 | Capture tool | `tools/midi-capture`: lists ports, logs timestamped messages to a file, sends test messages | logs a known message correctly | 40k | about 50k | ✅ | [README](../../tools/midi-capture/README.md); one Swift file; `send` accepts loopback ports only; selftest 13 of 13, a real message on the IAC bus logged correctly, five of six mutations caught (the sixth cannot change the result); branch `r1c/p4-capture-tool`, not merged |
 | 4.2 | Backup | SysEx export of all sequencer and controller memory, kept local only | export file saved and non-empty | 10k | | ☐ | needs the owner; done before any test that writes |
 | 4.3 | Outbound map | every button and encoder in both modes, transport, clock, pattern load, footswitch | each of 88 elements has a result row | 40k | | ☐ | needs the owner, about 45 minutes |
 | 4.4 | Inbound map | identity request, clock, start and stop, transpose notes, pattern-switch CC, program change | each test has a result row | 30k | | ☐ | |
@@ -124,6 +124,15 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 4.1
+
+- **Closed:** step 4.1 on branch `r1c/p4-capture-tool`. Nothing was sent to the unit. Not merged, not pushed.
+- **Proved:** `npm run check` passes (117 tests). A real message sent to the IAC bus was logged with the right bytes and time stamps. The tool listed the unit's two sources (CTRL and ZAQ) without a send.
+- **Built:** `tools/midi-capture` with `list`, `log`, `send` and `selftest`. Build with `npm run build:midi-capture`; run with `npm run midi-capture -- <command>`. Logs go to `local/captures/` as JSON Lines. A typed line during `log` becomes a marker record.
+- **Safety:** `send` refuses any name that holds `bcr` or `behringer`, and accepts only IAC or loopback names. Step 4.4 needs sends to the unit. That needs a separate, gated option, decided in that step with the owner.
+- **Next:** step 4.2 (backup, needs the owner at the unit) or step 2.4. The owner picks.
+- **Know this:** the tests build the tool with `swiftc` and run on macOS only; CI on Linux skips them. The tool uses the UMP (MIDI 1.0 protocol) API, not the old packet API.
 
 ### 2026-11-11, step 2.3
 
