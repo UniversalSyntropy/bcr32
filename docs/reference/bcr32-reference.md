@@ -310,6 +310,9 @@ LED ring styles: Off, 1dot_in (default), 1dot_ex (dark at zero), 2dot_in, 2dot_e
 
 - **B5 output routing:** USB, MIDI A, MIDI B, A&B, USB&A, USB&B, USB&A&B.
 - **B6 MIDI thru:** source via E28 (Off, MIDI, USB); destination via SEL (Off, 7 routings, or 7 Filtered). Push SEL to save, B60 to exit.
+- **B7 echo dead time:** not in the manual. Verified on firmware 1.0.3: the display shows `ECHO deadtime 100ms`. The range is not recorded.
+
+> **Note:** Verified on firmware 1.0.3 (2026-11-11): the menu has three items (B5 to B7). The display showed output port `U` (USB), thru destination off and thru source off.
 
 ## 9. Global, sync, memory and maintenance
 
@@ -325,12 +328,15 @@ LED ring styles: Off, 1dot_in (default), 1dot_ex (dark at zero), 2dot_in, 2dot_e
 | B10 | Footswitch 2 | ZAQ next pattern or CTRL programmable |
 | B11 | Firmware version | display only |
 | B12 | Factory restore | Cancel / OK; takes over a minute |
+| B13 | Pattern change channel | not in the manual; `Off` seen on firmware 1.0.3; other values unseen |
+| B14 | Encoder acceleration | not in the manual; `2` seen on firmware 1.0.3; range unseen |
+| B15 | Footswitch polarity | not in the manual; `AUTO` seen on firmware 1.0.3; other values unseen |
 
-> **Note:** Verified on firmware 1.0.3 (2026-11-11): the menu lights B1 and B5–B15 (panel buttons 1–11) in blue, three more than the official manual lists, and B11 shows the firmware version. The vendor editor shows three settings the manual omits (footswitch polarity, encoder acceleration, LED luminosity), which probably account for the extra buttons; which button holds which is not yet recorded. Read the display before you confirm anything on B12.
+> **Note:** Verified on firmware 1.0.3 (2026-11-11): the menu lights B1 and B5–B15 (panel buttons 1–11) in blue, three more than the official manual lists. B11 shows the firmware version (1.0.3). B13 to B15 are the three extra settings above. LED luminosity, which the vendor editor lists, has no button. Read the display before you confirm anything on B12. The unit prints the numbers 1 to 16 above B5 to B20; the ID is the printed number plus 4.
 
 ### 9.2 ZAQ Settings (`hold B59 + B61` in ZAQ)
 
-B5 gate level 5 V / 10 V. B6 sync-in ppqn (1, 2, 4, 24, 48). B7 sync-out ppqn (same). B8 sync-in start: GATE (trigger on ring) or CLOCK (starts when clock on tip). B60 to exit.
+B5 gate level 5 V / 10 V. B6 sync-in ppqn (1, 2, 4, 24, 48). B7 sync-out ppqn (same). B8 sync-in start: GATE (trigger on ring) or CLOCK (starts when clock on tip). B60 to exit. Verified on firmware 1.0.3 (2026-11-11): B8 shows `SYN IN STRT` with the value GATE. The value CLOCK was not seen.
 
 ### 9.3 Erase and SysEx (all start with B61, then `hold SEL + push E…`)
 
@@ -394,19 +400,20 @@ ZQR, CTRL, USB, STDL, MIXED, Cancel, OK, MIN, NOTE, MONITOR, RECORD, OcMi, OCNa,
 
 | Location | Issue | Working assumption |
 | --- | --- | --- |
-| ZAQ Settings B8 | text contains a draft tag "<CHECK?>" | GATE = start trigger on ring; CLOCK = start on clock |
-| CTRL Settings + Global E28/E41 | "MIXED is selected using button 7 (Note Mute)" | B7 in Global Settings = Operation mode |
+| ZAQ Settings B8 | text contains a draft tag "<CHECK?>" | GATE = start trigger on ring; CLOCK = start on clock. Partly verified on firmware 1.0.3: B8 shows `SYN IN STRT` = GATE; CLOCK unseen |
+| CTRL Settings + Global E28/E41 | "MIXED is selected using button 7 (Note Mute)" | B7 in Global Settings = Operation mode. Verified on firmware 1.0.3: B7 shows the operation mode (USB). MIXED is unseen |
 | Erase | "25th encoder (50)" | E49 (all other ordinals in the source map n → E(24+n)) |
 | §ZAQ mode | NOTE LENGTH values printed inside the CHORD list | lengths listed in §5 |
 | Chord list | "Major 7th with flat 5th, 6th, 7th" | possibly three entries; unverified |
 | α targets | "CC0– 27" | CC 0–127 |
-| LOAD | "buttons 63 & 63" | 63 & 64 |
+| LOAD | "buttons 63 & 63" | 63 & 64. Verified on firmware 1.0.3: B64 pages up, B63 pages down |
 | MIDI out list E41… | garbled with transpose list; "Input channel" appears | "Input channel" probably belongs to E32 |
 | Copy pattern | ordering of presses unclear | test on the unit |
 | Pattern chain | does not say which view (LOAD?) | probably LOAD view |
 | User scale | "while in SCALE mode" not defined | while E30 is the active global control |
-| Virtual keyboard / number pad | key-to-note and key-to-digit maps not given | piano layout inferred (§3.1) |
+| Virtual keyboard / number pad | key-to-note and key-to-digit maps not given | piano layout inferred (§3.1). Tested on firmware 1.0.3: the keyboard sent nothing on USB, so no note map was read; open |
 | Specifications | no spec page (power draw, size, weight) | unknown |
-| Global Settings | manual lists 8 settings (panel buttons 1–8); firmware 1.0.3 lights 11 buttons (1–11) | manual predates firmware 1.0.3; extra settings are probably footswitch polarity, encoder acceleration and LED luminosity (seen in the vendor editor); button positions to be read from the unit |
+| Global Settings | manual lists 8 settings (panel buttons 1–8); firmware 1.0.3 lights 11 buttons (1–11) | Resolved on firmware 1.0.3: panel buttons 9 to 11 (B13 to B15) are pattern change channel, encoder acceleration and footswitch polarity. LED luminosity has no button |
+| CTRL Settings | manual lists 2 items (B5, B6); firmware 1.0.3 has a third | Verified on firmware 1.0.3: B7 is `ECHO deadtime` (100ms seen). Not in the manual |
 
 Procedures that depend on a row in this table are unconfirmed until someone tests them on a unit. Record test results in the row and in the [changelog](../../CHANGELOG.md).

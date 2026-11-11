@@ -41,6 +41,7 @@ export function validateDevice(raw: RawFiles): LoadResult {
     functions: (parsed["functions.json"] as { functions: DeviceData["functions"] } | undefined)?.functions ?? [],
     glossary: (parsed["glossary.json"] as { terms: DeviceData["glossary"] } | undefined)?.terms ?? [],
     sectionMap: (parsed["section-map.json"] as { items: DeviceData["sectionMap"] } | undefined)?.items ?? [],
+    midi: parsed["midi.json"] as DeviceData["midi"],
   };
 
   issues.push(...crossCheck(data));
@@ -134,6 +135,23 @@ export function crossCheck(d: DeviceData): Issue[] {
       const n = typeof f.default === "number" ? f.default : Number.NaN;
       const inRange = set.range !== undefined && n >= set.range.min && n <= set.range.max;
       if (!inOptions && !inRange) add("functions.json", f.id, `default '${text}' is not in value set '${set.id}'`);
+    }
+  }
+
+  // midi.json
+  if (d.midi !== undefined) {
+    const ports = new Set(d.midi.ports.map((p) => p.id));
+    for (const id of duplicates(d.midi.ports.map((p) => p.id))) add("midi.json", id, "duplicate port ID");
+    for (const id of duplicates(d.midi.messages.map((m) => m.id))) add("midi.json", id, "duplicate message ID");
+    for (const id of duplicates(d.midi.silences.map((s) => s.id))) add("midi.json", id, "duplicate silence ID");
+    for (const m of d.midi.messages) {
+      if (!ports.has(m.port)) add("midi.json", m.id, `unknown port '${m.port}'`);
+      if (!modeIds.has(m.mode)) add("midi.json", m.id, `unknown mode '${m.mode}'`);
+      for (const id of m.trigger?.elements ?? []) if (!elementIds.has(id)) add("midi.json", m.id, `unknown element '${id}'`);
+    }
+    for (const s of d.midi.silences) {
+      if (s.port !== undefined && !ports.has(s.port)) add("midi.json", s.id, `unknown port '${s.port}'`);
+      if (!modeIds.has(s.mode)) add("midi.json", s.id, `unknown mode '${s.mode}'`);
     }
   }
 

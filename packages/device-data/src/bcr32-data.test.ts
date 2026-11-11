@@ -91,11 +91,28 @@ test("BCR32 data: each row of the reference tables has a mode or a function", ()
 
   // §9.1: each Global Settings button has a function.
   const rows91 = firstCells("### 9.1 Global Settings").flatMap(expandIds);
-  assert.equal(rows91.length, 8);
+  assert.equal(rows91.length, 11); // 8 in the manual, 3 added from the unit (B13 to B15)
   for (const id of rows91) assert.ok(has("global-settings", id), `§9.1 ${id} has no function in mode global-settings`);
 
   // Each mode has at least one function, and each function that takes a value names a set that is in use.
   for (const m of modes) assert.ok(functions.some((f) => f.mode === m.id), `mode '${m.id}' has no function`);
   const used = new Set(functions.map((f) => f.values));
   for (const v of result.data.valueSets) assert.ok(used.has(v.id), `value set '${v.id}' is not used by a function`);
+});
+
+// MIDI facts from the unit session (playbook step 3.3).
+test("BCR32 MIDI data: ports, USB IDs and the controller messages seen in test H3", () => {
+  const result = loadDevice(dir);
+  assert.ok(result.ok);
+  const midi = result.data.midi!;
+  assert.deepEqual(midi.ports.map((p) => p.name), ["BCR-32 CTRL", "BCR-32 ZAQ"]);
+  assert.equal(midi.usb.productId, "12CF");
+  assert.notEqual(midi.usb.productId, "12CE"); // 12CE = bootloader
+  const cc = midi.messages.filter((m) => m.type === "cc");
+  assert.deepEqual(cc.map((m) => m.number).sort((a, b) => a! - b!), [65, 66, 97, 98]);
+  assert.ok(cc.every((m) => m.port === "ctrl" && m.channel === 1));
+  // Nothing in the data claims a proven control mapping before step 4.3.
+  assert.ok(midi.messages.every((m) => m.trigger?.confidence !== "proven"));
+  // Every record names the firmware it was seen on.
+  for (const r of [...midi.ports, ...midi.messages, ...midi.silences]) assert.equal(r.source.firmware, "1.0.3", r.id);
 });

@@ -58,6 +58,17 @@ function fixture(): Record<FileName, any> {
         { id: "legal", kind: "section", title: "Legal", page: 2, excluded: "Legal text; not restated." },
       ],
     },
+    "midi.json": {
+      usb: { vendorId: "1397", productId: "12CF", release: "2.02", mode: "application", source: { source: "unit", firmware: "1.0.3" } },
+      ports: [{ id: "main", name: "Port", direction: ["in", "out"], source: { source: "unit", firmware: "1.0.3" } }],
+      messages: [
+        { id: "cc7", port: "main", mode: "seq", direction: "out", type: "cc", channel: 1, number: 7, values: [127],
+          trigger: { elements: ["B1"], confidence: "likely" }, source: { source: "unit", firmware: "1.0.3" } },
+        { id: "name", port: "main", mode: "seq", direction: "out", type: "sysex", pattern: "F0 7D F7",
+          source: { source: "unit", firmware: "1.0.3" } },
+      ],
+      silences: [{ id: "idle", mode: "seq", action: "Wait.", result: "Nothing.", source: { source: "unit", firmware: "1.0.3" } }],
+    },
   };
 }
 
@@ -103,6 +114,17 @@ const broken: [string, (f: Record<FileName, any>) => void, RegExp][] = [
   ["section map item with neither", (f) => delete f["section-map.json"].items[1].excluded, /needs anchors or an exclusion reason/],
   ["section map anchor without a heading", (f) => (f["section-map.json"].items[0].anchors = ["docs/manual.md"]), /pattern/],
   ["duplicate section map item", (f) => (f["section-map.json"].items[1].id = "controls"), /duplicate item ID/],
+  ["midi message on unknown port", (f) => (f["midi.json"].messages[0].port = "nope"), /unknown port 'nope'/],
+  ["midi message in unknown mode", (f) => (f["midi.json"].messages[0].mode = "nope"), /unknown mode 'nope'/],
+  ["midi trigger on unknown element", (f) => (f["midi.json"].messages[0].trigger.elements = ["E9"]), /unknown element 'E9'/],
+  ["midi silence on unknown port", (f) => (f["midi.json"].silences[0].port = "nope"), /unknown port 'nope'/],
+  ["midi cc without a number", (f) => delete f["midi.json"].messages[0].number, /needs a channel and a number/],
+  ["midi sysex without a pattern", (f) => delete f["midi.json"].messages[1].pattern, /needs a pattern/],
+  ["midi cc with a pattern", (f) => (f["midi.json"].messages[0].pattern = "F0 F7"), /needs a pattern/],
+  ["midi data byte above 127", (f) => (f["midi.json"].messages[0].values = [128]), /<=127/],
+  ["midi record without firmware", (f) => delete f["midi.json"].messages[0].source.firmware, /needs a firmware version/],
+  ["duplicate midi message", (f) => (f["midi.json"].messages[1].id = "cc7"), /duplicate message ID/],
+  ["bad usb product ID", (f) => (f["midi.json"].usb.productId = "12cf"), /pattern/],
   ["default outside the value set", (f) => (f["functions.json"].functions[0].default = 200), /default '200' is not in value set/],
 ];
 
@@ -151,7 +173,7 @@ test("JSON Schema is generated for every data file and rejects unknown keys", ()
   const schemas = jsonSchemas();
   assert.deepEqual([...schemas.keys()].sort(), [
     "device.schema.json", "elements.schema.json", "functions.schema.json",
-    "glossary.schema.json", "modes.schema.json", "section-map.schema.json", "values.schema.json",
+    "glossary.schema.json", "midi.schema.json", "modes.schema.json", "section-map.schema.json", "values.schema.json",
   ]);
   const elements = JSON.parse(schemas.get("elements.schema.json")!);
   assert.equal(elements.additionalProperties, false);

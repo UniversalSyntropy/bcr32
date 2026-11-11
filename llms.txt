@@ -13,6 +13,7 @@ Control IDs used across the docs: B<n> = button, E<n> = encoder, SEL = select en
 - [Connect to Ableton Live](docs/guides/connect-to-ableton-live.md): USB-MIDI setup, track routing, clock master choice (unverified)
 - [Troubleshooting](docs/guides/troubleshooting.md): symptoms and fixes (unverified)
 - [Recovery runbook](docs/guides/recovery-runbook.md): recovery steps from least to most invasive, with the unknowns (unverified)
+- [Unit session findings](docs/reference/capture-findings.md): results of the first unit session on firmware 1.0.3, MIDI facts seen, open items (draft)
 - [Unit session script](docs/guides/unit-session-script.md): ordered tier 0 tests for the first session at a real unit, with a photo shot list and stop conditions (unverified)
 
 ## Project

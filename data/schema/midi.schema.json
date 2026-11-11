@@ -1,0 +1,351 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "usb": {
+      "type": "object",
+      "properties": {
+        "vendorId": {
+          "type": "string",
+          "pattern": "^[0-9A-F]{4}$"
+        },
+        "productId": {
+          "type": "string",
+          "pattern": "^[0-9A-F]{4}$"
+        },
+        "release": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mode": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "enum": [
+                "manual",
+                "unit",
+                "community",
+                "inference"
+              ]
+            },
+            "firmware": {
+              "type": "string",
+              "minLength": 1
+            },
+            "ref": {
+              "type": "string",
+              "minLength": 1
+            },
+            "note": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "source"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "vendorId",
+        "productId",
+        "release",
+        "mode",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "ports": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "direction": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "in",
+                "out"
+              ]
+            }
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string",
+                "enum": [
+                  "manual",
+                  "unit",
+                  "community",
+                  "inference"
+                ]
+              },
+              "firmware": {
+                "type": "string",
+                "minLength": 1
+              },
+              "ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "note": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "source"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "direction",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "messages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+          },
+          "port": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+          },
+          "mode": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "out",
+              "in"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "cc",
+              "note",
+              "program-change",
+              "clock",
+              "start",
+              "stop",
+              "sysex"
+            ]
+          },
+          "channel": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 16
+          },
+          "number": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 127
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "values": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 127
+            }
+          },
+          "pattern": {
+            "type": "string",
+            "minLength": 1
+          },
+          "trigger": {
+            "type": "object",
+            "properties": {
+              "elements": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Za-z0-9]*(\\.[a-z0-9]+)?$"
+                }
+              },
+              "confidence": {
+                "type": "string",
+                "enum": [
+                  "proven",
+                  "likely",
+                  "unproven"
+                ]
+              }
+            },
+            "required": [
+              "elements",
+              "confidence"
+            ],
+            "additionalProperties": false
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string",
+                "enum": [
+                  "manual",
+                  "unit",
+                  "community",
+                  "inference"
+                ]
+              },
+              "firmware": {
+                "type": "string",
+                "minLength": 1
+              },
+              "ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "note": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "source"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "port",
+          "mode",
+          "direction",
+          "type",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "silences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+          },
+          "port": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+          },
+          "mode": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+          },
+          "action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "result": {
+            "type": "string",
+            "minLength": 1
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string",
+                "enum": [
+                  "manual",
+                  "unit",
+                  "community",
+                  "inference"
+                ]
+              },
+              "firmware": {
+                "type": "string",
+                "minLength": 1
+              },
+              "ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "note": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "source"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "mode",
+          "action",
+          "result",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "usb",
+    "ports",
+    "messages",
+    "silences"
+  ],
+  "additionalProperties": false,
+  "$id": "midi.schema.json",
+  "title": "midi.json (schema version 1)"
+}

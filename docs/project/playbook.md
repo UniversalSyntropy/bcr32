@@ -17,8 +17,8 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
 | Current step | none |
-| Next step | 3.3 Record results |
-| R1 progress | 9 of 27 steps done, 18 remain |
+| Next step | 3.4 Publish checklist |
+| R1 progress | 10 of 27 steps done, 17 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing |
 | Last updated | 2026-11-11 |
@@ -61,7 +61,7 @@ Goal: prove the current draft with data, checks and a unit session, so the repo 
 | 3.0 | Recovery runbook | factory restore, firmware reinstall and recovery-mode facts from official sources; rules in the [unit safety protocol](unit-safety.md) | runbook reviewed by the owner before any message is sent | 15k | not measured | ✅ | [runbook](../guides/recovery-runbook.md) reviewed once by Opus, accepted by the owner 2026-11-11; its facts are unverified until tried; PLAY/STOP confirmed STOP |
 | 3.1 | Session script | ordered test list: firmware version, 13 errata rows, MIDI capture | owner can follow it without help | 15k | not measured | ✅ | [script](../guides/unit-session-script.md) read and accepted by the owner 2026-11-11; tier 0 only, tier 1 test D1 blocked until the backup exists; 7 of 13 errata rows need tier 2 and wait; Part D waits for the backup |
 | 3.2 | Session at the unit | run the script; about 1 hour of owner time | every test has a result | 25k | not measured | ✅ | run 2026-11-11 on firmware 1.0.3; tests A1 to A7, H1, H2 passed; H3 partial; D1 blocked; 15 photos plus 7 burst frames; results in `local/session-results.md` |
-| 3.3 | Record results | errata rows updated, capture findings note, MIDI facts data file | docs-check | 30k | | ☐ | |
+| 3.3 | Record results | errata rows updated, capture findings note, MIDI facts data file | docs-check | 30k | not measured | ✅ | [findings](../reference/capture-findings.md); `midi.json` with schema and 12 tests; Global Settings and CTRL Settings corrected; legend colours not changed, see the findings page |
 | 3.4 | Publish checklist | full-history leak scan, whole-tree privacy check, licence and trademark notes, correction issue template, repo description and topics, draft announcement text | checklist all passed | 10k | | ☐ | ends with the owner's publish decision |
 
 ## R1b: complete manual (9 steps, 530k)
@@ -124,6 +124,14 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 3.3
+
+- **Closed:** step 3.3 on branch `r1a/p3-unit-session`. Nothing was sent to the unit.
+- **Proved:** `npm run check` passes: 111 tests, data valid (145 functions), docs-check clean.
+- **Added:** the [findings page](../reference/capture-findings.md), `data/devices/bcr32/midi.json` with its schema (data version 0.3.0), three Global Settings functions (B13 to B15), one CTRL Settings function (B7) and corrected reference rows. The errata table has 14 rows.
+- **Next:** step 3.4, the publish checklist. It ends with the owner's publish decision.
+- **Know this:** the photos show white legends on B5 to B20. The data holds coloured legends from the manual's illustration. The data is unchanged until a close photo check. The control-to-message map in `midi.json` is marked "likely" and waits for step 4.3.
 
 ### 2026-11-11, step 3.2
 

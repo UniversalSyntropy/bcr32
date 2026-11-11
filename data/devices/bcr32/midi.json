@@ -1,0 +1,75 @@
+{
+  "$schema": "../../schema/midi.schema.json",
+  "usb": {
+    "vendorId": "1397",
+    "productId": "12CF",
+    "release": "2.02",
+    "mode": "application",
+    "source": { "source": "unit", "firmware": "1.0.3", "ref": "A2", "note": "Read in System Information, 2026-11-11. The release number is not the firmware version. The serial number is not recorded." }
+  },
+  "ports": [
+    { "id": "ctrl", "name": "BCR-32 CTRL", "direction": ["in", "out"], "source": { "source": "unit", "firmware": "1.0.3", "ref": "capture-1" } },
+    { "id": "zaq", "name": "BCR-32 ZAQ", "direction": ["in", "out"], "source": { "source": "unit", "firmware": "1.0.3", "ref": "capture-1" } }
+  ],
+  "messages": [
+    {
+      "id": "ctrl-cc97", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 97,
+      "name": "Data Decrement", "values": [1, 2],
+      "trigger": { "elements": ["E25"], "confidence": "likely" },
+      "note": "Seen twice, value 1 then value 2. The owner gave no action times, so the control is a guess.",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "H3" }
+    },
+    {
+      "id": "ctrl-cc65", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 65,
+      "name": "Portamento On/Off", "values": [127],
+      "trigger": { "elements": ["B5"], "confidence": "likely" },
+      "note": "Seen in run 2 only. Run 1 sent nothing for the same control.",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "H3" }
+    },
+    {
+      "id": "ctrl-cc66", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 66,
+      "name": "Sustenuto Pedal", "values": [127, 0],
+      "trigger": { "elements": ["B6"], "confidence": "likely" },
+      "note": "Value 127 in run 1; value 0 in run 2. This looks like a toggle.",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "H3" }
+    },
+    {
+      "id": "ctrl-cc98", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 98,
+      "name": "Non-Registered Parameter LSB", "values": [1, 2],
+      "trigger": { "elements": ["E26"], "confidence": "likely" },
+      "note": "Seen twice, value 1 then value 2.",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "H3" }
+    },
+    {
+      "id": "ctrl-preset-name", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "sysex",
+      "pattern": "F0 00 20 32 00 64 21 00 nn <24 ASCII bytes> F7",
+      "note": "The unit sends one message per controller preset when the vendor editor opens the controller area. Bytes 2 to 4 are the vendor ID, then device ID 00, model 64, command 21. The byte nn is the preset index. The name is padded with spaces. Only the first 40 messages were read.",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "capture-1", "note": "Header matches the vendor's public protocol document. A second read is still due." }
+    }
+  ],
+  "silences": [
+    {
+      "id": "idle", "mode": "zaq", "action": "Leave the unit idle with both ports open.",
+      "result": "No clock, no active sensing and no other message.",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "capture-1" }
+    },
+    {
+      "id": "zaq-keyboard", "mode": "zaq-record", "action": "Press the virtual keyboard buttons in NOTE mode.",
+      "result": "Nothing on either port.",
+      "note": "The track outputs may not route to USB. The full key sequence was not logged.",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "H1" }
+    },
+    {
+      "id": "zaq-transport", "mode": "zaq", "action": "Press PLAY/STOP (B68) to start, then to stop.",
+      "result": "Nothing on either port. B68 was solid red while the sequencer ran.",
+      "note": "In USB operation mode the unit has no internal clock, so a clock is not expected.",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "H2" }
+    },
+    {
+      "id": "ctrl-first-listen", "port": "ctrl", "mode": "ctrl", "action": "Turn encoder 1 once and press button 1 once, before the routing was read.",
+      "result": "Nothing on USB.",
+      "note": "Later runs (H3) did send controller changes, so the first silence is not explained.",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "capture-1" }
+    }
+  ]
+}

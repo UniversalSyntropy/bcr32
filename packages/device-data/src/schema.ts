@@ -173,6 +173,70 @@ export const SectionMapItem = z
 
 export const SectionMapFile = z.strictObject({ ...fileHeader, items: z.array(SectionMapItem).min(1) });
 
+// midi.json: MIDI facts seen at the unit. Every record carries its firmware (source 'unit').
+const MidiNumber = z.int().min(0).max(127);
+
+export const MidiPort = z.strictObject({
+  id: Key,
+  name: Text, // name the operating system shows
+  direction: z.array(z.enum(["in", "out"])).min(1), // seen from the computer
+  note: Text.optional(),
+  source: Source,
+});
+
+export const MidiMessage = z
+  .strictObject({
+    id: Key,
+    port: Key,
+    mode: Key, // mode or menu the unit was in
+    direction: z.enum(["out", "in"]), // out = the unit sends
+    type: z.enum(["cc", "note", "program-change", "clock", "start", "stop", "sysex"]),
+    channel: z.int().min(1).max(16).optional(),
+    number: MidiNumber.optional(), // controller number, note number or program number
+    name: Text.optional(), // standard name of the controller number
+    values: z.array(MidiNumber).min(1).optional(), // data bytes seen, in order
+    pattern: Text.optional(), // sysex only: byte layout
+    trigger: z
+      .strictObject({
+        elements: z.array(ElementId).min(1),
+        confidence: z.enum(["proven", "likely", "unproven"]),
+      })
+      .optional(),
+    note: Text.optional(),
+    source: Source,
+  })
+  .refine((m) => m.type !== "cc" || (m.channel !== undefined && m.number !== undefined), {
+    message: "a cc message needs a channel and a number",
+  })
+  .refine((m) => (m.type === "sysex") === (m.pattern !== undefined), {
+    message: "a sysex message needs a pattern, and no other message has one",
+  });
+
+// A test that produced no message. Silence is a result.
+export const MidiSilence = z.strictObject({
+  id: Key,
+  port: Key.optional(), // omitted when no port showed anything
+  mode: Key,
+  action: Text,
+  result: Text,
+  note: Text.optional(),
+  source: Source,
+});
+
+export const MidiFile = z.strictObject({
+  ...fileHeader,
+  usb: z.strictObject({
+    vendorId: z.string().regex(/^[0-9A-F]{4}$/),
+    productId: z.string().regex(/^[0-9A-F]{4}$/),
+    release: Text,
+    mode: Text, // unit state when read: application or bootloader
+    source: Source,
+  }),
+  ports: z.array(MidiPort).min(1),
+  messages: z.array(MidiMessage),
+  silences: z.array(MidiSilence),
+});
+
 // File name → schema. `required` files must exist in every device folder.
 export const FILES = {
   "device.json": { schema: DeviceFile, required: true },
@@ -182,6 +246,7 @@ export const FILES = {
   "functions.json": { schema: FunctionsFile, required: false },
   "glossary.json": { schema: GlossaryFile, required: false },
   "section-map.json": { schema: SectionMapFile, required: false },
+  "midi.json": { schema: MidiFile, required: false },
 } as const;
 
 export type FileName = keyof typeof FILES;
@@ -198,6 +263,7 @@ export type DeviceFunction = z.infer<typeof DeviceFunction>;
 export type FunctionsFile = z.infer<typeof FunctionsFile>;
 export type GlossaryFile = z.infer<typeof GlossaryFile>;
 export type SectionMapItem = z.infer<typeof SectionMapItem>;
+export type MidiFile = z.infer<typeof MidiFile>;
 
 export interface DeviceData {
   device: DeviceFile;
@@ -207,4 +273,5 @@ export interface DeviceData {
   functions: DeviceFunction[];
   glossary: GlossaryFile["terms"];
   sectionMap: SectionMapItem[];
+  midi: MidiFile | undefined;
 }
