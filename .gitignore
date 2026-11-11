@@ -1,0 +1,14 @@
+# Official Behringer documents: copyright, keep local only
+reference/*.pdf
+
+# Personal setup notes: never commit (see CONTRIBUTING.md, privacy rules)
+local/*
+!local/README.md
+
+# OS and tooling
+.DS_Store
+Thumbs.db
+__pycache__/
+.venv/
+node_modules/
+LIVE-STATUS.md

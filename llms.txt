@@ -1,0 +1,21 @@
+# bcr32
+
+> Unofficial documentation and tools for the Behringer BCR32 MIDI controller and 4-track, 32-step sequencer. Not affiliated with Behringer or Music Tribe.
+
+Control IDs used across the docs: B<n> = button, E<n> = encoder, SEL = select encoder, J<n> = rear jack. Step k = encoder E(24+k).
+
+## Reference
+
+- [BCR32 structured reference](docs/reference/bcr32-reference.md): every control, mode, menu, value range and procedure, plus known errors in the official manual
+
+## Guides
+
+- [Connect to Ableton Live](docs/guides/connect-to-ableton-live.md): USB-MIDI setup, track routing, clock master choice (unverified)
+- [Troubleshooting](docs/guides/troubleshooting.md): symptoms and fixes (unverified)
+
+## Project
+
+- [README](README.md): overview and status
+- [Contributing](CONTRIBUTING.md): privacy rules and documentation standard
+- [Changelog](CHANGELOG.md)
+- License: documentation CC BY 4.0 (LICENSE-docs), code MIT (LICENSE)
