@@ -21,7 +21,7 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | R1 progress | 15 of 27 steps done, 12 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing. The repo is public since 2026-11-11 |
-| Last updated | 2026-11-11 |
+| Last updated | 2026-11-11 (end of session 7) |
 
 ## Status key
 
@@ -124,6 +124,13 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, references and parking
+
+- **Done:** the [references page](web-ui-references.md) is merged and pushed. It lists the public BCR32 editor `bcr32-studio` (MIT, React and Vite) and five web UI examples. The MCP connector idea, with a learning-resource use, is in the [parking file](parking.md).
+- **Checked:** only the licence and repo facts of `bcr32-studio`, and that the five other links answer. The rest is marked unverified on the page.
+- **Next:** step 4.2 (backup, needs the owner at the unit) or step 2.4 (quick start and tasks). A read-only review of the `bcr32-studio` docs and panel code (about 30k) waits for the owner's yes.
+- **Know this:** its protocol notes for firmware 1.0.2 and 1.0.3 are claims. Our capture must confirm each one. Nothing from another project is sent to the unit.
 
 ### 2026-11-11, step 4.1
 
