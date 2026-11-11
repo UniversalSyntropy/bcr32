@@ -16,9 +16,9 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | none (2.2 closed on branch `r1b/p2-source-pass-14-25`, not merged) |
-| Next step | 2.3 Source pass, pages 26–35 (R1b) or 4.1 Capture tool (R1c) |
-| R1 progress | 13 of 27 steps done, 14 remain |
+| Current step | none (2.3 closed on branch `r1b/p2-source-pass-26-35`, not merged) |
+| Next step | 2.4 Quick start and tasks (R1b) or 4.1 Capture tool (R1c) |
+| R1 progress | 14 of 27 steps done, 13 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing. The repo is public since 2026-11-11 |
 | Last updated | 2026-11-11 |
@@ -74,7 +74,7 @@ Goal: every control, mode, menu, value and procedure, with a glossary, three ind
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 2.1 | Restructure | one file per chapter in `docs/manual/` | docs-check, no broken links | 50k | about 35k | ✅ | [manual index](../manual/README.md); 13 chapter files (0 to 12); the old reference file is removed; section map, tests and links point at the chapters; branch `r1b/p2-restructure`, not merged |
 | 2.2 | Source pass, pages 14–25 | sequencer and settings re-read against page images | coverage-check for those pages | 100k | about 70k | ✅ | read the text of pp. 14–25 against chapters 2 to 9 and 12, plus the page images of pp. 16–19; 10 corrections or additions; 211 data `ref` values now cite manual pages; branch `r1b/p2-source-pass-14-25`, not merged |
-| 2.3 | Source pass, pages 26–35 | controller tables entered in full | coverage-check for those pages | 90k | | ☐ | |
+| 2.3 | Source pass, pages 26–35 | controller tables entered in full | coverage-check for those pages | 90k | about 45k | ✅ | chapter 8.4 now has ten subsections (modes, LED options, PC, CC, NRPN, Note, PB, AT, GS, MMC); 6 errata rows added; section map points each table at its own heading; page images read for pp. 26–27 and 34; branch `r1b/p2-source-pass-26-35`, not merged |
 | 2.4 | Quick start and tasks | quick start, "how do I" chapter | docs-check | 60k | | ☐ | |
 | 2.5 | Glossary | terms, first-use links in every file | docs-check glossary rule | 40k | | ☐ | |
 | 2.6 | Generated tables and indexes | control tables, three indexes, `llms-full.txt` | gen-tables check | 40k | | ☐ | |
@@ -124,6 +124,15 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 2.3
+
+- **Closed:** step 2.3 on branch `r1b/p2-source-pass-26-35`. Nothing was sent to the unit. Not merged, not pushed.
+- **Proved:** `npm run check` passes (data valid, docs-check clean, coverage-check 0 findings, privacy clean).
+- **Added:** the full tables of manual pp. 24 to 34 in chapter 8.4, one subsection per type. LED style behaviours and the 14-bit relative values are in the data value sets too.
+- **Errata:** six rows in chapter 12 (Sprd and Pan share one text; A14 and ABS_14 naming; "Attack. Decay"; MMC list ends with a comma; Note and PB field names; PC "bank number"). The table has 20 rows now.
+- **Next:** step 2.4 (quick start and tasks) or step 4.1. The owner picks.
+- **Know this:** the encoder LED style list is the same for every type that has encoder LED options. `unit-session-script.md` still says the errata table has 13 rows; fix it when that file is next edited.
 
 ### 2026-11-11, step 2.2
 

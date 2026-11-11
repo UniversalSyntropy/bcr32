@@ -28,22 +28,148 @@ Assignable: B5–B24, E25–E56 (turn = continuous, push = on/off), B65–B68, f
 
 ## 8.4 Setup fields per type
 
-| Type | Button fields | Encoder fields |
+Each message type has its own fields. B63 and B64 step through the fields. SEL sets the value. A dash means the control has no such field. Manual pages 24 to 34.
+
+### 8.4.1 Button and encoder modes
+
+| Mode | Control | Action |
 | --- | --- | --- |
-| PC | ch 1–16, bank 0–127, min, max, mode Tog Off/Inc, display | ch, bank, min Off/0–127, max, mode Absolute, LED, display |
-| CC | ch, CC 0–127, min, max, mode Tog On/Tog Off/Inc, increment −127…+127, display | ch, CC Off/0–127, min, max, mode Absolute/A14/REL1-3/R1_14-R3_14, LED, display |
-| NRPN | ch, param 0–127, min, max 0–127, mode, increment, display | ch, param 0–16383, min/max 0–16383, modes + INC/DEC, LED, display |
-| Note | ch, note 0–127, velocity 0–127, mode, display | — |
-| PB | — | ch, param, value, mode Absolute, LED, display |
-| AT | ch, param All/0–127, min, max, increment (1), display | ch, param, min, max, mode Absolute, LED, display |
-| GS | ch, parameter (Cutoff, Resonance, Rate, Depth, Delay, Attack, Decay, Release, Modulation, Portamento, Volume, Pan, Reverb, CRS, VAR), min, max, mode Tog On/Off, display | same params, modes Absolute/A14/REL1-3/R1_14-R3_14/INC-DEC, LED, display |
-| MMC | device ID 0–126/All; Play, Pause, Stop, Forward, Rewind, Locate, In, Out; locate HH:MM and SS:FF 0–127/Off; fps Off/24/25/30/30d; display | — |
+| Tog On | button | Latch. A press sends the maximum. The next press sends the minimum. |
+| Tog Off | button | Momentary. The button sends the maximum while down and the minimum when released. |
+| Inc | button | Each press raises the value by the increment, from the minimum to the maximum. |
+| Absolute | encoder | 7-bit absolute value. |
+| ABS_14 | encoder | 14-bit absolute value (fine control). |
+| REL1 | encoder | Minimum for CCW, maximum for CW. |
+| REL2 | encoder | 63 for CCW, 65 for CW. |
+| REL3 | encoder | 1 for CCW, 65 for CW. |
+| R1_14 | encoder | CCW: coarse 0, fine 1. CW: coarse 127, fine 127. |
+| R2_14 | encoder | CCW: coarse 63, fine 127. CW: coarse 64, fine 1. |
+| R3_14 | encoder | CCW: coarse 64, fine 1. CW: coarse 0, fine 1. |
+| INC/DEC | encoder | CW sends increment 1. CCW sends decrement 1. |
 
-Button modes: **Tog On** = latch (max, then min on next press). **Tog Off** = momentary. **Inc** = each press raises the value from min to max in steps.
+### 8.4.2 LED options
 
-Encoder modes: **Absolute** 7-bit. **ABS_14** 14-bit. **REL1** min CCW / max CW. **REL2** 63 / 65. **REL3** 1 / 65. **R1_14** sends coarse 0 and fine 1 CCW, coarse 127 and fine 127 CW. **R2_14** sends coarse 63 and fine 127 CCW, coarse 64 and fine 1 CW. **R3_14** sends coarse 64 and fine 1 CCW, coarse 0 and fine 1 CW. All three are 14-bit. **INC/DEC** increment/decrement messages.
+The LED options set how the ring around an encoder shows its value. The default is 1dot_in. Manual page 26.
 
-LED ring styles: Off, 1dot_in (default), 1dot_ex (dark at zero), 2dot_in, 2dot_ex, Bar, Bar− (dark at zero), Sprd, Pan, Qual, Cut, Damp.
+| Style | Ring behaviour |
+| --- | --- |
+| Off | The ring stays dark. |
+| 1dot_in | One LED lights at a time as the encoder moves (default). |
+| 1dot_ex | As 1dot_in, but all LEDs are dark at zero. |
+| 2dot_in | The LED next to the lit one lights before the first goes out. The side depends on CW or CCW. |
+| 2dot_ex | As 2dot_in, but all LEDs are dark at zero. |
+| Bar | LEDs light and stay lit for CW. They go out one by one for CCW. |
+| Bar− | As Bar, but all LEDs are dark at zero. |
+| Sprd | The centre LED is lit at zero. LEDs on both sides light as the value rises. |
+| Pan | The manual gives the same text as Sprd. See [Source errors and gaps](12-source-errors-and-gaps.md#12-source-errors-and-gaps). |
+| Qual | All LEDs are lit at the minimum. They go out on both sides until only the centre LED stays lit at the maximum. |
+| Cut | All LEDs are lit at the minimum. They go out one by one as the value rises. |
+| Damp | The rightmost LED is lit at the minimum. The other LEDs light one by one as the value rises. |
+
+### 8.4.3 PC (program control)
+
+| Field | Button | Encoder |
+| --- | --- | --- |
+| MIDI channel | 1–16 | 1–16 |
+| Parameter (bank number) | 0–127 | 0–127 |
+| Minimum value | 0–127 | Off, 0–127 |
+| Maximum value | 0–127 | 0–127 |
+| Mode | Tog Off, Inc | Absolute |
+| LED options | — | the 12 styles |
+| Display | On, Off | On, Off |
+
+### 8.4.4 CC (continuous controller)
+
+| Field | Button | Encoder |
+| --- | --- | --- |
+| MIDI channel | 1–16 | 1–16 |
+| Parameter (controller) | 0–127 | Off, 0–127 |
+| Minimum value | 0–127 | 0–127 |
+| Maximum value | 0–127 | 0–127 |
+| Mode | Tog On, Tog Off, Inc | Absolute, A14, REL1, REL2, REL3, R1_14, R2_14, R3_14 |
+| Increment options | −127 to +127 | — |
+| LED options | — | the 12 styles |
+| Display | On, Off | On, Off |
+
+### 8.4.5 NRPN
+
+| Field | Button | Encoder |
+| --- | --- | --- |
+| MIDI channel | 1–16 | 1–16 |
+| Parameter (controller) | 0–127 | 0–16383 |
+| Minimum value | 0–127 | 0–16383 |
+| Maximum value | 0–127 | 0–16383 |
+| Mode | Tog On, Tog Off, Inc | Absolute, A14, REL1, REL2, REL3, R1_14, R2_14, R3_14, INC/DEC |
+| Increment options | −127 to +127 | — |
+| LED options | — | the 12 styles |
+| Display | On, Off | On, Off |
+
+### 8.4.6 Note
+
+Buttons only. The manual names the fields "Parameter (controller)" and "Value". Note number and velocity are the likely meanings (unverified).
+
+| Field | Button |
+| --- | --- |
+| MIDI channel | 1–16 |
+| Parameter (controller) | 0–127 |
+| Value | 0–127 |
+| Mode | Tog On, Tog Off, Inc |
+| Display | On, Off |
+
+### 8.4.7 PB (pitch bend)
+
+Encoders only.
+
+| Field | Encoder |
+| --- | --- |
+| MIDI channel | 1–16 |
+| Parameter (controller) | 0–127 |
+| Value | 0–127 |
+| Mode | Absolute |
+| LED options | the 12 styles |
+| Display | On, Off |
+
+### 8.4.8 AT (aftertouch)
+
+| Field | Button | Encoder |
+| --- | --- | --- |
+| MIDI channel | 1–16 | 1–16 |
+| Parameter (controller) | All, 0–127 | 0–127 |
+| Minimum value | 0–127 | 0–127 |
+| Maximum value | 0–127 | 0–127 |
+| Mode | — | Absolute |
+| Increment options | −127 to +127 (default 1) | — |
+| LED options | — | the 12 styles |
+| Display | On, Off | On, Off |
+
+### 8.4.9 GS (most used parameters)
+
+Buttons and encoders use one parameter list. The list is: Cutoff, Resonance, Rate, Depth, Delay, Attack, Decay, Release, Modulation, Portamento, Volume, Pan, Reverb, CRS, VAR.
+
+| Field | Button | Encoder |
+| --- | --- | --- |
+| MIDI channel | 1–16 | 1–16 |
+| Parameter | the list above | the list above |
+| Minimum value | 0–127 | 0–127 |
+| Maximum value | 0–127 | 0–127 |
+| Mode | Tog On, Tog Off | Absolute, A14, REL1, REL2, REL3, R1_14, R2_14, R3_14, INC/DEC |
+| LED options | — | the 12 styles |
+| Display | On, Off | On, Off |
+
+### 8.4.10 MMC (MIDI machine code)
+
+Buttons only.
+
+| Field | Button |
+| --- | --- |
+| MIDI device ID | 0–126, All |
+| Parameter | Play, Pause, Stop, Forward, Rewind, Location, In, Out |
+| Start position locate (HH:MM) | 0–127, Off |
+| Start position locate (SS:FF) | 0–127, Off |
+| Mode | Off, 24, 25, 30, 30d (frames per second) |
+| Display | On, Off |
+
+The printed parameter list ends with a comma. It may be cut short. See [Source errors and gaps](12-source-errors-and-gaps.md#12-source-errors-and-gaps).
 
 ## 8.5 CTRL Settings (`hold B59 + B61` in CTRL)
 

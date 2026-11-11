@@ -25,5 +25,11 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 | Specifications | no spec page (power draw, size, weight) | unknown |
 | Global Settings | manual lists 8 settings (panel buttons 1–8); firmware 1.0.3 lights 11 buttons (1–11) | Resolved on firmware 1.0.3: panel buttons 9 to 11 (B13 to B15) are pattern change channel, encoder acceleration and footswitch polarity. LED luminosity has no button |
 | CTRL Settings | manual lists 2 items (B5, B6); firmware 1.0.3 has a third | Verified on firmware 1.0.3: B7 is `ECHO deadtime` (100ms seen). Not in the manual |
+| LED options table (p. 26) | Sprd and Pan have the same description; the third column is headed MINIMUM/MAXIMUM and is empty | Sprd and Pan differ in a way the manual does not say; ignore the empty column. Test on the unit |
+| Encoder modes | 14-bit absolute is "ABS_14" on p. 24, "A14" on pp. 28 to 32 and "A 14" on p. 32 | one mode; the data uses A14 |
+| GS parameter lists | "Attack. Decay" printed with a full stop | two parameters, Attack and Decay |
+| MMC parameter list (p. 34) | the list ends with a comma after "Out" and says "Location" | eight commands as printed; the list may be cut short; unverified |
+| Note and PB tables | fields are named "Parameter (controller)" and "Value"; pitch bend has no controller number | note number and velocity for Note; the PB meaning is unknown; unverified |
+| PC tables | the parameter is named "bank number" | probably the program number; unverified |
 
 Procedures that depend on a row in this table are unconfirmed until someone tests them on a unit. Record test results in the row and in the [changelog](../../CHANGELOG.md).
