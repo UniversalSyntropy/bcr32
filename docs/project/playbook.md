@@ -16,9 +16,9 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | 3.0 Recovery runbook: drafted and reviewed, waiting for the owner's read |
-| Next step | 3.1 Session script, after the owner accepts the runbook |
-| R1 progress | 6 of 27 steps done, 21 remain |
+| Current step | none |
+| Next step | 3.1 Session script |
+| R1 progress | 7 of 27 steps done, 20 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing |
 | Last updated | 2026-11-11 |
@@ -58,7 +58,7 @@ Goal: prove the current draft with data, checks and a unit session, so the repo 
 
 | Step | Task | Goal | Gate | Est. | Actual | Status | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 3.0 | Recovery runbook | factory restore, firmware reinstall and recovery-mode facts from official sources; rules in the [unit safety protocol](unit-safety.md) | runbook reviewed by the owner before any message is sent | 15k | | ▶ | [draft](../guides/recovery-runbook.md) written and reviewed once by Opus; waits for the owner's read |
+| 3.0 | Recovery runbook | factory restore, firmware reinstall and recovery-mode facts from official sources; rules in the [unit safety protocol](unit-safety.md) | runbook reviewed by the owner before any message is sent | 15k | not measured | ✅ | [runbook](../guides/recovery-runbook.md) reviewed once by Opus, accepted by the owner 2026-11-11; its facts are unverified until tried; PLAY/STOP confirmed STOP |
 | 3.1 | Session script | ordered test list: firmware version, 13 errata rows, MIDI capture | owner can follow it without help | 15k | | ☐ | |
 | 3.2 | Session at the unit | run the script; about 1 hour of owner time | every test has a result | 25k | | ☐ | needs the owner |
 | 3.3 | Record results | errata rows updated, capture findings note, MIDI facts data file | docs-check | 30k | | ☐ | |
@@ -124,6 +124,13 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 3.0
+
+- **Closed:** step 3.0. The owner accepted the [recovery runbook](../guides/recovery-runbook.md) on branch `r1a/p3-unit-session`.
+- **Proved:** one Opus review found five damage risks and several unsupported claims; all are fixed. `npm run check` passes. Nothing was sent to the unit.
+- **Next:** step 3.1, the session script.
+- **Know this:** the bootloader facts come from demo firmware and are unverified for production. Factory restore on firmware 1.0.3 may not be on B12, so read the display. Procedures 3 and 4 need the owner's yes for each session. The owner confirmed the sequencer is stopped (PLAY/STOP unlit).
 
 ### 2026-11-11, step 1.6, P1 closed
 
