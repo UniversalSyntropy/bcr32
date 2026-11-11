@@ -10,4 +10,4 @@ docs/project/decisions.md
 docs/project/plan.md
 docs/project/playbook.md
 docs/project/unit-safety.md
-docs/reference/bcr32-reference.md
+docs/manual/README.md

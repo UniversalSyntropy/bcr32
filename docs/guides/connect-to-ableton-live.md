@@ -64,7 +64,7 @@ Only one device should run the clock.
 3. Click a parameter in Live, then turn a BCR32 encoder.
 4. Press Cmd+M or Ctrl+M again to leave MIDI Map Mode.
 
-To change what an encoder sends, see [Assign a control](../reference/bcr32-reference.md#81-assign-a-control).
+To change what an encoder sends, see [Assign a control](../manual/08-controller.md#81-assign-a-control).
 
 ## Check it works
 

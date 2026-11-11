@@ -4,6 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-11
 
+- Restructured the reference into the manual: 13 chapter files and an index in `docs/manual/`. Anchors are unchanged. Four sentences were shortened to meet the language rules. No fact changed.
 - Added the publish checklist (`docs/project/publish-checklist.md`) with the full-history scan result, licence and trademark notes, repo description and topics. Added a correction issue template and a draft announcement. The README now states that `packages/` and `data/` are MIT.
 - Verified on firmware 1.0.3: ran the unit session script. Added the findings page (`docs/reference/capture-findings.md`) and `data/devices/bcr32/midi.json` (USB IDs, two ports, four controller changes, one SysEx layout, four silent results). Added its schema and 12 tests (data version 0.3.0).
 - Verified on firmware 1.0.3: Global Settings B13 to B15 are pattern change channel, encoder acceleration and footswitch polarity. CTRL Settings has a third item, echo dead time (B7). B63 and B64 page the LOAD view. B7 shows the operation mode. B8 in ZAQ Settings shows GATE. The errata table now has 14 rows; two are resolved or confirmed and three are partly confirmed.

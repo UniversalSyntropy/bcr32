@@ -1,6 +1,6 @@
 // Checks for the BCR32 data set: counts (playbook step 1.3), reference cross-check (step 1.4).
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { test } from "node:test";
 
@@ -37,7 +37,8 @@ test("BCR32 data: 85 callouts, 88 elements, expected count per kind", () => {
 
 // Cross-check against the reference (playbook step 1.4). Reads the tables of the
 // reference and proves that each row has a record in the data.
-const reference = readFileSync(join(import.meta.dirname, "..", "..", "..", "docs", "reference", "bcr32-reference.md"), "utf8");
+const manualDir = join(import.meta.dirname, "..", "..", "..", "docs", "manual");
+const reference = readdirSync(manualDir).filter((f) => /^\d\d-.*\.md$/.test(f)).sort().map((f) => readFileSync(join(manualDir, f), "utf8")).join("\n");
 
 // First cell of each body row of the first table under a heading that starts with `heading`.
 function firstCells(heading: string): string[] {
@@ -72,25 +73,25 @@ test("BCR32 data: each row of the reference tables has a mode or a function", ()
 
   // §2: each mode or menu row is a mode with the same name. The last row covers three modes.
   const names = new Set(modes.map((m) => m.name));
-  const rows2 = firstCells("## 2. Modes and menus");
+  const rows2 = firstCells("# 2. Modes and menus");
   assert.equal(rows2.length, 11);
   for (const name of rows2)
     if (name === "Erase / SysEx") for (const n of ["Erase menu", "SysEx export menu", "SysEx import"]) assert.ok(names.has(n), n);
     else assert.ok(names.has(name), `§2 row '${name}' has no mode`);
 
   // §5: each parameter button B5–B20 has a function in ZAQ mode.
-  const rows5 = firstCells("## 5. Sequencer").flatMap(expandIds);
+  const rows5 = firstCells("# 5. Sequencer").flatMap(expandIds);
   assert.equal(rows5.length, 16);
   for (const id of rows5) assert.ok(has("zaq", id), `§5 ${id} has no function in mode zaq`);
 
   // §6: each encoder E25–E56 has a function on the ZAQ Global page.
   // §6: each row has a function on the ZAQ Global page with exactly the encoders of the row; E25–E56 are all covered.
-  const rows6 = firstCells("## 6. ZAQ Global page").map(expandIds);
+  const rows6 = firstCells("# 6. ZAQ Global page").map(expandIds);
   assert.equal(rows6.flat().length, 32);
   for (const ids of rows6) assert.ok(hasGroup("zaq-global", ids), `§6 ${ids.join()} has no function in mode zaq-global`);
 
   // §9.1: each Global Settings button has a function.
-  const rows91 = firstCells("### 9.1 Global Settings").flatMap(expandIds);
+  const rows91 = firstCells("## 9.1 Global Settings").flatMap(expandIds);
   assert.equal(rows91.length, 11); // 8 in the manual, 3 added from the unit (B13 to B15)
   for (const id of rows91) assert.ok(has("global-settings", id), `§9.1 ${id} has no function in mode global-settings`);
 

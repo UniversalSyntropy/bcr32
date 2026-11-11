@@ -248,7 +248,7 @@ Mark D1 "blocked" in the results sheet until the backup exists.
 
 ## Errata rows and where they stand
 
-The reference holds 13 rows in its [Source errors and gaps](../reference/bcr32-reference.md#12-source-errors-and-gaps) table. This script covers some of them. The rest need a change to the unit and wait for the backup.
+The reference holds 13 rows in its [Source errors and gaps](../manual/12-source-errors-and-gaps.md#12-source-errors-and-gaps) table. This script covers some of them. The rest need a change to the unit and wait for the backup.
 
 | Row | Test | Result of this script |
 | --- | --- | --- |

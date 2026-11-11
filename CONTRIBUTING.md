@@ -60,7 +60,7 @@ npm run check
 
 | Content | Location |
 | --- | --- |
-| Facts about the hardware, controls, menus, values | `docs/reference/bcr32-reference.md` |
+| Facts about the hardware, controls, menus, values | `docs/manual/` (one file per chapter) |
 | A task from start to finish ("connect to X", "record a drum pattern") | a new file in `docs/guides/` |
 | Symptoms and fixes | `docs/guides/troubleshooting.md` |
 | Tool usage | `tools/<tool-name>/README.md` |

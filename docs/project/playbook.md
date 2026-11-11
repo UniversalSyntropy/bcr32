@@ -16,9 +16,9 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | none |
-| Next step | 2.1 Restructure (R1b) or 4.1 Capture tool (R1c) |
-| R1 progress | 11 of 27 steps done, 16 remain |
+| Current step | none (2.1 closed on branch `r1b/p2-restructure`, not merged) |
+| Next step | 2.2 Source pass, pages 14–25 (R1b) or 4.1 Capture tool (R1c) |
+| R1 progress | 12 of 27 steps done, 15 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing. The repo is public since 2026-11-11 |
 | Last updated | 2026-11-11 |
@@ -72,7 +72,7 @@ Goal: every control, mode, menu, value and procedure, with a glossary, three ind
 
 | Step | Task | Goal | Gate | Est. | Actual | Status | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2.1 | Restructure | one file per chapter in `docs/manual/` | docs-check, no broken links | 50k | | ☐ | |
+| 2.1 | Restructure | one file per chapter in `docs/manual/` | docs-check, no broken links | 50k | about 35k | ✅ | [manual index](../manual/README.md); 13 chapter files (0 to 12); the old reference file is removed; section map, tests and links point at the chapters; branch `r1b/p2-restructure`, not merged |
 | 2.2 | Source pass, pages 14–25 | sequencer and settings re-read against page images | coverage-check for those pages | 100k | | ☐ | |
 | 2.3 | Source pass, pages 26–35 | controller tables entered in full | coverage-check for those pages | 90k | | ☐ | |
 | 2.4 | Quick start and tasks | quick start, "how do I" chapter | docs-check | 60k | | ☐ | |
@@ -124,6 +124,14 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 2.1
+
+- **Closed:** step 2.1 on branch `r1b/p2-restructure`. Nothing was sent to the unit. Not merged, not pushed.
+- **Proved:** `npm run check` passes (111 tests, docs-check clean on 40 files, coverage-check 0 findings, privacy clean).
+- **Changed:** `docs/reference/bcr32-reference.md` is now 13 files in `docs/manual/`, named `NN-title.md`, plus a `README.md` index. Headings moved up one level; anchors are unchanged. The section map anchors, two tests and all links point at the chapters.
+- **Next:** step 2.2 (source pass, pages 14–25) or step 4.1. The owner picks.
+- **Know this:** the chapter files follow the language rules, so `docs-check` holds them to the sentence and contraction limits. Only `docs/manual/README.md` stays in `ste-pending.txt`. `capture-findings.md` stays in `docs/reference/`.
 
 ### 2026-11-11, publish
 

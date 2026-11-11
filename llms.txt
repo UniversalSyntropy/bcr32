@@ -6,7 +6,7 @@ Control IDs used across the docs: B<n> = button, E<n> = encoder, SEL = select en
 
 ## Reference
 
-- [BCR32 structured reference](docs/reference/bcr32-reference.md): every control, mode, menu, value range and procedure, plus known errors in the official manual
+- [BCR32 manual](docs/manual/README.md): every control, mode, menu, value range and procedure, plus known errors in the official manual
 
 ## Guides
 

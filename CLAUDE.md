@@ -14,10 +14,10 @@ If `local/SITE.md` exists, read it before any task. It holds the user's own setu
 
 ## Answering BCR32 questions
 
-1. Read [docs/reference/bcr32-reference.md](docs/reference/bcr32-reference.md) and use its control IDs.
+1. Read [docs/manual/](docs/manual/README.md) and use its control IDs.
 2. Name the mode first (ZAQ, CTRL or a settings menu). Then give numbered key steps and the expected display or LED result.
-3. Check the reference's "Source errors and gaps" table. If the answer depends on a row there, say so and suggest a test on the unit.
-4. If a fact is missing, read the official PDF in `reference/` (English pages 14–35), then add the fact to the reference.
+3. Check the manual's "Source errors and gaps" chapter (chapter 12). If the answer depends on a row there, say so and suggest a test on the unit.
+4. If a fact is missing, read the official PDF in `reference/` (English pages 14–35), then add the fact to the matching manual chapter.
 
 ## Keeping docs current
 

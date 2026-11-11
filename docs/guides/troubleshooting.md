@@ -36,7 +36,7 @@ Device Settings shows these items on firmware 1.0.3:
 
 Polarity, Acceleration and Luminosity aren't in the official manual V2.0.
 
-The same settings are on the unit: hold ZQR/CTRL (B1) for 3 seconds to open Global Settings. See [Global Settings](../reference/bcr32-reference.md#91-global-settings-b1-3s-sel-to-change-push-sel-to-save).
+The same settings are on the unit: hold ZQR/CTRL (B1) for 3 seconds to open Global Settings. See [Global Settings](../manual/09-global-sync-memory-and-maintenance.md#91-global-settings-b1-3s-sel-to-change-push-sel-to-save).
 
 ## Stored pattern is gone after power-off
 

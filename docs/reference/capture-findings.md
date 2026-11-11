@@ -9,7 +9,7 @@ last_updated: 2026-11-11
 
 The owner ran the [unit session script](../guides/unit-session-script.md) on 2026-11-11. The unit had firmware 1.0.3. Nothing was sent to the unit. The unit ended in ZAQ mode, stopped.
 
-This page lists the results. The MIDI facts are also in `data/devices/bcr32/midi.json`. The [reference](bcr32-reference.md) holds the corrected controls.
+This page lists the results. The MIDI facts are also in `data/devices/bcr32/midi.json`. The [manual](../manual/README.md) holds the corrected controls.
 
 ## Results
 

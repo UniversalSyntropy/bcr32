@@ -97,11 +97,10 @@ test("anchor: GitHub slug rules", () => {
 });
 
 test("anchor: the anchors the reference links to resolve in the real reference", () => {
-  const reference = readFileSync(join(ROOT, "docs/reference/bcr32-reference.md"), "utf8");
-  const found = anchors(splitLines(reference));
-  assert.ok(found.has("12-source-errors-and-gaps"));
-  assert.ok(found.has("2-modes-and-menus-state-machine"));
-  assert.ok(found.has("3-top-panel--control-map"));
+  const chapter = (name: string) => anchors(splitLines(readFileSync(join(ROOT, "docs/manual", name), "utf8")));
+  assert.ok(chapter("12-source-errors-and-gaps.md").has("12-source-errors-and-gaps"));
+  assert.ok(chapter("02-modes-and-menus.md").has("2-modes-and-menus-state-machine"));
+  assert.ok(chapter("03-top-panel-control-map.md").has("3-top-panel--control-map"));
 });
 
 test("control-id: an unknown ID fails and known IDs pass", () => {
