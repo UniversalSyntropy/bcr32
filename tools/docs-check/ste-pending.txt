@@ -1,0 +1,13 @@
+# Documents that fail the ste rules today (decision D60).
+# Existing documents change to the rules when they are edited. Remove a path when its file passes.
+CLAUDE.md
+CONTRIBUTING.md
+README.md
+docs/guides/connect-to-ableton-live.md
+docs/guides/troubleshooting.md
+docs/project/architecture.md
+docs/project/decisions.md
+docs/project/plan.md
+docs/project/playbook.md
+docs/project/unit-safety.md
+docs/reference/bcr32-reference.md

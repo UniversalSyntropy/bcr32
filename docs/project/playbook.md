@@ -16,11 +16,11 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | 1.5 Check tools |
+| Current step | none; stopped after step 1.5 (estimate overrun rule) |
 | Next step | 1.6 P1 verification |
-| R1 progress | 4 of 27 steps done, 23 remain |
-| Tokens used in R1 | about 150k of 1,100k (approved 2026-11-11) |
-| Blocked on | nothing |
+| R1 progress | 5 of 27 steps done, 22 remain |
+| Tokens used in R1 | about 330k of 1,100k (approved 2026-11-11) |
+| Blocked on | the owner's go for step 1.6 after the step 1.5 overrun |
 | Last updated | 2026-11-11 |
 
 ## Status key
@@ -51,8 +51,8 @@ Goal: prove the current draft with data, checks and a unit session, so the repo 
 | 1.2 | Schema | Zod schema, generated types and JSON Schema | a broken data file fails | 40k | 35k | ✅ | 22 broken-data cases fail; geometry fields are optional until R2 |
 | 1.3 | Element data | 85 callouts, 88 elements, groups, labels, colours | count check | 20k | 20k | ✅ | label colours come from the manual's illustration; not checked on a unit |
 | 1.4 | Mode and function data | modes, functions, value sets with source labels | cross-check against the reference | 50k | 45k | ✅ | 17 modes, 56 value sets, 142 functions; sources cite reference sections until the page pass in steps 2.2 and 2.3 |
-| 1.5 | Check tools | privacy-check, docs-check, coverage-check, gen-tables | planted-fault tests | 50k | | ▶ | |
-| 1.6 | P1 verification | rerun every check, read the diff, hand over | all green | 40k | | ☐ | |
+| 1.5 | Check tools | privacy-check, docs-check, coverage-check, gen-tables | planted-fault tests | 50k | 180k | ✅ | above the estimate: see the handover note; 66 tool tests, 10 rules switched off in turn |
+| 1.6 | P1 verification | rerun every check, read the diff, hand over | all green | 40k | | ☐ | waits for the owner's go |
 
 ### P3: unit session
 
@@ -124,6 +124,14 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 1.5
+
+- **Closed:** step 1.5. The four tools are in `tools/`, and `npm run check` and CI run them.
+- **Proved:** each rule has a planted-fault test. Ten rules were switched off in turn and their tests failed. In the repo, a commit with a planted host name and IP address was blocked.
+- **Estimate:** the step used about 180k tokens against 50k. A builder agent used 120k of that for `privacy-check` and `docs-check`. The estimate did not count four tools with tests as four builds.
+- **Next:** step 1.6, P1 verification and the merge to `main`. The run stopped here because step 1.5 passed its estimate by more than 50 percent.
+- **Know this:** `npm run hooks` installs the git hooks on a new clone. `tools/docs-check/ste-pending.txt` lists 11 documents that do not yet follow the language rules. The section map (`section-map.json`, 36 parts) points at the reference; step 2.1 moves the anchors to the manual chapters. The extract rule of `coverage-check` runs only where the local extract is present.
 
 ### 2026-11-11, step 1.4
 

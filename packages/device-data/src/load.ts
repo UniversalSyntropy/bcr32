@@ -40,6 +40,7 @@ export function validateDevice(raw: RawFiles): LoadResult {
     valueSets: (parsed["values.json"] as { valueSets: DeviceData["valueSets"] } | undefined)?.valueSets ?? [],
     functions: (parsed["functions.json"] as { functions: DeviceData["functions"] } | undefined)?.functions ?? [],
     glossary: (parsed["glossary.json"] as { terms: DeviceData["glossary"] } | undefined)?.terms ?? [],
+    sectionMap: (parsed["section-map.json"] as { items: DeviceData["sectionMap"] } | undefined)?.items ?? [],
   };
 
   issues.push(...crossCheck(data));
@@ -135,6 +136,9 @@ export function crossCheck(d: DeviceData): Issue[] {
       if (!inOptions && !inRange) add("functions.json", f.id, `default '${text}' is not in value set '${set.id}'`);
     }
   }
+
+  // section-map.json
+  for (const id of duplicates(d.sectionMap.map((i) => i.id))) add("section-map.json", id, "duplicate item ID");
 
   return issues;
 }

@@ -25,7 +25,7 @@ The BCR32 combines two devices: a 4-track, 32-step sequencer (the "Zaquencer", w
 | `docs/reference/` | Structured reference built from the official manual |
 | `docs/guides/` | Task-based guides: setup, DAW connection, troubleshooting |
 | `docs/project/` | Project plan, architecture note, decision log |
-| `tools/` | Tools for the BCR32 (none yet) |
+| `tools/` | Check tools: privacy, documentation standard, manual coverage, generated tables |
 | `reference/` | Local copy of the official PDF manual; PDFs are git-ignored |
 | `local/` | Your own setup notes; git-ignored apart from its README |
 | `llms.txt` | Index of the docs for LLM tools |
@@ -34,7 +34,7 @@ The BCR32 combines two devices: a 4-track, 32-step sequencer (the "Zaquencer", w
 
 - **Documentation:** draft. The reference covers the full English section of the official manual V2.0. Guides marked "unverified" haven't been tested on a unit yet.
 - **Firmware covered:** the official manual doesn't state a firmware version. Facts marked verified were tested on firmware 1.0.3.
-- **Tools:** none yet.
+- **Tools:** four check tools; see the [tools index](tools/README.md).
 
 ## Official sources
 

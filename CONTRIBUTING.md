@@ -29,13 +29,19 @@ Put notes about your own machines and setup in `local/`. Everything in `local/` 
 
 ### Check before each commit
 
-Run this to search staged changes for common personal-data patterns. Add your own names and hostnames to the pattern locally; do not commit them.
+Install the git hooks one time. They run the [privacy-check tool](tools/privacy-check/README.md) on each commit, each commit message and each push.
 
 ```bash
-git diff --cached | grep -n -i -E '/Users/[a-z]|C:\\Users\\|@[a-z0-9-]+\.[a-z]{2,}|\b(10|172|192)\.[0-9]+\.[0-9]+\.[0-9]+\b|\.local\b|serial'
+npm run hooks
 ```
 
-No output means no match. A match is not always a problem, but read each one before you commit.
+The hooks stop a commit or a push that holds a personal-data pattern. Put your own names and host names in `local/privacy-patterns.txt`, one on each line. The file is git-ignored.
+
+To scan the staged changes by hand, run this command. No output before the summary line means no match.
+
+```bash
+node tools/privacy-check/src/cli.ts staged
+```
 
 ### Run the checks
 
@@ -46,7 +52,7 @@ npm ci
 npm run check
 ```
 
-`npm run check` runs markdownlint, the TypeScript type check, the tests, the JSON Schema freshness check and device data validation. CI runs the same commands on every push and pull request.
+`npm run check` runs markdownlint, the TypeScript type check, the tests, the JSON Schema freshness check and device data validation. It also runs the four [check tools](tools/README.md): generated tables, documentation standard, manual coverage and privacy. CI runs the same commands on every push and pull request.
 
 ## Documentation standard
 
@@ -110,7 +116,7 @@ Technical names are permitted as they are: control IDs, panel labels, MIDI terms
 
 > **Note:** The project does not claim conformance to ASD-STE100. The rules follow its method; they do not use its dictionary.
 
-Change an existing document to these rules when you edit it.
+Change an existing document to these rules when you edit it. Then remove its line from `tools/docs-check/ste-pending.txt`. The `docs-check` tool applies the sentence and contraction rules to each document that is not on that list.
 
 ### Keep it maintained
 

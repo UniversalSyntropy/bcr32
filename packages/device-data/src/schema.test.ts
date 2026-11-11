@@ -52,6 +52,12 @@ function fixture(): Record<FileName, any> {
       ],
     },
     "glossary.json": { terms: [{ term: "Step", definition: "One position in a pattern." }] },
+    "section-map.json": {
+      items: [
+        { id: "controls", kind: "section", title: "CONTROLS", page: 16, anchors: ["docs/manual.md#controls"] },
+        { id: "legal", kind: "section", title: "Legal", page: 2, excluded: "Legal text; not restated." },
+      ],
+    },
   };
 }
 
@@ -93,6 +99,10 @@ const broken: [string, (f: Record<FileName, any>) => void, RegExp][] = [
   ["function in unknown mode", (f) => (f["functions.json"].functions[0].mode = "ctrl"), /unknown mode 'ctrl'/],
   ["function on unknown element", (f) => (f["functions.json"].functions[0].elements = ["E25"]), /unknown element 'E25'/],
   ["function with unknown value set", (f) => (f["functions.json"].functions[0].values = "nope"), /unknown value set 'nope'/],
+  ["section map item with anchors and an exclusion", (f) => (f["section-map.json"].items[0].excluded = "x"), /needs anchors or an exclusion reason/],
+  ["section map item with neither", (f) => delete f["section-map.json"].items[1].excluded, /needs anchors or an exclusion reason/],
+  ["section map anchor without a heading", (f) => (f["section-map.json"].items[0].anchors = ["docs/manual.md"]), /pattern/],
+  ["duplicate section map item", (f) => (f["section-map.json"].items[1].id = "controls"), /duplicate item ID/],
   ["default outside the value set", (f) => (f["functions.json"].functions[0].default = 200), /default '200' is not in value set/],
 ];
 
@@ -141,7 +151,7 @@ test("JSON Schema is generated for every data file and rejects unknown keys", ()
   const schemas = jsonSchemas();
   assert.deepEqual([...schemas.keys()].sort(), [
     "device.schema.json", "elements.schema.json", "functions.schema.json",
-    "glossary.schema.json", "modes.schema.json", "values.schema.json",
+    "glossary.schema.json", "modes.schema.json", "section-map.schema.json", "values.schema.json",
   ]);
   const elements = JSON.parse(schemas.get("elements.schema.json")!);
   assert.equal(elements.additionalProperties, false);

@@ -44,6 +44,8 @@ tools/
 
 The official manual numbers 85 callouts. The unit has 88 addressable elements, because callout 2 covers three LEDs and callout 3 covers two.
 
+<!-- gen:element-kinds -->
+
 | Kind | Count | IDs |
 | --- | --- | --- |
 | Button | 31 | `B1`, `B5`–`B24`, `B59`–`B68` |
@@ -51,6 +53,8 @@ The official manual numbers 85 callouts. The unit has 88 addressable elements, b
 | LED | 6 | `L2.in`, `L2.a`, `L2.b`, `L3.1`, `L3.2`, `L4` |
 | Display | 1 | `DISP` |
 | Jack | 17 | `J69`–`J85` |
+
+<!-- gen:end -->
 
 Element IDs are stable and match the manual's control IDs. A callout maps to one or more elements.
 
@@ -223,8 +227,8 @@ The bridge is the main transport. It also covers a unit that is plugged into a d
 | Tool | Proves |
 | --- | --- |
 | `privacy-check` | no personal-data pattern in staged or tracked files; reads extra patterns from a git-ignored local file |
-| `docs-check` | front matter, links, anchors, control IDs, action notation, glossary links |
-| `coverage-check` | each item in the official-manual section map points to a manual anchor that exists |
+| `docs-check` | front matter, links, anchors, control IDs, action notation, the language rules; glossary links come with the glossary |
+| `coverage-check` | each item in the official-manual section map points to a manual anchor that exists; a document names each element |
 | `gen-tables` | generated blocks in docs match device data (`--check` mode for CI) |
 
 The section map lists the official manual's callouts, menus, tables and section titles with page numbers. When the local extract of the official manual is present, `coverage-check` also compares the map against the extract's headings to catch a missing item.

@@ -21,6 +21,7 @@ Each device has one folder under `data/devices/`.
 | `values.json` | no | named value sets: options, a numeric range, or both |
 | `functions.json` | no | per mode and element: function name, value set, default |
 | `glossary.json` | no | terms, definitions, aliases |
+| `section-map.json` | no | the parts of the official manual, with the page and the heading in our documents that covers each one |
 
 ## Commands
 
@@ -38,6 +39,7 @@ Run these from the repo root. They need Node.js 24 or later.
 - **Source label:** every element, mode, value set and function names its source. A fact tested on a unit names the firmware version.
 - **Counts:** the element count matches `device.json`, and every callout number has at least one element.
 - **References:** views, groups, colours, modes, elements and value sets that a record names all exist.
+- **Section map:** each item has one or more anchors, or a reason why the documents do not cover it. The `coverage-check` tool proves that each anchor exists.
 - **Defaults:** a function's default is an option or lies inside the range of its value set.
 
 The JSON Schema files cover shape only. Use `loadDevice` or `npm run validate:data` for the full check.

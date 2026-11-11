@@ -20,7 +20,13 @@
     "gen:schema": "node packages/device-data/src/cli.ts gen-schema",
     "check:schema": "node packages/device-data/src/cli.ts gen-schema --check",
     "validate:data": "node packages/device-data/src/cli.ts validate",
-    "check": "npm run lint:md && npm run typecheck && npm test && npm run check:schema && npm run validate:data"
+    "gen:tables": "node tools/gen-tables/src/cli.ts",
+    "check:tables": "node tools/gen-tables/src/cli.ts --check",
+    "check:docs": "node tools/docs-check/src/cli.ts",
+    "check:coverage": "node tools/coverage-check/src/cli.ts",
+    "check:privacy": "node tools/privacy-check/src/cli.ts tracked",
+    "hooks": "node tools/privacy-check/src/cli.ts install-hooks",
+    "check": "npm run lint:md && npm run typecheck && npm test && npm run check:schema && npm run validate:data && npm run check:tables && npm run check:docs && npm run check:coverage && npm run check:privacy"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",

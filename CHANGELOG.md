@@ -4,6 +4,8 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-11
 
+- Added four check tools in `tools/`: `privacy-check`, `docs-check`, `coverage-check` and `gen-tables`. `npm run check` and CI run them. `npm run hooks` installs git hooks that stop a commit with personal data.
+- Added the section map of the official manual in `data/devices/bcr32/section-map.json`: 36 parts with page numbers, each with the heading that covers it.
 - Added BCR32 mode, value and function data in `data/devices/bcr32/`: 17 modes and menus, 56 value sets, 142 functions (data version 0.2.0). Each record names its source. A test compares the data with the tables of the reference.
 - Documentation now follows Simplified Technical English rules, based on ASD-STE100. The rules are in the contributing guide. Existing documents change to the rules when they are next edited.
 - Added BCR32 element data in `data/devices/bcr32/`: 85 callouts, 88 elements, 15 groups, printed labels and label colours (data version 0.1.0). Label colours come from the manual's illustration and are not checked on a unit.

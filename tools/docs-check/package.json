@@ -1,0 +1,14 @@
+{
+  "name": "@bcr32/docs-check",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Fails when a Markdown document breaks the documentation standard.",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@bcr32/device-data": "*"
+  }
+}

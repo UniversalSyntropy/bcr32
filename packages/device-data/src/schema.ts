@@ -156,6 +156,23 @@ export const GlossaryFile = z.strictObject({
   terms: z.array(z.strictObject({ term: Text, definition: Text, aliases: z.array(Text).optional() })).min(1),
 });
 
+// section-map.json: the parts of the official manual and where our documents cover each one.
+export const SectionMapItem = z
+  .strictObject({
+    id: Key,
+    kind: z.enum(["section", "menu", "table", "list", "figure"]),
+    title: Text, // title as the official manual prints it
+    page: z.int().positive(), // left page of the two-page spread
+    anchors: z.array(z.string().regex(/^[^#\s]+\.md#[a-z0-9][a-z0-9_-]*$/)).optional(), // repo path + heading slug
+    excluded: Text.optional(), // why our documents do not cover the item
+    note: Text.optional(),
+  })
+  .refine((i) => (i.anchors !== undefined && i.anchors.length > 0) !== (i.excluded !== undefined), {
+    message: "an item needs anchors or an exclusion reason, not both",
+  });
+
+export const SectionMapFile = z.strictObject({ ...fileHeader, items: z.array(SectionMapItem).min(1) });
+
 // File name → schema. `required` files must exist in every device folder.
 export const FILES = {
   "device.json": { schema: DeviceFile, required: true },
@@ -164,6 +181,7 @@ export const FILES = {
   "values.json": { schema: ValuesFile, required: false },
   "functions.json": { schema: FunctionsFile, required: false },
   "glossary.json": { schema: GlossaryFile, required: false },
+  "section-map.json": { schema: SectionMapFile, required: false },
 } as const;
 
 export type FileName = keyof typeof FILES;
@@ -179,6 +197,7 @@ export type ValuesFile = z.infer<typeof ValuesFile>;
 export type DeviceFunction = z.infer<typeof DeviceFunction>;
 export type FunctionsFile = z.infer<typeof FunctionsFile>;
 export type GlossaryFile = z.infer<typeof GlossaryFile>;
+export type SectionMapItem = z.infer<typeof SectionMapItem>;
 
 export interface DeviceData {
   device: DeviceFile;
@@ -187,4 +206,5 @@ export interface DeviceData {
   valueSets: ValueSet[];
   functions: DeviceFunction[];
   glossary: GlossaryFile["terms"];
+  sectionMap: SectionMapItem[];
 }

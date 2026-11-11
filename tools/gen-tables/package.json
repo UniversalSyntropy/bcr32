@@ -1,0 +1,11 @@
+{
+  "name": "@bcr32/gen-tables",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Writes tables from device data into marked blocks of Markdown documents.",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@bcr32/device-data": "*"
+  }
+}

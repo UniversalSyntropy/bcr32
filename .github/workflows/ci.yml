@@ -27,3 +27,7 @@ jobs:
       - run: npm test
       - run: npm run check:schema
       - run: npm run validate:data
+      - run: npm run check:tables
+      - run: npm run check:docs
+      - run: npm run check:coverage
+      - run: npm run check:privacy
