@@ -130,7 +130,8 @@ Newest first. One entry per session: what closed, what is next, anything the nex
 - **Unit probe (read-only):** the unit is present on USB as "Behringer BCR-32", vendor 0x1397, device release 2.02 in the USB descriptor. Whether 2.02 equals the firmware version is unconfirmed until the display is read.
 - **Firmware version read from the display:** 1.0.3. The USB descriptor's 2.02 is not the firmware version.
 - **USB MIDI ports on firmware 1.0.3:** "BCR-32 CTRL" and "BCR-32 ZAQ". An idle unit sends no clock or other messages.
-- **Open fault:** the vendor editor refuses Device Settings with a "stop the sequencer" message while the sequencer is stopped; the unit sends nothing when the button is clicked. Candidate for the known-issues register.
+- **Resolved:** the vendor editor's "stop the sequencer" message before Device Settings is a confirmation dialog; OK opens the page. Recorded in the troubleshooting guide.
+- **First decoded message:** the unit sends its controller preset names as SysEx when the editor opens the controller area. Notes are held locally until the MIDI reference steps.
 - **Limit found:** a remote shell on the unit's computer sees no MIDI ports. Capture must run in the desktop session.
 
 - **Closed:** steps 0.1 and 0.2.

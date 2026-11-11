@@ -326,7 +326,7 @@ LED ring styles: Off, 1dot_in (default), 1dot_ex (dark at zero), 2dot_in, 2dot_e
 | B11 | Firmware version | display only |
 | B12 | Factory restore | Cancel / OK; takes over a minute |
 
-> **Note:** Verified on firmware 1.0.3 (2026-11-11): the menu lights B1 and B5–B15 (panel buttons 1–11) in blue, three more than the official manual lists, and B11 shows the firmware version. The functions of B13–B15 here are not yet recorded. Read the display before you confirm anything on B12.
+> **Note:** Verified on firmware 1.0.3 (2026-11-11): the menu lights B1 and B5–B15 (panel buttons 1–11) in blue, three more than the official manual lists, and B11 shows the firmware version. The vendor editor shows three settings the manual omits (footswitch polarity, encoder acceleration, LED luminosity), which probably account for the extra buttons; which button holds which is not yet recorded. Read the display before you confirm anything on B12.
 
 ### 9.2 ZAQ Settings (`hold B59 + B61` in ZAQ)
 
@@ -407,6 +407,6 @@ ZQR, CTRL, USB, STDL, MIXED, Cancel, OK, MIN, NOTE, MONITOR, RECORD, OcMi, OCNa,
 | User scale | "while in SCALE mode" not defined | while E30 is the active global control |
 | Virtual keyboard / number pad | key-to-note and key-to-digit maps not given | piano layout inferred (§3.1) |
 | Specifications | no spec page (power draw, size, weight) | unknown |
-| Global Settings | manual lists 8 settings (panel buttons 1–8); firmware 1.0.3 lights 11 buttons (1–11) | manual predates firmware 1.0.3; functions of buttons 9–11 to be read from the unit |
+| Global Settings | manual lists 8 settings (panel buttons 1–8); firmware 1.0.3 lights 11 buttons (1–11) | manual predates firmware 1.0.3; extra settings are probably footswitch polarity, encoder acceleration and LED luminosity (seen in the vendor editor); button positions to be read from the unit |
 
 Procedures that depend on a row in this table are unconfirmed until someone tests them on a unit. Record test results in the row and in the [changelog](../../CHANGELOG.md).

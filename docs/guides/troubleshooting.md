@@ -11,22 +11,32 @@ Each entry lists the symptom, the likely cause and the fixes in the order to try
 
 ## Control Tribe says "stop the sequencer"
 
-**Symptom:** the Control Tribe app opens two of its three areas, but Device Settings is blocked with a message to stop the sequencer. The sequencer looks stopped on the unit.
+**Symptom:** in the Control Tribe app, a click on **Device Settings** shows a message about stopping the sequencer. It appears even when the sequencer is stopped, in sequencer mode and in controller mode.
 
-**Likely cause:** something is running the sequencer. The most common source is a DAW sending MIDI clock and start to the BCR32, so the sequencer runs while the DAW's transport plays. This cause isn't documented in the official manual.
+**Cause:** the message is a confirmation, not a block. The app shows it every time and sends nothing to the unit until you answer.
 
-<!-- UNVERIFIED: cause and fix order. Update with the step that worked. -->
+**Fix:** press **OK** in the dialog. Device Settings opens. **Cancel** returns you to the previous area.
 
-Try these in order, and check Device Settings again after each:
+Verified on firmware 1.0.3 with Control Tribe for macOS, 2026-11-11, on two computers.
 
-1. Press PLAY/STOP (B68). If the sequencer was running, the playhead LEDs on the encoder rings stop moving.
-2. Stop your DAW's transport.
-3. Turn off MIDI clock (Sync) for the BCR32 output ports in your DAW. In Ableton Live: Settings, then **Link, Tempo & MIDI**.
-4. Quit the DAW so it releases the USB MIDI port.
-5. Press ZQR/CTRL (B1) until the buttons glow amber (controller mode).
-6. Unplug the USB cable and plug it in again.
+> **Warning:** the Device Settings page has a **Factory Reset** button. Don't click it unless you mean to erase the unit.
 
-If Device Settings stays blocked, change the same settings on the unit: hold ZQR/CTRL (B1) for 3 seconds to open Global Settings. See [Global Settings](../reference/bcr32-reference.md#91-global-settings-b1-3s-sel-to-change-push-sel-to-save).
+Device Settings shows these items on firmware 1.0.3:
+
+| Group | Setting | Value seen |
+| --- | --- | --- |
+| Operating Mode | Mode | USB |
+| Operating Mode | Startup App | ZAQ |
+| Foot Switch | Foot Switch 1, Foot Switch 2 | CTRL |
+| Foot Switch | Polarity | AUTO |
+| Encoders | Acceleration | 2 |
+| LEDs | Luminosity | 15 |
+| SysEx | Device ID | 1 |
+| Factory Reset | button | not pressed |
+
+Polarity, Acceleration and Luminosity aren't in the official manual V2.0.
+
+The same settings are on the unit: hold ZQR/CTRL (B1) for 3 seconds to open Global Settings. See [Global Settings](../reference/bcr32-reference.md#91-global-settings-b1-3s-sel-to-change-push-sel-to-save).
 
 ## Stored pattern is gone after power-off
 
