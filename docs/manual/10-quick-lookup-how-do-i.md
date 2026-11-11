@@ -10,11 +10,11 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 
 This chapter has two quick starts and a task lookup. Each task links to the chapter that holds the detail.
 
-> **Note:** The steps come from the official manual. They are unverified on a unit unless a line says "verified" with a firmware version. Read [Source errors and gaps](12-source-errors-and-gaps.md#12-source-errors-and-gaps) if a step does not give the result shown.
+> **Note:** The [steps](13-glossary.md#step) come from the official manual. They are unverified on a unit unless a line says "verified" with a [firmware](13-glossary.md#firmware) version. Read [Source errors and gaps](12-source-errors-and-gaps.md#12-source-errors-and-gaps) if a step does not give the result shown.
 
 ## 10.1 Quick start: play a pattern in ZAQ mode
 
-Goal: enter a short note pattern on track 1 and hear it. The steps need a synth that takes CV and gate, or MIDI.
+Goal: enter a short note [pattern](13-glossary.md#pattern) on [track](13-glossary.md#track) 1 and hear it. The steps need a synth that takes [CV](13-glossary.md#cv) and [gate](13-glossary.md#gate), or MIDI.
 
 ### Connect the unit
 
@@ -28,17 +28,17 @@ Goal: enter a short note pattern on track 1 and hear it. The steps need a synth 
 
 ### Enter the notes
 
-1. Tap B1 until the button is pink. The unit is in ZAQ mode.
+1. Tap B1 until the button is pink. The unit is in [ZAQ mode](13-glossary.md#zaq-mode).
 2. Press B21 (T1). The track 1 button flashes.
-3. Press B5 (PITCH). DISP shows the pitch of a step.
+3. Press B5 (PITCH). [DISP](13-glossary.md#display-disp) shows the pitch of a step.
 4. Turn E25. DISP shows the note of step 1. All steps start at C3.
 5. Turn E26 to E32 for steps 2 to 8. Step k is E(24+k).
 6. If you use MIDI, press B59. Turn E41 to pick the port. Turn E42 to pick the channel. Press B60 to leave.
 7. Press B7 (MUTE). Toggle each unused step. The LED of a muted step goes dark.
-8. Press B68 (PLAY/STOP). The pattern plays. The playhead moves on the ring LEDs.
+8. Press B68 (PLAY/STOP). The pattern plays. The [playhead](13-glossary.md#playhead) moves on the [ring LEDs](13-glossary.md#ring-led).
 9. Press B68 again. The pattern stops.
 
-> **Note:** The manual says "toggle" for mute and skip. It does not say whether to turn or push the encoder. Test it on the unit.
+> **Note:** The manual says "toggle" for mute and skip. It does not say whether to turn or push the [encoder](13-glossary.md#encoder). Test it on the unit.
 
 **Tip:** `hold B5 + turn any E` moves all steps together. Use it to set the key root first.
 
@@ -59,27 +59,27 @@ Chapter [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track
 
 > **Warning:** The unit loses a pattern at power-off if you do not store it permanently. Nothing loads at power-up.
 
-1. Hold B61 (STORE). Page with B63 and B64 to pick a page from 1 to 12.
-2. Press a slot button from B5 to B20. B61 stays lit.
+1. Hold B61 (STORE). [Page](13-glossary.md#page) with B63 and B64 to pick a page from 1 to 12.
+2. Press a [slot](13-glossary.md#slot) button from B5 to B20. B61 stays lit.
 3. Press B60 (EXIT).
-4. Hold SEL and press B61. DISP confirms the store.
+4. Hold [SEL](13-glossary.md#select-encoder-sel) and press B61. DISP confirms the store.
 
 To load the pattern, press B62, page with B63 and B64, press the slot, then press B60. See [Patterns](07-sequencer-procedures.md#76-patterns).
 
 ## 10.2 Quick start: send a MIDI control from CTRL mode
 
-Goal: make encoder E25 send a CC (control change) message.
+Goal: make encoder E25 send a [CC](13-glossary.md#control-change-cc) (control change) message.
 
-1. Tap B1 until the button is amber. The unit is in CTRL mode.
+1. Tap B1 until the button is amber. The unit is in [CTRL mode](13-glossary.md#ctrl-mode).
 2. Hold B59 and turn E25. The unit enters CTRL Edit.
 3. Turn SEL to pick CC. The type changes.
 4. Press B64 to move to the next field. Turn SEL to set the value. Repeat for each field.
 5. Press B60. The setup ends.
 6. Turn E25. The unit sends the CC message on the port and channel you set.
 
-Learn mode is faster if a device can send the message. Hold B62 and turn E25. Then send the message from the other device. See [Learn](08-controller.md#82-learn).
+[Learn](13-glossary.md#learn) mode is faster if a device can send the message. Hold B62 and turn E25. Then send the message from the other device. See [Learn](08-controller.md#82-learn).
 
-> **Note:** Verified on firmware 1.0.3 (2026-11-11): the first factory preset sent CC 97, 65, 66 and 98 on channel 1 of the port `BCR-32 CTRL`. Which control sends which message is not mapped yet.
+> **Note:** Verified on firmware 1.0.3 (2026-11-11): the first factory [preset](13-glossary.md#preset) sent CC 97, 65, 66 and 98 on channel 1 of the port `BCR-32 CTRL`. Which control sends which message is not mapped yet.
 
 Store the setup in a preset. See [Presets](08-controller.md#83-presets). The field lists for each type are in [Setup fields per type](08-controller.md#84-setup-fields-per-type).
 
@@ -96,14 +96,14 @@ Each row shows the mode, the key sequence and the chapter. The notation is in [H
 | Go back to step 1 | ZAQ | B67 | [7.7](07-sequencer-procedures.md#77-transport) |
 | Change the note of a step | ZAQ | B5, turn the step encoder | [7.2](07-sequencer-procedures.md#72-step-enter-notes) |
 | Move all notes together | ZAQ | `hold B5 + turn any E` | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
-| Add a chord to a step | ZAQ | B13, turn the step encoder | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
+| Add a [chord](13-glossary.md#chord) to a step | ZAQ | B13, turn the step encoder | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
 | Skip a step | ZAQ | B14, toggle the step | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
 | Shorten a track to 16 steps | ZAQ | select the track, B16, turn E40 | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
 | Change the play direction | ZAQ | B20, turn SEL | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
 | Add swing | ZAQ | B19, turn E30 (even steps) or E31 (odd steps) | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
 | Make random velocities | ZAQ | `hold B12`, turn E33 to random, then `hold B12 + B6` | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
 | Record notes in real time | ZAQ | B65, B64 to RECORD, B68, play the keys | [7.3](07-sequencer-procedures.md#73-real-time-record-note-track) |
-| Make a track a drum track | ZAQ | B59, turn E37 to E40 to Drum | [7.4](07-sequencer-procedures.md#74-drum-tracks) |
+| Make a track a [drum track](13-glossary.md#drum-track) | ZAQ | B59, turn E37 to E40 to Drum | [7.4](07-sequencer-procedures.md#74-drum-tracks) |
 | Mute a track | ZAQ | stop, B66, press the track button | [7.5](07-sequencer-procedures.md#75-mixer-and-note-repeat) |
 | Repeat notes | ZAQ | `hold B64 + turn any E`, then press a track button | [7.5](07-sequencer-procedures.md#75-mixer-and-note-repeat) |
 | Copy a track | ZAQ | `hold` the destination track button, press the source | [7.6](07-sequencer-procedures.md#76-patterns) |
@@ -116,12 +116,12 @@ Each row shows the mode, the key sequence and the chapter. The notation is in [H
 | Task | Mode | Keys | Detail |
 | --- | --- | --- | --- |
 | Change the tempo | ZAQ | B59, turn E25 | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
-| Sync to a DAW over USB | ZAQ | B59, E26 to USB. Operation mode must be USB or MIXED | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq), [9.1](09-global-sync-memory-and-maintenance.md#91-global-settings-b1-3s-sel-to-change-push-sel-to-save) |
-| Send clock to MIDI A | ZAQ | B59, E27 to MIDI A. The clock source must be Internal | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
+| Sync to a DAW over USB | ZAQ | B59, E26 to USB. [Operation mode](13-glossary.md#operation-mode) must be USB or MIXED | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq), [9.1](09-global-sync-memory-and-maintenance.md#91-global-settings-b1-3s-sel-to-change-push-sel-to-save) |
+| Send clock to MIDI A | ZAQ | B59, E27 to MIDI A. The [clock source](13-glossary.md#clock-source) must be Internal | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
 | Set the MIDI channel of a track | ZAQ | B59, turn E42, E44, E46 or E48 | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
 | Set the output port of a track | ZAQ | B59, turn E41, E43, E45 or E47 | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
-| Lock the notes to a scale | ZAQ | B59, E30 for the scale, E31 for the root | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
-| Set the gate level (5 V or 10 V) | ZAQ Settings | `hold B59 + B61`, B5 | [9.2](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--b61-in-zaq) |
+| Lock the notes to a [scale](13-glossary.md#scale) | ZAQ | B59, E30 for the scale, E31 for the root | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
+| Set the gate level (5 V or 10 V) | [ZAQ Settings](13-glossary.md#zaq-settings) | `hold B59 + B61`, B5 | [9.2](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--b61-in-zaq) |
 | Use the sync jacks | ZAQ Settings | `hold B59 + B61`, B6 to B8 | [9.2](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--b61-in-zaq) |
 | Power the unit from a charger | any | connect J69 | [4](04-rear-panel.md#4-rear-panel) |
 
@@ -134,11 +134,11 @@ Each row shows the mode, the key sequence and the chapter. The notation is in [H
 | Store a preset | CTRL | B61, B63 or B64 for the location, B61, B61 | [8.3](08-controller.md#83-presets) |
 | Store a preset for good | CTRL | after the store, `hold SEL + B61` | [8.3](08-controller.md#83-presets) |
 | Load a preset | CTRL | B63 or B64 to the location | [8.3](08-controller.md#83-presets) |
-| Assign a footswitch | CTRL | Global Settings: B9 or B10 to CTRL | [9.1](09-global-sync-memory-and-maintenance.md#91-global-settings-b1-3s-sel-to-change-push-sel-to-save) |
+| Assign a [footswitch](13-glossary.md#footswitch) | CTRL | [Global Settings](13-glossary.md#global-settings): B9 or B10 to CTRL | [9.1](09-global-sync-memory-and-maintenance.md#91-global-settings-b1-3s-sel-to-change-push-sel-to-save) |
 
 ### Settings and maintenance
 
-> **Warning:** B8 in Global Settings starts CV calibration. B12 starts a factory restore. Read the display before you push SEL.
+> **Warning:** B8 in Global Settings starts CV calibration. B12 starts a [factory restore](13-glossary.md#factory-restore). Read the display before you push SEL.
 
 | Task | Mode | Keys | Detail |
 | --- | --- | --- | --- |

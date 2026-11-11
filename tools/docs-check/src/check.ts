@@ -2,6 +2,7 @@
 import { checkActions } from "./action.ts";
 import { checkControlIds } from "./control-id.ts";
 import { checkFrontMatter } from "./front-matter.ts";
+import { checkGlossary } from "./glossary.ts";
 import { checkLinks } from "./links.ts";
 import { checkContractions, checkSentences } from "./ste.ts";
 import { checkTitle } from "./title.ts";
@@ -19,6 +20,7 @@ export function checkDocument(path: string, text: string, env: Env): Finding[] {
     ...checkLinks(path, text, env),
     ...checkControlIds(path, text, env),
     ...checkActions(path, text),
+    ...checkGlossary(path, text, env),
     ...checkContractions(path, text),
     ...checkSentences(path, text),
   ];

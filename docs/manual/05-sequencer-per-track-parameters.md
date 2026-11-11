@@ -8,13 +8,13 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 
 # 5. Sequencer (ZAQ mode) — per-track parameters
 
-Select the track first (B21–B24). B5–B20 settings are per track. Everything can change while playing.
+Select the [track](13-glossary.md#track) first (B21–B24). B5–B20 settings are per track. Everything can change while playing.
 
-General rule: press a parameter button, then turn the step encoders E25–E56. `hold B59 + turn any E` moves every step together to its max or min.
+General rule: press a parameter button, then turn the [step](13-glossary.md#step) [encoders](13-glossary.md#encoder) E25–E56. `hold B59 + turn any E` moves every step together to its max or min.
 
 | Button | Encoders do | Range / options | Default |
 | --- | --- | --- | --- |
-| B5 PITCH | note per step | C2–G8; CV 0–10 V. Ring shows pitch (range set by Global E29); last 3 LEDs show playhead | C3 (MIDI 60) |
+| B5 PITCH | note per step | C2–G8; [CV](13-glossary.md#cv) 0–10 V. Ring shows pitch (range set by Global E29); last 3 LEDs show [playhead](13-glossary.md#playhead) | C3 (MIDI 60) |
 | B6 VELOCITY | velocity per step | 0–127 | 100 |
 | B7 MUTE | toggle play/mute | LED lit = plays | play |
 | B8 DELAY | timing shift | −5 (early) … 0 … +5 (late) | 0 |
@@ -22,13 +22,13 @@ General rule: press a parameter button, then turn the step encoders E25–E56. `
 | B10 MIDI CTRL α | α value per step | Off, 1–127; target set by E49/51/53/55 | — |
 | B11 MIDI CTRL β | β value per step | Off, 1–127; target set by E50/52/54/56 | — |
 | B12 WAVE GEN | hold B12 + E33–E36 | E33 waveform (random, sine, triangle, saw, ramp, rectangle); E34 gain 0–100 (50); E35 rate 1–32 (5); E36 offset 0–127 or "add" (63) | — |
-| B13 CHORD | chord per step (MIDI only) | see list below | Off |
+| B13 [CHORD](13-glossary.md#chord) | chord per step (MIDI only) | see list below | Off |
 | B14 STEP SKIP | toggle play/skip | LED lit = plays | play |
 | B15 SEQ START | turn the encoder of the start step | step 1–32 | 1 |
 | B16 SEQ LENGTH | E25 = 1 … E56 = 32 | 1–32 | 32 |
 | B17 SEQ OFFSET | E25 = 0 … E56 = 31 | 0–31 steps | 0 |
-| B18 CLK DIVIDER | SEL | 1, 2, 4, 8, 16, 32, 24, 12, 6, 3 | 16 |
-| B19 SHUFFLE | E30 even, E31 odd | E 0/16/33/50/66/83; O 0/16/33/60/66/83 | 0 |
+| B18 CLK DIVIDER | [SEL](13-glossary.md#select-encoder-sel) | 1, 2, 4, 8, 16, 32, 24, 12, 6, 3 | 16 |
+| B19 [SHUFFLE](13-glossary.md#shuffle) | E30 even, E31 odd | E 0/16/33/50/66/83; O 0/16/33/60/66/83 | 0 |
 | B20 DIRECTION | SEL | Forward, Backward, Pip 0 (pendulum, ends repeated), Random, Pendulum | Forward |
 
 Apply Wave Gen to lanes: `hold B12 + press` one or more of B5–B11 (pitch, velocity, mute, delay, length, α, β).

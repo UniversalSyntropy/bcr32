@@ -8,13 +8,13 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 
 # 8. Controller (CTRL mode)
 
-Assignable: B5–B24, E25–E56 (turn = continuous, push = on/off), B65–B68, footswitches (when Global B9/B10 = CTRL).
+Assignable: B5–B24, E25–E56 (turn = continuous, push = on/off), B65–B68, [footswitches](13-glossary.md#footswitch) (when Global B9/B10 = CTRL).
 
 ## 8.1 Assign a control
 
 1. `hold B59 + turn/push the encoder` or `+ press the button`.
-2. Turn SEL to pick the type. Types: Off, PC, CC, NRPN, PB (encoders only), Note (buttons only), AT, GS, MMC (buttons only).
-3. B63/B64 step through the setup fields; SEL sets each value.
+2. Turn [SEL](13-glossary.md#select-encoder-sel) to pick the type. Types: Off, [PC](13-glossary.md#program-change-pc), [CC](13-glossary.md#control-change-cc), [NRPN](13-glossary.md#nrpn), [PB](13-glossary.md#pitch-bend-pb) ([encoders](13-glossary.md#encoder) only), Note (buttons only), [AT](13-glossary.md#aftertouch-at), GS, [MMC](13-glossary.md#mmc) (buttons only).
+3. B63/B64 [step](13-glossary.md#step) through the setup fields; SEL sets each value.
 4. B60 to finish.
 
 ## 8.2 Learn
@@ -28,7 +28,7 @@ Assignable: B5–B24, E25–E56 (turn = continuous, push = on/off), B65–B68, f
 
 ## 8.4 Setup fields per type
 
-Each message type has its own fields. B63 and B64 step through the fields. SEL sets the value. A dash means the control has no such field. Manual pages 24 to 34.
+Each message type has its own fields. B63 and B64 step through the fields. SEL sets the value. A dash means the control has no such field. Manual [pages](13-glossary.md#page) 24 to 34.
 
 ### 8.4.1 Button and encoder modes
 
@@ -76,7 +76,7 @@ The LED options set how the ring around an encoder shows its value. The default 
 | Maximum value | 0–127 | 0–127 |
 | Mode | Tog Off, Inc | Absolute |
 | LED options | — | the 12 styles |
-| Display | On, Off | On, Off |
+| [Display](13-glossary.md#display-disp) | On, Off | On, Off |
 
 ### 8.4.4 CC (continuous controller)
 
@@ -174,7 +174,7 @@ The printed parameter list ends with a comma. It may be cut short. See [Source e
 ## 8.5 CTRL Settings (`hold B59 + B61` in CTRL)
 
 - **B5 output routing:** USB, MIDI A, MIDI B, A&B, USB&A, USB&B, USB&A&B.
-- **B6 MIDI thru:** source via E28 (Off, MIDI, USB); destination via SEL (Off, 7 routings, or 7 Filtered). Push SEL to save, B60 to exit.
-- **B7 echo dead time:** not in the manual. Verified on firmware 1.0.3: the display shows `ECHO deadtime 100ms`. The range is not recorded.
+- **B6 [MIDI thru](13-glossary.md#midi-thru):** source via E28 (Off, MIDI, USB); destination via SEL (Off, 7 routings, or 7 Filtered). Push SEL to save, B60 to exit.
+- **B7 echo dead time:** not in the manual. Verified on [firmware](13-glossary.md#firmware) 1.0.3: the display shows `ECHO deadtime 100ms`. The range is not recorded.
 
 > **Note:** Verified on firmware 1.0.3 (2026-11-11): the menu has three items (B5 to B7). The display showed output port `U` (USB), thru destination off and thru source off.

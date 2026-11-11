@@ -16,9 +16,9 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | 2.5 Glossary (4.2 closed on branch `r1c/p4-backup`, not merged) |
-| Next step | 4.2 Backup (R1c, needs the owner) or 2.5 Glossary (R1b) |
-| R1 progress | 17 of 27 steps done, 10 remain |
+| Current step | none (2.5 closed on branch `r1b/p2-glossary`, stacked on `r1c/p4-backup`, not merged) |
+| Next step | 2.6 Generated tables and indexes (R1b) or 4.3 Outbound map (R1c, needs the owner) |
+| R1 progress | 18 of 27 steps done, 9 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing. The repo is public since 2026-11-11 |
 | Last updated | 2026-11-11 (end of session 7) |
@@ -76,7 +76,7 @@ Goal: every control, mode, menu, value and procedure, with a glossary, three ind
 | 2.2 | Source pass, pages 14–25 | sequencer and settings re-read against page images | coverage-check for those pages | 100k | about 70k | ✅ | read the text of pp. 14–25 against chapters 2 to 9 and 12, plus the page images of pp. 16–19; 10 corrections or additions; 211 data `ref` values now cite manual pages; branch `r1b/p2-source-pass-14-25`, not merged |
 | 2.3 | Source pass, pages 26–35 | controller tables entered in full | coverage-check for those pages | 90k | about 45k | ✅ | chapter 8.4 now has ten subsections (modes, LED options, PC, CC, NRPN, Note, PB, AT, GS, MMC); 6 errata rows added; section map points each table at its own heading; page images read for pp. 26–27 and 34; branch `r1b/p2-source-pass-26-35`, not merged |
 | 2.4 | Quick start and tasks | quick start, "how do I" chapter | docs-check | 60k | about 40k | ✅ | [chapter 10](../manual/10-quick-lookup-how-do-i.md): ZAQ quick start, CTRL quick start, 40 task rows with chapter links; branch `r1b/p2-quick-start`, not merged; steps unverified on a unit |
-| 2.5 | Glossary | terms, first-use links in every file | docs-check glossary rule | 40k | | ☐ | |
+| 2.5 | Glossary | terms, first-use links in every file | docs-check glossary rule | 40k | about 60k | ✅ | [chapter 13](../manual/13-glossary.md), 53 terms; 182 first-use links added in 14 manual files; the `glossary` rule in `docs-check` has six tests and three deliberate faults were caught; branch `r1b/p2-glossary`, not merged |
 | 2.6 | Generated tables and indexes | control tables, three indexes, `llms-full.txt` | gen-tables check | 40k | | ☐ | |
 | 2.7 | Known issues | research user reports, build the register | every row has source, firmware, status | 60k | | ☐ | |
 | 2.9 | Panel diagrams | text-grid diagrams of the top and rear panels with callout numbers, our own drawing | docs-check | 20k | | ☐ | added 2026-11-11 |
@@ -124,6 +124,14 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 2.5
+
+- **Closed:** step 2.5 on branch `r1b/p2-glossary`, which sits on top of `r1c/p4-backup`. Nothing was sent to the unit. Not merged, not pushed.
+- **Added:** [chapter 13](../manual/13-glossary.md) with the terms of the manual. Each term is a level-3 heading. The first use of a term in each manual file links to its entry. A script added the 182 links once. The script is not kept.
+- **Rule:** `docs-check` has a `glossary` rule for files under `docs/manual/`. A match inside a longer term does not count. Six tests plant faults. Three deliberate faults in the rule were caught.
+- **Know this:** new text in the manual needs a link at the first use of each term. `npm run check` tells you where. Terms outside `docs/manual/` are not checked yet.
+- **Next:** step 2.6 (generated tables and indexes), or step 4.3 (needs the owner).
 
 ### 2026-11-11, step 4.2
 

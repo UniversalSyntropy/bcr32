@@ -8,4 +8,4 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 
 # 11. Display strings seen in the source
 
-ZQR, CTRL, USB, STDL, MIXED, Cancel, OK, MIN, NOTE, MONITOR, RECORD, OcMi, OCNa, AlMi, AlNa, F (filtered thru), E/O (shuffle), Pip 0. The example display reads "drums RD-8 006".
+ZQR, CTRL, USB, STDL, MIXED, Cancel, OK, MIN, NOTE, MONITOR, RECORD, OcMi, OCNa, AlMi, AlNa, F (filtered thru), E/O ([shuffle](13-glossary.md#shuffle)), Pip 0. The example [display](13-glossary.md#display-disp) reads "drums RD-8 006".

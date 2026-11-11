@@ -47,7 +47,7 @@ function firstCells(heading: string): string[] {
   assert.notEqual(start, -1, `heading '${heading}' is not in the reference`);
   const first = lines.findIndex((l, i) => i > start && l.startsWith("|"));
   const rows: string[] = [];
-  for (let i = first + 2; lines[i]?.startsWith("|"); i++) rows.push(lines[i]!.split("|")[1]!.trim());
+  for (let i = first + 2; lines[i]?.startsWith("|"); i++) rows.push(lines[i]!.split("|")[1]!.trim().replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")); // keep the text of a glossary link
   assert.ok(rows.length > 0, `no table rows under '${heading}'`);
   return rows;
 }

@@ -35,6 +35,49 @@ test("the clean document passes every rule", () => {
   assert.deepEqual(rulesOf("docs/a.md", doc("Press the button B5. The unit sends a message.")), []);
 });
 
+const GLOSSARY = `${FRONT}# Glossary\n\n### Pattern\n\nA saved set of notes.\n\n### Control change (CC)\n\nA MIDI message.\n`;
+const GFILES = { "docs/manual/13-glossary.md": GLOSSARY };
+const glossaryOf = (path: string, body: string, files: Record<string, string> = GFILES): string[] =>
+  checkDocument(path, doc(body), memoryEnv(files)).filter((f) => f.rule === "glossary").map((f) => `${f.line}:${f.message}`);
+const LINKED = "[pattern](13-glossary.md#pattern)";
+
+test("glossary: a linked first use passes, an unlinked first use fails", () => {
+  assert.deepEqual(glossaryOf("docs/manual/a.md", `Store the ${LINKED}. Load the pattern.`), []);
+  assert.equal(glossaryOf("docs/manual/a.md", "Store the pattern.").length, 1);
+});
+
+test("glossary: the link must come before a plain use, and each term gives one finding", () => {
+  assert.equal(glossaryOf("docs/manual/a.md", `The pattern plays. The ${LINKED} stops.`).length, 1);
+  assert.equal(glossaryOf("docs/manual/a.md", "A pattern. Another pattern.\n\nA third pattern.").length, 1);
+});
+
+test("glossary: plural forms and abbreviations count, other words do not", () => {
+  assert.equal(glossaryOf("docs/manual/a.md", "Three patterns.").length, 1);
+  assert.equal(glossaryOf("docs/manual/a.md", "Send a CC message.").length, 1);
+  assert.equal(glossaryOf("docs/manual/a.md", "Send a cc message.").length, 0);
+  assert.equal(glossaryOf("docs/manual/a.md", "The patterned wall. A control change.").length, 1);
+});
+
+test("glossary: headings, code, other links and fenced code do not count as use", () => {
+  assert.deepEqual(glossaryOf("docs/manual/a.md", "## The pattern page\n\nText."), []);
+  assert.deepEqual(glossaryOf("docs/manual/a.md", "Type `pattern` here."), []);
+  assert.deepEqual(glossaryOf("docs/manual/a.md", "See [patterns](other.md)."), []);
+  assert.deepEqual(glossaryOf("docs/manual/a.md", "```\npattern\n```"), []);
+});
+
+test("glossary: only files under docs/manual/ except the glossary are checked", () => {
+  assert.equal(glossaryOf("docs/guides/a.md", "A pattern.").length, 0);
+  assert.equal(glossaryOf("docs/manual/13-glossary.md", "A pattern.").length, 0);
+  assert.equal(glossaryOf("docs/manual/a.md", "A pattern.", {}).length, 0);
+});
+
+test("glossary: a match inside a longer term is not a use of the shorter term", () => {
+  const files = { "docs/manual/13-glossary.md": `${GLOSSARY}\n### Page\n\nA group.\n\n### ZAQ Global page\n\nA settings page.\n` };
+  assert.deepEqual(glossaryOf("docs/manual/a.md", "The [ZAQ Global page](13-glossary.md#zaq-global-page) shows it.", files), []);
+  assert.equal(glossaryOf("docs/manual/a.md", "The ZAQ Global page shows it.", files).length, 1);
+  assert.equal(glossaryOf("docs/manual/a.md", "The ZAQ Global page and a page.", files).length, 2);
+});
+
 test("front-matter: missing block, missing key, bad status, bad date", () => {
   assert.deepEqual(rulesOf("docs/a.md", "# Test\n\nText.\n"), ["front-matter"]);
   assert.deepEqual(rulesOf("docs/a.md", doc("Text.", FRONT.replace("description: A test document.\n", ""))), ["front-matter"]);
