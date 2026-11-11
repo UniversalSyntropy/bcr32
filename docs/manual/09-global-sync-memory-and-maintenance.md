@@ -28,7 +28,7 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 
 ## 9.2 ZAQ Settings (`hold B59 + B61` in ZAQ)
 
-B5 gate level 5 V / 10 V. B6 sync-in ppqn (1, 2, 4, 24, 48). B7 sync-out ppqn (same). B8 sync-in start: GATE (trigger on ring) or CLOCK (starts when clock on tip). B60 to exit. Verified on firmware 1.0.3 (2026-11-11): B8 shows `SYN IN STRT` with the value GATE. The value CLOCK was not seen.
+B5 gate level 5 V / 10 V. B6 sync-in ppqn (1, 2, 4, 24, 48). B7 sync-out ppqn (same). B8 sync-in start: GATE (trigger on ring) or CLOCK (starts when clock on tip). Push SEL to confirm each choice. B60 exits to the ZAQ Global page (the manual says "exit the menu to the ZAQ GLOBAL menu, and return to the Zaquencer functions"; unverified). Verified on firmware 1.0.3 (2026-11-11): B8 shows `SYN IN STRT` with the value GATE. The value CLOCK was not seen.
 
 ## 9.3 Erase and SysEx (all start with B61, then `hold SEL + push E…`)
 
@@ -54,7 +54,7 @@ B60 returns to normal.
 Needs a millivolt meter. For CV output n (1–4):
 
 1. `B1 ×3s`, press B8. DISP shows MIN.
-2. Meter on CV n. Turn E(24+n). B5–B14 become a number pad.
+2. Meter on CV n. Turn E(24+n). B5–B14 become a number pad (amber). B15 is + (green), B16 is − (red), B19 clears (blue), B20 is backspace (pink).
 3. Turn E(32+n), enter the meter reading.
 4. Turn E(40+n), enter the meter reading.
 5. Push E(24+n). Turn it CCW: meter reads 0 V. Turn CW: meter reads +10 V.

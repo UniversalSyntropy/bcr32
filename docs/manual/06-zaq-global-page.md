@@ -14,9 +14,9 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 | --- | --- | --- | --- |
 | E25 | BPM | 30–300 (internal clock) | — |
 | E26 | Clock source | Internal, MIDI, USB, Sync (analog) — limited by Operation Mode | — |
-| E27 | Clock out | Off, MIDI A, MIDI B, A&B, USB, A&USB, B&USB, A&B&USB | Off |
-| E28 | MIDI thru | source Off/MIDI/USB; push SEL to switch to destination; dest Off, the 7 routings, or the 7 routings Filtered ("F", drops duplicated internal MIDI such as clock) | — |
-| E29 | Note display | OcMi (MIDI no., ring = 1 oct), OCNa (octave+name, ring = 1 oct), AlMi (MIDI no., ring = full range), AlNa (octave+name, ring = full range) | — |
+| E27 | Clock out | outputs that get the clock when the internal clock is the source: Off, MIDI A, MIDI B, A&B, USB, A&USB, B&USB, A&B&USB | Off |
+| E28 | MIDI thru | source Off/MIDI/USB; push SEL to switch to destination; dest Off, the 7 routings, or the 7 routings Filtered ("F", drops duplicated internal MIDI such as clock). With source Off, Off is the only destination. The full range needs MIXED | — |
+| E29 | Note display | OcMi (MIDI no. 1–127, ring = 1 oct), OCNa (octave −2 to +8 and name C to B, ring = 1 oct), AlMi (MIDI no. 1–127, ring = full range), AlNa (octave and name, ring = full range) | — |
 | E30 | Scale | OFF, Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian, Whole Tone, Minor 7th, Diminished 7th, Octatonic W-H, Octatonic H-W, Major Pentatonic, Minor Pentatonic, Inverted, USER | OFF |
 | E31 | Scale base | C–B | — |
 | E32 | Transpose enable | Off; MIDI ch 1–16; Track (each track follows notes on its own channel); 1-4 … 13-16 (track 1 follows ch n, track 2 ch n+1 …) | Off |
@@ -24,7 +24,7 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 | E34 | Trigger CC no. | CC used to switch patterns | — |
 | E35 | Rate / quantize | 96, t32, 32, t16 … 4b | 32 |
 | E36 | Q on/off | quantize on/off | on |
-| E37–E40 | Track mode T1–T4 | Chord or Drum | Chord |
+| E37–E40 | Track mode T1–T4 | Chord or Drum | Chord (inferred: the manual gives no default) |
 | E41/43/45/47 | MIDI out T1–T4 | USB, MIDI A, MIDI B, A&B, USB&A, USB&B, USB&A&B (full list needs MIXED) | — |
 | E42/44/46/48 | MIDI channel T1–T4 | 1–16 | — |
 | E49/51/53/55 | α target T1–T4 | off, delay, ratchet, program change, aftertouch, pitch bend, CC 0–127 | off |

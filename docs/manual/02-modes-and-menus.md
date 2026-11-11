@@ -13,7 +13,7 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 | ZAQ (sequencer) | tap B1 until pink | tap B1 | B1 + used B5–B20 pink |
 | CTRL (controller) | tap B1 until amber | tap B1 | amber |
 | Global Settings | `B1 ×3s` (either mode) | tap B1 | B1, B5–B12 blue |
-| ZAQ Settings | in ZAQ: `hold B59 + B61` | B60 | B5–B8 blue |
+| ZAQ Settings | in ZAQ: `hold B59 + B61` | B60 (to the ZAQ Global page; unverified) | B5–B8 blue |
 | CTRL Settings | in CTRL: `hold B59 + B61` | B60 | B5–B6 blue |
 | ZAQ Global page | in ZAQ: press B59 | B60 | encoders = global params (§6) |
 | ZAQ Mixer | in ZAQ, sequencer stopped: press B66 | B66 / B60 | B21–24, B5–20 green/red |

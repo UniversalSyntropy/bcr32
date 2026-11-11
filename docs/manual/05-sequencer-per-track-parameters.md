@@ -33,4 +33,4 @@ General rule: press a parameter button, then turn the step encoders E25–E56. `
 
 Apply Wave Gen to lanes: `hold B12 + press` one or more of B5–B11 (pitch, velocity, mute, delay, length, α, β).
 
-Chord types: Off, Minor, Major, Diminished, Augmented, Diminished 7th, Minor 7th ♭5, Minor 7th, Minor maj7, Major 7th ♭5, Major 7, Major 7 ♯5. The source text is garbled at Major 7th ♭5 and also lists "6th, 7th". Each type also has Octave − and Octave +. Intervals: minor 2nd, major 2nd, minor 3rd, major 3rd, perfect 4th, diminished 5th, perfect 5th, minor 6th, major 6th, minor 7th, major 7th.
+Chord types: Off, Minor, Major, Diminished, Augmented, Diminished 7th, Minor 7th ♭5, Minor 7th, Minor maj7, Major 7th ♭5, Major 7, Major 7 ♯5. The manual prints the entry as one line: "Major 7th with flat 5th, 6th, 7th". Each type also has Octave − and Octave +. Intervals: minor 2nd, major 2nd, minor 3rd, major 3rd, perfect 4th, diminished 5th, perfect 5th, minor 6th, major 6th, minor 7th, major 7th.

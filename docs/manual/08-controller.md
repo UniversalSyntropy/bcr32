@@ -39,9 +39,9 @@ Assignable: B5–B24, E25–E56 (turn = continuous, push = on/off), B65–B68, f
 | GS | ch, parameter (Cutoff, Resonance, Rate, Depth, Delay, Attack, Decay, Release, Modulation, Portamento, Volume, Pan, Reverb, CRS, VAR), min, max, mode Tog On/Off, display | same params, modes Absolute/A14/REL1-3/R1_14-R3_14/INC-DEC, LED, display |
 | MMC | device ID 0–126/All; Play, Pause, Stop, Forward, Rewind, Locate, In, Out; locate HH:MM and SS:FF 0–127/Off; fps Off/24/25/30/30d; display | — |
 
-Button modes: **Tog On** = latch (max, then min on next press). **Tog Off** = momentary. **Inc** = steps up from min to max per press.
+Button modes: **Tog On** = latch (max, then min on next press). **Tog Off** = momentary. **Inc** = each press raises the value from min to max in steps.
 
-Encoder modes: **Absolute** 7-bit. **ABS_14** 14-bit. **REL1** min CCW / max CW. **REL2** 63 / 65. **REL3** 1 / 65. **R1_14, R2_14, R3_14** 14-bit relative variants. **INC/DEC** increment/decrement messages.
+Encoder modes: **Absolute** 7-bit. **ABS_14** 14-bit. **REL1** min CCW / max CW. **REL2** 63 / 65. **REL3** 1 / 65. **R1_14** sends coarse 0 and fine 1 CCW, coarse 127 and fine 127 CW. **R2_14** sends coarse 63 and fine 127 CCW, coarse 64 and fine 1 CW. **R3_14** sends coarse 64 and fine 1 CCW, coarse 0 and fine 1 CW. All three are 14-bit. **INC/DEC** increment/decrement messages.
 
 LED ring styles: Off, 1dot_in (default), 1dot_ex (dark at zero), 2dot_in, 2dot_ex, Bar, Bar− (dark at zero), Sprd, Pan, Qual, Cut, Damp.
 

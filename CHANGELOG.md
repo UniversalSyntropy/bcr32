@@ -4,6 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-11
 
+- Source pass on manual pages 14 to 25. Added the clock-out condition, MIDI thru limits, note display ranges, ZAQ Settings confirm and exit, CV calibration pad colours and the 14-bit relative encoder values. Corrected the chord list note. Data records now cite manual pages.
 - Restructured the reference into the manual: 13 chapter files and an index in `docs/manual/`. Anchors are unchanged. Four sentences were shortened to meet the language rules. No fact changed.
 - Added the publish checklist (`docs/project/publish-checklist.md`) with the full-history scan result, licence and trademark notes, repo description and topics. Added a correction issue template and a draft announcement. The README now states that `packages/` and `data/` are MIT.
 - Verified on firmware 1.0.3: ran the unit session script. Added the findings page (`docs/reference/capture-findings.md`) and `data/devices/bcr32/midi.json` (USB IDs, two ports, four controller changes, one SysEx layout, four silent results). Added its schema and 12 tests (data version 0.3.0).

@@ -14,7 +14,7 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 | CTRL Settings + Global E28/E41 | "MIXED is selected using button 7 (Note Mute)" | B7 in Global Settings = Operation mode. Verified on firmware 1.0.3: B7 shows the operation mode (USB). MIXED is unseen |
 | Erase | "25th encoder (50)" | E49 (all other ordinals in the source map n → E(24+n)) |
 | §ZAQ mode | NOTE LENGTH values printed inside the CHORD list | lengths listed in §5 |
-| Chord list | "Major 7th with flat 5th, 6th, 7th" | possibly three entries; unverified |
+| Chord list | one printed line "Major 7th with flat 5th, 6th, 7th" (checked on the page image; the text extract only looks garbled) | possibly three entries; unverified |
 | α targets | "CC0– 27" | CC 0–127 |
 | LOAD | "buttons 63 & 63" | 63 & 64. Verified on firmware 1.0.3: B64 pages up, B63 pages down |
 | MIDI out list E41… | garbled with transpose list; "Input channel" appears | "Input channel" probably belongs to E32 |
