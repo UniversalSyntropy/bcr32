@@ -16,8 +16,8 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | none |
-| Next step | 3.0 Recovery runbook |
+| Current step | 3.0 Recovery runbook: drafted and reviewed, waiting for the owner's read |
+| Next step | 3.1 Session script, after the owner accepts the runbook |
 | R1 progress | 6 of 27 steps done, 21 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing |
@@ -58,7 +58,7 @@ Goal: prove the current draft with data, checks and a unit session, so the repo 
 
 | Step | Task | Goal | Gate | Est. | Actual | Status | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 3.0 | Recovery runbook | factory restore, firmware reinstall and recovery-mode facts from official sources; rules in the [unit safety protocol](unit-safety.md) | runbook reviewed by the owner before any message is sent | 15k | | ☐ | first step of all unit work |
+| 3.0 | Recovery runbook | factory restore, firmware reinstall and recovery-mode facts from official sources; rules in the [unit safety protocol](unit-safety.md) | runbook reviewed by the owner before any message is sent | 15k | | ▶ | [draft](../guides/recovery-runbook.md) written and reviewed once by Opus; waits for the owner's read |
 | 3.1 | Session script | ordered test list: firmware version, 13 errata rows, MIDI capture | owner can follow it without help | 15k | | ☐ | |
 | 3.2 | Session at the unit | run the script; about 1 hour of owner time | every test has a result | 25k | | ☐ | needs the owner |
 | 3.3 | Record results | errata rows updated, capture findings note, MIDI facts data file | docs-check | 30k | | ☐ | |

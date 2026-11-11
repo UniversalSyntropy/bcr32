@@ -45,7 +45,7 @@ Stop the session and tell the owner if any of these happens.
 - A control or LED behaves differently after a test than before it.
 - A backup export differs from the last one without a known change.
 
-After a stop, do nothing further until the owner decides. Recovery follows the runbook, least invasive step first: power cycle, reload from memory, import the backup, factory restore, firmware reinstall.
+After a stop, do nothing further until the owner decides. Recovery follows the runbook, least invasive step first: power cycle, reload from memory, import the backup, factory restore, firmware reinstall. The [recovery runbook](../guides/recovery-runbook.md) adds a last observe-only procedure: check for the bootloader, then contact the vendor.
 
 ## What stays unknown
 

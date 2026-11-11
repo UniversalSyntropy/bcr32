@@ -4,6 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-11
 
+- Added the recovery runbook (`docs/guides/recovery-runbook.md`): six recovery steps, least invasive first, with what the vendor documents and what stays unknown. Draft for the owner's review; nothing in it was tried on a unit.
 - Added four check tools in `tools/`: `privacy-check`, `docs-check`, `coverage-check` and `gen-tables`. `npm run check` and CI run them. `npm run hooks` installs git hooks that stop a commit with personal data.
 - Added the section map of the official manual in `data/devices/bcr32/section-map.json`: 36 parts with page numbers, each with the heading that covers it.
 - Added BCR32 mode, value and function data in `data/devices/bcr32/`: 17 modes and menus, 56 value sets, 142 functions (data version 0.2.0). Each record names its source. A test compares the data with the tables of the reference.

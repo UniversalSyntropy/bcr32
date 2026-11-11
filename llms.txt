@@ -12,6 +12,7 @@ Control IDs used across the docs: B<n> = button, E<n> = encoder, SEL = select en
 
 - [Connect to Ableton Live](docs/guides/connect-to-ableton-live.md): USB-MIDI setup, track routing, clock master choice (unverified)
 - [Troubleshooting](docs/guides/troubleshooting.md): symptoms and fixes (unverified)
+- [Recovery runbook](docs/guides/recovery-runbook.md): recovery steps from least to most invasive, with the unknowns (unverified)
 
 ## Project
 
