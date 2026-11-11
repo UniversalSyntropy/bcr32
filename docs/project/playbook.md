@@ -16,10 +16,10 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | 1.1 Workspace and CI |
+| Current step | none |
 | Next step | 1.2 Schema |
-| R1 progress | 0 of 27 steps done, 27 remain |
-| Tokens used in R1 | 0 of 1,100k (approved 2026-11-11) |
+| R1 progress | 1 of 27 steps done, 26 remain |
+| Tokens used in R1 | about 40k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing |
 | Last updated | 2026-11-11 |
 
@@ -47,7 +47,7 @@ Goal: prove the current draft with data, checks and a unit session, so the repo 
 
 | Step | Task | Goal | Gate | Est. | Actual | Status | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1.1 | Workspace and CI | npm workspace, TypeScript, markdownlint, one CI workflow | CI green | 40k | | ▶ | branch `r1a/p1-foundations`; the four check tools join CI in step 1.5 |
+| 1.1 | Workspace and CI | npm workspace, TypeScript, markdownlint, one CI workflow | CI green | 40k | 40k | ✅ | branch `r1a/p1-foundations`; the four check tools join CI in step 1.5 |
 | 1.2 | Schema | Zod schema, generated types and JSON Schema | a broken data file fails | 40k | | ☐ | |
 | 1.3 | Element data | 85 callouts, 88 elements, groups, labels, colours | count check | 20k | | ☐ | |
 | 1.4 | Mode and function data | modes, functions, value sets with source labels | cross-check against the reference | 50k | | ☐ | |
@@ -124,6 +124,13 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 1.1
+
+- **Closed:** step 1.1. The workspace, TypeScript configuration and CI workflow are on branch `r1a/p1-foundations`; CI is green.
+- **Proved:** a planted type error, a planted failing test and a planted Markdown fault each failed their check.
+- **Next:** step 1.2, the Zod schema in `packages/device-data`.
+- **Know this:** P1 work stays on the branch and merges to `main` at step 1.6. One moderate advisory remains in a linter dependency (development only); decision D59 holds the pin.
 
 ### 2026-11-11
 
