@@ -1,0 +1,53 @@
+name: Correction
+description: Report a wrong or missing fact in the documentation or the device data.
+title: "Correction: "
+labels: ["correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for the report. This project is unofficial and not affiliated with Behringer or Music Tribe.
+
+        **Do not post** a unit serial number, a photo that shows one, a vendor file, or text copied from the official manual.
+  - type: input
+    id: location
+    attributes:
+      label: Where is the fault?
+      description: The file and heading, or the element ID (for example B12).
+    validations:
+      required: true
+  - type: textarea
+    id: claim
+    attributes:
+      label: What does the repo say?
+    validations:
+      required: true
+  - type: textarea
+    id: correct
+    attributes:
+      label: What is correct?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: How do you know?
+      description: Say what you did on the unit, or give a link to the source. Short words are fine.
+    validations:
+      required: true
+  - type: input
+    id: firmware
+    attributes:
+      label: Firmware version
+      description: Shown on the display in Global Settings. Write "unknown" if you did not check.
+    validations:
+      required: true
+  - type: dropdown
+    id: tested
+    attributes:
+      label: Did you test this on a unit?
+      options:
+        - "Yes"
+        - "No, from the manual or another source"
+    validations:
+      required: true

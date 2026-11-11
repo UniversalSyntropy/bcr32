@@ -44,5 +44,5 @@ The BCR32 combines two devices: a 4-track, 32-step sequencer (the "Zaquencer", w
 ## License
 
 - **Documentation** (`docs/`, `README.md`, `llms.txt` and other prose): [Creative Commons Attribution 4.0](LICENSE-docs) (CC BY 4.0). Reuse it with credit to "bcr32 contributors".
-- **Code** (`tools/`): [MIT](LICENSE).
+- **Code** (`tools/`, `packages/`) and **device data** (`data/`): [MIT](LICENSE).
 - **Official Behringer material** isn't covered by these licenses and isn't included in the repo.

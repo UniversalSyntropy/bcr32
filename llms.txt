@@ -23,8 +23,10 @@ Control IDs used across the docs: B<n> = button, E<n> = encoder, SEL = select en
 - [Architecture note](docs/project/architecture.md): device data model, packages, view state, label overlay, MIDI seams (design, not built)
 - [Decision log](docs/project/decisions.md): decisions with reasons
 - [Unit safety protocol](docs/project/unit-safety.md): backup-first rules and risk tiers for tests on a real unit
+- [Publish checklist](docs/project/publish-checklist.md): pre-publish checks with results, licence and trademark notes, repo description and topics
+- [Announcement draft](docs/project/announcement-draft.md): draft text to announce the public repo
 - [Parking file](docs/project/parking.md): ideas not yet planned
 - [README](README.md): overview and status
 - [Contributing](CONTRIBUTING.md): privacy rules and documentation standard
 - [Changelog](CHANGELOG.md)
-- License: documentation CC BY 4.0 (LICENSE-docs), code MIT (LICENSE)
+- License: documentation CC BY 4.0 (LICENSE-docs), code and data MIT (LICENSE)

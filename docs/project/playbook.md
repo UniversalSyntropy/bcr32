@@ -17,8 +17,8 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
 | Current step | none |
-| Next step | 3.4 Publish checklist |
-| R1 progress | 10 of 27 steps done, 17 remain |
+| Next step | owner's publish decision, then 2.1 Restructure |
+| R1 progress | 11 of 27 steps done, 16 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing |
 | Last updated | 2026-11-11 |
@@ -62,7 +62,7 @@ Goal: prove the current draft with data, checks and a unit session, so the repo 
 | 3.1 | Session script | ordered test list: firmware version, 13 errata rows, MIDI capture | owner can follow it without help | 15k | not measured | ✅ | [script](../guides/unit-session-script.md) read and accepted by the owner 2026-11-11; tier 0 only, tier 1 test D1 blocked until the backup exists; 7 of 13 errata rows need tier 2 and wait; Part D waits for the backup |
 | 3.2 | Session at the unit | run the script; about 1 hour of owner time | every test has a result | 25k | not measured | ✅ | run 2026-11-11 on firmware 1.0.3; tests A1 to A7, H1, H2 passed; H3 partial; D1 blocked; 15 photos plus 7 burst frames; results in `local/session-results.md` |
 | 3.3 | Record results | errata rows updated, capture findings note, MIDI facts data file | docs-check | 30k | not measured | ✅ | [findings](../reference/capture-findings.md); `midi.json` with schema and 12 tests; Global Settings and CTRL Settings corrected; legend colours not changed, see the findings page |
-| 3.4 | Publish checklist | full-history leak scan, whole-tree privacy check, licence and trademark notes, correction issue template, repo description and topics, draft announcement text | checklist all passed | 10k | | ☐ | ends with the owner's publish decision |
+| 3.4 | Publish checklist | full-history leak scan, whole-tree privacy check, licence and trademark notes, correction issue template, repo description and topics, draft announcement text | checklist all passed | 10k | not measured | ✅ | [checklist](publish-checklist.md): all checks passed; 5 decisions wait for the owner (P1 to P5) |
 
 ## R1b: complete manual (9 steps, 530k)
 
@@ -124,6 +124,14 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 3.4
+
+- **Closed:** step 3.4 on branch `r1a/p3-unit-session`. Nothing was sent to the unit. Label colours unchanged.
+- **Proved:** the history scan (21 commits, patches, messages, authors) found only two no-reply addresses. The tree scan is clean. No image, SysEx or secret was ever committed.
+- **Added:** the [publish checklist](publish-checklist.md), the [announcement draft](announcement-draft.md), the correction issue template. The README now states MIT for `packages/` and `data/`.
+- **Next:** the owner decides P1 to P5 in the checklist. On his go: merge to `main`, push, set description and topics, make the repo public. Then step 2.1.
+- **Know this:** the public repo shows the GitHub account name. Check the Music Tribe trademark line against the vendor footer before publishing.
 
 ### 2026-11-11, step 3.3
 

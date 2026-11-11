@@ -15,6 +15,8 @@ last_updated: 2026-11-11
 | [Recovery runbook](guides/recovery-runbook.md) | Steps to recover a unit, least invasive first, with the unknowns | draft, unverified |
 | [Unit session findings](reference/capture-findings.md) | Results of the first unit session on firmware 1.0.3, MIDI facts, open items | draft, verified on firmware 1.0.3 |
 | [Unit session script](guides/unit-session-script.md) | Ordered tests for the first session at a real unit: display reads, MIDI listening, photos | draft, unverified |
+| [Publish checklist](project/publish-checklist.md) | Pre-publish checks with results, licence and trademark notes, repo description and topics | draft |
+| [Announcement draft](project/announcement-draft.md) | Short and long text to announce the public repo | draft |
 | [Playbook and live status](project/playbook.md) | Task list, current step, steps remaining, handover notes | live |
 | [Project plan](project/plan.md) | Phases, acceptance tests, routing, estimates, risks | draft, awaiting approval |
 | [Architecture note](project/architecture.md) | Device data, packages, view state, overlay, MIDI seams | draft |
