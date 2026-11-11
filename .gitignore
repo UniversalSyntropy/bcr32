@@ -1,5 +1,6 @@
 # Official Behringer documents: copyright, keep local only
-reference/*.pdf
+reference/*
+!reference/README.md
 
 # Personal setup notes: never commit (see CONTRIBUTING.md, privacy rules)
 local/*
