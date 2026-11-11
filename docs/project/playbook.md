@@ -17,10 +17,10 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
 | Current step | none |
-| Next step | owner's publish decision, then 2.1 Restructure |
+| Next step | 2.1 Restructure (R1b) or 4.1 Capture tool (R1c) |
 | R1 progress | 11 of 27 steps done, 16 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
-| Blocked on | nothing |
+| Blocked on | nothing. The repo is public since 2026-11-11 |
 | Last updated | 2026-11-11 |
 
 ## Status key
@@ -119,18 +119,26 @@ Steps for these are written out when the release is approved.
 | Multimeter with standard probes, plus a 3.5 mm cable to reach the jack contacts | CV and gate checks in 3.2 | available; owner fetches it before step 3.2 |
 | Review of the recovery runbook | after step 3.0 | agreed |
 | About 1 hour at the unit | step 3.2 | agreed |
-| Decision to make the repo public | after step 3.4 | agreed; decided when the repo is ready |
+| Decision to make the repo public | after step 3.4 | done 2026-11-11 |
 
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, publish
+
+- **Done:** the branch merged to `main` (fast-forward) and was pushed. The owner made the repo public. Description, 10 topics, branch protection (required check `check`, no force push, no deletion; admin bypass on) and private vulnerability reporting are set.
+- **Checked signed out:** the repo page and README return 200, CI is green on 08df28e. No photo or image was ever committed.
+- **Decided:** the trademark notice names no legal entity (commit 08df28e). P1 to P5 are closed by the owner's go. The announcement is not posted.
+- **Next:** step 2.1 (R1b) or step 4.1 (R1c). Both need the owner's pick.
+- **Know this:** the repo is public, so every push is public. Work on a branch; merge to `main` on the owner's go.
 
 ### 2026-11-11, step 3.4
 
 - **Closed:** step 3.4 on branch `r1a/p3-unit-session`. Nothing was sent to the unit. Label colours unchanged.
 - **Proved:** the history scan (21 commits, patches, messages, authors) found only two no-reply addresses. The tree scan is clean. No image, SysEx or secret was ever committed.
 - **Added:** the [publish checklist](publish-checklist.md), the [announcement draft](announcement-draft.md), the correction issue template. The README now states MIT for `packages/` and `data/`.
-- **Next:** the owner decides P1 to P5 in the checklist. On his go: merge to `main`, push, set description and topics, make the repo public. Then step 2.1.
+- **Next:** the owner decides P1 to P5 in the checklist (done, see the publish entry above).
 - **Know this:** the public repo shows the GitHub account name.
 
 ### 2026-11-11, step 3.3
