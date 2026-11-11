@@ -7,6 +7,7 @@ Control IDs used across the docs: B<n> = button, E<n> = encoder, SEL = select en
 ## Reference
 
 - [BCR32 manual](docs/manual/README.md): every control, mode, menu, value range and procedure, plus known errors in the official manual
+- [Known issues](docs/manual/15-known-issues.md): faults and limits of the unit and the editor, with source, firmware and status
 - [Full manual in one file](llms-full.txt): `llms.txt` and every manual chapter joined, generated
 
 ## Guides

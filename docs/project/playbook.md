@@ -17,7 +17,7 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
 | Current step | none (2.5 closed on branch `r1b/p2-glossary`, stacked on `r1c/p4-backup`, not merged) |
-| Next step | 2.7 Known issues (needs the owner's words on the total) or 4.3 Outbound map (R1c, needs the owner) |
+| Next step | 2.8 Review and close (needs the owner's words on the total) or 4.3 Outbound map (R1c, needs the owner) |
 | R1 progress | 18 of 27 steps done, 9 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing. The repo is public since 2026-11-11 |
@@ -78,7 +78,7 @@ Goal: every control, mode, menu, value and procedure, with a glossary, three ind
 | 2.4 | Quick start and tasks | quick start, "how do I" chapter | docs-check | 60k | about 40k | ✅ | [chapter 10](../manual/10-quick-lookup-how-do-i.md): ZAQ quick start, CTRL quick start, 40 task rows with chapter links; branch `r1b/p2-quick-start`, not merged; steps unverified on a unit |
 | 2.5 | Glossary | terms, first-use links in every file | docs-check glossary rule | 40k | about 60k | ✅ | [chapter 13](../manual/13-glossary.md), 53 terms; 182 first-use links added in 14 manual files; the `glossary` rule in `docs-check` has six tests and three deliberate faults were caught; branch `r1b/p2-glossary`, not merged |
 | 2.6 | Generated tables and indexes | control tables, three indexes, `llms-full.txt` | gen-tables check | 40k | about 45k | ✅ | [chapter 14](../manual/14-generated-tables-and-indexes.md): 17 mode tables, index by control (88 rows), index by function (145 rows); the task index is chapter 10, written by hand; `llms-full.txt` built and checked by `check:tables`; glossary rule skips generated blocks; branch `r1b/p2-generated-tables`, not merged |
-| 2.7 | Known issues | research user reports, build the register | every row has source, firmware, status | 60k | | ☐ | |
+| 2.7 | Known issues | research user reports, build the register | every row has source, firmware, status | 60k | about 45k | ✅ | [chapter 15](../manual/15-known-issues.md): 13 rows (3 own tests, 10 reports), four unconfirmed claims listed; sources re-opened by one Sonnet agent (about 79k of its own tokens, 24 calls); no firmware newer than 1.0.3 found; branch `r1b/p2-known-issues`, not merged |
 | 2.9 | Panel diagrams | text-grid diagrams of the top and rear panels with callout numbers, our own drawing | docs-check | 20k | about 20k | ✅ | [top](../manual/03-top-panel-control-map.md#35-diagram-of-the-top-panel), [rear](../manual/04-rear-panel.md#41-diagram-of-the-rear-panel); order checked against photo p01; branch `r1b/p2-panel-diagrams`, not merged |
 | 2.8 | Review and close | full coverage proof, one review, hand over | all checks green | 70k | | ☐ | |
 
