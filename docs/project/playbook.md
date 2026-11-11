@@ -15,12 +15,12 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 
 | Field | Value |
 | --- | --- |
-| Release in progress | R1, approved 2026-11-11, not started |
-| Current step | none |
-| Next step | 1.1 Workspace and CI |
+| Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
+| Current step | 1.1 Workspace and CI |
+| Next step | 1.2 Schema |
 | R1 progress | 0 of 27 steps done, 27 remain |
 | Tokens used in R1 | 0 of 1,100k (approved 2026-11-11) |
-| Blocked on | nothing; step 1.1 starts in a new session |
+| Blocked on | nothing |
 | Last updated | 2026-11-11 |
 
 ## Status key
@@ -47,7 +47,7 @@ Goal: prove the current draft with data, checks and a unit session, so the repo 
 
 | Step | Task | Goal | Gate | Est. | Actual | Status | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1.1 | Workspace and CI | npm workspace, TypeScript, markdownlint, one CI workflow | CI green | 40k | | ☐ | |
+| 1.1 | Workspace and CI | npm workspace, TypeScript, markdownlint, one CI workflow | CI green | 40k | | ▶ | branch `r1a/p1-foundations`; the four check tools join CI in step 1.5 |
 | 1.2 | Schema | Zod schema, generated types and JSON Schema | a broken data file fails | 40k | | ☐ | |
 | 1.3 | Element data | 85 callouts, 88 elements, groups, labels, colours | count check | 20k | | ☐ | |
 | 1.4 | Mode and function data | modes, functions, value sets with source labels | cross-check against the reference | 50k | | ☐ | |

@@ -82,6 +82,9 @@ Items marked "needs approval" are recommendations and wait for the owner.
 | D25 | One action-notation parser for docs and lessons | The manual and the lesson runner agree by construction | Separate lesson format |
 | D26 | Visual comparison uses a local underlay image in the dev panel | An automated diff would need the official image in the repo | Committed reference image |
 | D27 | Own drawing, model name as text, no logo | Layout is fact; logos and photos are not ours to ship | Tracing the official image |
+| D57 | Node 24 or later runs TypeScript source directly; `tsc` only type-checks | No build step and no output folder for packages and tools; `erasableSyntaxOnly` keeps the source runnable | A compile step; a TypeScript runner dependency |
+| D58 | Tests use the built-in `node:test` runner | No test dependency; enough for schema and tool tests | Vitest, Jest |
+| D59 | `markdownlint-cli2` is pinned to 0.23.x | The next minor adds a dependency with an open high-severity advisory; recheck when a fixed release appears | Latest release |
 
 ## Shared UI rules: what changed
 

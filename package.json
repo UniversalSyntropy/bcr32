@@ -1,0 +1,27 @@
+{
+  "name": "bcr32",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Structured reference, device data and tools for the Behringer BCR32.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "tools/*"
+  ],
+  "scripts": {
+    "lint:md": "markdownlint-cli2 \"**/*.md\"",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node --test \"packages/**/*.test.ts\" \"tools/**/*.test.ts\"",
+    "check": "npm run lint:md && npm run typecheck && npm test"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "markdownlint-cli2": "~0.23.3",
+    "typescript": "^7.0.2"
+  }
+}

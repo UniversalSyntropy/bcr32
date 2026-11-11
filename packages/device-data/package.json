@@ -1,0 +1,11 @@
+{
+  "name": "@bcr32/device-data",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Schema, loader and types for BCR32 device data.",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

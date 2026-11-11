@@ -4,6 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-11
 
+- Added the npm workspace, TypeScript configuration and a CI workflow that runs markdownlint, the type check and the tests. `npm run check` runs the same checks locally.
 - Verified on firmware 1.0.3: Control Tribe's "stop the sequencer" message before Device Settings is a confirmation; press OK. Rewrote the troubleshooting entry and listed the Device Settings items, three of which the official manual omits.
 - Verified on firmware 1.0.3: Global Settings lights 11 buttons, three more than the official manual lists; button 7 shows the firmware version. Added an errata row.
 - Added the playbook and live status page in `docs/project/`, including a planned MIDI implementation reference.

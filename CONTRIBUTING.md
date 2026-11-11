@@ -37,6 +37,17 @@ git diff --cached | grep -n -i -E '/Users/[a-z]|C:\\Users\\|@[a-z0-9-]+\.[a-z]{2
 
 No output means no match. A match isn't always a problem, but read each one before you commit.
 
+### Run the checks
+
+The repo is an npm workspace and needs Node.js 24 or later. Install once, then run every check that CI runs.
+
+```bash
+npm ci
+npm run check
+```
+
+`npm run check` runs markdownlint, the TypeScript type check and the tests. CI runs the same three commands on every push and pull request.
+
 ## Documentation standard
 
 ### Where content goes

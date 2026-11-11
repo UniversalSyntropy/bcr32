@@ -1,0 +1,5 @@
+{
+  // Rules live in .markdownlint.json. Git-ignored paths (local notes, official extracts, node_modules) are skipped.
+  "gitignore": true,
+  "ignores": [".claude/**"]
+}
