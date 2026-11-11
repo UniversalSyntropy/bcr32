@@ -17,7 +17,10 @@
     "lint:md": "markdownlint-cli2 \"**/*.md\"",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "node --test \"packages/**/*.test.ts\" \"tools/**/*.test.ts\"",
-    "check": "npm run lint:md && npm run typecheck && npm test"
+    "gen:schema": "node packages/device-data/src/cli.ts gen-schema",
+    "check:schema": "node packages/device-data/src/cli.ts gen-schema --check",
+    "validate:data": "node packages/device-data/src/cli.ts validate",
+    "check": "npm run lint:md && npm run typecheck && npm test && npm run check:schema && npm run validate:data"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",

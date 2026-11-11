@@ -18,6 +18,7 @@ This tree shows the planned layout.
 ```text
 data/
   devices/bcr32/      device data (JSON)
+  schema/             generated JSON Schema files
   coverage/           official-manual section map
   lineage/            Zaquencer to BCR32 feature map
 docs/
@@ -67,7 +68,7 @@ Element IDs are stable and match the manual's control IDs. A callout maps to one
 
 ### Rules
 
-- **Schema:** Zod schemas in `packages/device-data` are the source. TypeScript types and a JSON Schema file are generated from them.
+- **Schema:** Zod schemas in `packages/device-data` are the source. TypeScript types and the JSON Schema files in `data/schema/` are generated from them. The [package README](../../packages/device-data/README.md) lists what validation proves.
 - **Geometry:** positions use panel units with the origin at the top left of each view. The renderer scales units to the container.
 - **Accuracy label:** each fact field can carry `source` (`manual`, `unit`, `community`, `inference`) and, for `unit`, a firmware version.
 - **Device profiles:** a second device is a second folder under `data/devices/`. The schema has no BCR32-specific field names.

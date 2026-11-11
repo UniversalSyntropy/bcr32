@@ -17,9 +17,9 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
 | Current step | none |
-| Next step | 1.2 Schema |
-| R1 progress | 1 of 27 steps done, 26 remain |
-| Tokens used in R1 | about 40k of 1,100k (approved 2026-11-11) |
+| Next step | 1.3 Element data |
+| R1 progress | 2 of 27 steps done, 25 remain |
+| Tokens used in R1 | about 75k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing |
 | Last updated | 2026-11-11 |
 
@@ -48,7 +48,7 @@ Goal: prove the current draft with data, checks and a unit session, so the repo 
 | Step | Task | Goal | Gate | Est. | Actual | Status | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1.1 | Workspace and CI | npm workspace, TypeScript, markdownlint, one CI workflow | CI green | 40k | 40k | ✅ | branch `r1a/p1-foundations`; the four check tools join CI in step 1.5 |
-| 1.2 | Schema | Zod schema, generated types and JSON Schema | a broken data file fails | 40k | | ☐ | |
+| 1.2 | Schema | Zod schema, generated types and JSON Schema | a broken data file fails | 40k | 35k | ✅ | 22 broken-data cases fail; geometry fields are optional until R2 |
 | 1.3 | Element data | 85 callouts, 88 elements, groups, labels, colours | count check | 20k | | ☐ | |
 | 1.4 | Mode and function data | modes, functions, value sets with source labels | cross-check against the reference | 50k | | ☐ | |
 | 1.5 | Check tools | privacy-check, docs-check, coverage-check, gen-tables | planted-fault tests | 50k | | ☐ | |
@@ -124,6 +124,13 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 1.2
+
+- **Closed:** step 1.2. Schemas, loader, JSON Schema files and the validate command are in `packages/device-data`.
+- **Proved:** 22 broken-data cases each fail with the expected message. Two validator rules were switched off in turn and their tests failed.
+- **Next:** step 1.3, element data in `data/devices/bcr32/`.
+- **Know this:** `overlay.json` has no schema yet; it arrives with geometry in R2. The JSON Schema files carry no absolute URL until the repo is public.
 
 ### 2026-11-11, step 1.1
 

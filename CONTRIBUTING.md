@@ -46,7 +46,7 @@ npm ci
 npm run check
 ```
 
-`npm run check` runs markdownlint, the TypeScript type check and the tests. CI runs the same three commands on every push and pull request.
+`npm run check` runs markdownlint, the TypeScript type check, the tests, the JSON Schema freshness check and device data validation. CI runs the same commands on every push and pull request.
 
 ## Documentation standard
 

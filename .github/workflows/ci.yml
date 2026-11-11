@@ -25,3 +25,5 @@ jobs:
       - run: npm run lint:md
       - run: npm run typecheck
       - run: npm test
+      - run: npm run check:schema
+      - run: npm run validate:data
