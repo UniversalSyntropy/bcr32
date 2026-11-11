@@ -40,6 +40,9 @@ interface Hit {
   text: string;
 }
 
+const GEN_OPEN = /^<!-- gen:[a-z][a-z0-9-]*(?: [a-z]+=[^\s>]+)* -->$/;
+const GEN_END = "<!-- gen:end -->";
+
 export function checkGlossary(path: string, text: string, env: Env): Finding[] {
   if (!path.startsWith("docs/manual/") || path === GLOSSARY_PATH) return [];
   const glossary = env.read(GLOSSARY_PATH);
@@ -49,8 +52,11 @@ export function checkGlossary(path: string, text: string, env: Env): Finding[] {
   const findings: Finding[] = [];
   let generated = false; // text between gen markers comes from device data and cannot carry links
   for (const l of splitLines(text)) {
-    const marker = /^<!-- gen:([a-z-]+)/.exec(l.text)?.[1];
-    if (marker !== undefined) generated = marker !== "end";
+    // Same marker forms as gen-tables; a marker inside a code fence is text.
+    if (isProse(l)) {
+      if (l.text.trim() === GEN_END) generated = false;
+      else if (GEN_OPEN.test(l.text)) generated = true;
+    }
     if (generated || !isProse(l) || /^ {0,3}#{1,6}\s/.test(l.text)) continue;
     const hits: Hit[] = [];
     for (const m of l.text.matchAll(LINK)) {

@@ -91,7 +91,7 @@ The label "◄ PAGES/PRESETS ►" sits above B63/B64.
 This is our own drawing of the top panel, seen from above. Each cell is a [control ID](13-glossary.md#control-id). The number in a control ID is its [callout](13-glossary.md#callout) number, except for the LEDs: L2 has three LEDs, L3 has two and L4 has one. The drawing shows order and grouping. It does not show true sizes or spacing.
 
 ```text
-                                    B1            L2.in L2.a L2.b L3.1 L3.2 L4
+                             B1                   L2.in L2.a L2.b L3.1 L3.2 L4
 
  B5  B6  B7  B8  B9  B10 B11 B12                  B21  B22
  B13 B14 B15 B16 B17 B18 B19 B20                  B23  B24
@@ -113,4 +113,4 @@ This is our own drawing of the top panel, seen from above. Each cell is a [contr
 | Encoder grid | `E25`–`E56` | four rows of eight, section 3.3 |
 | Right block | `DISP`, `SEL`, `B59`–`B68` | six rows of two, section 3.4 |
 
-The photos from the unit session confirm this order on firmware 1.0.3.
+A photo of the top panel from the unit session on firmware 1.0.3 shows this order (see the [findings](../reference/capture-findings.md#results)). The photos stay local.

@@ -70,6 +70,11 @@ test("glossary: text between gen markers is generated and not checked, text afte
   assert.equal(glossaryOf("docs/manual/a.md", "<!-- gen:modes -->\n<!-- gen:end -->\n\nA pattern.").length, 1);
 });
 
+test("glossary: a marker inside a code fence or a malformed marker does not start a skip", () => {
+  assert.equal(glossaryOf("docs/manual/a.md", "```md\n<!-- gen:modes -->\n```\n\nA pattern.").length, 1);
+  assert.equal(glossaryOf("docs/manual/a.md", "<!-- gen:typo\n\nA pattern.").length, 1);
+});
+
 test("glossary: only files under docs/manual/ except the glossary are checked", () => {
   assert.equal(glossaryOf("docs/guides/a.md", "A pattern.").length, 0);
   assert.equal(glossaryOf("docs/manual/13-glossary.md", "A pattern.").length, 0);

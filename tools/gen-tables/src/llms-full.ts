@@ -6,7 +6,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 const OUT = "llms-full.txt";
 
 export function stripFrontMatter(text: string): string {
-  return text.startsWith("---\n") ? text.replace(/^---\n[\s\S]*?\n---\n\n?/, "") : text;
+  return /^---\r?\n/.test(text) ? text.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n(?:\r?\n)?/, "") : text;
 }
 
 // Chapter files in README order: the links of the "Chapters" table.
@@ -26,7 +26,13 @@ if (import.meta.main) {
     process.exit(2);
   }
   const dir = "docs/manual/";
-  const files = chapterFiles(readFileSync(`${dir}README.md`, "utf8"));
+  const readme = readFileSync(`${dir}README.md`, "utf8");
+  const files = chapterFiles(readme);
+  const linked = [...readme.matchAll(/^\|.*\]\([^)#]+\.md/gm)].length;
+  if (linked !== files.length) {
+    console.error(`llms-full: ${linked} table row(s) link a chapter but ${files.length} have a number in the first cell`);
+    process.exit(1);
+  }
   const missing = files.filter((f) => !existsSync(dir + f));
   if (files.length === 0 || missing.length > 0) {
     console.error(`llms-full: chapter list is empty or names a missing file: ${missing.join(", ") || "none found"}`);

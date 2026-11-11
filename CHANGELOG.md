@@ -4,6 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-11
 
+- Closed R1b. One review of steps 2.6 to 2.9 found 12 points. We fixed 11 and left one test refactor for later. The glossary skip now ignores markers in code fences and malformed markers. `llms-full` fails on an unnumbered chapter row. The function index sorts with a fixed locale. Five rows of the known-issues register changed, and K14 is new. `docs/manual/README.md` now follows the language rules.
 - Added manual chapter 15, the known-issues register: 13 rows, three from our own unit tests and ten from user reports. Each row has a source, a firmware version, a date, a reliability label and a status. We checked the sources again and list four claims that we could not confirm.
 - Added text-grid diagrams of the top panel (chapter 3.5) and the rear panel (chapter 4.1). They are our own drawings. They show order and grouping, not true sizes.
 - Added manual chapter 14. It holds a control table for each of the 17 modes, an index by control and an index by function. A tool writes all of them from the device data. Added `llms-full.txt`, one file with the whole manual. `gen-tables` has two new generators and a build for `llms-full.txt`. `docs-check` skips the glossary rule inside generated blocks.

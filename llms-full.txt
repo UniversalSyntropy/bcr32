@@ -178,7 +178,7 @@ The label "◄ PAGES/PRESETS ►" sits above B63/B64.
 This is our own drawing of the top panel, seen from above. Each cell is a [control ID](13-glossary.md#control-id). The number in a control ID is its [callout](13-glossary.md#callout) number, except for the LEDs: L2 has three LEDs, L3 has two and L4 has one. The drawing shows order and grouping. It does not show true sizes or spacing.
 
 ```text
-                                    B1            L2.in L2.a L2.b L3.1 L3.2 L4
+                             B1                   L2.in L2.a L2.b L3.1 L3.2 L4
 
  B5  B6  B7  B8  B9  B10 B11 B12                  B21  B22
  B13 B14 B15 B16 B17 B18 B19 B20                  B23  B24
@@ -200,7 +200,7 @@ This is our own drawing of the top panel, seen from above. Each cell is a [contr
 | Encoder grid | `E25`–`E56` | four rows of eight, section 3.3 |
 | Right block | `DISP`, `SEL`, `B59`–`B68` | six rows of two, section 3.4 |
 
-The photos from the unit session confirm this order on firmware 1.0.3.
+A photo of the top panel from the unit session on firmware 1.0.3 shows this order (see the [findings](../reference/capture-findings.md#results)). The photos stay local.
 
 ---
 
@@ -237,7 +237,7 @@ This is our own drawing of the rear panel, left to right as seen from behind. Ea
 ```text
  J69  J70    J71  J72  J73    J74  J75    J76  J77    J78 J79 J80 J81 J82 J83 J84 J85
  PWR  PWR/   IN   OUT  OUT    FS1  FS2    SYN  SYN    CV1 GT1 CV2 GT2 CV3 GT3 CV4 GT4
-      DATA       A    B/THRU               IN   OUT
+      DATA        A    B/THRU               IN   OUT
 ```
 
 | Group | Controls |
@@ -1633,13 +1633,14 @@ This chapter lists faults and limits of the unit and of its editor software. It 
 | K4 | Turning two or more [encoders](13-glossary.md#encoder) at the same time can make the unit fall behind. One report adds a "Controller Overload" message on the [display](13-glossary.md#display-disp), once | not stated | Thomann reviews; Elektronauts thread, page 11 | 2026-10-30, 2026-11-07 | community, multiple | Unconfirmed | none reported |
 | K5 | The LED display lags while the sequencer runs | not stated | Elektronauts thread, page 11 | 2026-10-04 | community, single | Unconfirmed | none reported |
 | K6 | The computer or the editor does not find the unit. On Windows 11 one reviewer fixed this with the editor menu Help, Repair Driver | not stated | Elektronauts thread, page 10; Thomann reviews | 2026-09-25, 2026-09-29 | community, multiple | Workaround | Repair Driver in the editor, as one reviewer reports |
-| K7 | The editor cannot copy and paste the settings of a single knob | 1.0.3 | Elektronauts thread, page 12 | 2026-11-09 | community, single | Open | none |
+| K7 | The editor cannot copy and paste the settings of a single knob | 1.0.3 | Elektronauts thread, page 12 | 2026-11-09 | community, single | Unconfirmed | none |
 | K8 | The editor has no tool for note [patterns](13-glossary.md#pattern), pitches or velocities. One reviewer could not tell how patterns are saved | not stated | Thomann reviews | 2026-10-30 | community, single | Limit | none; see the [web UI references](../project/web-ui-references.md) for a community tool |
 | K9 | [SysEx](13-glossary.md#sysex) input works only when the user copies BCR2000 messages to the unit, says one reviewer. A second reviewer says SysEx in and out work | not stated | Thomann reviews | 2026-09-25, 2026-10-30 | community, multiple, conflicting | Unconfirmed | none |
-| K10 | Reports of play in the encoders disagree. One reviewer measures about 1.5 mm each way. Another finds no play | not stated | Elektronauts thread, page 10; Thomann reviews | 2026-09-27, 2026-10-30 | community, multiple, conflicting | Unconfirmed | none |
-| K11 | The QR code on the box led to a missing page, and the manual was not online at launch | not stated | Elektronauts thread, page 10; Thomann reviews | 2026-09-25 to 2026-09-28 | community, multiple | Resolved | The manual Rev1 was posted 2026-09-28 |
+| K10 | Reports of play in the encoders disagree. One reviewer reports about 1.5 mm each way. Another finds no play | not stated | Elektronauts thread, page 10; Thomann reviews | 2026-09-27, 2026-10-30 | community, multiple, conflicting | Unconfirmed | none |
+| K11 | The manual was not online at launch | not stated | Elektronauts thread, page 10; Thomann reviews | 2026-09-25 to 2026-09-28 | community, multiple | Resolved | The manual Rev1 was posted 2026-09-28 |
 | K12 | Reviewers call the manual hard to follow. One example is the MIDI channel set-up in three sections | not stated | Thomann reviews | 2026-10-30 | retailer reviews, multiple | Unconfirmed | Use this manual and chapter 12 |
-| K13 | The launch firmware was weak. Reviewers say later updates fixed major faults and added encoder acceleration. No source names the faults | not stated | Synth Anatomy article; Thomann reviews | 2026-09-25, 2026-10-30 | press and retailer reviews | Unconfirmed | Update the firmware with the vendor editor |
+| K13 | The press article says the launch firmware was weak. One reviewer says later updates fixed most faults and added encoder acceleration. No source names the faults | not stated | Synth Anatomy article; Thomann reviews | 2026-10-30, 2026-09-25 | press and retailer review | Unconfirmed | Update the firmware with the vendor editor |
+| K14 | The QR code on the box led to a missing page. No source says that it was fixed | not stated | Elektronauts thread, page 10; Thomann reviews | 2026-09-25 to 2026-09-27 | community, multiple | Unconfirmed | Use the manual from the vendor product page |
 
 ## Claims that we could not confirm
 

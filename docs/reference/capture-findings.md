@@ -25,7 +25,7 @@ This page lists the results. The MIDI facts are also in `data/devices/bcr32/midi
 | H1 Virtual keyboard | pass, no output | The unit sent nothing on USB. No note map was read. |
 | H2 Transport | pass, no output | B68 was solid red while the sequencer ran. The unit sent no message on USB. |
 | H3 Controller output | partial | The unit sent four controller changes. The control for each change is not proven. |
-| C Photos | pass | 15 photos and 7 burst frames. The photos stay on the owner's computer. |
+| C Photos | pass | 15 photos and 7 burst frames. The photos stay on the owner's computer. The top-panel photo (P1) shows the control order of the drawing in manual section 3.5. |
 | D1 Identity request | blocked | It needs the backup and the capture tool. |
 
 ## MIDI facts

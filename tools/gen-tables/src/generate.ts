@@ -109,7 +109,7 @@ export const GENERATORS: Record<string, Generator> = {
     return table(
       ["Function", "Mode", "Controls", "Action"],
       [...d.functions]
-        .sort((a, b) => a.name.localeCompare(b.name) || a.mode.localeCompare(b.mode))
+        .sort((a, b) => a.name.localeCompare(b.name, "en") || a.mode.localeCompare(b.mode))
         .map((f) => [f.name, modeName.get(f.mode), idRanges(f.elements), f.action === undefined ? undefined : code(f.action)]),
     );
   },

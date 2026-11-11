@@ -17,7 +17,7 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
 | Current step | none (2.5 closed on branch `r1b/p2-glossary`, stacked on `r1c/p4-backup`, not merged) |
-| Next step | 2.8 Review and close (needs the owner's words on the total) or 4.3 Outbound map (R1c, needs the owner) |
+| Next step | 4.3 Outbound map (R1c, needs the owner at the unit) |
 | R1 progress | 18 of 27 steps done, 9 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing. The repo is public since 2026-11-11 |
@@ -80,7 +80,7 @@ Goal: every control, mode, menu, value and procedure, with a glossary, three ind
 | 2.6 | Generated tables and indexes | control tables, three indexes, `llms-full.txt` | gen-tables check | 40k | about 45k | ✅ | [chapter 14](../manual/14-generated-tables-and-indexes.md): 17 mode tables, index by control (88 rows), index by function (145 rows); the task index is chapter 10, written by hand; `llms-full.txt` built and checked by `check:tables`; glossary rule skips generated blocks; branch `r1b/p2-generated-tables`, not merged |
 | 2.7 | Known issues | research user reports, build the register | every row has source, firmware, status | 60k | about 45k | ✅ | [chapter 15](../manual/15-known-issues.md): 13 rows (3 own tests, 10 reports), four unconfirmed claims listed; sources re-opened by one Sonnet agent (about 79k of its own tokens, 24 calls); no firmware newer than 1.0.3 found; branch `r1b/p2-known-issues`, not merged |
 | 2.9 | Panel diagrams | text-grid diagrams of the top and rear panels with callout numbers, our own drawing | docs-check | 20k | about 20k | ✅ | [top](../manual/03-top-panel-control-map.md#35-diagram-of-the-top-panel), [rear](../manual/04-rear-panel.md#41-diagram-of-the-rear-panel); order checked against photo p01; branch `r1b/p2-panel-diagrams`, not merged |
-| 2.8 | Review and close | full coverage proof, one review, hand over | all checks green | 70k | | ☐ | |
+| 2.8 | Review and close | full coverage proof, one review, hand over | all checks green | 70k | about 40k | ✅ | coverage-check 0 findings (36 parts, 88 elements, 18 documents); one Opus review of 2.6 to 2.9 (about 89k of its own tokens): 12 points, 11 fixed, one test refactor (CLI paths of `llms-full`) left open; ten documents stay on the pending list; branch `r1b/p2-review-close`, not merged |
 
 ## R1c: MIDI implementation reference (7 steps, 235k)
 
@@ -114,6 +114,7 @@ Steps for these are written out when the release is approved.
 | Item | Needed for | Status |
 | --- | --- | --- |
 | Go for R1 at 1,100k tokens (R1a 335k, R1b 530k, R1c 235k) | step 1.1 | approved 2026-11-11 |
+| R1 total raised to 1,400k tokens | owner's own words, after step 2.7 | approved 2026-11-11 |
 | Run one command in Terminal on the unit's computer | steps 3.2, 4.2–4.5 | open |
 | DIN MIDI interface | DIN port tests in 4.3 and 4.4 | none available; DIN rows are marked untested |
 | Multimeter with standard probes, plus a 3.5 mm cable to reach the jack contacts | CV and gate checks in 3.2 | available; owner fetches it before step 3.2 |

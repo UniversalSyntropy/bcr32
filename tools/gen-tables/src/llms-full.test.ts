@@ -10,6 +10,7 @@ import { build, chapterFiles, stripFrontMatter } from "./llms-full.ts";
 
 test("front matter is removed, a body without it stays", () => {
   assert.equal(stripFrontMatter("---\ntitle: A\n---\n\n# A\n\nText.\n"), "# A\n\nText.\n");
+  assert.equal(stripFrontMatter("---\r\ntitle: A\r\n---\r\n\r\n# A\r\n"), "# A\r\n");
   assert.equal(stripFrontMatter("# A\n\n---\n\nText.\n"), "# A\n\n---\n\nText.\n");
 });
 
@@ -36,5 +37,7 @@ test("index by control lists every element, index by function lists every functi
   assert.equal(c.text.split("\n").filter((l) => l.startsWith("| `")).length, loaded.data.elements.length);
   assert.match(c.text, /\| `B1` \| Button \| ZAQ \(sequencer\): Go to CTRL mode/);
   const f = generate("<!-- gen:index-functions -->\n<!-- gen:end -->\n", loaded.data);
+  assert.deepEqual(f.errors, []);
   assert.equal(f.text.split("\n").filter((l) => /^\| [^-]/.test(l)).length - 1, loaded.data.functions.length);
+  assert.match(f.text, /\| Go to CTRL mode \| ZAQ \(sequencer\) \| `B1` \| `tap B1` \|/);
 });

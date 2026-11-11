@@ -8,7 +8,7 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 
 # BCR32 manual
 
-This manual restates the official Behringer BCR32 user manual (V2.0) as structured data: fixed [control IDs](13-glossary.md#control-id), mode tables and numbered key sequences. It's written to answer "how do I do X" questions quickly, for people and for LLM assistants. Where the official manual is wrong or unclear, the entry says so and [Source errors and gaps](12-source-errors-and-gaps.md#12-source-errors-and-gaps) lists the working assumption.
+This manual restates the official Behringer BCR32 user manual (V2.0) as structured data. It has fixed [control IDs](13-glossary.md#control-id), mode tables and numbered key sequences. It answers "how do I do X" questions quickly, for people and for LLM assistants. Where the official manual is wrong or unclear, the entry says so. [Source errors and gaps](12-source-errors-and-gaps.md#12-source-errors-and-gaps) lists the working assumption.
 
 > **Note:** This is an unofficial document. It is not affiliated with or endorsed by Behringer or Music Tribe. Check the official manual for safety information.
 

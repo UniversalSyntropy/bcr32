@@ -37,7 +37,7 @@ This is our own drawing of the rear panel, left to right as seen from behind. Ea
 ```text
  J69  J70    J71  J72  J73    J74  J75    J76  J77    J78 J79 J80 J81 J82 J83 J84 J85
  PWR  PWR/   IN   OUT  OUT    FS1  FS2    SYN  SYN    CV1 GT1 CV2 GT2 CV3 GT3 CV4 GT4
-      DATA       A    B/THRU               IN   OUT
+      DATA        A    B/THRU               IN   OUT
 ```
 
 | Group | Controls |
