@@ -16,9 +16,9 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | none (2.4 closed on branch `r1b/p2-quick-start`, not merged) |
+| Current step | 2.5 Glossary (4.2 closed on branch `r1c/p4-backup`, not merged) |
 | Next step | 4.2 Backup (R1c, needs the owner) or 2.5 Glossary (R1b) |
-| R1 progress | 16 of 27 steps done, 11 remain |
+| R1 progress | 17 of 27 steps done, 10 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing. The repo is public since 2026-11-11 |
 | Last updated | 2026-11-11 (end of session 7) |
@@ -91,7 +91,7 @@ R1c can run beside R1b. Steps 4.5 and 4.6 are time-boxed: they report what the e
 | Step | Task | Goal | Gate | Est. | Actual | Status | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 4.1 | Capture tool | `tools/midi-capture`: lists ports, logs timestamped messages to a file, sends test messages | logs a known message correctly | 40k | about 50k | ✅ | [README](../../tools/midi-capture/README.md); one Swift file; `send` accepts loopback ports only; selftest 13 of 13, a real message on the IAC bus logged correctly, five of six mutations caught (the sixth cannot change the result); branch `r1c/p4-capture-tool`, not merged |
-| 4.2 | Backup | SysEx export of all sequencer and controller memory, kept local only | export file saved and non-empty | 10k | | ☐ | needs the owner; done before any test that writes |
+| 4.2 | Backup | SysEx export of all sequencer and controller memory, kept local only | export file saved and non-empty | 10k | not measured | ✅ | exported with Control Tribe in `.syx` and `.bcl`; repeat exports identical; second copy held outside this computer; the panel export sent nothing on USB; see the [findings](../reference/capture-findings.md#backup-exports-step-42); branch `r1c/p4-backup`, not merged |
 | 4.3 | Outbound map | every button and encoder in both modes, transport, clock, pattern load, footswitch | each of 88 elements has a result row | 40k | | ☐ | needs the owner, about 45 minutes |
 | 4.4 | Inbound map | identity request, clock, start and stop, transpose notes, pattern-switch CC, program change | each test has a result row | 30k | | ☐ | |
 | 4.5 | Editor protocol | messages between the vendor editor and the unit for each settings page; observed, never re-sent | time-boxed; findings recorded | 65k | | ☐ | observation only; no memory writes without the backup |
@@ -124,6 +124,15 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 4.2
+
+- **Closed:** step 4.2 on branch `r1c/p4-backup`. Not merged, not pushed. The unit is in its original state (clock source INT).
+- **Proved:** two exports of unchanged memory are identical for the sequencer and for the controller. A change of the clock source changed 2 bytes, and setting it back gave the first file again.
+- **Found:** the panel export (STORE, SEL and knob 1, then knob 5) sent nothing on USB. Control Tribe saved the memory. Details are in the [findings](../reference/capture-findings.md#backup-exports-step-42).
+- **Mistake:** an instruction named knob E25 by ID only. The owner pushed the knob printed 25, which opened the erase menu. Nothing was erased. Every instruction now gives the printed number.
+- **Next:** step 2.5 (glossary), or step 4.3 (needs the owner).
+- **Know this:** the unit's `.syx` files must never be sent by a script. Restore is the owner's act, in Control Tribe.
 
 ### 2026-11-11, step 2.4
 

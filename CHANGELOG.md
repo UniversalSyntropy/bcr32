@@ -4,6 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-11
 
+- Verified on firmware 1.0.3: backup exports of sequencer and controller memory. Added the file layout, the repeat-export result and the panel export result to the findings page.
 - Added two quick starts (sequencer and controller) and a task lookup to chapter 10 of the manual. The lookup gives key sequences and chapter links. The steps come from the manual and are unverified on a unit.
 - Added a references page for web UI examples and for the public BCR32 editor `bcr32-studio`, with a note on which facts we checked.
 - Added the `midi-capture` tool in `tools/midi-capture`. It lists MIDI ports, logs timestamped messages as JSON Lines, and sends test messages to loopback ports only. It has a selftest, tests and a README.

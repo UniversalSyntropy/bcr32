@@ -65,12 +65,31 @@ Two facts need a second run:
 - **Flashing buttons:** STORE (B61), LD/LRN (B62), INST SEL (B65) and MIXER (B66) flash while selected. Two shots (P13 and P14) do not show the flash.
 - **Lit colours:** the CTRL Settings lit buttons are now sourced from the unit.
 
+## Backup exports (step 4.2)
+
+Verified on firmware 1.0.3 on 2026-11-11, with the unit in USB operation mode.
+
+| Fact | Result |
+| --- | --- |
+| Panel export | STORE (B61), hold SEL, push the knob printed 1 (E25). The display shows "export mode". Then push the knob printed 5 (E29). The display does not change. The unit sent no message on USB in three variants of the second push |
+| Cause | Unknown. The dump may leave by a port that the capture tool cannot see |
+| Editor export | Control Tribe 1.12.4 saves the memory as `.syx` and as `.bcl` |
+| Message size | Each SysEx message holds 273 bytes, from F0 to F7. All data bytes are 7-bit |
+| Sequencer memory | 1920 messages, 524,160 bytes. The header is `F0 00 20 32 7F 64 04 0B` |
+| Controller memory | 512 messages, 139,776 bytes. This is 64 presets of 8 messages. The header ends in `0C` |
+| One preset | The "current preset" file holds 10 messages. It is not a block inside the all-presets file |
+| `.bcl` file | ASCII text with CRLF line ends. It starts with `$rev BCR32` and `$global`, and holds the same data as the `.syx` file |
+| Repeat exports | Two exports of unchanged memory are identical, for the sequencer and for the controller |
+| Clock source | The clock source is part of the sequencer file. Changing it from INT to USB changed 2 bytes. Setting it back gave a file identical to the first |
+
+> **Warning:** The knob printed 25 (E49) opens the erase menu. The manual calls it "the 25th encoder (50)". Use the printed number and the ID together in every instruction.
+
 ## Open items
 
 | Item | Next step |
 | --- | --- |
 | Control-to-message map | Step 4.3 |
-| Identity request (D1) | Steps 4.1 and 4.2, then the owner's yes |
+| Identity request (D1) | Step 4.2 is done. Needs a gated send option in step 4.4 and the owner's yes |
 | Seven errata rows that need a change to the unit | A later session after the backup |
 | Legend colours on the parameter buttons | See below |
 | Values of B13 to B15 and B7 | A later session that changes a setting |
