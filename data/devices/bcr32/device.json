@@ -1,7 +1,7 @@
 {
   "$schema": "../../schema/device.schema.json",
   "schemaVersion": 1,
-  "dataVersion": "0.1.0",
+  "dataVersion": "0.2.0",
   "id": "bcr32",
   "name": "BCR32",
   "manufacturer": "Behringer",

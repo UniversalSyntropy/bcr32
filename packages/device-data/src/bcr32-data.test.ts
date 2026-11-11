@@ -1,5 +1,6 @@
-// Count check for the BCR32 data set (playbook step 1.3).
+// Checks for the BCR32 data set: counts (playbook step 1.3), reference cross-check (step 1.4).
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { test } from "node:test";
 
@@ -32,4 +33,69 @@ test("BCR32 data: 85 callouts, 88 elements, expected count per kind", () => {
   }
   assert.equal(elements.find((e) => e.id === "DISP")?.callout, 57);
   assert.equal(elements.find((e) => e.id === "SEL")?.callout, 58);
+});
+
+// Cross-check against the reference (playbook step 1.4). Reads the tables of the
+// reference and proves that each row has a record in the data.
+const reference = readFileSync(join(import.meta.dirname, "..", "..", "..", "docs", "reference", "bcr32-reference.md"), "utf8");
+
+// First cell of each body row of the first table under a heading that starts with `heading`.
+function firstCells(heading: string): string[] {
+  const lines = reference.split("\n");
+  const start = lines.findIndex((l) => l.startsWith(heading));
+  assert.notEqual(start, -1, `heading '${heading}' is not in the reference`);
+  const first = lines.findIndex((l, i) => i > start && l.startsWith("|"));
+  const rows: string[] = [];
+  for (let i = first + 2; lines[i]?.startsWith("|"); i++) rows.push(lines[i]!.split("|")[1]!.trim());
+  assert.ok(rows.length > 0, `no table rows under '${heading}'`);
+  return rows;
+}
+
+// "E37–E40" → E37…E40; "E41/43/45/47" → E41, E43, E45, E47; "B5 PITCH" → B5.
+function expandIds(cell: string): string[] {
+  const range = /^([BE])(\d+)–\1(\d+)/.exec(cell);
+  if (range) return Array.from({ length: Number(range[3]) - Number(range[2]) + 1 }, (_, i) => `${range[1]}${Number(range[2]) + i}`);
+  const list = /^([BE])(\d+(?:\/\d+)+)/.exec(cell);
+  if (list) return list[2]!.split("/").map((n) => `${list[1]}${n}`);
+  const one = /^[BE]\d+/.exec(cell);
+  assert.ok(one, `no control ID in '${cell}'`);
+  return [one[0]];
+}
+
+test("BCR32 data: each row of the reference tables has a mode or a function", () => {
+  const result = loadDevice(dir);
+  assert.ok(result.ok);
+  const { modes, functions } = result.data;
+  // A row counts only when a function names the control first: shared use by a second function does not hide a gap.
+  const has = (mode: string, id: string) => functions.some((f) => f.mode === mode && f.elements[0] === id);
+  const hasGroup = (mode: string, ids: string[]) => functions.some((f) => f.mode === mode && f.elements.join() === ids.join());
+
+  // §2: each mode or menu row is a mode with the same name. The last row covers three modes.
+  const names = new Set(modes.map((m) => m.name));
+  const rows2 = firstCells("## 2. Modes and menus");
+  assert.equal(rows2.length, 11);
+  for (const name of rows2)
+    if (name === "Erase / SysEx") for (const n of ["Erase menu", "SysEx export menu", "SysEx import"]) assert.ok(names.has(n), n);
+    else assert.ok(names.has(name), `§2 row '${name}' has no mode`);
+
+  // §5: each parameter button B5–B20 has a function in ZAQ mode.
+  const rows5 = firstCells("## 5. Sequencer").flatMap(expandIds);
+  assert.equal(rows5.length, 16);
+  for (const id of rows5) assert.ok(has("zaq", id), `§5 ${id} has no function in mode zaq`);
+
+  // §6: each encoder E25–E56 has a function on the ZAQ Global page.
+  // §6: each row has a function on the ZAQ Global page with exactly the encoders of the row; E25–E56 are all covered.
+  const rows6 = firstCells("## 6. ZAQ Global page").map(expandIds);
+  assert.equal(rows6.flat().length, 32);
+  for (const ids of rows6) assert.ok(hasGroup("zaq-global", ids), `§6 ${ids.join()} has no function in mode zaq-global`);
+
+  // §9.1: each Global Settings button has a function.
+  const rows91 = firstCells("### 9.1 Global Settings").flatMap(expandIds);
+  assert.equal(rows91.length, 8);
+  for (const id of rows91) assert.ok(has("global-settings", id), `§9.1 ${id} has no function in mode global-settings`);
+
+  // Each mode has at least one function, and each function that takes a value names a set that is in use.
+  for (const m of modes) assert.ok(functions.some((f) => f.mode === m.id), `mode '${m.id}' has no function`);
+  const used = new Set(functions.map((f) => f.values));
+  for (const v of result.data.valueSets) assert.ok(used.has(v.id), `value set '${v.id}' is not used by a function`);
 });

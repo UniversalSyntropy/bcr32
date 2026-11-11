@@ -4,6 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-11
 
+- Added BCR32 mode, value and function data in `data/devices/bcr32/`: 17 modes and menus, 56 value sets, 142 functions (data version 0.2.0). Each record names its source. A test compares the data with the tables of the reference.
 - Documentation now follows Simplified Technical English rules, based on ASD-STE100. The rules are in the contributing guide. Existing documents change to the rules when they are next edited.
 - Added BCR32 element data in `data/devices/bcr32/`: 85 callouts, 88 elements, 15 groups, printed labels and label colours (data version 0.1.0). Label colours come from the manual's illustration and are not checked on a unit.
 - Added the device data schema in `packages/device-data`: Zod schemas, a loader with cross-file checks, generated JSON Schema files in `data/schema/` and the `npm run validate:data` command. No device data yet.

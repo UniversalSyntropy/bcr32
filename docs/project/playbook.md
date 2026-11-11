@@ -16,10 +16,10 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | none |
-| Next step | 1.4 Mode and function data |
-| R1 progress | 3 of 27 steps done, 24 remain |
-| Tokens used in R1 | about 105k of 1,100k (approved 2026-11-11) |
+| Current step | 1.5 Check tools |
+| Next step | 1.6 P1 verification |
+| R1 progress | 4 of 27 steps done, 23 remain |
+| Tokens used in R1 | about 150k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing |
 | Last updated | 2026-11-11 |
 
@@ -50,8 +50,8 @@ Goal: prove the current draft with data, checks and a unit session, so the repo 
 | 1.1 | Workspace and CI | npm workspace, TypeScript, markdownlint, one CI workflow | CI green | 40k | 40k | ✅ | branch `r1a/p1-foundations`; the four check tools join CI in step 1.5 |
 | 1.2 | Schema | Zod schema, generated types and JSON Schema | a broken data file fails | 40k | 35k | ✅ | 22 broken-data cases fail; geometry fields are optional until R2 |
 | 1.3 | Element data | 85 callouts, 88 elements, groups, labels, colours | count check | 20k | 20k | ✅ | label colours come from the manual's illustration; not checked on a unit |
-| 1.4 | Mode and function data | modes, functions, value sets with source labels | cross-check against the reference | 50k | | ☐ | |
-| 1.5 | Check tools | privacy-check, docs-check, coverage-check, gen-tables | planted-fault tests | 50k | | ☐ | |
+| 1.4 | Mode and function data | modes, functions, value sets with source labels | cross-check against the reference | 50k | 45k | ✅ | 17 modes, 56 value sets, 142 functions; sources cite reference sections until the page pass in steps 2.2 and 2.3 |
+| 1.5 | Check tools | privacy-check, docs-check, coverage-check, gen-tables | planted-fault tests | 50k | | ▶ | |
 | 1.6 | P1 verification | rerun every check, read the diff, hand over | all green | 40k | | ☐ | |
 
 ### P3: unit session
@@ -124,6 +124,13 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 1.4
+
+- **Closed:** step 1.4. `data/devices/bcr32/` holds `modes.json`, `values.json` and `functions.json`.
+- **Proved:** a test reads the tables of reference sections 2, 5, 6 and 9.1. Four planted gaps in the data each failed the test.
+- **Next:** step 1.5, the four check tools.
+- **Know this:** each `source.ref` cites a section of the reference, not a page of the official manual. Steps 2.2 and 2.3 add the pages. The lit buttons of Global Settings carry the source `unit`; all other lit colours come from the manual.
 
 ### 2026-11-11, step 1.3 and the language rule
 
