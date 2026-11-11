@@ -17,8 +17,8 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
 | Current step | none |
-| Next step | 3.2 Session at the unit |
-| R1 progress | 8 of 27 steps done, 19 remain |
+| Next step | 3.3 Record results |
+| R1 progress | 9 of 27 steps done, 18 remain |
 | Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing |
 | Last updated | 2026-11-11 |
@@ -60,7 +60,7 @@ Goal: prove the current draft with data, checks and a unit session, so the repo 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 3.0 | Recovery runbook | factory restore, firmware reinstall and recovery-mode facts from official sources; rules in the [unit safety protocol](unit-safety.md) | runbook reviewed by the owner before any message is sent | 15k | not measured | ✅ | [runbook](../guides/recovery-runbook.md) reviewed once by Opus, accepted by the owner 2026-11-11; its facts are unverified until tried; PLAY/STOP confirmed STOP |
 | 3.1 | Session script | ordered test list: firmware version, 13 errata rows, MIDI capture | owner can follow it without help | 15k | not measured | ✅ | [script](../guides/unit-session-script.md) read and accepted by the owner 2026-11-11; tier 0 only, tier 1 test D1 blocked until the backup exists; 7 of 13 errata rows need tier 2 and wait; Part D waits for the backup |
-| 3.2 | Session at the unit | run the script; about 1 hour of owner time | every test has a result | 25k | | ☐ | needs the owner |
+| 3.2 | Session at the unit | run the script; about 1 hour of owner time | every test has a result | 25k | not measured | ✅ | run 2026-11-11 on firmware 1.0.3; tests A1 to A7, H1, H2 passed; H3 partial; D1 blocked; 15 photos plus 7 burst frames; results in `local/session-results.md` |
 | 3.3 | Record results | errata rows updated, capture findings note, MIDI facts data file | docs-check | 30k | | ☐ | |
 | 3.4 | Publish checklist | full-history leak scan, whole-tree privacy check, licence and trademark notes, correction issue template, repo description and topics, draft announcement text | checklist all passed | 10k | | ☐ | ends with the owner's publish decision |
 
@@ -124,6 +124,16 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 3.2
+
+- **Closed:** step 3.2. The owner ran the [session script](../guides/unit-session-script.md) on firmware 1.0.3. Nothing was sent to the unit. The unit ended in ZAQ mode, stopped.
+- **Proved:** every test has a result, kept in `local/session-results.md`. The unit stayed normal after the session.
+- **Found:** the Global Settings list has 11 settings. The extra three are the pattern-change channel (printed 9), encoder acceleration (10) and footswitch polarity (11). LED luminosity has no button. CTRL Settings has a third item, ECHO deadtime (printed 3). Product ID is `12CF` in application mode. LOAD paging is B63 down and B64 up. Sync-in start shows GATE.
+- **MIDI:** CTRL mode sends controller changes on port "BCR-32 CTRL", channel 1 (CC 97, 65, 66, 98). ZAQ mode and transport send nothing on USB. The mapping of control to message is not proven; step 4.3 maps it.
+- **Mistake to avoid:** the script named buttons by ID and the unit prints numbers 1 to 16. The owner pressed printed 4 and 8 (CV1 measure and factory restore) and left each with B1, with no change. The script now has a table of both numbers.
+- **Next:** step 3.3. Update the errata rows, write the capture findings note, and make the MIDI facts data file. Move label and lit colours from the manual to the unit source where the photos show them.
+- **Know this:** flashing LEDs mean a selected mode for STORE, LD/LRN, INST SEL and MIXER. P13 and P14 do not show them. The photos are in `local/photos/` and stay there.
 
 ### 2026-11-11, step 3.1
 

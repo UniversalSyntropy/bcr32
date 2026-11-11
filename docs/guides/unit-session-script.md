@@ -50,12 +50,28 @@ If the monitor shows messages on an idle unit, write them down and stop.
 
 ## Part A: read the display
 
+> **Warning:** this script names buttons by ID, for example B11. The unit prints the numbers 1 to 16 above B5 to B20. The ID is the printed number plus 4. Press the button in the table below and not the button with the same printed number.
+
+| ID | Printed number | Printed label | Note |
+| --- | --- | --- | --- |
+| B5 | 1 | PITCH | |
+| B6 | 2 | VELOCITY | |
+| B7 | 3 | MUTE | |
+| B8 | 4 | DELAY | Do not press. Starts CV calibration |
+| B9 | 5 | LENGTH | |
+| B10 | 6 | MIDI CTRL α | |
+| B11 | 7 | MIDI CTRL β | |
+| B12 | 8 | WAVE GEN | Do not press. May open the factory restore |
+| B13 | 9 | CHORD | |
+| B14 | 10 | STEP SKIP | |
+| B15 | 11 | SEQ START | |
+
 These tests only read the display and the lit buttons. Each one starts with the unit in ZAQ mode. Press ZQR/CTRL (B1) to change mode if the pink buttons are not lit.
 
 ### A1: Firmware version
 
 1. Hold ZQR/CTRL (B1) for 3 seconds. The unit opens Global Settings.
-2. Press B11. The display shows the firmware version.
+2. Press B11 (printed 7). The display shows the firmware version.
 3. Write down the version exactly as shown.
 4. Press B1 to leave Global Settings.
 
@@ -75,7 +91,7 @@ The runbook lists the production product ID as unknown. This test records it for
 
 The manual lists 8 settings. Firmware 1.0.3 lights 11 buttons. This test finds the name of each one.
 
-> **Warning:** do not press B8 or B12. B8 starts CV calibration. B12 may open the factory restore. A neighbouring button may now hold these functions, so read each name before you press the next button.
+> **Warning:** do not press B8 (printed 4) or B12 (printed 8). B8 starts CV calibration. B12 may open the factory restore. A neighbouring button may now hold these functions, so read each name before you press the next button.
 
 1. Hold B1 for 3 seconds. The unit opens Global Settings.
 2. Press B5. Write down the name and the value on the display.
@@ -104,7 +120,7 @@ This test confirms the button. It does not confirm that MIXED is available, beca
 The manual text for B8 holds a draft tag. This test reads the name and the current value only.
 
 1. In ZAQ mode, hold EDIT / GLOBAL (B59). Press STORE (B61) once. The unit opens ZAQ Settings.
-2. Press B8. Write down the name and the value on the display.
+2. Press B8 (printed 4). Write down the name and the value on the display.
 3. Press EXIT (B60) to leave.
 
 **Expect:** the display shows GATE or CLOCK. The other value stays unseen, because changing the value is tier 2.
@@ -117,8 +133,8 @@ Encoder and button turns on 2026-11-11 sent nothing on USB. This test reads the 
 
 1. Press B1 until the amber buttons are lit. The unit is in CTRL mode.
 2. Hold B59. Press B61 once. The unit opens CTRL Settings.
-3. Press B5. Write down the output routing on the display.
-4. Press B6. Write down the MIDI thru value on the display.
+3. Press B5 (printed 1). Write down the output routing on the display.
+4. Press B6 (printed 2). Write down the MIDI thru value on the display.
 5. Press B60 to leave.
 6. Press B1 until the pink buttons are lit.
 
@@ -148,10 +164,10 @@ The manual lists the keyboard buttons but not their notes. This test records the
 > **Warning:** do not press B64. B64 changes NOTE to MONITOR and RECORD. RECORD writes notes into the pattern.
 
 1. In ZAQ mode, press INST SEL (B65). The display shows `NOTE`.
-2. Press B13. Write down the port, the channel and the note number.
-3. Repeat step 2 for B14, B15, B16, B17, B18, B19 and B20.
-4. Press B6, B7, B9, B10 and B11 in turn. Write down the note number each time.
-5. Press B5, B8 and B12 in turn. Write down "nothing seen" or the message.
+2. Press B13 (printed 9). Write down the port, the channel and the note number.
+3. Repeat step 2 for B14 to B20 (printed 10 to 16).
+4. Press B6, B7, B9, B10 and B11 (printed 2, 3, 5, 6 and 7) in turn. Write down the note number each time.
+5. Press B5, B8 and B12 (printed 1, 4 and 8) in turn. Write down "nothing seen" or the message.
 6. Press B65 to leave.
 
 **Expect:** B13 to B20 send eight white keys in rising order. B6, B7, B9, B10 and B11 send the five black keys.
@@ -173,7 +189,7 @@ The reference says USB mode has no internal clock. This test records what the un
 1. Press B1 until the amber buttons are lit. The unit is in CTRL mode.
 2. Turn E25 one step. Write down the port and the messages.
 3. Push E25. Write down the port and the messages.
-4. Press B5. Write down the port and the messages.
+4. Press B5 (printed 1). Write down the port and the messages.
 5. Press B1 until the pink buttons are lit.
 
 **Expect:** the unit sends nothing, as on 2026-11-11, or it sends messages that match the routing from test A6.
