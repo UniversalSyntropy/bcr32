@@ -4,6 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-11
 
+- Added a references page for web UI examples and for the public BCR32 editor `bcr32-studio`, with a note on which facts we checked.
 - Added the `midi-capture` tool in `tools/midi-capture`. It lists MIDI ports, logs timestamped messages as JSON Lines, and sends test messages to loopback ports only. It has a selftest, tests and a README.
 - Source pass on manual pages 26 to 35. Chapter 8.4 now holds the full setup tables for PC, CC, NRPN, Note, PB, AT, GS and MMC. It also holds the LED style table and the mode tables. Added six errata rows.
 - Source pass on manual pages 14 to 25. Added the clock-out condition, MIDI thru limits, note display ranges, ZAQ Settings confirm and exit, CV calibration pad colours and the 14-bit relative encoder values. Corrected the chord list note. Data records now cite manual pages.

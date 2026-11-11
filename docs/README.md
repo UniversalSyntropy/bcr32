@@ -21,6 +21,7 @@ last_updated: 2026-11-11
 | [Project plan](project/plan.md) | Phases, acceptance tests, routing, estimates, risks | draft, awaiting approval |
 | [Architecture note](project/architecture.md) | Device data, packages, view state, overlay, MIDI seams | draft |
 | [Unit safety protocol](project/unit-safety.md) | Rules for testing on a real unit without risk | draft |
+| [Web UI and prior art references](project/web-ui-references.md) | Public projects that draw a panel in the browser or edit the BCR32, with checked and unverified facts | draft |
 | [Parking file](project/parking.md) | Ideas held outside the active list | live |
 | [Decision log](project/decisions.md) | Each decision with its reason and the alternative rejected | draft |
 
