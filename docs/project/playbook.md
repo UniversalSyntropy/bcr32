@@ -16,11 +16,11 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | none; stopped after step 1.5 (estimate overrun rule) |
-| Next step | 1.6 P1 verification |
-| R1 progress | 5 of 27 steps done, 22 remain |
-| Tokens used in R1 | about 330k of 1,100k (approved 2026-11-11) |
-| Blocked on | the owner's go for step 1.6 after the step 1.5 overrun |
+| Current step | none |
+| Next step | 3.0 Recovery runbook |
+| R1 progress | 6 of 27 steps done, 21 remain |
+| Tokens used in R1 | about 350k of 1,100k (approved 2026-11-11) |
+| Blocked on | nothing |
 | Last updated | 2026-11-11 |
 
 ## Status key
@@ -52,7 +52,7 @@ Goal: prove the current draft with data, checks and a unit session, so the repo 
 | 1.3 | Element data | 85 callouts, 88 elements, groups, labels, colours | count check | 20k | 20k | ✅ | label colours come from the manual's illustration; not checked on a unit |
 | 1.4 | Mode and function data | modes, functions, value sets with source labels | cross-check against the reference | 50k | 45k | ✅ | 17 modes, 56 value sets, 142 functions; sources cite reference sections until the page pass in steps 2.2 and 2.3 |
 | 1.5 | Check tools | privacy-check, docs-check, coverage-check, gen-tables | planted-fault tests | 50k | 180k | ✅ | above the estimate: see the handover note; 66 tool tests, 10 rules switched off in turn |
-| 1.6 | P1 verification | rerun every check, read the diff, hand over | all green | 40k | | ☐ | waits for the owner's go |
+| 1.6 | P1 verification | rerun every check, read the diff, hand over | all green | 40k | 20k | ✅ | P1 merged to `main`; P1 used about 245k more than the 105k of steps 1.1 to 1.3 |
 
 ### P3: unit session
 
@@ -124,6 +124,14 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-11, step 1.6, P1 closed
+
+- **Closed:** step 1.6 and phase P1. The branch `r1a/p1-foundations` is merged to `main`.
+- **Proved:** `npm run check` passes: markdownlint, type check, 99 tests, schema, data, generated tables, documentation standard, manual coverage, privacy. CI is green. All tool code was read after the build.
+- **P1 acceptance:** a broken data file fails; the data holds 85 callouts and 88 elements; each control ID in the documents is in the data; `privacy-check` fails on a planted host name, IP address and home path.
+- **Next:** step 3.0, the recovery runbook. The owner reviews it before any message goes to the unit.
+- **Know this:** P1 used about 350k tokens against 240k. The R1 total stays at 1,100k until the owner changes it; re-estimate the tool steps 2.6 and 4.1 before they start.
 
 ### 2026-11-11, step 1.5
 
