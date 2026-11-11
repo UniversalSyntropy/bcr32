@@ -108,6 +108,14 @@ The brief asked to follow the rules of a sister UI library and to drop what cost
 | D29 | No engine design is final before the unit session | The unit's own MIDI output is undocumented | Design from the manual alone |
 | D30 | The G3 demo engine is a mode machine, not a sequencer | Enough for labels, lessons and lit buttons; the sequencer is G4 | Partial sequencer in G3 |
 
+### Delivery of the web panel
+
+| ID | Decision | Reason | Rejected |
+| --- | --- | --- | --- |
+| D54 | The web panel ships as a static site: hosted online, and downloadable to run offline | A browser is the only requirement, so macOS, Windows and Linux work with no install | Docker as the main way to run it |
+| D55 | A small container image that serves the static build is an optional extra for self-hosting, added in R2 | Cheap to add once the build exists; useful for people who host their own tools | No container at all |
+| D56 | The MIDI bridge for the live mirror runs natively on each system, not in a container | Docker Desktop on macOS and Windows runs in a virtual machine and can't reach the host's USB MIDI devices | Bridge inside the container |
+
 ## Process
 
 | ID | Decision | Reason | Rejected |
