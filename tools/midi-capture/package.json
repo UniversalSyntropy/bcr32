@@ -4,5 +4,8 @@
   "private": true,
   "description": "Lists MIDI ports, logs timestamped messages to a file and sends test messages to loopback ports (macOS).",
   "license": "MIT",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@bcr32/device-data": "*"
+  }
 }

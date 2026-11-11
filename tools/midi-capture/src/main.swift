@@ -348,6 +348,116 @@ func runLog(args: [String]) -> Int32 {
     dispatchMain()
 }
 
+// Guided map: shows one instruction at a time and records the messages that follow it.
+// Listen only. Enter = nothing happened, r = repeat the step, q = stop.
+func runMap(args: [String]) -> Int32 {
+    var filters: [String] = []
+    var stepsPath: String? = nil
+    var outPath: String? = nil
+    var quiet = 1.2
+    var timeout = 6.0
+    var skip: Set<String> = ["clock", "active-sensing"]
+    var i = 0
+    while i < args.count {
+        switch args[i] {
+        case "--port": i += 1; if i < args.count { filters.append(args[i].lowercased()) }
+        case "--steps": i += 1; if i < args.count { stepsPath = args[i] }
+        case "--out": i += 1; if i < args.count { outPath = args[i] }
+        case "--quiet": i += 1; if i < args.count, let v = Double(args[i]), v > 0 { quiet = v }
+        case "--timeout": i += 1; if i < args.count, let v = Double(args[i]), v > 0 { timeout = v }
+        case "--skip": i += 1; if i < args.count { skip = Set(args[i].split(separator: ",").map { String($0) }) }
+        default: printErr("map: unknown option \(args[i])"); return 2
+        }
+        i += 1
+    }
+    guard let stepsPath = stepsPath else { printErr("map: --steps <file> is required"); return 2 }
+    guard let data = FileManager.default.contents(atPath: stepsPath),
+          let steps = (try? JSONSerialization.jsonObject(with: data)) as? [[String: String]],
+          !steps.isEmpty, steps.allSatisfy({ $0["id"] != nil && $0["say"] != nil }) else {
+        printErr("map: \(stepsPath) must be a JSON array of objects with string fields id and say")
+        return 2
+    }
+    guard let client = makeClient(), let port = makeInputPort(client: client) else { printErr("map: cannot open CoreMIDI. Run this in the desktop session of the computer, not over SSH."); return 1 }
+
+    let fm = FileManager.default
+    let path: String
+    if let p = outPath { path = p } else {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.dateFormat = "yyyyMMdd-HHmmss"
+        path = "local/captures/map-\(f.string(from: Date())).jsonl"
+    }
+    try? fm.createDirectory(atPath: (path as NSString).deletingLastPathComponent.isEmpty ? "." : (path as NSString).deletingLastPathComponent, withIntermediateDirectories: true)
+    guard fm.createFile(atPath: path, contents: nil), let file = FileHandle(forWritingAtPath: path) else { printErr("map: cannot write \(path)"); return 1 }
+
+    let lock = NSLock()
+    var buffer: [Record] = []
+    var lastMessage = Date()
+    var commands: [String] = []
+    func deliver(_ r: Record) {
+        if skip.contains(r.kind) { return }
+        lock.lock(); buffer.append(r); lastMessage = Date(); lock.unlock()
+    }
+    var connected = 0
+    for s in 0..<MIDIGetNumberOfSources() {
+        let src = MIDIGetSource(s)
+        let name = displayName(src)
+        if !filters.isEmpty && !filters.contains(where: { name.lowercased().contains($0) }) { continue }
+        let conn = Unmanaged.passRetained(Connection(port: name, deliver: deliver))
+        if MIDIPortConnectSource(port, src, conn.toOpaque()) == noErr { connected += 1; print("listening: \(name)") }
+    }
+    if connected == 0 { printErr("map: no source matched. Run `list` to see the ports."); return 1 }
+    print("writing \(path)")
+    print("Do each step, then wait. Enter = nothing happened. r = repeat the step. q = stop.")
+
+    let reader = Thread {
+        while let line = readLine() {
+            lock.lock(); commands.append(line.trimmingCharacters(in: .whitespaces).lowercased()); lock.unlock()
+        }
+    }
+    reader.start()
+
+    var heard = 0, silent = 0
+    var index = 0
+    var quit = false
+    while index < steps.count && !quit {
+        let step = steps[index]
+        lock.lock(); buffer = []; commands = []; lock.unlock()
+        print("\n[\(index + 1)/\(steps.count)] \(step["say"] ?? "")")
+        fflush(stdout)
+        let start = Date()
+        var outcome = ""
+        while outcome.isEmpty {
+            usleep(50_000)
+            lock.lock()
+            let command = commands.isEmpty ? nil : commands.removeFirst()
+            let got = buffer
+            let last = lastMessage
+            lock.unlock()
+            if let c = command {
+                outcome = c == "r" ? "repeat" : (c == "q" ? "quit" : "none")
+            } else if !got.isEmpty && Date().timeIntervalSince(last) >= quiet {
+                outcome = "heard"
+            } else if got.isEmpty && Date().timeIntervalSince(start) >= timeout {
+                outcome = "none"
+            }
+        }
+        if outcome == "repeat" { print("  repeat"); continue }
+        if outcome == "quit" { quit = true; break }
+        lock.lock(); let got = buffer; lock.unlock()
+        let messages = outcome == "heard" ? got : []
+        for m in messages { print("  \(m.line())") }
+        if messages.isEmpty { print("  no message"); silent += 1 } else { heard += 1 }
+        var json = "{\"id\":\"\(jsonEscape(step["id"] ?? ""))\",\"action\":\"\(jsonEscape(step["action"] ?? ""))\",\"say\":\"\(jsonEscape(step["say"] ?? ""))\""
+        json += ",\"result\":\"\(messages.isEmpty ? "none" : "messages")\",\"messages\":[" + messages.map { $0.json() }.joined(separator: ",") + "]}"
+        file.write((json + "\n").data(using: .utf8)!)
+        index += 1
+    }
+    file.synchronizeFile()
+    print("\ndone: \(index) of \(steps.count) steps, \(heard) with messages, \(silent) with none\(quit ? ", stopped early" : ""). File: \(path)")
+    return 0
+}
+
 func parseHexBytes(_ tokens: [String]) -> [UInt8]? {
     var out: [UInt8] = []
     for t in tokens {
@@ -488,9 +598,11 @@ func usage() {
       midi-capture list
       midi-capture log [--port <name part>]... [--out <file>] [--seconds <n>] [--skip clock,active-sensing]
       midi-capture send --to <loopback port name part> <hex byte> ...
+      midi-capture map --steps <file> [--port <name part>]... [--out <file>] [--quiet <s>] [--timeout <s>]
       midi-capture selftest
 
     log writes JSON Lines to local/captures/ by default. Type a line during a log to add a marker.
+    map shows one step at a time and records the messages after it, to local/captures/.
     send never sends to the unit: it accepts loopback ports only.
     """)
 }
@@ -504,6 +616,8 @@ case "log":
     exit(runLog(args: Array(argv.dropFirst())))
 case "send":
     exit(runSend(args: Array(argv.dropFirst())))
+case "map":
+    exit(runMap(args: Array(argv.dropFirst())))
 case "selftest":
     exit(runSelftest())
 case "help", "--help", "-h":
