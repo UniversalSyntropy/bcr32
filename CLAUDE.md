@@ -22,6 +22,7 @@ If `local/SITE.md` exists, read it before any task. It holds the user's own setu
 ## Keeping docs current
 
 - Follow the documentation standard in CONTRIBUTING.md.
+- Write in Simplified Technical English: follow the [rules in CONTRIBUTING.md](CONTRIBUTING.md#simplified-technical-english) for every document, README, changelog line, tool message and code comment. Change an existing document to the rules when you edit it.
 - When an answer reveals a fix, a tested procedure or a manual error, update the matching doc, `docs/README.md`, `llms.txt` and `CHANGELOG.md` in the same change.
 - Mark results from testing on a unit "verified" with the firmware version; mark everything else "unverified".
 

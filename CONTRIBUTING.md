@@ -29,13 +29,13 @@ Put notes about your own machines and setup in `local/`. Everything in `local/` 
 
 ### Check before each commit
 
-Run this to search staged changes for common personal-data patterns. Add your own names and hostnames to the pattern locally; don't commit them.
+Run this to search staged changes for common personal-data patterns. Add your own names and hostnames to the pattern locally; do not commit them.
 
 ```bash
 git diff --cached | grep -n -i -E '/Users/[a-z]|C:\\Users\\|@[a-z0-9-]+\.[a-z]{2,}|\b(10|172|192)\.[0-9]+\.[0-9]+\.[0-9]+\b|\.local\b|serial'
 ```
 
-No output means no match. A match isn't always a problem, but read each one before you commit.
+No output means no match. A match is not always a problem, but read each one before you commit.
 
 ### Run the checks
 
@@ -72,7 +72,7 @@ Each fact has one home. Other documents link to it instead of copying it.
 ### Claims and accuracy
 
 - **Official manual facts:** cite the section. If the manual is wrong or unclear, add a row to the reference's "Source errors and gaps" table.
-- **Untested steps:** mark the step or the whole guide "unverified". Don't present an untested procedure as fact.
+- **Untested steps:** mark the step or the whole guide "unverified". Do not present an untested procedure as fact.
 - **Tested steps:** record the firmware version and the date in the document and in `CHANGELOG.md`.
 - **Other software:** name the version you tested with (for example Ableton Live 12.4).
 
@@ -83,6 +83,35 @@ Each fact has one home. Other documents link to it instead of copying it.
 - Callouts use only `> **Note:**`, `> **Warning:**` and `> **Tip:**`. Put a warning before the step it applies to.
 - File names in lowercase with hyphens. Wrap prose at about 100 characters where practical.
 
+### Simplified Technical English
+
+Write all documentation in Simplified Technical English. These rules are based on ASD-STE100. They add to the rules above, and where a rule here disagrees with a rule above, the rule here applies.
+
+The rules apply to documents, READMEs, the changelog, tool messages and code comments. They do not apply to quoted text, panel labels, display strings or code.
+
+| Rule | Limit or example |
+| --- | --- |
+| One instruction in each step | "Press STORE (B61)." then "Turn SELECT (SEL)." |
+| Short sentences | 20 words at most in a step, 25 words at most in other text |
+| One topic in each paragraph | 6 sentences at most; the 3-sentence limit above stays the target |
+| Active voice | "The unit sends a message", not "A message is sent" |
+| Simple verb forms | "Press", "the LED flashes"; not "pressing", "is flashing", "has been pressed" |
+| One word for one meaning | Use the glossary term each time. If you write "pattern", do not change to "sequence" for the same thing |
+| One meaning for each word | "Turn" is always the encoder movement. Use "change" for a setting |
+| No contractions | "do not", "is not", "cannot" |
+| Articles stay in | "Press the button", not "Press button" |
+| Short noun groups | 3 nouns at most: "track mute button", not "track mute button LED state" |
+| Result after the step | "The display shows `PIT`." |
+| Condition before the instruction | "If the LED flashes, press EXIT (B60)." |
+| Warning before the step | Start the warning with the command or the condition |
+| No slash between words in prose | "store or load", not "store/load". Panel labels such as LD/LRN stay as printed |
+
+Technical names are permitted as they are: control IDs, panel labels, MIDI terms, product names and glossary terms.
+
+> **Note:** The project does not claim conformance to ASD-STE100. The rules follow its method; they do not use its dictionary.
+
+Change an existing document to these rules when you edit it.
+
 ### Keep it maintained
 
 - Update `docs/README.md` and `llms.txt` when you add, rename or remove a document.
@@ -91,8 +120,8 @@ Each fact has one home. Other documents link to it instead of copying it.
 
 ## Copyright
 
-Don't commit the official PDF or copy large passages from it. Restate facts in your own words and structure, and cite the manual section.
+Do not commit the official PDF or copy large passages from it. Restate facts in your own words and structure, and cite the manual section.
 
 ## License of contributions
 
-By contributing, you agree that documentation you add is licensed under [CC BY 4.0](LICENSE-docs) and code under the [MIT License](LICENSE). Credit goes to "bcr32 contributors"; don't add personal names to license or copyright lines.
+By contributing, you agree that documentation you add is licensed under [CC BY 4.0](LICENSE-docs) and code under the [MIT License](LICENSE). Credit goes to "bcr32 contributors"; do not add personal names to license or copyright lines.

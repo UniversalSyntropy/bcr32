@@ -17,9 +17,9 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
 | Current step | none |
-| Next step | 1.3 Element data |
-| R1 progress | 2 of 27 steps done, 25 remain |
-| Tokens used in R1 | about 75k of 1,100k (approved 2026-11-11) |
+| Next step | 1.4 Mode and function data |
+| R1 progress | 3 of 27 steps done, 24 remain |
+| Tokens used in R1 | about 105k of 1,100k (approved 2026-11-11) |
 | Blocked on | nothing |
 | Last updated | 2026-11-11 |
 
@@ -49,7 +49,7 @@ Goal: prove the current draft with data, checks and a unit session, so the repo 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1.1 | Workspace and CI | npm workspace, TypeScript, markdownlint, one CI workflow | CI green | 40k | 40k | ✅ | branch `r1a/p1-foundations`; the four check tools join CI in step 1.5 |
 | 1.2 | Schema | Zod schema, generated types and JSON Schema | a broken data file fails | 40k | 35k | ✅ | 22 broken-data cases fail; geometry fields are optional until R2 |
-| 1.3 | Element data | 85 callouts, 88 elements, groups, labels, colours | count check | 20k | | ☐ | |
+| 1.3 | Element data | 85 callouts, 88 elements, groups, labels, colours | count check | 20k | 20k | ✅ | label colours come from the manual's illustration; not checked on a unit |
 | 1.4 | Mode and function data | modes, functions, value sets with source labels | cross-check against the reference | 50k | | ☐ | |
 | 1.5 | Check tools | privacy-check, docs-check, coverage-check, gen-tables | planted-fault tests | 50k | | ☐ | |
 | 1.6 | P1 verification | rerun every check, read the diff, hand over | all green | 40k | | ☐ | |
@@ -125,6 +125,13 @@ Steps for these are written out when the release is approved.
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
 
+### 2026-11-11, step 1.3 and the language rule
+
+- **Closed:** step 1.3. `data/devices/bcr32/` holds `device.json` and `elements.json`; the count test passes.
+- **Added rule:** documentation follows Simplified Technical English (decision D60). The rules are in the contributing guide.
+- **Next:** step 1.4, mode and function data.
+- **Know this:** element records carry no lit colours and no ring LED count, because the manual does not give them per element. Lit colours go in `modes.json`. Step 1.5 adds the language checks to `docs-check`. Steps 2.1 to 2.8 change the existing documents to the language rules.
+
 ### 2026-11-11, step 1.2
 
 - **Closed:** step 1.2. Schemas, loader, JSON Schema files and the validate command are in `packages/device-data`.
@@ -162,6 +169,7 @@ Newest first. One entry per session: what closed, what is next, anything the nex
 
 ## Standing rules
 
+- **Language:** all documentation follows the Simplified Technical English rules in the [contributing guide](../../CONTRIBUTING.md#simplified-technical-english). Change an existing document to the rules when you edit it.
 - **Unit safety first:** every unit step follows the [unit safety protocol](unit-safety.md). Backup and recovery knowledge come before any message to the unit.
 - **Leak guard, three layers:** local git hooks block a commit or push that holds a personal-data pattern; CI runs `privacy-check`; the publish checklist scans the full history.
 - **Online material:** images and diagrams found online are linked and recorded in a sources table, never copied into the repo.
