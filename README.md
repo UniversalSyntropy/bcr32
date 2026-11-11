@@ -33,7 +33,7 @@ The BCR32 combines two devices: a 4-track, 32-step sequencer (the "Zaquencer", w
 ## Status
 
 - **Documentation:** draft. The reference covers the full English section of the official manual V2.0. Guides marked "unverified" haven't been tested on a unit yet.
-- **Firmware covered:** the official manual doesn't state a firmware version.
+- **Firmware covered:** the official manual doesn't state a firmware version. Facts marked verified were tested on firmware 1.0.3.
 - **Tools:** none yet.
 
 ## Official sources
