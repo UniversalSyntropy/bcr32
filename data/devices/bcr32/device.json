@@ -1,0 +1,35 @@
+{
+  "$schema": "../../schema/device.schema.json",
+  "schemaVersion": 1,
+  "dataVersion": "0.1.0",
+  "id": "bcr32",
+  "name": "BCR32",
+  "manufacturer": "Behringer",
+  "manual": { "title": "Behringer BCR32 User Manual", "version": "V2.0 (2026-04-06)", "pages": "English pages 14–35" },
+  "firmware": "1.0.3",
+  "counts": { "callouts": 85, "elements": 88 },
+  "views": [
+    { "id": "top", "name": "Top panel" },
+    { "id": "rear", "name": "Rear panel" }
+  ],
+  "groups": [
+    { "id": "mode", "name": "Mode button", "view": "top" },
+    { "id": "status", "name": "Status LEDs", "view": "top" },
+    { "id": "parameters", "name": "Parameter buttons", "view": "top", "note": "Two rows of eight." },
+    { "id": "tracks", "name": "Track buttons", "view": "top", "note": "Two rows of two." },
+    { "id": "steps", "name": "Step encoders", "view": "top", "note": "Four rows of eight." },
+    { "id": "display", "name": "Display and SELECT encoder", "view": "top" },
+    { "id": "edit", "name": "Edit, exit, store and load buttons", "view": "top" },
+    { "id": "pages", "name": "Page and preset buttons", "view": "top" },
+    { "id": "performance", "name": "Instrument select and mixer buttons", "view": "top" },
+    { "id": "transport", "name": "Transport buttons", "view": "top" },
+    { "id": "power", "name": "USB-C ports", "view": "rear" },
+    { "id": "midi", "name": "MIDI DIN jacks", "view": "rear" },
+    { "id": "footswitch", "name": "Footswitch jacks", "view": "rear" },
+    { "id": "sync", "name": "Sync jacks", "view": "rear" },
+    { "id": "cv-gate", "name": "CV and gate jacks", "view": "rear", "note": "Order: CV 1, GATE 1, CV 2, GATE 2, CV 3, GATE 3, CV 4, GATE 4." }
+  ],
+  "ledColours": ["off", "pink", "amber", "blue", "green", "red"],
+  "labelColours": ["red", "orange", "yellow", "lime", "green", "teal", "cyan", "magenta", "white", "dark"],
+  "note": "Label colours are read from the panel illustration in the official manual. The names are approximate and are not checked on a unit. Rear jacks are listed left to right as seen from behind."
+}

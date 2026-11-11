@@ -49,6 +49,7 @@ export const DeviceFile = z.strictObject({
   groups: z.array(z.strictObject({ id: Key, name: Text, view: Key, note: Text.optional() })).min(1),
   ledColours: z.array(Key).min(1), // named states an LED or lit button can show; includes "off"
   labelColours: z.array(Key).min(1), // named print colours of panel labels
+  note: Text.optional(),
 });
 
 // elements.json
@@ -69,7 +70,7 @@ export const Element = z.strictObject({
   group: Key,
   labels: z.array(Label),
   panelNumber: z.int().optional(), // number printed at the control, when it differs from the callout
-  grid: z.strictObject({ row: z.int().min(0), col: z.int().min(0) }).optional(),
+  grid: z.strictObject({ row: z.int().min(0), col: z.int().min(0) }).optional(), // row and column inside the group
   position: z.strictObject({ x: z.number(), y: z.number() }).optional(), // panel units; entered with geometry
   size: z.strictObject({ w: z.number().positive(), h: z.number().positive() }).optional(),
   push: z.boolean().optional(), // encoder has a push switch
