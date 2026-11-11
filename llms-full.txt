@@ -172,6 +172,35 @@ Row 3 split labels: the first half (WAVE, GAIN, RATE, OFFSET) is the Wave Gen pa
 
 The label "◄ PAGES/PRESETS ►" sits above B63/B64.
 
+## 3.5 Diagram of the top panel
+
+This is our own drawing of the top panel, seen from above. Each cell is a [control ID](13-glossary.md#control-id). The number in a control ID is its [callout](13-glossary.md#callout) number, except for the LEDs: L2 has three LEDs, L3 has two and L4 has one. The drawing shows order and grouping. It does not show true sizes or spacing.
+
+```text
+                                    B1            L2.in L2.a L2.b L3.1 L3.2 L4
+
+ B5  B6  B7  B8  B9  B10 B11 B12                  B21  B22
+ B13 B14 B15 B16 B17 B18 B19 B20                  B23  B24
+
+ E25 E26 E27 E28 E29 E30 E31 E32                  DISP SEL
+ E33 E34 E35 E36 E37 E38 E39 E40                  B59  B60
+ E41 E42 E43 E44 E45 E46 E47 E48                  B61  B62
+ E49 E50 E51 E52 E53 E54 E55 E56                  B63  B64
+                                                  B65  B66
+                                                  B67  B68
+```
+
+| Area | Controls | Details |
+| --- | --- | --- |
+| Parameter buttons | `B5`–`B20` | two rows of eight, section 3.1 |
+| Mode button | `B1` | above the parameter buttons, at the right, section 3.2 |
+| Status LEDs | `L2.in`, `L2.a`, `L2.b`, `L3.1`, `L3.2`, `L4` | top right, section 3.2 |
+| Track buttons | `B21`–`B24` | two rows of two, section 3.2 |
+| Encoder grid | `E25`–`E56` | four rows of eight, section 3.3 |
+| Right block | `DISP`, `SEL`, `B59`–`B68` | six rows of two, section 3.4 |
+
+The photos from the unit session confirm this order on firmware 1.0.3.
+
 ---
 
 <!-- file: docs/manual/04-rear-panel.md -->
@@ -199,6 +228,24 @@ Hook-up examples in the source:
 
 - **Studio:** J70 → computer USB. Computer → audio interface → monitors / headphones.
 - **Band:** J72 MIDI OUT → synth MIDI IN. J77 SYNC OUT → drum machine SYNC IN. GATE out → second synth GATE IN. Footswitch on J74. USB-C power adapter on J69.
+
+## 4.1 Diagram of the rear panel
+
+This is our own drawing of the rear panel, left to right as seen from behind. Each cell is a [control ID](13-glossary.md#control-id). Gaps separate the groups.
+
+```text
+ J69  J70    J71  J72  J73    J74  J75    J76  J77    J78 J79 J80 J81 J82 J83 J84 J85
+ PWR  PWR/   IN   OUT  OUT    FS1  FS2    SYN  SYN    CV1 GT1 CV2 GT2 CV3 GT3 CV4 GT4
+      DATA       A    B/THRU               IN   OUT
+```
+
+| Group | Controls |
+| --- | --- |
+| Power and USB | `J69`, `J70` |
+| MIDI DIN | `J71`, `J72`, `J73` |
+| Footswitch | `J74`, `J75` |
+| Sync | `J76`, `J77` |
+| CV and gate | `J78`–`J85`, in the order CV1, GATE1 to CV4, GATE4 |
 
 ---
 
