@@ -13,3 +13,6 @@ __pycache__/
 .venv/
 node_modules/
 LIVE-STATUS.md
+
+# Agent worktrees
+.claude/worktrees/
