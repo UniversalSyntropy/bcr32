@@ -36,7 +36,7 @@ The tool prints one line for each finding: `path:line: rule: message`.
 | `anchor` | the `#fragment` of a relative link matches no heading in the target file |
 | `control-id` | a control ID outside a code fence is not an element ID in the device data |
 | `action` | a code span that starts with the word `hold` does not have the shape `hold <control>` or `hold <control> + <action>` |
-| `glossary` | in a file under `docs/manual/`, the first use of a glossary term is not a link to its entry in `13-glossary.md`. A level-3 heading in the glossary defines a term |
+| `glossary` | in a file under `docs/manual/`, the first use of a glossary term is not a link to its entry in `13-glossary.md`. A level-3 heading in the glossary defines a term. Text between `gen:` markers is generated and is skipped |
 | `ste-contraction` | prose holds a contraction such as `don't` |
 | `ste-sentence` | a step has more than 20 words, or other prose has more than 25 words in a sentence |
 | `ste-pending` | the pending list names a file that does not exist or that now passes the `ste-*` rules |

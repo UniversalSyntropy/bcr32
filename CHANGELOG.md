@@ -4,6 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-11
 
+- Added manual chapter 14. It holds a control table for each of the 17 modes, an index by control and an index by function. A tool writes all of them from the device data. Added `llms-full.txt`, one file with the whole manual. `gen-tables` has two new generators and a build for `llms-full.txt`. `docs-check` skips the glossary rule inside generated blocks.
 - Added the glossary (manual chapter 13, 53 terms). The first use of each term in a manual file now links to it. Added the `glossary` rule to `docs-check`, with six planted-fault tests.
 - Verified on firmware 1.0.3: backup exports of sequencer and controller memory. Added the file layout, the repeat-export result and the panel export result to the findings page.
 - Added two quick starts (sequencer and controller) and a task lookup to chapter 10 of the manual. The lookup gives key sequences and chapter links. The steps come from the manual and are unverified on a unit.

@@ -30,3 +30,4 @@ This manual restates the official Behringer BCR32 user manual (V2.0) as structur
 | 11 | [Display strings seen in the source](11-display-strings-seen-in-the-source.md) |
 | 12 | [Source errors and gaps](12-source-errors-and-gaps.md) |
 | 13 | [Glossary](13-glossary.md) |
+| 14 | [Generated tables and indexes](14-generated-tables-and-indexes.md) |

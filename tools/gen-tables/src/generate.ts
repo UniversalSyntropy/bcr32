@@ -91,6 +91,29 @@ export const GENERATORS: Record<string, Generator> = {
     );
   },
 
+  // Index by control: every element, the functions that use it, with the mode of each.
+  "index-controls": (d) => {
+    const modeName = new Map(d.modes.map((m) => [m.id, m.name]));
+    return table(
+      ["Control", "Kind", "Functions (mode: function)"],
+      d.elements.map((e) => {
+        const uses = d.functions.filter((f) => f.elements.includes(e.id));
+        return [code(e.id), KIND_NAMES[e.kind] ?? e.kind, uses.map((f) => `${modeName.get(f.mode)}: ${f.name}`).join("; ") || undefined];
+      }),
+    );
+  },
+
+  // Index by function: every function by name, with its mode, controls and action.
+  "index-functions": (d) => {
+    const modeName = new Map(d.modes.map((m) => [m.id, m.name]));
+    return table(
+      ["Function", "Mode", "Controls", "Action"],
+      [...d.functions]
+        .sort((a, b) => a.name.localeCompare(b.name) || a.mode.localeCompare(b.mode))
+        .map((f) => [f.name, modeName.get(f.mode), idRanges(f.elements), f.action === undefined ? undefined : code(f.action)]),
+    );
+  },
+
   // One value set. Parameter: set=<value set ID>.
   values: (d, p) => {
     const id = need(p, "set");

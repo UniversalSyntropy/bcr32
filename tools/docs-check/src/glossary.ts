@@ -47,8 +47,11 @@ export function checkGlossary(path: string, text: string, env: Env): Finding[] {
   const terms = glossaryTerms(glossary);
   const done = new Set<string>();
   const findings: Finding[] = [];
+  let generated = false; // text between gen markers comes from device data and cannot carry links
   for (const l of splitLines(text)) {
-    if (!isProse(l) || /^ {0,3}#{1,6}\s/.test(l.text)) continue;
+    const marker = /^<!-- gen:([a-z-]+)/.exec(l.text)?.[1];
+    if (marker !== undefined) generated = marker !== "end";
+    if (generated || !isProse(l) || /^ {0,3}#{1,6}\s/.test(l.text)) continue;
     const hits: Hit[] = [];
     for (const m of l.text.matchAll(LINK)) {
       const target = /13-glossary\.md#([^\s)]+)/.exec(m[2] ?? "");

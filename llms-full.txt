@@ -1,0 +1,1553 @@
+# bcr32
+
+> Unofficial documentation and tools for the Behringer BCR32 MIDI controller and 4-track, 32-step sequencer. Not affiliated with Behringer or Music Tribe.
+
+Control IDs used across the docs: B<n> = button, E<n> = encoder, SEL = select encoder, J<n> = rear jack. Step k = encoder E(24+k).
+
+## Reference
+
+- [BCR32 manual](docs/manual/README.md): every control, mode, menu, value range and procedure, plus known errors in the official manual
+- [Full manual in one file](llms-full.txt): `llms.txt` and every manual chapter joined, generated
+
+## Guides
+
+- [Connect to Ableton Live](docs/guides/connect-to-ableton-live.md): USB-MIDI setup, track routing, clock master choice (unverified)
+- [Troubleshooting](docs/guides/troubleshooting.md): symptoms and fixes (unverified)
+- [Recovery runbook](docs/guides/recovery-runbook.md): recovery steps from least to most invasive, with the unknowns (unverified)
+- [Unit session findings](docs/reference/capture-findings.md): results of the first unit session on firmware 1.0.3, MIDI facts seen, open items (draft)
+- [Unit session script](docs/guides/unit-session-script.md): ordered tier 0 tests for the first session at a real unit, with a photo shot list and stop conditions (unverified)
+
+## Project
+
+- [Playbook and live status](docs/project/playbook.md): the task list with the current step and what remains
+- [Project plan](docs/project/plan.md): phases for the manual, the BCR2000 and Zaquencer guide and the web panel (draft, awaiting approval)
+- [Architecture note](docs/project/architecture.md): device data model, packages, view state, label overlay, MIDI seams (design, not built)
+- [Decision log](docs/project/decisions.md): decisions with reasons
+- [Unit safety protocol](docs/project/unit-safety.md): backup-first rules and risk tiers for tests on a real unit
+- [Publish checklist](docs/project/publish-checklist.md): pre-publish checks with results, licence and trademark notes, repo description and topics
+- [Announcement draft](docs/project/announcement-draft.md): draft text to announce the public repo
+- [Parking file](docs/project/parking.md): ideas not yet planned
+- [README](README.md): overview and status
+- [Contributing](CONTRIBUTING.md): privacy rules and documentation standard
+- [Changelog](CHANGELOG.md)
+- License: documentation CC BY 4.0 (LICENSE-docs), code and data MIT (LICENSE)
+
+---
+
+<!-- file: docs/manual/00-how-to-read-this-manual.md -->
+
+# 0. How to read this manual
+
+- **[Control IDs](13-glossary.md#control-id)** use the official manual's [callout](13-glossary.md#callout) numbers: `B<n>` (button), `E<n>` ([encoder](13-glossary.md#encoder)), `SEL` ([select encoder](13-glossary.md#select-encoder-sel), 58), `DISP` ([display](13-glossary.md#display-disp), 57), `J<n>` (rear jack).
+- **[Step](13-glossary.md#step) to encoder:** step k is `E(24+k)`. Step 1 is E25, step 32 is E56. "The nth encoder" in the official manual means E(24+n).
+- **Panel label to ID:** the small number printed above each of the 16 parameter buttons (1–16) is not the ID. ID = label + 4, so panel "1 PITCH" is B5 and panel "16 DIRECTION" is B20.
+- **Action notation:** `hold X + Y` means keep X down, then press or turn Y. `X ×3s` means hold X for three seconds. `turn E` and `push E` mean rotate and press an encoder. CW and CCW mean clockwise and counter-clockwise.
+- **Mode first:** most controls change meaning with the mode, so each procedure starts by naming the mode ([Modes and menus](02-modes-and-menus.md#2-modes-and-menus-state-machine)).
+- **New to the unit:** start with the [quick start](10-quick-lookup-how-do-i.md#101-quick-start-play-a-pattern-in-zaq-mode) in chapter 10.
+
+---
+
+<!-- file: docs/manual/01-what-the-unit-is.md -->
+
+# 1. What the unit is
+
+One box with two separate devices. B1 switches between them.
+
+| Device | Name on unit | Button colour | Purpose |
+| --- | --- | --- | --- |
+| Sequencer | ZAQ / ZQR / Zaquencer | pink | 4 [tracks](13-glossary.md#track) × 32 [steps](13-glossary.md#step); MIDI, [USB-MIDI](13-glossary.md#usb-midi) and [CV](13-glossary.md#cv)/[gate](13-glossary.md#gate) out |
+| Controller | CTRL | amber | 32 [encoders](13-glossary.md#encoder) + 24 buttons sending user-assigned MIDI |
+| Settings menus | — | blue | global, sequencer and controller settings |
+
+Key numbers:
+
+- **Sequencer:** 4 tracks, 32 steps, 16 [drum voices](13-glossary.md#drum-voice) per [drum track](13-glossary.md#drum-track), 12 [pattern](13-glossary.md#pattern) [pages](13-glossary.md#page) × 16 [slots](13-glossary.md#slot), [BPM](13-glossary.md#bpm) 30–300.
+- **Controller:** 64 [presets](13-glossary.md#preset).
+- **Outputs:** 4 CV (0 to +10 V, 1 V/oct) and 4 gate (5 V or 10 V).
+- **Notes:** MIDI note range C2–G8 for pitch steps.
+
+---
+
+<!-- file: docs/manual/02-modes-and-menus.md -->
+
+# 2. Modes and menus (state machine)
+
+| Mode / menu | Enter | Exit | Lit buttons |
+| --- | --- | --- | --- |
+| ZAQ (sequencer) | tap B1 until pink | tap B1 | B1 + used B5–B20 pink |
+| CTRL (controller) | tap B1 until amber | tap B1 | amber |
+| [Global Settings](13-glossary.md#global-settings) | `B1 ×3s` (either mode) | tap B1 | B1, B5–B12 blue |
+| [ZAQ Settings](13-glossary.md#zaq-settings) | in ZAQ: `hold B59 + B61` | B60 (to the [ZAQ Global page](13-glossary.md#zaq-global-page); unverified) | B5–B8 blue |
+| [CTRL Settings](13-glossary.md#ctrl-settings) | in CTRL: `hold B59 + B61` | B60 | B5–B6 blue |
+| ZAQ Global page | in ZAQ: press B59 | B60 | [encoders](13-glossary.md#encoder) = global params (§6) |
+| ZAQ [Mixer](13-glossary.md#mixer) | in ZAQ, sequencer stopped: press B66 | B66 / B60 | B21–24, B5–20 green/red |
+| [Real-time record](13-glossary.md#real-time-record) | in ZAQ: press B65 | press B65 | — |
+| CTRL Edit | in CTRL: `hold B59 + turn/push E` or `+ press B` | B60 | — |
+| CTRL [Learn](13-glossary.md#learn) | in CTRL: `hold B62 + press/turn control` | B60 | — |
+| Erase / [SysEx](13-glossary.md#sysex) | `B61`, then `hold SEL + push E…` (§9) | B60 | — |
+
+Power-up mode is set in Global Settings → B5 (DEVICE MODE).
+
+---
+
+<!-- file: docs/manual/03-top-panel-control-map.md -->
+
+# 3. Top panel — control map
+
+Layout is a grid. Coordinates `(row, col)` are for diagram use; row 0 is the top.
+
+## 3.1 Left block: parameter buttons (B5–B20)
+
+| ID | Panel no. | Label | Pos | ZAQ meaning (§5) | [Global Settings](13-glossary.md#global-settings) | [ZAQ Settings](13-glossary.md#zaq-settings) | [CTRL Settings](13-glossary.md#ctrl-settings) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| B5 | 1 | PITCH | (0,0) | Note pitch per [step](13-glossary.md#step) | Device mode | [Gate](13-glossary.md#gate) out 5/10 V | Output routing |
+| B6 | 2 | VELOCITY | (0,1) | Velocity | Device ID | Sync in clock | [MIDI thru](13-glossary.md#midi-thru) |
+| B7 | 3 | MUTE | (0,2) | Step mute | [Operation mode](13-glossary.md#operation-mode) | Sync out clock | — |
+| B8 | 4 | DELAY | (0,3) | Micro-timing −5…+5 | CV1 measure (calibration) | Sync in start | — |
+| B9 | 5 | LENGTH | (0,4) | Note length | [Footswitch](13-glossary.md#footswitch) 1 | — | — |
+| B10 | 6 | MIDI CTRL α | (0,5) | α [control lane](13-glossary.md#control-lane) | Footswitch 2 | — | — |
+| B11 | 7 | MIDI CTRL β | (0,6) | β control lane | [Firmware](13-glossary.md#firmware) version | — | — |
+| B12 | 8 | WAVE GEN | (0,7) | [Wave generator](13-glossary.md#wave-generator) | [Factory restore](13-glossary.md#factory-restore) | — | — |
+| B13 | 9 | [CHORD](13-glossary.md#chord) | (1,0) | Chord per step | — | — | — |
+| B14 | 10 | STEP SKIP | (1,1) | Skip per step | — | — | — |
+| B15 | 11 | SEQ START | (1,2) | Start step | — | — | — |
+| B16 | 12 | SEQ LENGTH | (1,3) | Length 1–32 | — | — | — |
+| B17 | 13 | SEQ OFFSET | (1,4) | Offset 0–31 | — | — | — |
+| B18 | 14 | CLK DIVIDER | (1,5) | Clock division | — | — | — |
+| B19 | 15 | [SHUFFLE](13-glossary.md#shuffle) | (1,6) | Shuffle | — | — | — |
+| B20 | 16 | DIRECTION | (1,7) | Play direction | — | — | — |
+
+Other roles of B5–B20:
+
+- **[Drum voices](13-glossary.md#drum-voice):** on a [drum track](13-glossary.md#drum-track), B5–B20 = drum voices 1–16.
+- **[Pattern](13-glossary.md#pattern) [slots](13-glossary.md#slot):** in STORE / LOAD, B5–B20 = slots 1–16 of the current [page](13-glossary.md#page). Green = slot used. Flashing = current pattern.
+- **Virtual keyboard (real-time note entry):** piano layout. Black keys = B6, B7, B9, B10, B11 (C#, D#, F#, G#, A#). White keys = B13–B20 (C, D, E, F, G, A, B, C). B5, B8, B12 not used. Key-to-note mapping is inferred from the layout; the source only lists the buttons.
+- **Number pad ([CV](13-glossary.md#cv) calibration):** B5–B14 = digits, B15 = +, B16 = −, B19 = clear, B20 = backspace. The source does not say which button is which digit.
+- **[CTRL mode](13-glossary.md#ctrl-mode):** B5–B24 are assignable.
+
+## 3.2 Track buttons and status LEDs
+
+| ID | Label | Pos | Function |
+| --- | --- | --- | --- |
+| B1 | ZQR/CTRL | above B12 | Mode toggle; `×3s` = Global Settings |
+| B21 | T1 | (0,8) | Select [track](13-glossary.md#track) 1 |
+| B22 | T2 | (0,9) | Select track 2 |
+| B23 | T3 | (1,8) | Select track 3 |
+| B24 | T4 | (1,9) | Select track 4 |
+| L2 | MIDI IN / A / B | top right | MIDI activity |
+| L3 | FOOTSW 1 / 2 | top right | Flash on footswitch use |
+| L4 | USB MODE | top right | USB activity |
+
+Track buttons: current track flashes; green = playing, red = muted in [mixer](13-glossary.md#mixer). Only one track is selected for editing. A small "DRUM NOTES" legend sits between the T rows.
+
+## 3.3 Encoder grid (E25–E56)
+
+Each [encoder](13-glossary.md#encoder): push switch + LED ring. The step number (1–32) is printed above it. Steps 1, 5, 9 … 29 are boxed as beat markers. The label printed below is its ZAQ Global function (§6).
+
+| Row | Encoders | Steps | Labels below (ZAQ Global) |
+| --- | --- | --- | --- |
+| 2 | E25–E32 | 1–8 | [BPM](13-glossary.md#bpm) · CLOCK INT/EXT · CLOCK OUT · MIDI THROUGH · NOTE [DISPLAY](13-glossary.md#display-disp) · [SCALE](13-glossary.md#scale) · SCALE BASE · [TRANSPOSE](13-glossary.md#transpose) ENBL |
+| 3 | E33–E40 | 9–16 | WAVE/TRIG ENBL · GAIN/TRIG [CC](13-glossary.md#control-change-cc) NR · RATE/QUANT · OFFSET/Q-MIXER · TRACKMODE T1 · T2 · T3 · T4 |
+| 4 | E41–E48 | 17–24 | MIDI OUT UAB T1 · MIDI OUT CH T1 · UAB T2 · CH T2 · UAB T3 · CH T3 · UAB T4 · CH T4 |
+| 5 | E49–E56 | 25–32 | MIDI CTRL α T1 · β T1 · α T2 · β T2 · α T3 · β T3 · α T4 · β T4 |
+
+Row 3 split labels: the first half (WAVE, GAIN, RATE, OFFSET) is the Wave Gen parameter while B12 is held. The second half is the Global function. "UAB" = USB / MIDI A / MIDI B routing.
+
+## 3.4 Right block
+
+| ID | Label | Pos (row, col in block) | ZAQ | CTRL |
+| --- | --- | --- | --- | --- |
+| DISP | display | (0,0) | parameter/value | parameter/value |
+| [SEL](13-glossary.md#select-encoder-sel) (58) | SELECT | (0,1) | turn = value, push = enter/confirm | same |
+| B59 | EDIT / GLOBAL | (1,0) | Global page; hold + encoder = edit all steps | hold = assign controls |
+| B60 | EXIT | (1,1) | leave STORE/LOAD/GLOBAL | leave EDIT/STORE/LOAD |
+| B61 | STORE | (2,0) | store pattern | store [preset](13-glossary.md#preset) |
+| B62 | LD/LRN | (2,1) | LOAD pattern | [LEARN](13-glossary.md#learn) |
+| B63 | TAP DELETE / ◄ | (3,0) | erase in real-time rec; page down; hold = peek global value | previous preset/location; previous setup option |
+| B64 | TAP WRITE / ► / NOTE RPT | (3,1) | rec sub-mode; page up; in Mixer = [note repeat](13-glossary.md#note-repeat) | next preset/location; next setup option |
+| B65 | INST SEL | (4,0) | real-time programming on/off | assignable |
+| B66 | MIXER | (4,1) | mixer | assignable |
+| B67 | RESET (↻) | (5,0) | jump to step 1 | assignable |
+| B68 | PLAY/STOP | (5,1) | start/stop | assignable |
+
+The label "◄ PAGES/PRESETS ►" sits above B63/B64.
+
+---
+
+<!-- file: docs/manual/04-rear-panel.md -->
+
+# 4. Rear panel
+
+Left to right as seen from behind:
+
+| ID | Jack | Type | Use |
+| --- | --- | --- | --- |
+| J69 | POWER | USB-C | power only |
+| J70 | POWER/DATA | USB-C | power + [USB-MIDI](13-glossary.md#usb-midi) to computer |
+| J71 | MIDI IN | 5-pin DIN | MIDI + clock in |
+| J72 | MIDI OUT A | 5-pin DIN | MIDI + clock out |
+| J73 | OUT B / THRU | 5-pin DIN | second out, or thru (mirrors MIDI IN + USB) |
+| J74, J75 | [FOOTSWITCH](13-glossary.md#footswitch) 1, 2 | 6.35 mm TS | assignable footswitches |
+| J76 | SYNC IN | 3.5 mm TRS | tip = clock, ring = start/stop |
+| J77 | SYNC OUT | 3.5 mm TRS | clock + start/stop out |
+| J78, J80, J82, J84 | [CV](13-glossary.md#cv) 1–4 | 3.5 mm TS | 1 V/oct pitch, [tracks](13-glossary.md#track) 1–4 |
+| J79, J81, J83, J85 | [GATE](13-glossary.md#gate) 1–4 | 3.5 mm TS | gate, tracks 1–4 |
+
+Physical order of the output jacks: CV1, GATE1, CV2, GATE2, CV3, GATE3, CV4, GATE4.
+
+Hook-up examples in the source:
+
+- **Studio:** J70 → computer USB. Computer → audio interface → monitors / headphones.
+- **Band:** J72 MIDI OUT → synth MIDI IN. J77 SYNC OUT → drum machine SYNC IN. GATE out → second synth GATE IN. Footswitch on J74. USB-C power adapter on J69.
+
+---
+
+<!-- file: docs/manual/05-sequencer-per-track-parameters.md -->
+
+# 5. Sequencer (ZAQ mode) — per-track parameters
+
+Select the [track](13-glossary.md#track) first (B21–B24). B5–B20 settings are per track. Everything can change while playing.
+
+General rule: press a parameter button, then turn the [step](13-glossary.md#step) [encoders](13-glossary.md#encoder) E25–E56. `hold B59 + turn any E` moves every step together to its max or min.
+
+| Button | Encoders do | Range / options | Default |
+| --- | --- | --- | --- |
+| B5 PITCH | note per step | C2–G8; [CV](13-glossary.md#cv) 0–10 V. Ring shows pitch (range set by Global E29); last 3 LEDs show [playhead](13-glossary.md#playhead) | C3 (MIDI 60) |
+| B6 VELOCITY | velocity per step | 0–127 | 100 |
+| B7 MUTE | toggle play/mute | LED lit = plays | play |
+| B8 DELAY | timing shift | −5 (early) … 0 … +5 (late) | 0 |
+| B9 LENGTH | note length | 96, t32, 32, t16, 16, t8, 8, t4, 4, t2, 2, t1b, 1b, t2b, 2b, 4b | 32 (32nd note) |
+| B10 MIDI CTRL α | α value per step | Off, 1–127; target set by E49/51/53/55 | — |
+| B11 MIDI CTRL β | β value per step | Off, 1–127; target set by E50/52/54/56 | — |
+| B12 WAVE GEN | hold B12 + E33–E36 | E33 waveform (random, sine, triangle, saw, ramp, rectangle); E34 gain 0–100 (50); E35 rate 1–32 (5); E36 offset 0–127 or "add" (63) | — |
+| B13 [CHORD](13-glossary.md#chord) | chord per step (MIDI only) | see list below | Off |
+| B14 STEP SKIP | toggle play/skip | LED lit = plays | play |
+| B15 SEQ START | turn the encoder of the start step | step 1–32 | 1 |
+| B16 SEQ LENGTH | E25 = 1 … E56 = 32 | 1–32 | 32 |
+| B17 SEQ OFFSET | E25 = 0 … E56 = 31 | 0–31 steps | 0 |
+| B18 CLK DIVIDER | [SEL](13-glossary.md#select-encoder-sel) | 1, 2, 4, 8, 16, 32, 24, 12, 6, 3 | 16 |
+| B19 [SHUFFLE](13-glossary.md#shuffle) | E30 even, E31 odd | E 0/16/33/50/66/83; O 0/16/33/60/66/83 | 0 |
+| B20 DIRECTION | SEL | Forward, Backward, Pip 0 (pendulum, ends repeated), Random, Pendulum | Forward |
+
+Apply Wave Gen to lanes: `hold B12 + press` one or more of B5–B11 (pitch, velocity, mute, delay, length, α, β).
+
+Chord types: Off, Minor, Major, Diminished, Augmented, Diminished 7th, Minor 7th ♭5, Minor 7th, Minor maj7, Major 7th ♭5, Major 7, Major 7 ♯5. The manual prints the entry as one line: "Major 7th with flat 5th, 6th, 7th". Each type also has Octave − and Octave +. Intervals: minor 2nd, major 2nd, minor 3rd, major 3rd, perfect 4th, diminished 5th, perfect 5th, minor 6th, major 6th, minor 7th, major 7th.
+
+---
+
+<!-- file: docs/manual/06-zaq-global-page.md -->
+
+# 6. ZAQ Global page (press B59 in ZAQ)
+
+`hold B63 + turn E` shows a value without changing it.
+
+| Enc | Parameter | Options | Default |
+| --- | --- | --- | --- |
+| E25 | [BPM](13-glossary.md#bpm) | 30–300 (internal clock) | — |
+| E26 | [Clock source](13-glossary.md#clock-source) | Internal, MIDI, USB, Sync (analog) — limited by [Operation Mode](13-glossary.md#operation-mode) | — |
+| E27 | Clock out | outputs that get the clock when the internal clock is the source: Off, MIDI A, MIDI B, A&B, USB, A&USB, B&USB, A&B&USB | Off |
+| E28 | [MIDI thru](13-glossary.md#midi-thru) | source Off/MIDI/USB; push [SEL](13-glossary.md#select-encoder-sel) to switch to destination; dest Off, the 7 routings, or the 7 routings Filtered ("F", drops duplicated internal MIDI such as clock). With source Off, Off is the only destination. The full range needs MIXED | — |
+| E29 | Note [display](13-glossary.md#display-disp) | OcMi (MIDI no. 1–127, ring = 1 oct), OCNa (octave −2 to +8 and name C to B, ring = 1 oct), AlMi (MIDI no. 1–127, ring = full range), AlNa (octave and name, ring = full range) | — |
+| E30 | [Scale](13-glossary.md#scale) | OFF, Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian, Whole Tone, Minor 7th, Diminished 7th, Octatonic W-H, Octatonic H-W, Major Pentatonic, Minor Pentatonic, Inverted, USER | OFF |
+| E31 | Scale base | C–B | — |
+| E32 | [Transpose](13-glossary.md#transpose) enable | Off; MIDI ch 1–16; [Track](13-glossary.md#track) (each track follows notes on its own channel); 1-4 … 13-16 (track 1 follows ch n, track 2 ch n+1 …) | Off |
+| E33 | Trigger enable | Off or MIDI ch 1–16 for [CC](13-glossary.md#control-change-cc) [pattern](13-glossary.md#pattern) switching | — |
+| E34 | Trigger CC no. | CC used to switch patterns | — |
+| E35 | Rate / [quantize](13-glossary.md#quantize) | 96, t32, 32, t16 … 4b | 32 |
+| E36 | Q on/off | quantize on/off | on |
+| E37–E40 | Track mode T1–T4 | [Chord](13-glossary.md#chord) or Drum | Chord (inferred: the manual gives no default) |
+| E41/43/45/47 | MIDI out T1–T4 | USB, MIDI A, MIDI B, A&B, USB&A, USB&B, USB&A&B (full list needs MIXED) | — |
+| E42/44/46/48 | MIDI channel T1–T4 | 1–16 | — |
+| E49/51/53/55 | α target T1–T4 | off, delay, ratchet, [program change](13-glossary.md#program-change-pc), [aftertouch](13-glossary.md#aftertouch-at), [pitch bend](13-glossary.md#pitch-bend-pb), CC 0–127 | off |
+| E50/52/54/56 | β target T1–T4 | same as α | off |
+
+Scale notes:
+
+- **Non-destructive:** scale and base bend the notes at playback; the stored notes stay as they are.
+- **Make permanent:** press B10 + B11 together. This rewrites the notes and cannot be undone.
+- **User scale:** with SCALE (E30) active, `hold B10`. E41–E52 light up; set the 12 notes.
+
+---
+
+<!-- file: docs/manual/07-sequencer-procedures.md -->
+
+# 7. Sequencer procedures
+
+## 7.1 Prepare
+
+1. Select [track](13-glossary.md#track) (B21–B24). Confirm track mode is [Chord](13-glossary.md#chord) (Global E37–E40).
+2. All [steps](13-glossary.md#step) default to C3. Use that note to tune the synth (warm analog gear up first).
+3. `hold B5 + turn any E` to move the default pitch to the key's root note.
+4. Press B7 and mute steps you will not use.
+
+## 7.2 Step-enter notes
+
+1. Select track. Press B5.
+2. Turn the [encoder](13-glossary.md#encoder) for each step. [DISP](13-glossary.md#display-disp) shows the note.
+3. Optional: press B13 and pick a chord per step.
+
+## 7.3 Real-time record (note track)
+
+1. Press B65. DISP shows NOTE (play notes, no recording).
+2. Press B64 to cycle NOTE → MONITOR → RECORD → NOTE.
+   - **MONITOR:** [pattern](13-glossary.md#pattern) plays (B68), you play along, nothing records.
+   - **RECORD:** with [playhead](13-glossary.md#playhead) running, each key press or incoming MIDI note goes to the nearest step.
+3. Play from the virtual keyboard (§3.1) or a MIDI keyboard.
+4. Erase: in RECORD, `hold B63 + press the note key` while the playhead passes the steps. Hold for a full pattern to erase every instance.
+5. Press B65 to leave.
+
+## 7.4 Drum tracks
+
+- **Set a track to Drum:** B59 (Global), turn E37–E40 for the track to Drum.
+- **[Drum voice](13-glossary.md#drum-voice) pitches:** in Global, `hold track button (B21–24)`; E25–E40 set voices 1–16. DISP and ring show the note; the note also sounds on the track's outputs.
+- **Step-enter:** B65, press drum B5–B20, turn the encoders of the steps you want. Turn again to remove. [Ring LED](13-glossary.md#ring-led) marks programmed steps.
+- **Fill all steps:** `hold drum button + turn any E CW`. Clear all: same, CCW.
+- **Random:** select drum (B5–B20), `hold B65 + press B12`. Remove single steps by turning CCW.
+- **Real-time:** B65, then B64 toggles MONITOR / RECORD. Erase with `hold B63 + drum button`.
+
+## 7.5 Mixer and note repeat
+
+1. Stop the sequencer. Press B66.
+2. B21–B24 mute tracks; B5–B20 mute drum voices. Green = on, red = muted.
+3. [Note repeat](13-glossary.md#note-repeat): `hold B64 + turn any E` for rate (96, t32, 32, t16, 16, t8, 8, t4, 4). Still holding B64, press a track button (whole track) or a drum button (one voice).
+
+## 7.6 Patterns
+
+- **Store (temporary):** `hold B61`, [page](13-glossary.md#page) with B63/B64 (1–12), press [slot](13-glossary.md#slot) B5–B20. B61 stays lit.
+- **Store (permanent):** then press B60, `hold SEL + press B61`. DISP confirms. Without this step the pattern is lost at power-off.
+- **Load:** press B62, page with B63/B64, press slot. Press B60. A load while playing switches at the end of the current pattern.
+- **Chain:** `hold a pattern button + press another`; patterns play in order.
+- **No auto-load:** nothing loads at power-up.
+- **Copy track:** `hold destination track button + press source track button`.
+- **Copy pattern between tracks:** press the pattern button before the source track (source wording unclear).
+
+## 7.7 Transport
+
+B68 play/stop. B67 back to step 1. [Footswitch](13-glossary.md#footswitch) 1 = start/stop, footswitch 2 = next pattern (when set to ZAQ in Global).
+
+---
+
+<!-- file: docs/manual/08-controller.md -->
+
+# 8. Controller (CTRL mode)
+
+Assignable: B5–B24, E25–E56 (turn = continuous, push = on/off), B65–B68, [footswitches](13-glossary.md#footswitch) (when Global B9/B10 = CTRL).
+
+## 8.1 Assign a control
+
+1. `hold B59 + turn/push the encoder` or `+ press the button`.
+2. Turn [SEL](13-glossary.md#select-encoder-sel) to pick the type. Types: Off, [PC](13-glossary.md#program-change-pc), [CC](13-glossary.md#control-change-cc), [NRPN](13-glossary.md#nrpn), [PB](13-glossary.md#pitch-bend-pb) ([encoders](13-glossary.md#encoder) only), Note (buttons only), [AT](13-glossary.md#aftertouch-at), GS, [MMC](13-glossary.md#mmc) (buttons only).
+3. B63/B64 [step](13-glossary.md#step) through the setup fields; SEL sets each value.
+4. B60 to finish.
+
+## 8.2 Learn
+
+`hold B62 + press/turn the control`, then send MIDI from an external device (DIN or USB). Fine-tune afterwards with B59.
+
+## 8.3 Presets
+
+- **Store:** B61, pick location with B63/B64, B61 again to confirm, B61 a third time to write (temporary). Permanent: `hold SEL + press B61`.
+- **Load:** B63/B64 to the location; it loads at once.
+
+## 8.4 Setup fields per type
+
+Each message type has its own fields. B63 and B64 step through the fields. SEL sets the value. A dash means the control has no such field. Manual [pages](13-glossary.md#page) 24 to 34.
+
+### 8.4.1 Button and encoder modes
+
+| Mode | Control | Action |
+| --- | --- | --- |
+| Tog On | button | Latch. A press sends the maximum. The next press sends the minimum. |
+| Tog Off | button | Momentary. The button sends the maximum while down and the minimum when released. |
+| Inc | button | Each press raises the value by the increment, from the minimum to the maximum. |
+| Absolute | encoder | 7-bit absolute value. |
+| ABS_14 | encoder | 14-bit absolute value (fine control). |
+| REL1 | encoder | Minimum for CCW, maximum for CW. |
+| REL2 | encoder | 63 for CCW, 65 for CW. |
+| REL3 | encoder | 1 for CCW, 65 for CW. |
+| R1_14 | encoder | CCW: coarse 0, fine 1. CW: coarse 127, fine 127. |
+| R2_14 | encoder | CCW: coarse 63, fine 127. CW: coarse 64, fine 1. |
+| R3_14 | encoder | CCW: coarse 64, fine 1. CW: coarse 0, fine 1. |
+| INC/DEC | encoder | CW sends increment 1. CCW sends decrement 1. |
+
+### 8.4.2 LED options
+
+The LED options set how the ring around an encoder shows its value. The default is 1dot_in. Manual page 26.
+
+| Style | Ring behaviour |
+| --- | --- |
+| Off | The ring stays dark. |
+| 1dot_in | One LED lights at a time as the encoder moves (default). |
+| 1dot_ex | As 1dot_in, but all LEDs are dark at zero. |
+| 2dot_in | The LED next to the lit one lights before the first goes out. The side depends on CW or CCW. |
+| 2dot_ex | As 2dot_in, but all LEDs are dark at zero. |
+| Bar | LEDs light and stay lit for CW. They go out one by one for CCW. |
+| Bar− | As Bar, but all LEDs are dark at zero. |
+| Sprd | The centre LED is lit at zero. LEDs on both sides light as the value rises. |
+| Pan | The manual gives the same text as Sprd. See [Source errors and gaps](12-source-errors-and-gaps.md#12-source-errors-and-gaps). |
+| Qual | All LEDs are lit at the minimum. They go out on both sides until only the centre LED stays lit at the maximum. |
+| Cut | All LEDs are lit at the minimum. They go out one by one as the value rises. |
+| Damp | The rightmost LED is lit at the minimum. The other LEDs light one by one as the value rises. |
+
+### 8.4.3 PC (program control)
+
+| Field | Button | Encoder |
+| --- | --- | --- |
+| MIDI channel | 1–16 | 1–16 |
+| Parameter (bank number) | 0–127 | 0–127 |
+| Minimum value | 0–127 | Off, 0–127 |
+| Maximum value | 0–127 | 0–127 |
+| Mode | Tog Off, Inc | Absolute |
+| LED options | — | the 12 styles |
+| [Display](13-glossary.md#display-disp) | On, Off | On, Off |
+
+### 8.4.4 CC (continuous controller)
+
+| Field | Button | Encoder |
+| --- | --- | --- |
+| MIDI channel | 1–16 | 1–16 |
+| Parameter (controller) | 0–127 | Off, 0–127 |
+| Minimum value | 0–127 | 0–127 |
+| Maximum value | 0–127 | 0–127 |
+| Mode | Tog On, Tog Off, Inc | Absolute, A14, REL1, REL2, REL3, R1_14, R2_14, R3_14 |
+| Increment options | −127 to +127 | — |
+| LED options | — | the 12 styles |
+| Display | On, Off | On, Off |
+
+### 8.4.5 NRPN
+
+| Field | Button | Encoder |
+| --- | --- | --- |
+| MIDI channel | 1–16 | 1–16 |
+| Parameter (controller) | 0–127 | 0–16383 |
+| Minimum value | 0–127 | 0–16383 |
+| Maximum value | 0–127 | 0–16383 |
+| Mode | Tog On, Tog Off, Inc | Absolute, A14, REL1, REL2, REL3, R1_14, R2_14, R3_14, INC/DEC |
+| Increment options | −127 to +127 | — |
+| LED options | — | the 12 styles |
+| Display | On, Off | On, Off |
+
+### 8.4.6 Note
+
+Buttons only. The manual names the fields "Parameter (controller)" and "Value". Note number and velocity are the likely meanings (unverified).
+
+| Field | Button |
+| --- | --- |
+| MIDI channel | 1–16 |
+| Parameter (controller) | 0–127 |
+| Value | 0–127 |
+| Mode | Tog On, Tog Off, Inc |
+| Display | On, Off |
+
+### 8.4.7 PB (pitch bend)
+
+Encoders only.
+
+| Field | Encoder |
+| --- | --- |
+| MIDI channel | 1–16 |
+| Parameter (controller) | 0–127 |
+| Value | 0–127 |
+| Mode | Absolute |
+| LED options | the 12 styles |
+| Display | On, Off |
+
+### 8.4.8 AT (aftertouch)
+
+| Field | Button | Encoder |
+| --- | --- | --- |
+| MIDI channel | 1–16 | 1–16 |
+| Parameter (controller) | All, 0–127 | 0–127 |
+| Minimum value | 0–127 | 0–127 |
+| Maximum value | 0–127 | 0–127 |
+| Mode | — | Absolute |
+| Increment options | −127 to +127 (default 1) | — |
+| LED options | — | the 12 styles |
+| Display | On, Off | On, Off |
+
+### 8.4.9 GS (most used parameters)
+
+Buttons and encoders use one parameter list. The list is: Cutoff, Resonance, Rate, Depth, Delay, Attack, Decay, Release, Modulation, Portamento, Volume, Pan, Reverb, CRS, VAR.
+
+| Field | Button | Encoder |
+| --- | --- | --- |
+| MIDI channel | 1–16 | 1–16 |
+| Parameter | the list above | the list above |
+| Minimum value | 0–127 | 0–127 |
+| Maximum value | 0–127 | 0–127 |
+| Mode | Tog On, Tog Off | Absolute, A14, REL1, REL2, REL3, R1_14, R2_14, R3_14, INC/DEC |
+| LED options | — | the 12 styles |
+| Display | On, Off | On, Off |
+
+### 8.4.10 MMC (MIDI machine code)
+
+Buttons only.
+
+| Field | Button |
+| --- | --- |
+| MIDI device ID | 0–126, All |
+| Parameter | Play, Pause, Stop, Forward, Rewind, Location, In, Out |
+| Start position locate (HH:MM) | 0–127, Off |
+| Start position locate (SS:FF) | 0–127, Off |
+| Mode | Off, 24, 25, 30, 30d (frames per second) |
+| Display | On, Off |
+
+The printed parameter list ends with a comma. It may be cut short. See [Source errors and gaps](12-source-errors-and-gaps.md#12-source-errors-and-gaps).
+
+## 8.5 CTRL Settings (`hold B59 + B61` in CTRL)
+
+- **B5 output routing:** USB, MIDI A, MIDI B, A&B, USB&A, USB&B, USB&A&B.
+- **B6 [MIDI thru](13-glossary.md#midi-thru):** source via E28 (Off, MIDI, USB); destination via SEL (Off, 7 routings, or 7 Filtered). Push SEL to save, B60 to exit.
+- **B7 echo dead time:** not in the manual. Verified on [firmware](13-glossary.md#firmware) 1.0.3: the display shows `ECHO deadtime 100ms`. The range is not recorded.
+
+> **Note:** Verified on firmware 1.0.3 (2026-11-11): the menu has three items (B5 to B7). The display showed output port `U` (USB), thru destination off and thru source off.
+
+---
+
+<!-- file: docs/manual/09-global-sync-memory-and-maintenance.md -->
+
+# 9. Global, sync, memory and maintenance
+
+## 9.1 Global Settings (`B1 ×3s`; SEL to change, push SEL to save)
+
+| Btn | Setting | Options |
+| --- | --- | --- |
+| B5 | Device mode | ZQR or CTRL at power-up |
+| B6 | Device ID | 1–255 (unique per unit) |
+| B7 | [Operation mode](13-glossary.md#operation-mode) | USB (no [DIN MIDI](13-glossary.md#din-midi), no internal clock; USB + analog sync on); STDL (DIN MIDI, MIDI sync, internal clock; no USB, no analog sync); MIXED (all) |
+| B8 | CV1 measure | starts calibration (§9.4) |
+| B9 | [Footswitch](13-glossary.md#footswitch) 1 | ZAQ start/stop or CTRL programmable |
+| B10 | Footswitch 2 | ZAQ next [pattern](13-glossary.md#pattern) or CTRL programmable |
+| B11 | [Firmware](13-glossary.md#firmware) version | [display](13-glossary.md#display-disp) only |
+| B12 | [Factory restore](13-glossary.md#factory-restore) | Cancel / OK; takes over a minute |
+| B13 | Pattern change channel | not in the manual; `Off` seen on firmware 1.0.3; other values unseen |
+| B14 | [Encoder](13-glossary.md#encoder) acceleration | not in the manual; `2` seen on firmware 1.0.3; range unseen |
+| B15 | Footswitch polarity | not in the manual; `AUTO` seen on firmware 1.0.3; other values unseen |
+
+> **Note:** Verified on firmware 1.0.3 (2026-11-11): the menu lights B1 and B5–B15 (panel buttons 1–11) in blue, three more than the official manual lists. B11 shows the firmware version (1.0.3). B13 to B15 are the three extra settings above. LED luminosity, which the vendor editor lists, has no button. Read the display before you confirm anything on B12. The unit prints the numbers 1 to 16 above B5 to B20; the ID is the printed number plus 4.
+
+## 9.2 ZAQ Settings (`hold B59 + B61` in ZAQ)
+
+B5 [gate](13-glossary.md#gate) level 5 V / 10 V. B6 sync-in [ppqn](13-glossary.md#ppqn) (1, 2, 4, 24, 48). B7 sync-out ppqn (same). B8 sync-in start: GATE (trigger on ring) or CLOCK (starts when clock on tip). Push [SEL](13-glossary.md#select-encoder-sel) to confirm each choice. B60 exits to the [ZAQ Global page](13-glossary.md#zaq-global-page) (the manual says "exit the menu to the ZAQ GLOBAL menu, and return to the Zaquencer functions"; unverified). Verified on firmware 1.0.3 (2026-11-11): B8 shows `SYN IN STRT` with the value GATE. The value CLOCK was not seen.
+
+## 9.3 Erase and SysEx (all start with B61, then `hold SEL + push E…`)
+
+| Goal | Mode | Sequence |
+| --- | --- | --- |
+| Erase menu | either | B61, `hold SEL + push E49` (source says "25th encoder (50)"; 25th = E49) |
+| → reset sequencer globals | ZAQ | push E31, push again to confirm |
+| → erase sequences, keep globals | ZAQ | push E32, push again |
+| → erase all controller memory | CTRL | push E32, push again |
+| [SysEx](13-glossary.md#sysex) export menu | either | B61, `hold SEL + push E25` |
+| → all ZAQ memory | ZAQ | push E29 |
+| → 12 sequence [pages](13-glossary.md#page) | ZAQ | push E30 |
+| → current page | ZAQ | push E31 |
+| → current sequence | ZAQ | push E32 |
+| → all 64 [presets](13-glossary.md#preset) | CTRL | push E31 |
+| → current preset | CTRL | push E32 |
+| SysEx import | either | B61, `hold SEL + push E33`; then send SysEx |
+
+B60 returns to normal.
+
+## 9.4 CV calibration (factory-calibrated; only if needed)
+
+Needs a millivolt meter. For [CV](13-glossary.md#cv) output n (1–4):
+
+1. `B1 ×3s`, press B8. DISP shows MIN.
+2. Meter on CV n. Turn E(24+n). B5–B14 become a number pad (amber). B15 is + (green), B16 is − (red), B19 clears (blue), B20 is backspace (pink).
+3. Turn E(32+n), enter the meter reading.
+4. Turn E(40+n), enter the meter reading.
+5. Push E(24+n). Turn it CCW: meter reads 0 V. Turn CW: meter reads +10 V.
+6. Repeat for the next output. Press B1 to finish.
+
+## 9.5 Control Tribe
+
+The Behringer [Control Tribe](13-glossary.md#control-tribe) app edits most functions and installs firmware updates.
+
+---
+
+<!-- file: docs/manual/10-quick-lookup-how-do-i.md -->
+
+# 10. Quick lookup: "how do I …"
+
+This chapter has two quick starts and a task lookup. Each task links to the chapter that holds the detail.
+
+> **Note:** The [steps](13-glossary.md#step) come from the official manual. They are unverified on a unit unless a line says "verified" with a [firmware](13-glossary.md#firmware) version. Read [Source errors and gaps](12-source-errors-and-gaps.md#12-source-errors-and-gaps) if a step does not give the result shown.
+
+## 10.1 Quick start: play a pattern in ZAQ mode
+
+Goal: enter a short note [pattern](13-glossary.md#pattern) on [track](13-glossary.md#track) 1 and hear it. The steps need a synth that takes [CV](13-glossary.md#cv) and [gate](13-glossary.md#gate), or MIDI.
+
+### Connect the unit
+
+1. Connect J70 (POWER/DATA) to a computer or a USB power supply. The unit starts.
+2. Connect the synth. Use one of the two routes in the table.
+
+| Route | Connect | Note |
+| --- | --- | --- |
+| CV and gate | J78 (CV 1) to the pitch input. J80 (CV 2) is track 2, and so on. J79 (GATE 1) to the gate input | CV is 1 V per octave. Gate is 5 V or 10 V ([ZAQ Settings](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--b61-in-zaq)) |
+| MIDI | J72 (MIDI OUT A) to the synth MIDI IN | Set the track port and channel in step 6 |
+
+### Enter the notes
+
+1. Tap B1 until the button is pink. The unit is in [ZAQ mode](13-glossary.md#zaq-mode).
+2. Press B21 (T1). The track 1 button flashes.
+3. Press B5 (PITCH). [DISP](13-glossary.md#display-disp) shows the pitch of a step.
+4. Turn E25. DISP shows the note of step 1. All steps start at C3.
+5. Turn E26 to E32 for steps 2 to 8. Step k is E(24+k).
+6. If you use MIDI, press B59. Turn E41 to pick the port. Turn E42 to pick the channel. Press B60 to leave.
+7. Press B7 (MUTE). Toggle each unused step. The LED of a muted step goes dark.
+8. Press B68 (PLAY/STOP). The pattern plays. The [playhead](13-glossary.md#playhead) moves on the [ring LEDs](13-glossary.md#ring-led).
+9. Press B68 again. The pattern stops.
+
+> **Note:** The manual says "toggle" for mute and skip. It does not say whether to turn or push the [encoder](13-glossary.md#encoder). Test it on the unit.
+
+**Tip:** `hold B5 + turn any E` moves all steps together. Use it to set the key root first.
+
+### Shape the pattern
+
+Press a parameter button, then turn the step encoders. The change takes effect while the pattern plays.
+
+| Press | Turn the encoders to change | Range |
+| --- | --- | --- |
+| B6 (VELOCITY) | velocity of each step | 0 to 127 |
+| B9 (LENGTH) | note length of each step | 96 to 4b |
+| B8 (DELAY) | timing of each step | −5 to +5 |
+| B16 (SEQ LENGTH) | the last step (E25 is 1, E56 is 32) | 1 to 32 |
+
+Chapter [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) lists all 16 parameters.
+
+### Save the pattern
+
+> **Warning:** The unit loses a pattern at power-off if you do not store it permanently. Nothing loads at power-up.
+
+1. Hold B61 (STORE). [Page](13-glossary.md#page) with B63 and B64 to pick a page from 1 to 12.
+2. Press a [slot](13-glossary.md#slot) button from B5 to B20. B61 stays lit.
+3. Press B60 (EXIT).
+4. Hold [SEL](13-glossary.md#select-encoder-sel) and press B61. DISP confirms the store.
+
+To load the pattern, press B62, page with B63 and B64, press the slot, then press B60. See [Patterns](07-sequencer-procedures.md#76-patterns).
+
+## 10.2 Quick start: send a MIDI control from CTRL mode
+
+Goal: make encoder E25 send a [CC](13-glossary.md#control-change-cc) (control change) message.
+
+1. Tap B1 until the button is amber. The unit is in [CTRL mode](13-glossary.md#ctrl-mode).
+2. Hold B59 and turn E25. The unit enters CTRL Edit.
+3. Turn SEL to pick CC. The type changes.
+4. Press B64 to move to the next field. Turn SEL to set the value. Repeat for each field.
+5. Press B60. The setup ends.
+6. Turn E25. The unit sends the CC message on the port and channel you set.
+
+[Learn](13-glossary.md#learn) mode is faster if a device can send the message. Hold B62 and turn E25. Then send the message from the other device. See [Learn](08-controller.md#82-learn).
+
+> **Note:** Verified on firmware 1.0.3 (2026-11-11): the first factory [preset](13-glossary.md#preset) sent CC 97, 65, 66 and 98 on channel 1 of the port `BCR-32 CTRL`. Which control sends which message is not mapped yet.
+
+Store the setup in a preset. See [Presets](08-controller.md#83-presets). The field lists for each type are in [Setup fields per type](08-controller.md#84-setup-fields-per-type).
+
+## 10.3 Task lookup
+
+Each row shows the mode, the key sequence and the chapter. The notation is in [How to read this manual](00-how-to-read-this-manual.md#0-how-to-read-this-manual).
+
+### Play and edit the sequencer
+
+| Task | Mode | Keys | Detail |
+| --- | --- | --- | --- |
+| Switch between sequencer and controller | any | tap B1 | [2](02-modes-and-menus.md#2-modes-and-menus-state-machine) |
+| Start or stop the pattern | ZAQ | B68 | [7.7](07-sequencer-procedures.md#77-transport) |
+| Go back to step 1 | ZAQ | B67 | [7.7](07-sequencer-procedures.md#77-transport) |
+| Change the note of a step | ZAQ | B5, turn the step encoder | [7.2](07-sequencer-procedures.md#72-step-enter-notes) |
+| Move all notes together | ZAQ | `hold B5 + turn any E` | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
+| Add a [chord](13-glossary.md#chord) to a step | ZAQ | B13, turn the step encoder | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
+| Skip a step | ZAQ | B14, toggle the step | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
+| Shorten a track to 16 steps | ZAQ | select the track, B16, turn E40 | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
+| Change the play direction | ZAQ | B20, turn SEL | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
+| Add swing | ZAQ | B19, turn E30 (even steps) or E31 (odd steps) | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
+| Make random velocities | ZAQ | `hold B12`, turn E33 to random, then `hold B12 + B6` | [5](05-sequencer-per-track-parameters.md#5-sequencer-zaq-mode--per-track-parameters) |
+| Record notes in real time | ZAQ | B65, B64 to RECORD, B68, play the keys | [7.3](07-sequencer-procedures.md#73-real-time-record-note-track) |
+| Make a track a [drum track](13-glossary.md#drum-track) | ZAQ | B59, turn E37 to E40 to Drum | [7.4](07-sequencer-procedures.md#74-drum-tracks) |
+| Mute a track | ZAQ | stop, B66, press the track button | [7.5](07-sequencer-procedures.md#75-mixer-and-note-repeat) |
+| Repeat notes | ZAQ | `hold B64 + turn any E`, then press a track button | [7.5](07-sequencer-procedures.md#75-mixer-and-note-repeat) |
+| Copy a track | ZAQ | `hold` the destination track button, press the source | [7.6](07-sequencer-procedures.md#76-patterns) |
+| Chain two patterns | ZAQ | `hold` a pattern button, press another | [7.6](07-sequencer-procedures.md#76-patterns) |
+| Store a pattern for good | ZAQ | `hold B61`, page, slot, B60, `hold SEL + B61` | [7.6](07-sequencer-procedures.md#76-patterns) |
+| Load a pattern | ZAQ | B62, page, slot, B60 | [7.6](07-sequencer-procedures.md#76-patterns) |
+
+### Tempo, clock and routing
+
+| Task | Mode | Keys | Detail |
+| --- | --- | --- | --- |
+| Change the tempo | ZAQ | B59, turn E25 | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
+| Sync to a DAW over USB | ZAQ | B59, E26 to USB. [Operation mode](13-glossary.md#operation-mode) must be USB or MIXED | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq), [9.1](09-global-sync-memory-and-maintenance.md#91-global-settings-b1-3s-sel-to-change-push-sel-to-save) |
+| Send clock to MIDI A | ZAQ | B59, E27 to MIDI A. The [clock source](13-glossary.md#clock-source) must be Internal | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
+| Set the MIDI channel of a track | ZAQ | B59, turn E42, E44, E46 or E48 | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
+| Set the output port of a track | ZAQ | B59, turn E41, E43, E45 or E47 | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
+| Lock the notes to a [scale](13-glossary.md#scale) | ZAQ | B59, E30 for the scale, E31 for the root | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
+| Set the gate level (5 V or 10 V) | [ZAQ Settings](13-glossary.md#zaq-settings) | `hold B59 + B61`, B5 | [9.2](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--b61-in-zaq) |
+| Use the sync jacks | ZAQ Settings | `hold B59 + B61`, B6 to B8 | [9.2](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--b61-in-zaq) |
+| Power the unit from a charger | any | connect J69 | [4](04-rear-panel.md#4-rear-panel) |
+
+### Controller
+
+| Task | Mode | Keys | Detail |
+| --- | --- | --- | --- |
+| Assign a control | CTRL | `hold B59 + turn E`, turn SEL to the type, B64 for the next field | [8.1](08-controller.md#81-assign-a-control) |
+| Learn a control from incoming MIDI | CTRL | `hold B62 + turn E`, send the message | [8.2](08-controller.md#82-learn) |
+| Store a preset | CTRL | B61, B63 or B64 for the location, B61, B61 | [8.3](08-controller.md#83-presets) |
+| Store a preset for good | CTRL | after the store, `hold SEL + B61` | [8.3](08-controller.md#83-presets) |
+| Load a preset | CTRL | B63 or B64 to the location | [8.3](08-controller.md#83-presets) |
+| Assign a [footswitch](13-glossary.md#footswitch) | CTRL | [Global Settings](13-glossary.md#global-settings): B9 or B10 to CTRL | [9.1](09-global-sync-memory-and-maintenance.md#91-global-settings-b1-3s-sel-to-change-push-sel-to-save) |
+
+### Settings and maintenance
+
+> **Warning:** B8 in Global Settings starts CV calibration. B12 starts a [factory restore](13-glossary.md#factory-restore). Read the display before you push SEL.
+
+| Task | Mode | Keys | Detail |
+| --- | --- | --- | --- |
+| Open Global Settings | any | `B1 ×3s` | [9.1](09-global-sync-memory-and-maintenance.md#91-global-settings-b1-3s-sel-to-change-push-sel-to-save) |
+| Set the power-up mode | Global Settings | B5, turn SEL, push SEL | [9.1](09-global-sync-memory-and-maintenance.md#91-global-settings-b1-3s-sel-to-change-push-sel-to-save) |
+| Read the firmware version | Global Settings | B11 | [9.1](09-global-sync-memory-and-maintenance.md#91-global-settings-b1-3s-sel-to-change-push-sel-to-save) |
+| Export all ZAQ memory (backup) | ZAQ | B61, `hold SEL + push E25`, push E29 | [9.3](09-global-sync-memory-and-maintenance.md#93-erase-and-sysex-all-start-with-b61-then-hold-sel--push-e) |
+| Erase memory | either | start with B61. The steps destroy data | [9.3](09-global-sync-memory-and-maintenance.md#93-erase-and-sysex-all-start-with-b61-then-hold-sel--push-e) |
+| Calibrate the CV outputs | Global Settings | B8. The unit is calibrated at the factory | [9.4](09-global-sync-memory-and-maintenance.md#94-cv-calibration-factory-calibrated-only-if-needed) |
+| Recover a unit that does not start | — | see the [recovery runbook](../guides/recovery-runbook.md) | — |
+| Fix a connection or sync fault | — | see [troubleshooting](../guides/troubleshooting.md) | — |
+
+---
+
+<!-- file: docs/manual/11-display-strings-seen-in-the-source.md -->
+
+# 11. Display strings seen in the source
+
+ZQR, CTRL, USB, STDL, MIXED, Cancel, OK, MIN, NOTE, MONITOR, RECORD, OcMi, OCNa, AlMi, AlNa, F (filtered thru), E/O ([shuffle](13-glossary.md#shuffle)), Pip 0. The example [display](13-glossary.md#display-disp) reads "drums RD-8 006".
+
+---
+
+<!-- file: docs/manual/12-source-errors-and-gaps.md -->
+
+# 12. Source errors and gaps
+
+| Location | Issue | Working assumption |
+| --- | --- | --- |
+| [ZAQ Settings](13-glossary.md#zaq-settings) B8 | text contains a draft tag "<CHECK?>" | [GATE](13-glossary.md#gate) = start trigger on ring; CLOCK = start on clock. Partly verified on [firmware](13-glossary.md#firmware) 1.0.3: B8 shows `SYN IN STRT` = GATE; CLOCK unseen |
+| [CTRL Settings](13-glossary.md#ctrl-settings) + Global E28/E41 | "MIXED is selected using button 7 (Note Mute)" | B7 in [Global Settings](13-glossary.md#global-settings) = [Operation mode](13-glossary.md#operation-mode). Verified on firmware 1.0.3: B7 shows the operation mode (USB). MIXED is unseen |
+| Erase | "25th [encoder](13-glossary.md#encoder) (50)" | E49 (all other ordinals in the source map n → E(24+n)) |
+| §[ZAQ mode](13-glossary.md#zaq-mode) | NOTE LENGTH values printed inside the [CHORD](13-glossary.md#chord) list | lengths listed in §5 |
+| Chord list | one printed line "Major 7th with flat 5th, 6th, 7th" (checked on the [page](13-glossary.md#page) image; the text extract only looks garbled) | possibly three entries; unverified |
+| α targets | "CC0– 27" | [CC](13-glossary.md#control-change-cc) 0–127 |
+| LOAD | "buttons 63 & 63" | 63 & 64. Verified on firmware 1.0.3: B64 pages up, B63 pages down |
+| MIDI out list E41… | garbled with [transpose](13-glossary.md#transpose) list; "Input channel" appears | "Input channel" probably belongs to E32 |
+| Copy [pattern](13-glossary.md#pattern) | ordering of presses unclear | test on the unit |
+| Pattern chain | does not say which view (LOAD?) | probably LOAD view |
+| User [scale](13-glossary.md#scale) | "while in SCALE mode" not defined | while E30 is the active global control |
+| Virtual keyboard / number pad | key-to-note and key-to-digit maps not given | piano layout inferred (§3.1). Tested on firmware 1.0.3: the keyboard sent nothing on USB, so no note map was read; open |
+| Specifications | no spec page (power draw, size, weight) | unknown |
+| Global Settings | manual lists 8 settings (panel buttons 1–8); firmware 1.0.3 lights 11 buttons (1–11) | Resolved on firmware 1.0.3: panel buttons 9 to 11 (B13 to B15) are pattern change channel, encoder acceleration and [footswitch](13-glossary.md#footswitch) polarity. LED luminosity has no button |
+| CTRL Settings | manual lists 2 items (B5, B6); firmware 1.0.3 has a third | Verified on firmware 1.0.3: B7 is `ECHO deadtime` (100ms seen). Not in the manual |
+| LED options table (p. 26) | Sprd and Pan have the same description; the third column is headed MINIMUM/MAXIMUM and is empty | Sprd and Pan differ in a way the manual does not say; ignore the empty column. Test on the unit |
+| Encoder modes | 14-bit absolute is "ABS_14" on p. 24, "A14" on pp. 28 to 32 and "A 14" on p. 32 | one mode; the data uses A14 |
+| GS parameter lists | "Attack. Decay" printed with a full stop | two parameters, Attack and Decay |
+| [MMC](13-glossary.md#mmc) parameter list (p. 34) | the list ends with a comma after "Out" and says "Location" | eight commands as printed; the list may be cut short; unverified |
+| Note and [PB](13-glossary.md#pitch-bend-pb) tables | fields are named "Parameter (controller)" and "Value"; pitch bend has no controller number | note number and velocity for Note; the PB meaning is unknown; unverified |
+| [PC](13-glossary.md#program-change-pc) tables | the parameter is named "bank number" | probably the program number; unverified |
+
+Procedures that depend on a row in this table are unconfirmed until someone tests them on a unit. Record test results in the row and in the [changelog](../../CHANGELOG.md).
+
+---
+
+<!-- file: docs/manual/13-glossary.md -->
+
+# 13. Glossary
+
+Each term has one meaning in this manual. Use the term, not a synonym. The first use of a term in each chapter links to its entry.
+
+## Unit and panel
+
+### ZAQ mode
+
+The mode in which the unit is a step sequencer. Button B1 is pink. The panel also prints ZAQ and ZQR. Tap B1 to change mode.
+
+### CTRL mode
+
+The mode in which the unit is a MIDI controller. Button B1 is amber.
+
+### Control ID
+
+The fixed name of one control in this manual, such as B5, E25 or J70. The IDs follow the callout numbers of the official manual.
+
+### Callout
+
+A number in the panel drawing of the official manual. It points to one control. The control ID uses it.
+
+### Encoder
+
+A knob with a push switch and a ring of LEDs. The unit has 32 encoders (E25 to E56). Turn an encoder to change a value. Push it to switch or confirm.
+
+### Ring LED
+
+The ring of LEDs around an encoder. It shows a value, a note or the playhead.
+
+### Display (DISP)
+
+The screen of the unit. It shows the parameter and its value.
+
+### Select encoder (SEL)
+
+The large encoder near the display. Turn it to pick a value. Push it to confirm.
+
+### Footswitch
+
+A pedal on jack J74 or J75. Global Settings sets what it does.
+
+## Sequencer
+
+### Track
+
+One of four independent lines of the sequencer. Buttons B21 to B24 select it. Each track has its own MIDI port and channel.
+
+### Step
+
+One of 32 positions in a track. Step k is encoder E(24+k).
+
+### Pattern
+
+The notes and settings of all four tracks, kept together. A pattern is stored in a slot. The official manual also uses the word sequence for this. This manual uses pattern.
+
+### Page
+
+A group of 16 slots. There are 12 pages. Buttons B63 and B64 change the page.
+
+### Slot
+
+One of the 16 places on a page that can hold a pattern. Buttons B5 to B20 select it.
+
+### Chord
+
+Several notes played from one step. Button B13 sets the chord type of each step. It works on MIDI output only.
+
+### Drum track
+
+A track in Drum mode. Buttons B5 to B20 then select 16 drum voices.
+
+### Drum voice
+
+One of the 16 sounds of a drum track. Each voice has its own note.
+
+### Playhead
+
+The step that plays now. The last three LEDs of the ring show it.
+
+### Mixer
+
+The view in which you mute tracks and drum voices. Press B66 while the sequencer is stopped.
+
+### Real-time record
+
+The mode in which the unit records notes while the pattern plays. Press B65 to start it.
+
+### Note repeat
+
+The function that repeats a note at a set rate. Hold B64 and turn an encoder to set the rate.
+
+### Wave generator
+
+A source of values for the parameter lanes, such as pitch and velocity. Button B12 controls it. The panel prints WAVE GEN.
+
+### Scale
+
+A set of allowed notes. The unit bends the notes to the scale at playback. The stored notes do not change.
+
+### Shuffle
+
+A delay of the even steps or the odd steps. Button B19 sets it.
+
+### Quantize
+
+The function that moves recorded notes to the nearest step grid.
+
+### Transpose
+
+The function that shifts the notes of a track when the unit receives MIDI notes.
+
+### Control lane
+
+A row of values that sends a MIDI control change on each step. Buttons B10 and B11 set the lanes alpha and beta.
+
+## Controller
+
+### Preset
+
+A saved set of controller assignments. The unit holds 64 presets. The editor files also call a sequencer pattern a preset.
+
+### Learn
+
+The mode in which the unit copies an assignment from an incoming MIDI message. Hold B62 and use a control.
+
+### Permanent store
+
+The extra step that keeps a pattern or a preset after power-off. Hold SEL and press B61. Without it, the unit loses the data at power-off.
+
+### Control change (CC)
+
+A MIDI message with a controller number from 0 to 127 and a value.
+
+### Program change (PC)
+
+A MIDI message that selects a program or sound on another device.
+
+### NRPN
+
+A MIDI message type that addresses a parameter by a 14-bit number. The name means non-registered parameter number.
+
+### Pitch bend (PB)
+
+A MIDI message with a 14-bit value, made for a pitch wheel.
+
+### Aftertouch (AT)
+
+A MIDI message that sends the pressure on a key after the key press.
+
+### MMC
+
+MIDI machine control. These messages start, stop and wind a recorder. The official manual calls them MIDI machine code.
+
+## Sync, ports and settings
+
+### BPM
+
+Beats per minute. The unit accepts 30 to 300 with its internal clock.
+
+### Clock source
+
+The origin of the tempo: Internal, MIDI, USB or Sync. Knob E26 on the ZAQ Global page sets it.
+
+### Operation mode
+
+The setting that decides which ports work: USB, STDL or MIXED. Global Settings button B7 sets it.
+
+### ppqn
+
+Pulses per quarter note. The sync jacks use it. ZAQ Settings sets the value.
+
+### MIDI thru
+
+The function that forwards incoming MIDI to an output.
+
+### SysEx
+
+System exclusive. A MIDI message that starts with F0 and ends with F7. The unit uses SysEx for backups.
+
+### DIN MIDI
+
+The 5-pin MIDI sockets J71 to J73.
+
+### USB-MIDI
+
+MIDI over the USB-C port J70.
+
+### CV
+
+Control voltage. The unit has four CV outputs with 1 volt per octave.
+
+### Gate
+
+A voltage that is on while a note plays. The level is 5 V or 10 V.
+
+### Firmware
+
+The software inside the unit. Global Settings button B11 shows its version.
+
+### Global Settings
+
+The menu for settings of the whole unit. Hold B1 for three seconds to open it.
+
+### ZAQ Settings
+
+The menu for sync and gate settings of the sequencer. Hold B59 and press B61 in ZAQ mode.
+
+### CTRL Settings
+
+The menu for settings of the controller. Hold B59 and press B61 in CTRL mode.
+
+### ZAQ Global page
+
+The page of sequencer settings on the encoders. Press B59 in ZAQ mode.
+
+### Factory restore
+
+The function that sets the unit back to its factory state. Global Settings button B12 starts it.
+
+### Control Tribe
+
+The editor program from the maker of the unit. It saves and loads the memory of the unit.
+
+---
+
+<!-- file: docs/manual/14-generated-tables-and-indexes.md -->
+
+# 14. Generated tables and indexes
+
+A tool writes every table in this chapter from the device data. Do not edit a table by hand. To change a table, change the data in `data/devices/bcr32/` and run `npm run gen:tables`.
+
+The three indexes of the manual are:
+
+- **By control:** [Index by control](#index-by-control).
+- **By function:** [Index by function](#index-by-function).
+- **By task:** [chapter 10](10-quick-lookup-how-do-i.md). A person writes it, because the device data holds no tasks.
+
+## Control tables by mode
+
+Each table lists the functions of one mode. The Source column shows where the fact comes from.
+
+### ZAQ (sequencer)
+
+<!-- gen:functions mode=zaq -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `B1` | Go to CTRL mode | `tap B1` | — | — | manual |
+| `E25`–`E56` | Step value of the selected parameter | `turn E` | — | — | manual |
+| `B59`, `E25`–`E56` | Change all steps together | `hold B59 + turn E` | — | — | manual |
+| `B5` | Pitch | `press B5` | Step pitch | 60 | manual |
+| `B6` | Velocity | `press B6` | Velocity | 100 | manual |
+| `B7` | Step mute | `press B7` | Step play or mute | play | manual |
+| `B8` | Timing shift | `press B8` | Timing shift | 0 | manual |
+| `B9` | Note length | `press B9` | Note length | 32 | manual |
+| `B10` | MIDI CTRL α value | `press B10` | MIDI CTRL lane value | — | manual |
+| `B11` | MIDI CTRL β value | `press B11` | MIDI CTRL lane value | — | manual |
+| `B12` | Wave generator | `hold B12` | — | — | manual |
+| `B12`, `E33` | Wave generator shape | `hold B12 + turn E33` | Wave generator shape | — | manual |
+| `B12`, `E34` | Wave generator gain | `hold B12 + turn E34` | Wave generator gain | 50 | manual |
+| `B12`, `E35` | Wave generator rate | `hold B12 + turn E35` | Wave generator rate | 5 | manual |
+| `B12`, `E36` | Wave generator offset | `hold B12 + turn E36` | Wave generator offset | 63 | manual |
+| `B12`, `B5`–`B11` | Apply the wave generator to a lane | `hold B12 + press B5` | — | — | manual |
+| `B13` | Chord | `press B13` | Chord type | Off | manual |
+| `B14` | Step skip | `press B14` | Step play or skip | play | manual |
+| `B15` | Start step | `press B15` | Step number | 1 | manual |
+| `B16` | Track length | `press B16` | Step number | 32 | manual |
+| `B17` | Track offset | `press B17` | Step offset | 0 | manual |
+| `B18`, `SEL` | Clock divider | `press B18` | Clock divider | 16 | manual |
+| `B19`, `E30` | Shuffle, even steps | `press B19` | Shuffle, even steps | 0 | manual |
+| `B19`, `E31` | Shuffle, odd steps | `press B19` | Shuffle, odd steps | 0 | manual |
+| `B20`, `SEL` | Play direction | `press B20` | Play direction | Forward | manual |
+| `B21`–`B24` | Select a track | `press B21` | — | — | manual |
+| `B21`–`B24` | Copy a track | `hold B21 + press B22` | — | — | manual |
+| `B10`, `B11` | Write the scale into the notes | `press B10 and B11 together` | — | — | manual |
+| `B59` | Open the ZAQ Global page | `press B59` | — | — | manual |
+| `B59`, `B61` | Open ZAQ Settings | `hold B59 + B61` | — | — | manual |
+| `B60` | Exit | `press B60` | — | — | manual |
+| `B61` | Open the pattern store view | `hold B61` | — | — | manual |
+| `SEL`, `B61` | Make the stored patterns permanent | `hold SEL + press B61` | — | — | manual |
+| `B62` | Open the pattern load view | `press B62` | — | — | manual |
+| `B65` | Real-time record on or off | `press B65` | — | — | manual |
+| `B66` | Open the mixer | `press B66` | — | — | manual |
+| `B67` | Go back to step 1 | `press B67` | — | — | manual |
+| `B68` | Start or stop the sequencer | `press B68` | — | — | manual |
+| `J74` | Footswitch 1: start or stop | — | — | — | manual |
+| `J75` | Footswitch 2: next pattern | — | — | — | manual |
+
+<!-- gen:end -->
+
+### CTRL (controller)
+
+<!-- gen:functions mode=ctrl -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `B1` | Go to ZAQ mode | `tap B1` | — | — | manual |
+| `B5`–`B24`, `E25`–`E56`, `B65`–`B68` | Send the assigned MIDI message | — | — | — | manual |
+| `J74`, `J75` | Footswitch: send the assigned MIDI message | — | — | — | manual |
+| `B59`, `B5`–`B24`, `E25`–`E56`, `B65`–`B68` | Assign a control | `hold B59 + turn E` | — | — | manual |
+| `B62`, `B5`–`B24`, `E25`–`E56`, `B65`–`B68` | Learn a MIDI message | `hold B62 + turn E` | — | — | manual |
+| `B59`, `B61` | Open CTRL Settings | `hold B59 + B61` | — | — | manual |
+| `B63` | Previous preset | `press B63` | Controller preset | — | manual |
+| `B64` | Next preset | `press B64` | Controller preset | — | manual |
+| `B61` | Open the preset store view | `press B61` | — | — | manual |
+| `SEL`, `B61` | Make the stored presets permanent | `hold SEL + press B61` | — | — | manual |
+| `B60` | Exit | `press B60` | — | — | manual |
+
+<!-- gen:end -->
+
+### Global Settings
+
+<!-- gen:functions mode=global-settings -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `SEL` | Change and save a setting | `turn SEL` | — | — | manual |
+| `B5` | Device mode at power-up | `press B5` | Device mode at power-up | — | manual |
+| `B6` | Device ID | `press B6` | Device ID | — | manual |
+| `B7` | Operation mode | `press B7` | Operation mode | — | unit, firmware 1.0.3 |
+| `B8` | Start CV calibration | `press B8` | — | — | manual |
+| `B9` | Footswitch 1 use | `press B9` | Footswitch 1 use | — | manual |
+| `B10` | Footswitch 2 use | `press B10` | Footswitch 2 use | — | manual |
+| `B11` | Show the firmware version | `press B11` | — | — | unit, firmware 1.0.3 |
+| `B12` | Factory restore | `press B12` | Confirm | — | manual |
+| `B13` | Pattern change channel | `press B13` | — | — | unit, firmware 1.0.3 |
+| `B14` | Encoder acceleration | `press B14` | — | — | unit, firmware 1.0.3 |
+| `B15` | Footswitch polarity | `press B15` | — | — | unit, firmware 1.0.3 |
+| `B1` | Exit | `tap B1` | — | — | manual |
+
+<!-- gen:end -->
+
+### CV calibration
+
+<!-- gen:functions mode=cv-calibration -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `E25`–`E28` | Select CV output 1 to 4 | `turn E25` | — | — | manual |
+| `B5`–`B16`, `B19`, `B20` | Number pad | — | — | — | manual |
+| `E33`–`E36` | First meter reading, CV output 1 to 4 | `turn E33` | — | — | manual |
+| `E41`–`E44` | Second meter reading, CV output 1 to 4 | `turn E41` | — | — | manual |
+| `E25`–`E28` | Test the output | `push E25` | — | — | manual |
+| `B1` | Finish | `press B1` | — | — | manual |
+
+<!-- gen:end -->
+
+### ZAQ Settings
+
+<!-- gen:functions mode=zaq-settings -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `B5` | Gate output level | `press B5` | Gate output level | — | manual |
+| `B6` | Sync input clock rate | `press B6` | Sync clock rate | — | manual |
+| `B7` | Sync output clock rate | `press B7` | Sync clock rate | — | manual |
+| `B8` | Sync input start | `press B8` | Sync input start | — | unit, firmware 1.0.3 |
+| `B60` | Exit | `press B60` | — | — | manual |
+
+<!-- gen:end -->
+
+### CTRL Settings
+
+<!-- gen:functions mode=ctrl-settings -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `B5` | Output routing | `press B5` | MIDI output routing | — | manual |
+| `B6`, `E28` | MIDI thru source | `press B6` | MIDI thru source | — | manual |
+| `B6`, `SEL` | MIDI thru destination | `press B6` | MIDI thru destination | — | manual |
+| `B7` | Echo dead time | `press B7` | — | — | unit, firmware 1.0.3 |
+| `B60` | Exit | `press B60` | — | — | manual |
+
+<!-- gen:end -->
+
+### ZAQ Global page
+
+<!-- gen:functions mode=zaq-global -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `E25` | Tempo | `turn E25` | Tempo | — | manual |
+| `E26` | Clock source | `turn E26` | Clock source | — | manual |
+| `E27` | Clock output | `turn E27` | Clock output | Off | manual |
+| `E28` | MIDI thru source | `turn E28` | MIDI thru source | — | manual |
+| `E28`, `SEL` | MIDI thru destination | `push SEL` | MIDI thru destination | — | manual |
+| `E29` | Note display | `turn E29` | Note display | — | manual |
+| `E30` | Scale | `turn E30` | Scale | OFF | manual |
+| `E31` | Scale base note | `turn E31` | Scale base note | — | manual |
+| `B10`, `E41`–`E52` | Set the user scale | `hold B10` | — | — | manual |
+| `E32` | Transpose input | `turn E32` | Transpose input | Off | manual |
+| `E33` | Pattern switch by CC: channel | `turn E33` | MIDI channel or off | — | manual |
+| `E34` | Pattern switch by CC: CC number | `turn E34` | CC number | — | manual |
+| `E35` | Quantize rate | `turn E35` | Note length | 32 | manual |
+| `E36` | Quantize on or off | `turn E36` | On or off | on | manual |
+| `E37`–`E40` | Track mode, tracks 1 to 4 | `turn E37` | Track mode | Chord | manual |
+| `E41`, `E43`, `E45`, `E47` | MIDI output, tracks 1 to 4 | `turn E41` | MIDI output routing | — | manual |
+| `E42`, `E44`, `E46`, `E48` | MIDI channel, tracks 1 to 4 | `turn E42` | MIDI channel | — | manual |
+| `E49`, `E51`, `E53`, `E55` | MIDI CTRL α target, tracks 1 to 4 | `turn E49` | MIDI CTRL lane target | off | manual |
+| `E50`, `E52`, `E54`, `E56` | MIDI CTRL β target, tracks 1 to 4 | `turn E50` | MIDI CTRL lane target | off | manual |
+| `B63`, `E25`–`E56` | Show a value with no change | `hold B63 + turn E` | — | — | manual |
+| `B21`–`B24`, `E25`–`E40` | Drum voice pitch | `hold B21 + turn E25` | Step pitch | — | manual |
+| `B60` | Exit | `press B60` | — | — | manual |
+
+<!-- gen:end -->
+
+### ZAQ Mixer
+
+<!-- gen:functions mode=zaq-mixer -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `B21`–`B24` | Mute a track | `press B21` | — | — | manual |
+| `B5`–`B20` | Mute a drum voice | `press B5` | — | — | manual |
+| `B64`, `E25`–`E56` | Note repeat rate | `hold B64 + turn E` | Note repeat rate | — | manual |
+| `B64`, `B21`–`B24`, `B5`–`B20` | Note repeat on a track or a drum voice | `hold B64 + press B21` | — | — | manual |
+| `B66`, `B60` | Leave the mixer | `press B66` | — | — | manual |
+
+<!-- gen:end -->
+
+### Real-time record
+
+<!-- gen:functions mode=zaq-record -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `B64` | Record sub-mode | `press B64` | Real-time record sub-mode | NOTE | manual |
+| `B6`, `B7`, `B9`–`B11`, `B13`–`B20` | Virtual keyboard | `press B13` | — | — | inference |
+| `B63`, `B5`–`B20` | Erase notes while the pattern plays | `hold B63 + press B13` | — | — | manual |
+| `B5`–`B20` | Select a drum voice | `press B5` | Drum voice | — | manual |
+| `E25`–`E56` | Set or remove a drum step | `turn E` | — | — | manual |
+| `B5`–`B20`, `E25`–`E56` | Fill or clear all steps of a drum voice | `hold B5 + turn E` | — | — | manual |
+| `B65`, `B12` | Random steps for a drum voice | `hold B65 + press B12` | — | — | manual |
+| `B65` | Leave real-time record | `press B65` | — | — | manual |
+
+<!-- gen:end -->
+
+### ZAQ pattern store
+
+<!-- gen:functions mode=zaq-store -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `B63`, `B64` | Pattern page | `press B64` | Pattern page | — | manual |
+| `B5`–`B20` | Store to a slot | `press B5` | Pattern slot | — | manual |
+
+<!-- gen:end -->
+
+### ZAQ pattern load
+
+<!-- gen:functions mode=zaq-load -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `B63`, `B64` | Pattern page | `press B64` | Pattern page | — | manual |
+| `B5`–`B20` | Load a slot | `press B5` | Pattern slot | — | manual |
+| `B5`–`B20` | Chain patterns | `hold B5 + press B6` | — | — | manual |
+
+<!-- gen:end -->
+
+### CTRL Edit
+
+<!-- gen:functions mode=ctrl-edit -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `SEL` | Message type | `turn SEL` | Control message type | — | manual |
+| `B63`, `B64` | Previous or next setup field | `press B64` | — | — | manual |
+| `SEL` | Value of the setup field | `turn SEL` | — | — | manual |
+| `SEL` | Button mode field | `turn SEL` | Button mode | — | manual |
+| `SEL` | Encoder mode field | `turn SEL` | Encoder mode | — | manual |
+| `SEL` | LED ring style field | `turn SEL` | LED ring style | 1dot_in | manual |
+| `SEL` | GS parameter field | `turn SEL` | GS parameter | — | manual |
+| `SEL` | MMC command field | `turn SEL` | MMC command | — | manual |
+| `SEL` | MMC frame rate field | `turn SEL` | MMC frame rate | — | manual |
+| `B60` | Finish | `press B60` | — | — | manual |
+
+<!-- gen:end -->
+
+### CTRL Learn
+
+<!-- gen:functions mode=ctrl-learn -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `B60` | Exit | `press B60` | — | — | manual |
+
+<!-- gen:end -->
+
+### CTRL preset store
+
+<!-- gen:functions mode=ctrl-store -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `B63`, `B64` | Preset location | `press B64` | Controller preset | — | manual |
+| `B61` | Confirm and write | `press B61` | — | — | manual |
+
+<!-- gen:end -->
+
+### Erase menu
+
+<!-- gen:functions mode=memory-erase -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `E31` | Reset the sequencer global settings | `push E31` | — | — | manual |
+| `E32` | Erase all patterns, keep the global settings | `push E32` | — | — | manual |
+| `E32` | Erase all controller memory | `push E32` | — | — | manual |
+| `B60` | Exit | `press B60` | — | — | manual |
+
+<!-- gen:end -->
+
+### SysEx export menu
+
+<!-- gen:functions mode=sysex-export -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `E29` | Export all ZAQ memory | `push E29` | — | — | manual |
+| `E30` | Export the 12 pattern pages | `push E30` | — | — | manual |
+| `E31` | Export the current pattern page | `push E31` | — | — | manual |
+| `E32` | Export the current pattern | `push E32` | — | — | manual |
+| `E31` | Export all 64 presets | `push E31` | — | — | manual |
+| `E32` | Export the current preset | `push E32` | — | — | manual |
+| `B60` | Exit | `press B60` | — | — | manual |
+
+<!-- gen:end -->
+
+### SysEx import
+
+<!-- gen:functions mode=sysex-import -->
+
+| Controls | Function | Action | Values | Default | Source |
+| --- | --- | --- | --- | --- | --- |
+| `B60` | Exit | `press B60` | — | — | manual |
+
+<!-- gen:end -->
+
+## Index by control
+
+Find a control, then read what it does in each mode. A control with no function row is described in [chapter 3](03-top-panel-control-map.md) or [chapter 4](04-rear-panel.md).
+
+<!-- gen:index-controls -->
+
+| Control | Kind | Functions (mode: function) |
+| --- | --- | --- |
+| `B1` | Button | ZAQ (sequencer): Go to CTRL mode; CTRL (controller): Go to ZAQ mode; Global Settings: Exit; CV calibration: Finish |
+| `L2.in` | LED | — |
+| `L2.a` | LED | — |
+| `L2.b` | LED | — |
+| `L3.1` | LED | — |
+| `L3.2` | LED | — |
+| `L4` | LED | — |
+| `B5` | Button | ZAQ (sequencer): Pitch; ZAQ (sequencer): Apply the wave generator to a lane; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; ZAQ Settings: Gate output level; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CTRL Settings: Output routing; Global Settings: Device mode at power-up; CV calibration: Number pad |
+| `B6` | Button | ZAQ (sequencer): Velocity; ZAQ (sequencer): Apply the wave generator to a lane; Real-time record: Virtual keyboard; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; ZAQ Settings: Sync input clock rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CTRL Settings: MIDI thru source; CTRL Settings: MIDI thru destination; Global Settings: Device ID; CV calibration: Number pad |
+| `B7` | Button | ZAQ (sequencer): Step mute; ZAQ (sequencer): Apply the wave generator to a lane; Real-time record: Virtual keyboard; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; ZAQ Settings: Sync output clock rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CTRL Settings: Echo dead time; Global Settings: Operation mode; CV calibration: Number pad |
+| `B8` | Button | ZAQ (sequencer): Timing shift; ZAQ (sequencer): Apply the wave generator to a lane; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; ZAQ Settings: Sync input start; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; Global Settings: Start CV calibration; CV calibration: Number pad |
+| `B9` | Button | ZAQ (sequencer): Note length; ZAQ (sequencer): Apply the wave generator to a lane; Real-time record: Virtual keyboard; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; Global Settings: Footswitch 1 use; CV calibration: Number pad |
+| `B10` | Button | ZAQ (sequencer): MIDI CTRL α value; ZAQ (sequencer): Apply the wave generator to a lane; ZAQ (sequencer): Write the scale into the notes; ZAQ Global page: Set the user scale; Real-time record: Virtual keyboard; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; Global Settings: Footswitch 2 use; CV calibration: Number pad |
+| `B11` | Button | ZAQ (sequencer): MIDI CTRL β value; ZAQ (sequencer): Apply the wave generator to a lane; ZAQ (sequencer): Write the scale into the notes; Real-time record: Virtual keyboard; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; Global Settings: Show the firmware version; CV calibration: Number pad |
+| `B12` | Button | ZAQ (sequencer): Wave generator; ZAQ (sequencer): Wave generator shape; ZAQ (sequencer): Wave generator gain; ZAQ (sequencer): Wave generator rate; ZAQ (sequencer): Wave generator offset; ZAQ (sequencer): Apply the wave generator to a lane; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; Real-time record: Random steps for a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; Global Settings: Factory restore; CV calibration: Number pad |
+| `B13` | Button | ZAQ (sequencer): Chord; Real-time record: Virtual keyboard; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; Global Settings: Pattern change channel; CV calibration: Number pad |
+| `B14` | Button | ZAQ (sequencer): Step skip; Real-time record: Virtual keyboard; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; Global Settings: Encoder acceleration; CV calibration: Number pad |
+| `B15` | Button | ZAQ (sequencer): Start step; Real-time record: Virtual keyboard; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; Global Settings: Footswitch polarity; CV calibration: Number pad |
+| `B16` | Button | ZAQ (sequencer): Track length; Real-time record: Virtual keyboard; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CV calibration: Number pad |
+| `B17` | Button | ZAQ (sequencer): Track offset; Real-time record: Virtual keyboard; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `B18` | Button | ZAQ (sequencer): Clock divider; Real-time record: Virtual keyboard; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `B19` | Button | ZAQ (sequencer): Shuffle, even steps; ZAQ (sequencer): Shuffle, odd steps; Real-time record: Virtual keyboard; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CV calibration: Number pad |
+| `B20` | Button | ZAQ (sequencer): Play direction; Real-time record: Virtual keyboard; Real-time record: Erase notes while the pattern plays; Real-time record: Select a drum voice; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Mute a drum voice; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Store to a slot; ZAQ pattern load: Load a slot; ZAQ pattern load: Chain patterns; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CV calibration: Number pad |
+| `B21` | Button | ZAQ (sequencer): Select a track; ZAQ (sequencer): Copy a track; ZAQ Global page: Drum voice pitch; ZAQ Mixer: Mute a track; ZAQ Mixer: Note repeat on a track or a drum voice; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `B22` | Button | ZAQ (sequencer): Select a track; ZAQ (sequencer): Copy a track; ZAQ Global page: Drum voice pitch; ZAQ Mixer: Mute a track; ZAQ Mixer: Note repeat on a track or a drum voice; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `B23` | Button | ZAQ (sequencer): Select a track; ZAQ (sequencer): Copy a track; ZAQ Global page: Drum voice pitch; ZAQ Mixer: Mute a track; ZAQ Mixer: Note repeat on a track or a drum voice; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `B24` | Button | ZAQ (sequencer): Select a track; ZAQ (sequencer): Copy a track; ZAQ Global page: Drum voice pitch; ZAQ Mixer: Mute a track; ZAQ Mixer: Note repeat on a track or a drum voice; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E25` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Tempo; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CV calibration: Select CV output 1 to 4; CV calibration: Test the output |
+| `E26` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Clock source; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CV calibration: Select CV output 1 to 4; CV calibration: Test the output |
+| `E27` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Clock output; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CV calibration: Select CV output 1 to 4; CV calibration: Test the output |
+| `E28` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: MIDI thru source; ZAQ Global page: MIDI thru destination; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CTRL Settings: MIDI thru source; CV calibration: Select CV output 1 to 4; CV calibration: Test the output |
+| `E29` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Note display; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; SysEx export menu: Export all ZAQ memory |
+| `E30` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ (sequencer): Shuffle, even steps; ZAQ Global page: Scale; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; SysEx export menu: Export the 12 pattern pages |
+| `E31` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ (sequencer): Shuffle, odd steps; ZAQ Global page: Scale base note; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; Erase menu: Reset the sequencer global settings; SysEx export menu: Export the current pattern page; SysEx export menu: Export all 64 presets |
+| `E32` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Transpose input; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; Erase menu: Erase all patterns, keep the global settings; Erase menu: Erase all controller memory; SysEx export menu: Export the current pattern; SysEx export menu: Export the current preset |
+| `E33` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ (sequencer): Wave generator shape; ZAQ Global page: Pattern switch by CC: channel; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CV calibration: First meter reading, CV output 1 to 4 |
+| `E34` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ (sequencer): Wave generator gain; ZAQ Global page: Pattern switch by CC: CC number; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CV calibration: First meter reading, CV output 1 to 4 |
+| `E35` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ (sequencer): Wave generator rate; ZAQ Global page: Quantize rate; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CV calibration: First meter reading, CV output 1 to 4 |
+| `E36` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ (sequencer): Wave generator offset; ZAQ Global page: Quantize on or off; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CV calibration: First meter reading, CV output 1 to 4 |
+| `E37` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Track mode, tracks 1 to 4; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E38` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Track mode, tracks 1 to 4; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E39` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Track mode, tracks 1 to 4; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E40` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Track mode, tracks 1 to 4; ZAQ Global page: Show a value with no change; ZAQ Global page: Drum voice pitch; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E41` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Set the user scale; ZAQ Global page: MIDI output, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CV calibration: Second meter reading, CV output 1 to 4 |
+| `E42` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Set the user scale; ZAQ Global page: MIDI channel, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CV calibration: Second meter reading, CV output 1 to 4 |
+| `E43` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Set the user scale; ZAQ Global page: MIDI output, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CV calibration: Second meter reading, CV output 1 to 4 |
+| `E44` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Set the user scale; ZAQ Global page: MIDI channel, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message; CV calibration: Second meter reading, CV output 1 to 4 |
+| `E45` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Set the user scale; ZAQ Global page: MIDI output, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E46` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Set the user scale; ZAQ Global page: MIDI channel, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E47` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Set the user scale; ZAQ Global page: MIDI output, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E48` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Set the user scale; ZAQ Global page: MIDI channel, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E49` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Set the user scale; ZAQ Global page: MIDI CTRL α target, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E50` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Set the user scale; ZAQ Global page: MIDI CTRL β target, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E51` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Set the user scale; ZAQ Global page: MIDI CTRL α target, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E52` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: Set the user scale; ZAQ Global page: MIDI CTRL β target, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E53` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: MIDI CTRL α target, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E54` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: MIDI CTRL β target, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E55` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: MIDI CTRL α target, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `E56` | Encoder | ZAQ (sequencer): Step value of the selected parameter; ZAQ (sequencer): Change all steps together; ZAQ Global page: MIDI CTRL β target, tracks 1 to 4; ZAQ Global page: Show a value with no change; Real-time record: Set or remove a drum step; Real-time record: Fill or clear all steps of a drum voice; ZAQ Mixer: Note repeat rate; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `DISP` | Display | — |
+| `SEL` | Encoder | ZAQ (sequencer): Clock divider; ZAQ (sequencer): Play direction; ZAQ (sequencer): Make the stored patterns permanent; ZAQ Global page: MIDI thru destination; CTRL (controller): Make the stored presets permanent; CTRL Edit: Message type; CTRL Edit: Value of the setup field; CTRL Edit: Button mode field; CTRL Edit: Encoder mode field; CTRL Edit: LED ring style field; CTRL Edit: GS parameter field; CTRL Edit: MMC command field; CTRL Edit: MMC frame rate field; CTRL Settings: MIDI thru destination; Global Settings: Change and save a setting |
+| `B59` | Button | ZAQ (sequencer): Change all steps together; ZAQ (sequencer): Open the ZAQ Global page; ZAQ (sequencer): Open ZAQ Settings; CTRL (controller): Assign a control; CTRL (controller): Open CTRL Settings |
+| `B60` | Button | ZAQ (sequencer): Exit; ZAQ Global page: Exit; ZAQ Mixer: Leave the mixer; ZAQ Settings: Exit; CTRL (controller): Exit; CTRL Edit: Finish; CTRL Learn: Exit; CTRL Settings: Exit; Erase menu: Exit; SysEx export menu: Exit; SysEx import: Exit |
+| `B61` | Button | ZAQ (sequencer): Open ZAQ Settings; ZAQ (sequencer): Open the pattern store view; ZAQ (sequencer): Make the stored patterns permanent; CTRL (controller): Open CTRL Settings; CTRL (controller): Open the preset store view; CTRL (controller): Make the stored presets permanent; CTRL preset store: Confirm and write |
+| `B62` | Button | ZAQ (sequencer): Open the pattern load view; CTRL (controller): Learn a MIDI message |
+| `B63` | Button | ZAQ Global page: Show a value with no change; Real-time record: Erase notes while the pattern plays; ZAQ pattern store: Pattern page; ZAQ pattern load: Pattern page; CTRL (controller): Previous preset; CTRL Edit: Previous or next setup field; CTRL preset store: Preset location |
+| `B64` | Button | Real-time record: Record sub-mode; ZAQ Mixer: Note repeat rate; ZAQ Mixer: Note repeat on a track or a drum voice; ZAQ pattern store: Pattern page; ZAQ pattern load: Pattern page; CTRL (controller): Next preset; CTRL Edit: Previous or next setup field; CTRL preset store: Preset location |
+| `B65` | Button | ZAQ (sequencer): Real-time record on or off; Real-time record: Random steps for a drum voice; Real-time record: Leave real-time record; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `B66` | Button | ZAQ (sequencer): Open the mixer; ZAQ Mixer: Leave the mixer; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `B67` | Button | ZAQ (sequencer): Go back to step 1; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `B68` | Button | ZAQ (sequencer): Start or stop the sequencer; CTRL (controller): Send the assigned MIDI message; CTRL (controller): Assign a control; CTRL (controller): Learn a MIDI message |
+| `J69` | Jack | — |
+| `J70` | Jack | — |
+| `J71` | Jack | — |
+| `J72` | Jack | — |
+| `J73` | Jack | — |
+| `J74` | Jack | ZAQ (sequencer): Footswitch 1: start or stop; CTRL (controller): Footswitch: send the assigned MIDI message |
+| `J75` | Jack | ZAQ (sequencer): Footswitch 2: next pattern; CTRL (controller): Footswitch: send the assigned MIDI message |
+| `J76` | Jack | — |
+| `J77` | Jack | — |
+| `J78` | Jack | — |
+| `J79` | Jack | — |
+| `J80` | Jack | — |
+| `J81` | Jack | — |
+| `J82` | Jack | — |
+| `J83` | Jack | — |
+| `J84` | Jack | — |
+| `J85` | Jack | — |
+
+<!-- gen:end -->
+
+## Index by function
+
+Find a function by name. The table lists the mode, the controls and the action.
+
+<!-- gen:index-functions -->
+
+| Function | Mode | Controls | Action |
+| --- | --- | --- | --- |
+| Apply the wave generator to a lane | ZAQ (sequencer) | `B12`, `B5`–`B11` | `hold B12 + press B5` |
+| Assign a control | CTRL (controller) | `B59`, `B5`–`B24`, `E25`–`E56`, `B65`–`B68` | `hold B59 + turn E` |
+| Button mode field | CTRL Edit | `SEL` | `turn SEL` |
+| Chain patterns | ZAQ pattern load | `B5`–`B20` | `hold B5 + press B6` |
+| Change all steps together | ZAQ (sequencer) | `B59`, `E25`–`E56` | `hold B59 + turn E` |
+| Change and save a setting | Global Settings | `SEL` | `turn SEL` |
+| Chord | ZAQ (sequencer) | `B13` | `press B13` |
+| Clock divider | ZAQ (sequencer) | `B18`, `SEL` | `press B18` |
+| Clock output | ZAQ Global page | `E27` | `turn E27` |
+| Clock source | ZAQ Global page | `E26` | `turn E26` |
+| Confirm and write | CTRL preset store | `B61` | `press B61` |
+| Copy a track | ZAQ (sequencer) | `B21`–`B24` | `hold B21 + press B22` |
+| Device ID | Global Settings | `B6` | `press B6` |
+| Device mode at power-up | Global Settings | `B5` | `press B5` |
+| Drum voice pitch | ZAQ Global page | `B21`–`B24`, `E25`–`E40` | `hold B21 + turn E25` |
+| Echo dead time | CTRL Settings | `B7` | `press B7` |
+| Encoder acceleration | Global Settings | `B14` | `press B14` |
+| Encoder mode field | CTRL Edit | `SEL` | `turn SEL` |
+| Erase all controller memory | Erase menu | `E32` | `push E32` |
+| Erase all patterns, keep the global settings | Erase menu | `E32` | `push E32` |
+| Erase notes while the pattern plays | Real-time record | `B63`, `B5`–`B20` | `hold B63 + press B13` |
+| Exit | CTRL (controller) | `B60` | `press B60` |
+| Exit | CTRL Learn | `B60` | `press B60` |
+| Exit | CTRL Settings | `B60` | `press B60` |
+| Exit | Global Settings | `B1` | `tap B1` |
+| Exit | Erase menu | `B60` | `press B60` |
+| Exit | SysEx export menu | `B60` | `press B60` |
+| Exit | SysEx import | `B60` | `press B60` |
+| Exit | ZAQ (sequencer) | `B60` | `press B60` |
+| Exit | ZAQ Global page | `B60` | `press B60` |
+| Exit | ZAQ Settings | `B60` | `press B60` |
+| Export all 64 presets | SysEx export menu | `E31` | `push E31` |
+| Export all ZAQ memory | SysEx export menu | `E29` | `push E29` |
+| Export the 12 pattern pages | SysEx export menu | `E30` | `push E30` |
+| Export the current pattern | SysEx export menu | `E32` | `push E32` |
+| Export the current pattern page | SysEx export menu | `E31` | `push E31` |
+| Export the current preset | SysEx export menu | `E32` | `push E32` |
+| Factory restore | Global Settings | `B12` | `press B12` |
+| Fill or clear all steps of a drum voice | Real-time record | `B5`–`B20`, `E25`–`E56` | `hold B5 + turn E` |
+| Finish | CTRL Edit | `B60` | `press B60` |
+| Finish | CV calibration | `B1` | `press B1` |
+| First meter reading, CV output 1 to 4 | CV calibration | `E33`–`E36` | `turn E33` |
+| Footswitch 1 use | Global Settings | `B9` | `press B9` |
+| Footswitch 1: start or stop | ZAQ (sequencer) | `J74` | — |
+| Footswitch 2 use | Global Settings | `B10` | `press B10` |
+| Footswitch 2: next pattern | ZAQ (sequencer) | `J75` | — |
+| Footswitch polarity | Global Settings | `B15` | `press B15` |
+| Footswitch: send the assigned MIDI message | CTRL (controller) | `J74`, `J75` | — |
+| Gate output level | ZAQ Settings | `B5` | `press B5` |
+| Go back to step 1 | ZAQ (sequencer) | `B67` | `press B67` |
+| Go to CTRL mode | ZAQ (sequencer) | `B1` | `tap B1` |
+| Go to ZAQ mode | CTRL (controller) | `B1` | `tap B1` |
+| GS parameter field | CTRL Edit | `SEL` | `turn SEL` |
+| Learn a MIDI message | CTRL (controller) | `B62`, `B5`–`B24`, `E25`–`E56`, `B65`–`B68` | `hold B62 + turn E` |
+| Leave real-time record | Real-time record | `B65` | `press B65` |
+| Leave the mixer | ZAQ Mixer | `B66`, `B60` | `press B66` |
+| LED ring style field | CTRL Edit | `SEL` | `turn SEL` |
+| Load a slot | ZAQ pattern load | `B5`–`B20` | `press B5` |
+| Make the stored patterns permanent | ZAQ (sequencer) | `SEL`, `B61` | `hold SEL + press B61` |
+| Make the stored presets permanent | CTRL (controller) | `SEL`, `B61` | `hold SEL + press B61` |
+| Message type | CTRL Edit | `SEL` | `turn SEL` |
+| MIDI channel, tracks 1 to 4 | ZAQ Global page | `E42`, `E44`, `E46`, `E48` | `turn E42` |
+| MIDI CTRL α target, tracks 1 to 4 | ZAQ Global page | `E49`, `E51`, `E53`, `E55` | `turn E49` |
+| MIDI CTRL α value | ZAQ (sequencer) | `B10` | `press B10` |
+| MIDI CTRL β target, tracks 1 to 4 | ZAQ Global page | `E50`, `E52`, `E54`, `E56` | `turn E50` |
+| MIDI CTRL β value | ZAQ (sequencer) | `B11` | `press B11` |
+| MIDI output, tracks 1 to 4 | ZAQ Global page | `E41`, `E43`, `E45`, `E47` | `turn E41` |
+| MIDI thru destination | CTRL Settings | `B6`, `SEL` | `press B6` |
+| MIDI thru destination | ZAQ Global page | `E28`, `SEL` | `push SEL` |
+| MIDI thru source | CTRL Settings | `B6`, `E28` | `press B6` |
+| MIDI thru source | ZAQ Global page | `E28` | `turn E28` |
+| MMC command field | CTRL Edit | `SEL` | `turn SEL` |
+| MMC frame rate field | CTRL Edit | `SEL` | `turn SEL` |
+| Mute a drum voice | ZAQ Mixer | `B5`–`B20` | `press B5` |
+| Mute a track | ZAQ Mixer | `B21`–`B24` | `press B21` |
+| Next preset | CTRL (controller) | `B64` | `press B64` |
+| Note display | ZAQ Global page | `E29` | `turn E29` |
+| Note length | ZAQ (sequencer) | `B9` | `press B9` |
+| Note repeat on a track or a drum voice | ZAQ Mixer | `B64`, `B21`–`B24`, `B5`–`B20` | `hold B64 + press B21` |
+| Note repeat rate | ZAQ Mixer | `B64`, `E25`–`E56` | `hold B64 + turn E` |
+| Number pad | CV calibration | `B5`–`B16`, `B19`, `B20` | — |
+| Open CTRL Settings | CTRL (controller) | `B59`, `B61` | `hold B59 + B61` |
+| Open the mixer | ZAQ (sequencer) | `B66` | `press B66` |
+| Open the pattern load view | ZAQ (sequencer) | `B62` | `press B62` |
+| Open the pattern store view | ZAQ (sequencer) | `B61` | `hold B61` |
+| Open the preset store view | CTRL (controller) | `B61` | `press B61` |
+| Open the ZAQ Global page | ZAQ (sequencer) | `B59` | `press B59` |
+| Open ZAQ Settings | ZAQ (sequencer) | `B59`, `B61` | `hold B59 + B61` |
+| Operation mode | Global Settings | `B7` | `press B7` |
+| Output routing | CTRL Settings | `B5` | `press B5` |
+| Pattern change channel | Global Settings | `B13` | `press B13` |
+| Pattern page | ZAQ pattern load | `B63`, `B64` | `press B64` |
+| Pattern page | ZAQ pattern store | `B63`, `B64` | `press B64` |
+| Pattern switch by CC: CC number | ZAQ Global page | `E34` | `turn E34` |
+| Pattern switch by CC: channel | ZAQ Global page | `E33` | `turn E33` |
+| Pitch | ZAQ (sequencer) | `B5` | `press B5` |
+| Play direction | ZAQ (sequencer) | `B20`, `SEL` | `press B20` |
+| Preset location | CTRL preset store | `B63`, `B64` | `press B64` |
+| Previous or next setup field | CTRL Edit | `B63`, `B64` | `press B64` |
+| Previous preset | CTRL (controller) | `B63` | `press B63` |
+| Quantize on or off | ZAQ Global page | `E36` | `turn E36` |
+| Quantize rate | ZAQ Global page | `E35` | `turn E35` |
+| Random steps for a drum voice | Real-time record | `B65`, `B12` | `hold B65 + press B12` |
+| Real-time record on or off | ZAQ (sequencer) | `B65` | `press B65` |
+| Record sub-mode | Real-time record | `B64` | `press B64` |
+| Reset the sequencer global settings | Erase menu | `E31` | `push E31` |
+| Scale | ZAQ Global page | `E30` | `turn E30` |
+| Scale base note | ZAQ Global page | `E31` | `turn E31` |
+| Second meter reading, CV output 1 to 4 | CV calibration | `E41`–`E44` | `turn E41` |
+| Select a drum voice | Real-time record | `B5`–`B20` | `press B5` |
+| Select a track | ZAQ (sequencer) | `B21`–`B24` | `press B21` |
+| Select CV output 1 to 4 | CV calibration | `E25`–`E28` | `turn E25` |
+| Send the assigned MIDI message | CTRL (controller) | `B5`–`B24`, `E25`–`E56`, `B65`–`B68` | — |
+| Set or remove a drum step | Real-time record | `E25`–`E56` | `turn E` |
+| Set the user scale | ZAQ Global page | `B10`, `E41`–`E52` | `hold B10` |
+| Show a value with no change | ZAQ Global page | `B63`, `E25`–`E56` | `hold B63 + turn E` |
+| Show the firmware version | Global Settings | `B11` | `press B11` |
+| Shuffle, even steps | ZAQ (sequencer) | `B19`, `E30` | `press B19` |
+| Shuffle, odd steps | ZAQ (sequencer) | `B19`, `E31` | `press B19` |
+| Start CV calibration | Global Settings | `B8` | `press B8` |
+| Start or stop the sequencer | ZAQ (sequencer) | `B68` | `press B68` |
+| Start step | ZAQ (sequencer) | `B15` | `press B15` |
+| Step mute | ZAQ (sequencer) | `B7` | `press B7` |
+| Step skip | ZAQ (sequencer) | `B14` | `press B14` |
+| Step value of the selected parameter | ZAQ (sequencer) | `E25`–`E56` | `turn E` |
+| Store to a slot | ZAQ pattern store | `B5`–`B20` | `press B5` |
+| Sync input clock rate | ZAQ Settings | `B6` | `press B6` |
+| Sync input start | ZAQ Settings | `B8` | `press B8` |
+| Sync output clock rate | ZAQ Settings | `B7` | `press B7` |
+| Tempo | ZAQ Global page | `E25` | `turn E25` |
+| Test the output | CV calibration | `E25`–`E28` | `push E25` |
+| Timing shift | ZAQ (sequencer) | `B8` | `press B8` |
+| Track length | ZAQ (sequencer) | `B16` | `press B16` |
+| Track mode, tracks 1 to 4 | ZAQ Global page | `E37`–`E40` | `turn E37` |
+| Track offset | ZAQ (sequencer) | `B17` | `press B17` |
+| Transpose input | ZAQ Global page | `E32` | `turn E32` |
+| Value of the setup field | CTRL Edit | `SEL` | `turn SEL` |
+| Velocity | ZAQ (sequencer) | `B6` | `press B6` |
+| Virtual keyboard | Real-time record | `B6`, `B7`, `B9`–`B11`, `B13`–`B20` | `press B13` |
+| Wave generator | ZAQ (sequencer) | `B12` | `hold B12` |
+| Wave generator gain | ZAQ (sequencer) | `B12`, `E34` | `hold B12 + turn E34` |
+| Wave generator offset | ZAQ (sequencer) | `B12`, `E36` | `hold B12 + turn E36` |
+| Wave generator rate | ZAQ (sequencer) | `B12`, `E35` | `hold B12 + turn E35` |
+| Wave generator shape | ZAQ (sequencer) | `B12`, `E33` | `hold B12 + turn E33` |
+| Write the scale into the notes | ZAQ (sequencer) | `B10`, `B11` | `press B10 and B11 together` |
+
+<!-- gen:end -->

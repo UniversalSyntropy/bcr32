@@ -65,6 +65,11 @@ test("glossary: headings, code, other links and fenced code do not count as use"
   assert.deepEqual(glossaryOf("docs/manual/a.md", "```\npattern\n```"), []);
 });
 
+test("glossary: text between gen markers is generated and not checked, text after the end marker is", () => {
+  assert.deepEqual(glossaryOf("docs/manual/a.md", "<!-- gen:modes -->\n\nA pattern.\n<!-- gen:end -->"), []);
+  assert.equal(glossaryOf("docs/manual/a.md", "<!-- gen:modes -->\n<!-- gen:end -->\n\nA pattern.").length, 1);
+});
+
 test("glossary: only files under docs/manual/ except the glossary are checked", () => {
   assert.equal(glossaryOf("docs/guides/a.md", "A pattern.").length, 0);
   assert.equal(glossaryOf("docs/manual/13-glossary.md", "A pattern.").length, 0);

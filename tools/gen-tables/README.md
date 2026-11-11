@@ -45,3 +45,11 @@ Do not change the text between the markers by hand. Change the device data, then
 - **Marker:** an unknown generator, a missing or unknown parameter, a start marker with no end marker, or an end marker alone.
 
 Markers inside a fenced code block are text. The tool does not read them.
+
+## The llms-full.txt file
+
+`npm run gen:llms-full` joins `llms.txt` and every chapter that `docs/manual/README.md` lists into `llms-full.txt`. It removes the front matter of each chapter. `npm run gen:tables` runs it after the tables. `npm run check:tables` fails in three cases:
+
+- **Drift:** the file differs from the manual.
+- **Chapter list:** the list is empty or names a missing file.
+- **Untracked:** a listed chapter is not tracked by git.
