@@ -4,6 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-12
 
+- Verified on firmware 1.0.3: the inbound tests (step 4.4). The unit gave no reply to an identity request on either USB port. It did not react to start, stop, a note, a controller change or a program change at the settings found. A new export matched the first. Added `unit-send` to `midi-capture`: one allowed message per call, a repeat of the bytes to confirm, no SysEx except the identity request.
 - Verified on firmware 1.0.3: the unit side of the editor protocol (step 4.5). The unit sends controller presets as BCL text lines (command `20`) and preset names (command `21`). It sends its full sequencer state at connect and when you select a sequencer preset. Opening a settings page sends nothing. We saw the unit side only.
 - Added the SysEx dump structure to the findings page (step 4.6). It covers the message frame, nibble encoding, address bytes and slot counts. It also shows where the clock-source change sits. The trailer rule is not solved. We read the backup files only.
 - Verified on firmware 1.0.3: the outbound map of CTRL mode (step 4.3). `midi.json` now has 45 message rows, each tied to a control and a preset, and five silent results. The `.bcl` backup export holds five controller presets. The run results match their stored assignments.

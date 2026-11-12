@@ -126,3 +126,36 @@ test("map: a bad steps file or a missing option is a usage error", { skip: !mac 
   assert.equal(run(["map", "--steps", bad]).status, 2);
   assert.equal(run(["map", "--steps", join(dir, "missing.json")]).status, 2);
 });
+
+test("unit-send: allows only tier 1 messages (dry run, no port opened)", { skip: !mac }, () => {
+  const ok = [
+    ["F0", "7E", "7F", "06", "01", "F7"],
+    ["FA"], ["FC"], ["F8"],
+    ["90", "3C", "64"], ["80", "3C", "00"], ["B0", "01", "40"], ["C0", "05"], ["E0", "00", "40"],
+  ];
+  for (const m of ok) {
+    const r = run(["unit-send", "--to", "ZAQ", "--dry-run", "--confirm", m.join(" "), ...m]);
+    assert.equal(r.status, 0, `${m.join(" ")}: ${r.stderr}`);
+    assert.match(r.stdout, /dry run/);
+  }
+});
+
+test("unit-send: refuses SysEx, system messages, channel mode CC, bad data and wrong confirm", { skip: !mac }, () => {
+  const bad = [
+    ["F0", "00", "20", "32", "7F", "64", "74", "00", "F7"],
+    ["F0", "7E", "7F", "06", "01"],
+    ["FF"], ["F9"], ["F1", "00"], ["F1", "00", "00"], ["F2", "00", "00"], ["B0", "7B", "00"], ["B0", "78", "00"],
+    ["90", "3C"], ["90", "80", "64"], ["C0", "05", "05"], ["FA", "FA"],
+  ];
+  for (const m of bad) {
+    const r = run(["unit-send", "--to", "CTRL", "--dry-run", "--confirm", m.join(" "), ...m]);
+    assert.equal(r.status, 2, `${m.join(" ")}: ${r.stdout}${r.stderr}`);
+    assert.match(r.stderr, /refused/);
+  }
+  const wrong = run(["unit-send", "--to", "CTRL", "--dry-run", "--confirm", "90 3C 65", "90", "3C", "64"]);
+  assert.equal(wrong.status, 2);
+  const noConfirm = run(["unit-send", "--to", "CTRL", "--dry-run", "90", "3C", "64"]);
+  assert.equal(noConfirm.status, 2);
+  const badPort = run(["unit-send", "--to", "IAC", "--dry-run", "--confirm", "90 3C 64", "90", "3C", "64"]);
+  assert.equal(badPort.status, 2);
+});

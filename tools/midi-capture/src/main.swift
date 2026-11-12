@@ -521,6 +521,76 @@ func runSend(args: [String]) -> Int32 {
     return 0
 }
 
+// MARK: gated send to the unit (tier 1 only)
+
+// Returns nil when the message may go to the unit, or the reason it may not.
+// Allowed: channel messages (not channel mode CC 120 to 127), clock, start, continue, stop,
+// and the exact universal identity request. Every other SysEx is refused.
+func unitMessageRefusal(_ b: [UInt8]) -> String? {
+    if b == [0xF0, 0x7E, 0x7F, 0x06, 0x01, 0xF7] { return nil }
+    guard let s = b.first else { return "empty message" }
+    if s == 0xF0 || b.contains(0xF7) { return "SysEx is refused, except the identity request F0 7E 7F 06 01 F7" }
+    if [0xF8, 0xFA, 0xFB, 0xFC].contains(s) { return b.count == 1 ? nil : "a realtime message is one byte" }
+    if s < 0x80 || s >= 0xF0 { return "status byte \(String(format: "%02X", s)) is not allowed" }
+    let kind = s & 0xF0
+    let want = (kind == 0xC0 || kind == 0xD0) ? 2 : 3
+    if b.count != want { return "status \(String(format: "%02X", s)) needs \(want) bytes" }
+    if b.dropFirst().contains(where: { $0 > 0x7F }) { return "data bytes must be 00 to 7F" }
+    if kind == 0xB0 && b[1] >= 120 { return "channel mode CC 120 to 127 is refused" }
+    return nil
+}
+
+// usage: unit-send --to <CTRL|ZAQ> --confirm "<same hex>" [--dry-run] <hex byte> ...
+// --confirm repeats the message so a typing slip cannot send a different one.
+func runUnitSend(args: [String]) -> Int32 {
+    var target: String?
+    var confirm: [String] = []
+    var dry = false
+    var msg: [String] = []
+    var i = 0
+    while i < args.count {
+        switch args[i] {
+        case "--to": i += 1; target = i < args.count ? args[i] : nil
+        case "--dry-run": dry = true
+        case "--confirm":
+            i += 1
+            confirm = i < args.count ? args[i].split(separator: " ").map(String.init) : []
+        default: msg.append(args[i])
+        }
+        i += 1
+    }
+    guard let to = target?.lowercased(), ["ctrl", "zaq"].contains(to), !msg.isEmpty, let bytes = parseHexBytes(msg) else {
+        printErr("usage: midi-capture unit-send --to CTRL|ZAQ --confirm \"<same hex>\" [--dry-run] <hex byte> ...")
+        return 2
+    }
+    if let why = unitMessageRefusal(bytes) { printErr("unit-send: refused. \(why)."); return 2 }
+    guard let again = parseHexBytes(confirm), again == bytes else {
+        printErr("unit-send: refused. --confirm must repeat the message exactly.")
+        return 2
+    }
+    if dry { print("dry run: would send \(hexString(bytes)) to the unit port \(to.uppercased())"); return 0 }
+    guard let client = makeClient() else { printErr("unit-send: cannot open CoreMIDI"); return 1 }
+    var matches: [MIDIEndpointRef] = []
+    for d in 0..<MIDIGetNumberOfDestinations() {
+        let dest = MIDIGetDestination(d)
+        let name = displayName(dest).lowercased()
+        if name.contains("bcr-32") && name.hasSuffix(to) { matches.append(dest) }
+    }
+    guard matches.count == 1 else { printErr("unit-send: expected one unit destination ending in '\(to.uppercased())', found \(matches.count). Run `list`."); return 1 }
+    var out = MIDIPortRef()
+    guard MIDIOutputPortCreate(client, "midi-capture unit out" as CFString, &out) == noErr else { printErr("unit-send: cannot create an output port"); return 1 }
+    var buffer = [UInt8](repeating: 0, count: 1024)
+    let status: OSStatus = buffer.withUnsafeMutableBytes { raw in
+        let list = raw.baseAddress!.assumingMemoryBound(to: MIDIPacketList.self)
+        let cur = MIDIPacketListInit(list)
+        _ = MIDIPacketListAdd(list, raw.count, cur, 0, bytes.count, bytes)
+        return MIDISend(out, matches[0], list)
+    }
+    if status != noErr { printErr("unit-send: CoreMIDI error \(status)"); return 1 }
+    print("sent \(hexString(bytes)) to the unit port \(to.uppercased())")
+    return 0
+}
+
 // Proves the capture path on a software port: known words in, expected records out.
 func runSelftest() -> Int32 {
     guard let client = makeClient(), let port = makeInputPort(client: client) else { printErr("selftest: cannot open CoreMIDI"); return 1 }
@@ -615,12 +685,14 @@ func usage() {
       midi-capture list
       midi-capture log [--port <name part>]... [--out <file>] [--seconds <n>] [--skip clock,active-sensing]
       midi-capture send --to <loopback port name part> <hex byte> ...
+      midi-capture unit-send --to CTRL|ZAQ --confirm "<same hex>" [--dry-run] <hex byte> ...
       midi-capture map --steps <file> [--port <name part>]... [--out <file>] [--quiet <s>] [--timeout <s>]
       midi-capture selftest
 
     log writes JSON Lines to local/captures/ by default. Type a line during a log to add a marker.
     map shows one step at a time and records the messages after it, to local/captures/.
     send never sends to the unit: it accepts loopback ports only.
+    unit-send is the only way to the unit. It sends one allowed tier 1 message and needs --confirm.
     """)
 }
 
@@ -633,6 +705,8 @@ case "log":
     exit(runLog(args: Array(argv.dropFirst())))
 case "send":
     exit(runSend(args: Array(argv.dropFirst())))
+case "unit-send":
+    exit(runUnitSend(args: Array(argv.dropFirst())))
 case "map":
     exit(runMap(args: Array(argv.dropFirst())))
 case "selftest":

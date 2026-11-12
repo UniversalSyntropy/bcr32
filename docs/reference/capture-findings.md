@@ -153,14 +153,39 @@ Observed on firmware 1.0.3 with Control Tribe 1.12.4, on 2026-11-12. The capture
 
 **Limits:** the editor's own messages were not seen. They need a MIDI monitor that sits between the editor and the unit. The first step of any write is therefore still unknown. No message was re-sent to the unit.
 
+## Inbound tests (step 4.4)
+
+Run on firmware 1.0.3 on 2026-11-12, with the owner at the unit. Settings were as found: USB operation mode, internal clock source, pattern change channel Off, transpose Off. A listener ran on all ports for every test. The unit sent no message in reply to any test. The owner watched the display and the LEDs.
+
+| Test | Message | Port | Effect seen |
+| --- | --- | --- | --- |
+| T1 | Identity request `F0 7E 7F 06 01 F7` | CTRL | None. No reply |
+| T2 | Identity request `F0 7E 7F 06 01 F7` | ZAQ | None. No reply |
+| T3 | Start `FA`, 3 s later Stop `FC` | ZAQ | None. PLAY/STOP did not light |
+| T4 | Note on `90 3C 64`, 1 s later note off `80 3C 00` | ZAQ | None |
+| T5 | CC 1 value 64 on channel 1 (bytes `0xB0 0x01 0x40`), then program change 2 (bytes `0xC0 0x02`) | ZAQ | None. The pattern did not change |
+
+**Memory check:** after the tests, a new sequencer export was identical to the first export (1,920 messages, no difference). The tests changed no sequencer memory.
+
+**Limits:**
+
+- The unit may act on these messages with other settings. Start and Stop may need the USB clock source. Notes need transpose on. Program change needs pattern change on (B13). Each case needs a setting change, which is tier 2 and is not done.
+- The results are for the unit's USB ports only. DIN ports are untested.
+- The identity request got no reply on either port. A reply may need a different device ID. Not tested.
+
+**Unexplained:** after the editor session the T3 and T4 LEDs differed from the photo of 2026-11-11. After a power cycle, T4 was red where the photo shows it off. The memory export is unchanged. The cause is unknown.
+
+> **Warning:** The unit sends no reply when it ignores a message. A silent result does not prove that the unit did nothing. It proves only that the display, the LEDs and the output did not change.
+
 ## Open items
 
 | Item | Next step |
 | --- | --- |
 | Control-to-message map | Step 4.3 (done) |
+| Inbound effects with other settings (clock source USB, transpose on, pattern change on) | A session with the owner, tier 2, fresh backup check |
 | Editor-to-unit messages (what the editor asks) | A virtual port between the editor and the unit; decide with the owner |
 | Trailer rule and record layout of the dumps | Compare more changes: edit one setting in Control Tribe, export, diff (owner at the unit, step 4.5 or later) |
-| Identity request (D1) | Step 4.2 is done. Needs a gated send option in step 4.4 and the owner's yes |
+| Identity request (D1) | Done in step 4.4 (T1, T2): no reply. A test with another device ID needs the owner's yes |
 | Seven errata rows that need a change to the unit | A later session after the backup |
 | Legend colours on the parameter buttons | See below |
 | Values of B13 to B15 and B7 | A later session that changes a setting |

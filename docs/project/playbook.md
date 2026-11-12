@@ -17,9 +17,9 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
 | Current step | none (2.5 closed on branch `r1b/p2-glossary`, stacked on `r1c/p4-backup`, not merged) |
-| Next step | 4.4 Inbound map (R1c), then 4.7 |
-| R1 progress | 25 of 27 steps done, 2 remain (4.4, 4.7) |
-| Tokens used in R1 | about 1,360k of 1,550k (rough count; total raised 2026-11-12 in the owner's words) |
+| Next step | 4.7 Publish the map (R1c) |
+| R1 progress | 26 of 27 steps done, 1 remains (4.7) |
+| Tokens used in R1 | about 1,410k of 1,550k (rough count; total raised 2026-11-12 in the owner's words) |
 | Blocked on | nothing. The repo is public since 2026-11-11 |
 | Last updated | 2026-11-11 (end of session 7) |
 
@@ -93,7 +93,7 @@ R1c can run beside R1b. Steps 4.5 and 4.6 are time-boxed: they report what the e
 | 4.1 | Capture tool | `tools/midi-capture`: lists ports, logs timestamped messages to a file, sends test messages | logs a known message correctly | 40k | about 50k | ✅ | [README](../../tools/midi-capture/README.md); one Swift file; `send` accepts loopback ports only; selftest 13 of 13, a real message on the IAC bus logged correctly, five of six mutations caught (the sixth cannot change the result); branch `r1c/p4-capture-tool`, not merged |
 | 4.2 | Backup | SysEx export of all sequencer and controller memory, kept local only | export file saved and non-empty | 10k | not measured | ✅ | exported with Control Tribe in `.syx` and `.bcl`; repeat exports identical; second copy held outside this computer; the panel export sent nothing on USB; see the [findings](../reference/capture-findings.md#backup-exports-step-42); branch `r1c/p4-backup`, not merged |
 | 4.3 | Outbound map | every button and encoder in CTRL mode, checked against the backup export | every tested control has a result row; silent controls are listed | 40k | about 90k | ☑ | guided `map` tool, 3 runs; ZAQ mode and presets 2, 3, 5 not tested |
-| 4.4 | Inbound map | identity request, clock, start and stop, transpose notes, pattern-switch CC, program change | each test has a result row | 30k | | ☐ | |
+| 4.4 | Inbound map | identity request, clock, start and stop, transpose notes, pattern-switch CC, program change | each test has a result row | 30k | about 45k | ✅ | [findings](../reference/capture-findings.md#inbound-tests-step-44): five tier 1 tests, no effect and no reply; transpose, pattern-switch and clock need a setting change (tier 2), not done; `unit-send` added (gated, 11 tests); export after the tests identical; branch `r1c/p4-inbound-map`, stacked, not merged |
 | 4.5 | Editor protocol | messages between the vendor editor and the unit for each settings page; observed, never re-sent | time-boxed; findings recorded | 65k | about 30k | ✅ | [findings](../reference/capture-findings.md#editor-protocol-step-45): unit side only; BCL text lines, preset names, sequencer state; editor requests unseen; branch `r1c/p4-editor-protocol`, stacked on `r1c/p4-sysex-structure`, not merged |
 | 4.6 | SysEx dump structure | layout of the export files as far as the evidence shows | time-boxed; findings recorded | 30k | about 30k | ✅ | [findings](../reference/capture-findings.md#sysex-dump-structure-step-46): frame, nibble encoding, slots, clock-source location; trailer rule and record fields unresolved; branch `r1c/p4-sysex-structure`, not merged |
 | 4.7 | Publish the map | MIDI implementation chapter, `midi.json`, a MIDI column in the manual's function tables | docs-check, schema | 20k | | ☐ | |
@@ -125,6 +125,15 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-12, step 4.4
+
+- **Closed:** step 4.4 on branch `r1c/p4-inbound-map`, stacked on the 4.5 branch. Not merged, not pushed. The owner was at the unit.
+- **Built:** `midi-capture unit-send`. It allows notes, CC (not 120 to 127), program change, pitch bend, clock, start, continue, stop and the identity request. It needs `--confirm` with the same bytes. Three safety rules were switched off in turn and the tests failed each time.
+- **Found:** five tests, no effect and no reply. See the [findings](../reference/capture-findings.md#inbound-tests-step-44). A new export was identical to the first.
+- **Cost:** about 45k against 30k in the playbook; the owner confirmed about 40k first.
+- **Open:** T4 red after the power cycle (photo shows off), cause unknown, memory unchanged. Tests that need a setting change are not done.
+- **Next:** step 4.7, publish the map. The unit is not needed.
 
 ### 2026-11-12, step 4.5
 

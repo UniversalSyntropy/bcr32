@@ -9,7 +9,7 @@ last_updated: 2026-11-11
 
 The tool reads MIDI messages from the unit and writes them to a log file. It runs on macOS and uses CoreMIDI. It is one Swift file: `src/main.swift`.
 
-> **Warning:** The tool never sends to the unit. The `send` command accepts loopback ports only. Close the tool before you update the firmware.
+> **Warning:** Only `unit-send` sends to the unit, one allowed message per call. The `send` command accepts loopback ports only. Close the tool before you update the firmware.
 
 ## Build
 
@@ -30,6 +30,7 @@ CoreMIDI shows no ports to a remote shell. Run every command below in Terminal o
 | `npm run midi-capture -- log --port CTRL --seconds 60` | logs sources whose name holds `CTRL` for 60 seconds |
 | `npm run midi-capture -- log --skip clock,active-sensing` | leaves out the named kinds; the summary counts them |
 | `npm run midi-capture -- send --to IAC 90 3C 64` | sends bytes (hex) to a loopback port |
+| `npm run midi-capture -- unit-send --to ZAQ --confirm "FA" FA` | sends one tier 1 message to the unit; `--confirm` repeats the bytes; refuses SysEx (except the identity request), CC 120 to 127 and system messages; `--dry-run` checks without sending |
 | `npm run midi-capture -- map --steps <file> --port CTRL` | guided map: shows one step at a time and records the messages that follow it |
 | `npm run map-steps` | writes the step list for CTRL mode to `local/captures/map-steps-ctrl.json` |
 | `npm run midi-capture -- selftest` | proves the capture path on a software port; exits 0 when all pass |
