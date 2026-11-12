@@ -134,7 +134,10 @@ Matched by hand against the `.bcl` text of the same backup. Preset 1 (slot 0) sp
 
 - **Unassigned elements:** an element with no function has no record. Preset 4 has 47 records for 48 elements.
 - **Not decoded:** MMC records and GS/XG parameter names. NOTE and PC records are also open. So are the encoder default value and the `81` in byte 7 of the preset 2 and 3 records.
-- **Next test:** change one setting in Control Tribe, export, and diff. One field per change settles the encoder flag bits.
+- **Export diff 1 (2026-11-12, firmware 1.0.3):** encoder 1 of preset 64 (slot 63), LED ring mcu to 1dot, sent from Control Tribe. Record byte 1 went from `C4` to `14`. The high nibble is the LED ring mode (`C` mcu, `1` 1dot). The low nibble `4` (relative-3) did not change. The restore export returned byte 1 to `C4`. Verified on one change.
+- **Slot CRC:** the last 4 bytes of each used slot are the CRC-32 of the first 1,020 bytes, stored little-endian. It holds for slots 0 to 3 and 63, and for the changed slot 63 in two exports. This is separate from the message trailer.
+- **Unstable byte:** slot 63, byte 99 (record 8, byte 8) changed with no edit: `81`, `83`, `6B` in three exports. Treat it as state, not a setting. Ignore it in diffs. The slot CRC changes with it.
+- **Next test:** repeat the diff for the other encoder flag bits and for the NOTE, PC, MMC and GS/XG record types.
 
 **Limits of this analysis:** one firmware (1.0.3); five used controller slots; one sequencer change; the unit's own check is untested. The sequencer slot contents are not decoded beyond size. The `.bcl` fields are not yet matched to record bytes.
 
