@@ -148,6 +148,22 @@ Matched by hand against the `.bcl` text of the same backup. Preset 1 (slot 0) sp
 - **Open:** the BCL Send button did not change the exported memory, even with preset 64 current. Diff 1 and diff 2 did change it. The cause is unknown. One test is left: send from the General tab after the change. Also check whether the export reads fresh from the unit (byte 99 was constant over six exports).
 - **Next test:** repeat the diff for the other encoder flag bits (2dot, pan, absolute vs relative) with preset 64 current. Then the NOTE, PC, MMC and GS/XG record types.
 
+### Offline decode: `.bcl` text against record bytes (2026-11-12)
+
+Method: join `local/backups/ctrl-all-presets-1.bcl` to the slots of `ctrl-all-presets-1.syx` by element order. Use slots 0, 2 and 63. Encoder ids agree in sequence for slots 0 and 2. No unit step. Evidence is 3 presets, firmware 1.0.3.
+
+| Record field | Rule | Evidence | Confidence |
+| --- | --- | --- | --- |
+| Byte 1, high nibble (encoder LED mode) | `0` off, `1` 1dot, `2` 1dot/off, `3` 12dot, `4` 12dot/off, `5` bar, `6` bar/off, `8` pan, `C` mcu | Every mode in the table below has one nibble value, with no exception | high for the nine listed; `7`, `9` to `B` unseen |
+| Byte 1, low nibble (encoder) | `0` absolute, `4` relative-3 | Both values occur with several LED modes | high for these two; relative-1 and relative-2 unseen |
+| Byte 1, buttons | `20` show value on, `04` toggleoff (CC and NOTE) | CC toggleon `20`, CC toggleoff `24`, NOTE toggleoff show-off `04`, show-on `24` | medium |
+| Byte 8 (encoders) | `01` for `.default 0`; `81` for `.default 64` | 20 encoders with default 64 all give `81`; the rest give `01` | medium. Probably default x 2 + 1; unseen for other defaults |
+| Byte 8 (buttons) | `00` | all buttons | medium |
+| Byte 7 | `FA` on pitch bend records only | all PB records | medium |
+| Bytes 3, 5, 9 | `00` in every sample | | unknown |
+
+The editor item "2DOT IN" writes `.mode 12dot`, so it is nibble `3`. Encoder 1 of slot 63 is `C4` (mcu, relative-3). The 12dot setting would give `34`. The decode predicts that value, but no unit test has confirmed it.
+
 **Limits of this analysis:** one firmware (1.0.3); five used controller slots; one sequencer change; the unit's own check is untested. The sequencer slot contents are not decoded beyond size. The `.bcl` fields are not yet matched to record bytes.
 
 ## Editor protocol (step 4.5)

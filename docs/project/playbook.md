@@ -16,10 +16,10 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | none (export diff 3 parked: sends did not reach memory) |
+| Current step | none (offline BCL-to-record decode done; export diff 3 parked) |
 | Next step | owner's choice: export diff 3 retry (General tab Send), tier 2 inbound tests, or R2 |
 | R1 progress | 27 of 27 steps done |
-| Tokens used in R1 | about 1,620k of 1,600k (rough count; total set to 1,600k on 2026-11-12 in the owner's words; about 20k over) |
+| Tokens used in R1 | about 1,655k of 1,700k (rough count; total set to 1,700k on 2026-11-12 in the owner's words) |
 | Blocked on | nothing. The repo is public since 2026-11-11 |
 | Last updated | 2026-11-11 (end of session 7) |
 
