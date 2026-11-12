@@ -104,7 +104,7 @@ Offline analysis of the step 4.2 export files. Firmware 1.0.3. Nothing was sent 
 | Empty controller slot | All data bytes are `FF`, except the last 2 bytes of each message (see Trailer). Slots 4 to 62 are empty |
 | Used controller slots | Slots 0, 1, 2, 3 and 63 start with `05 C2 00`. This matches the five presets in the `.bcl` file |
 | Controller records | Each record is 11 bytes after the 3-byte start `05 C2 00`. The records run to the first `FF`. See Controller record fields below |
-| Names | Preset names do not appear in the 1,040 bytes of a slot. Where the unit keeps them is unknown |
+| Names | The preset name is the last 24 data bytes before the CRC: bytes 996 to 1019 of the slot. ASCII, padded with spaces (verified in one change, slot 0, firmware 1.0.3) |
 | Trailer | The last 2 bytes of each message (4 nibbles) are a 16-bit sum, high byte first. The rule is proved (see below) |
 | Clock source | The 2-byte change of step 4.2 is in the `kind` 4 block of sequencer slot 0, part 1. Data byte 25 went from `00` to `03`. The last byte of the block went from `08` to `0B` |
 | Repeat exports | The four sequencer files form two identical pairs (files 1 and 4, files 2 and 3). The two controller files are identical |
@@ -137,7 +137,11 @@ Matched by hand against the `.bcl` text of the same backup. Preset 1 (slot 0) sp
 - **Export diff 1 (2026-11-12, firmware 1.0.3):** encoder 1 of preset 64 (slot 63), LED ring mcu to 1dot, sent from Control Tribe. Record byte 1 went from `C4` to `14`. The high nibble is the LED ring mode (`C` mcu, `1` 1dot). The low nibble `4` (relative-3) did not change. The restore export returned byte 1 to `C4`. Verified on one change.
 - **Slot CRC:** the last 4 bytes of each used slot are the CRC-32 of the first 1,020 bytes, stored little-endian. It holds for slots 0 to 3 and 63, and for the changed slot 63 in two exports. This is separate from the message trailer.
 - **Unstable byte:** slot 63, byte 99 (record 8, byte 8) changed with no edit: `81`, `83`, `6B` in three exports. Treat it as state, not a setting. Ignore it in diffs. The slot CRC changes with it.
-- **Next test:** repeat the diff for the other encoder flag bits and for the NOTE, PC, MMC and GS/XG record types.
+- **Export diff 2 (2026-11-12, firmware 1.0.3):** no new bit decoded. The owner changed Enc 1 in Control Tribe and clicked Send. The change did not reach slot 63. The Send writes to the unit's current preset, here preset 1 (slot 0). It does not write the preset on the editor screen.
+- **Preset name location (verified):** the Send changed slot 0 bytes 996 to 1019 from `all controls` to `Mackie Control Universal` (the name in the editor). The records of slot 0 stayed equal. A second send of `all controls` restored slot 0. The restore export equals export 3 in slot 0. Slot 63 differed only at byte 99.
+- **Method rule:** to change slot 63, make preset 64 the unit's current preset first. Then edit and send. Check the export for the changed slot before you restore.
+- **Not read:** the sequencer preset. B63 and B64 gave no visible change in ZAQ mode. The step 1 pitch showed E 2 (Gb 2 in the last session); cause unknown.
+- **Next test:** repeat the diff for the other encoder flag bits (2dot, pan, absolute vs relative) with preset 64 current. Then the NOTE, PC, MMC and GS/XG record types.
 
 **Limits of this analysis:** one firmware (1.0.3); five used controller slots; one sequencer change; the unit's own check is untested. The sequencer slot contents are not decoded beyond size. The `.bcl` fields are not yet matched to record bytes.
 

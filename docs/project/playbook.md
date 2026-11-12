@@ -16,8 +16,8 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | none (4.7 closed on branch `r1c/p4-publish-map`, not merged) |
-| Next step | none: R1 is complete except the merge of 4.7 and the owner's close-out |
+| Current step | none (4.7 merged; export diff 2 done, no bit decoded) |
+| Next step | owner's choice: export diff 3 with preset 64 current, tier 2 inbound tests, or R2 |
 | R1 progress | 27 of 27 steps done |
 | Tokens used in R1 | about 1,460k of 1,550k (rough count; total raised 2026-11-12 in the owner's words) |
 | Blocked on | nothing. The repo is public since 2026-11-11 |

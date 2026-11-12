@@ -4,6 +4,8 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-12
 
+- Found the preset name location in a controller slot: bytes 996 to 1019, 24 ASCII characters. Recorded that the editor's Send writes to the unit's current preset, not to the preset on screen. Export diff 2 decoded no encoder bit. Verified on firmware 1.0.3, one change.
+
 - Added the controller record fields to the findings page. A record has 11 bytes: channel and type, controller number, two values, button step and element id. We read the backups only. Encoder flag bits and several types stay undecoded.
 
 - Solved the dump trailer rule (offline). The last 4 nibbles of each dump message are the sum of all earlier bytes of that message, modulo 65,536. It holds for all 8,266 messages in the eight backup files. Added `dump-trailer.ts` with tests. Nothing was sent to the unit.
