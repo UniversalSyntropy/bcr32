@@ -164,6 +164,21 @@ Method: join `local/backups/ctrl-all-presets-1.bcl` to the slots of `ctrl-all-pr
 
 The editor item "2DOT IN" writes `.mode 12dot`, so it is nibble `3`. Encoder 1 of slot 63 is `C4` (mcu, relative-3). The 12dot setting would give `34`. The decode predicts that value, but no unit test has confirmed it.
 
+### External source: bcr32-studio (MIT licence)
+
+Source: `github.com/TheLazyGeekGuy/bcr32-studio`, MIT licence, read 2026-11-12. Files: `docs/BCR32-PROTOCOL-1.0.2.md`, `docs/BCR32-PROTOCOL-1.0.3.md`, `docs/BCL-SYSEX-EDITOR.md`, `docs/work-items/2026-10-29-bcl-store-recall.md`. The facts below are paraphrased. We have not verified any of them on our unit. Label each as "external, unverified here".
+
+| Fact | Why it matters here |
+| --- | --- |
+| The unit keeps a working preset and 64 stored slots. A BCL edit changes the working preset. The BCL line `$store <1 to 64>` writes it to a slot. | This may explain export-diff 3. A BCL Send changes the working preset, and the export shows stored slots. |
+| The firmware 1.0.3 release notes say to hold STORE for three seconds to save all changes. | The owner can test this at the unit. It needs no software. |
+| Editor BCL lines use the frame `F0 00 20 32 <device> 64 20 <two 7-bit line bytes> <ASCII line> F7`. The unit answers each line with a status byte. Status `0` is accepted. | This gives the transport for the BCL Send button. |
+| The unit also answers a BCL read of the whole working preset (about 257 lines) and of each of the 64 slots. | A read through BCL gives text, not records. It is a second way to see the stored state. |
+| Request `07` to device `00` returns one `04 0C` block of the current preset. Request `09` is said to export all presets. | Compare with our export file layout. |
+| After a BCL upload, the unit may reorder lines and add `.mode 1dot` or drop `.default` on buttons. | Do not expect the read-back text to equal the sent text. |
+
+**Disagreement:** the external repo describes an 11-byte record as `[type][channel][parameter, 2 bytes][min, 2 bytes][max, 2 bytes][mode][option][display]`. It marks this "not verified on hardware". Our decode, built from the owner's own `.bcl` backup, contradicts the byte positions. In our decode, byte 0 holds channel and type, byte 1 holds LED mode and flags, and byte 2 holds the controller number. Keep our decode.
+
 **Limits of this analysis:** one firmware (1.0.3); five used controller slots; one sequencer change; the unit's own check is untested. The sequencer slot contents are not decoded beyond size. The `.bcl` fields are not yet matched to record bytes.
 
 ## Editor protocol (step 4.5)
