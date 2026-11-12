@@ -4,6 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-12
 
+- Added the SysEx dump structure to the findings page (step 4.6). It covers the message frame, nibble encoding, address bytes and slot counts. It also shows where the clock-source change sits. The trailer rule is not solved. We read the backup files only.
 - Verified on firmware 1.0.3: the outbound map of CTRL mode (step 4.3). `midi.json` now has 45 message rows, each tied to a control and a preset, and five silent results. The `.bcl` backup export holds five controller presets. The run results match their stored assignments.
 - Added the `map` command to `midi-capture`. It shows a picture of the top panel with the target control marked. You press Enter to save each step. It listens only.
 

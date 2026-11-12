@@ -89,11 +89,38 @@ Verified on firmware 1.0.3 on 2026-11-11, with the unit in USB operation mode.
 
 > **Warning:** The knob printed 25 (E49) opens the erase menu. The manual calls it "the 25th encoder (50)". Use the printed number and the ID together in every instruction.
 
+## SysEx dump structure (step 4.6)
+
+Offline analysis of the step 4.2 export files. Firmware 1.0.3. Nothing was sent to the unit. Every row is read from the files; no row is a test on the unit.
+
+| Fact | Result |
+| --- | --- |
+| Message frame | `F0 00 20 32 7F 64 04 <memory>`, then 4 address bytes, then 260 data bytes, then `F7`. The memory byte is `0B` for the sequencer and `0C` for the controller |
+| Data encoding | Each data byte is one nibble (0 to 15). Two nibbles make one byte, high nibble first. One message holds 130 bytes |
+| Address bytes | `kind`, `slot high`, `slot low`, `part`. The slot number is `slot high` x 16 + `slot low` |
+| Controller file | `kind` 0 only. 64 slots, 8 parts each. One slot is 1,040 bytes. Messages run in slot order, then part order |
+| Sequencer file | 192 slots. Messages 0 to 1535 are `kind` 0, 8 parts per slot (1,040 bytes). Messages 1536 to 1919 are `kind` 4, 2 parts per slot (260 bytes). The two blocks are not interleaved |
+| Current preset file | `kind` 1 (8 parts) and `kind` 4 (2 parts), all with slot 0. The `kind` 4 block equals the `kind` 4 block of slot 0 in the all-presets file. The `kind` 1 block differs from the `kind` 0 block of slot 0 |
+| Empty controller slot | All data bytes are `FF`, except the last 2 bytes (see Trailer). Slots 4 to 62 are empty |
+| Used controller slots | Slots 0, 1, 2, 3 and 63 start with `05 C2 00`. This matches the five presets in the `.bcl` file |
+| Controller records | In the used slots the data after `05 C2 00` is a stream of records. The records seen start with `02`. Their bytes include the CC number (for example `01` for knob 1, `51` for the first knob of the second bank) and a counter. The field meaning is not decoded |
+| Names | Preset names do not appear in the 1,040 bytes of a slot. Where the unit keeps them is unknown |
+| Trailer | The last 2 data bytes of each slot block are a 16-bit value, high byte first. The rule is unresolved (see below) |
+| Clock source | The 2-byte change of step 4.2 is in the `kind` 4 block of sequencer slot 0, part 1. Data byte 25 went from `00` to `03`. The last byte of the block went from `08` to `0B` |
+| Repeat exports | The four sequencer files form two identical pairs (files 1 and 4, files 2 and 3). The two controller files are identical |
+
+**Trailer:** the clock-source change shows that the trailer follows the data by the same amount (+3 in the data, +3 in the trailer). For the empty controller slots the trailer rises by 1 per slot, although the data is the same. So the slot number is part of the value. Plain sums over the decoded bytes, the raw nibbles and the address bytes did not match (tested with several moduli). The value is not a known checksum yet.
+
+> **Warning:** Do not build or edit a dump file until the trailer rule is proved. A wrong trailer may make the unit reject the data, or accept it wrongly. Restore stays with the owner, in Control Tribe.
+
+**Limits of this analysis:** one firmware (1.0.3); five used controller slots; one sequencer change. The sequencer slot contents are not decoded beyond size. The `.bcl` fields are not yet matched to record bytes.
+
 ## Open items
 
 | Item | Next step |
 | --- | --- |
-| Control-to-message map | Step 4.3 |
+| Control-to-message map | Step 4.3 (done) |
+| Trailer rule and record layout of the dumps | Compare more changes: edit one setting in Control Tribe, export, diff (owner at the unit, step 4.5 or later) |
 | Identity request (D1) | Step 4.2 is done. Needs a gated send option in step 4.4 and the owner's yes |
 | Seven errata rows that need a change to the unit | A later session after the backup |
 | Legend colours on the parameter buttons | See below |
