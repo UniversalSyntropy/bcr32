@@ -4,6 +4,8 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-12
 
+- Solved the dump trailer rule (offline). The last 4 nibbles of each dump message are the sum of all earlier bytes of that message, modulo 65,536. It holds for all 8,266 messages in the eight backup files. Added `dump-trailer.ts` with tests. Nothing was sent to the unit.
+
 - Added manual chapter 16, MIDI implementation (step 4.7). It covers the two USB ports and every message seen, with its controls and confidence. It lists the tests that gave no result, what the unit accepts, and the editor and dump format. Two of its tables are generated from `midi.json`. Added the five inbound tests to `midi.json` as silences. Added a "MIDI seen (firmware 1.0.3)" column to every function table in chapter 14. It shows the controller numbers each function sent. `gen-tables` has two new generators and a number-range helper, with tests.
 - Verified on firmware 1.0.3: the inbound tests (step 4.4). The unit gave no reply to an identity request on either USB port. It did not react to start, stop, a note, a controller change or a program change at the settings found. A new export matched the first. Added `unit-send` to `midi-capture`: one allowed message per call, a repeat of the bytes to confirm, no SysEx except the identity request.
 - Verified on firmware 1.0.3: the unit side of the editor protocol (step 4.5). The unit sends controller presets as BCL text lines (command `20`) and preset names (command `21`). It sends its full sequencer state at connect and when you select a sequencer preset. Opening a settings page sends nothing. We saw the unit side only.

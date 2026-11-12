@@ -131,7 +131,7 @@ Newest first. One entry per session: what closed, what is next, anything the nex
 - **Closed:** step 4.7 on branch `r1c/p4-publish-map`. Steps 4.3 to 4.4 are merged and pushed (`main` @ 6f644c0). 4.7 is not merged.
 - **Added:** [chapter 16](../manual/16-midi-implementation.md), five inbound silences in `midi.json`, and a MIDI column in every function table. `gen-tables` has `midi-messages` and `midi-silences`, with tests. Three mutations were caught.
 - **Cost:** about 45k against 20k. The estimate left out the generator work and its tests. The owner's total (1,550k) still holds: about 1,460k used.
-- **Open for R2 or later:** the trailer rule of the dumps; the editor's own messages; inbound tests that need a setting change; DIN ports; T4 red after the power cycle; ten documents on `ste-pending.txt`; CLI tests for `llms-full.ts`; "toggle" wording for mute and skip.
+- **Open for R2 or later:** the editor's own messages; inbound tests that need a setting change; DIN ports; T4 red after the power cycle; ten documents on `ste-pending.txt`; CLI tests for `llms-full.ts`; "toggle" wording for mute and skip.
 - **Next:** the owner decides: merge and push 4.7, close R1, and whether R2 (web panel, 990k) is approved. Nothing in R2 is approved.
 
 ### 2026-11-12, step 4.4
@@ -154,7 +154,7 @@ Newest first. One entry per session: what closed, what is next, anything the nex
 
 - **Closed:** step 4.6 on branch `r1c/p4-sysex-structure`. Offline, read-only. Nothing was sent to the unit. Not merged, not pushed.
 - **Found:** the frame, nibble encoding, address bytes, slot counts and the place of the clock-source change. See the [findings](../reference/capture-findings.md#sysex-dump-structure-step-46).
-- **Unresolved:** the 2-byte trailer of each slot block (not a plain sum; slot number is part of it) and the fields of the controller records.
+- **Unresolved:** the fields of the controller records. The trailer rule was solved later (message byte sum, mod 65,536).
 - **Next:** 4.4 (needs a gated send option and the owner's yes), 4.5 (owner at the unit) or 4.7. Steps 4.4, 4.5 and 4.7 estimate 115k; the total of 1,550k has about 220k left.
 
 ### 2026-11-11, step 2.5
