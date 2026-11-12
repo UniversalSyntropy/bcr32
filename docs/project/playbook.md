@@ -154,7 +154,7 @@ Newest first. One entry per session: what closed, what is next, anything the nex
 
 - **Closed:** step 4.6 on branch `r1c/p4-sysex-structure`. Offline, read-only. Nothing was sent to the unit. Not merged, not pushed.
 - **Found:** the frame, nibble encoding, address bytes, slot counts and the place of the clock-source change. See the [findings](../reference/capture-findings.md#sysex-dump-structure-step-46).
-- **Unresolved:** the fields of the controller records. The trailer rule was solved later (message byte sum, mod 65,536).
+- **Unresolved:** most controller record fields (bytes 0, 2, 4, 6, 8 and 10 are mapped; the rest are open). The trailer rule was solved later (message byte sum, mod 65,536).
 - **Next:** 4.4 (needs a gated send option and the owner's yes), 4.5 (owner at the unit) or 4.7. Steps 4.4, 4.5 and 4.7 estimate 115k; the total of 1,550k has about 220k left.
 
 ### 2026-11-11, step 2.5

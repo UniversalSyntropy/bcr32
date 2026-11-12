@@ -4,6 +4,8 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-12
 
+- Added the controller record fields to the findings page. A record has 11 bytes: channel and type, controller number, two values, button step and element id. We read the backups only. Encoder flag bits and several types stay undecoded.
+
 - Solved the dump trailer rule (offline). The last 4 nibbles of each dump message are the sum of all earlier bytes of that message, modulo 65,536. It holds for all 8,266 messages in the eight backup files. Added `dump-trailer.ts` with tests. Nothing was sent to the unit.
 
 - Added manual chapter 16, MIDI implementation (step 4.7). It covers the two USB ports and every message seen, with its controls and confidence. It lists the tests that gave no result, what the unit accepts, and the editor and dump format. Two of its tables are generated from `midi.json`. Added the five inbound tests to `midi.json` as silences. Added a "MIDI seen (firmware 1.0.3)" column to every function table in chapter 14. It shows the controller numbers each function sent. `gen-tables` has two new generators and a number-range helper, with tests.

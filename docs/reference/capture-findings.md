@@ -103,7 +103,7 @@ Offline analysis of the step 4.2 export files. Firmware 1.0.3. Nothing was sent 
 | Current preset file | `kind` 1 (8 parts) and `kind` 4 (2 parts), all with slot 0. The `kind` 4 block equals the `kind` 4 block of slot 0 in the all-presets file. The `kind` 1 block differs from the `kind` 0 block of slot 0 |
 | Empty controller slot | All data bytes are `FF`, except the last 2 bytes of each message (see Trailer). Slots 4 to 62 are empty |
 | Used controller slots | Slots 0, 1, 2, 3 and 63 start with `05 C2 00`. This matches the five presets in the `.bcl` file |
-| Controller records | In the used slots the data after `05 C2 00` is a stream of records. The records seen start with `02`. Their bytes include the CC number (for example `01` for knob 1, `51` for the first knob of the second bank) and a counter. The field meaning is not decoded |
+| Controller records | Each record is 11 bytes after the 3-byte start `05 C2 00`. The records run to the first `FF`. See Controller record fields below |
 | Names | Preset names do not appear in the 1,040 bytes of a slot. Where the unit keeps them is unknown |
 | Trailer | The last 2 bytes of each message (4 nibbles) are a 16-bit sum, high byte first. The rule is proved (see below) |
 | Clock source | The 2-byte change of step 4.2 is in the `kind` 4 block of sequencer slot 0, part 1. Data byte 25 went from `00` to `03`. The last byte of the block went from `08` to `0B` |
@@ -116,6 +116,25 @@ Offline analysis of the step 4.2 export files. Firmware 1.0.3. Nothing was sent 
 - **Clock source:** a data nibble pair from `00` to `03` raises the sum by 3. This matches the +3 seen in step 4.2.
 
 > **Warning:** The rule describes the files. It is not proved that the unit rejects a wrong trailer, or accepts a right one. Do not send an edited dump. Restore stays with the owner, in Control Tribe.
+
+### Controller record fields (read from the backups, not tested on a unit)
+
+Matched by hand against the `.bcl` text of the same backup. Preset 1 (slot 0) splits into 62 records that match its 62 elements one for one. Presets 4 and 5 were compared on a few records.
+
+| Byte | Meaning | Evidence | Confidence |
+| --- | --- | --- | --- |
+| 0 | `(channel - 1) x 8` plus a type code. Type `2` is CC, `4` is pitch bend, `6` is GS/XG | Preset 2 records run `02`, `0A`, `12`, `1A` for channels 1 to 4. Preset 5 pitch bend on channel 2 is `0C`. GS/XG on channel 1 is `06` | medium |
+| 1 | Flags and LED mode. For buttons, `20` is show value on and `08` is the increment mode. For encoders the value changes with the LED mode: `30` for 12dot, `10` for 1dot, `80` for pan, `C4` for relative-3 with mcu mode | Presets 1, 2, 4 and 5. Encoder bits are not separated yet | buttons medium, encoders low |
+| 2 | The controller number (CC, note or message number) | Every CC record in presets 1 and 4 | high |
+| 4 | First value: minimum of an encoder, or the first value of a button | Presets 1 and 4 | high |
+| 6 | Second value: maximum of an encoder, or the second value of a button | Preset 4: `increment` button with values 32 and 1 gives `20` and `01` | high |
+| 8 | Increment step for buttons (`01`, or `40` for step 64). Encoders show `01` in the samples | Preset 4 | medium for buttons, low for encoders |
+| 10 | Element id. Encoders 1 to 32 use ids 1 to 32. Buttons start at `21` hex. The id range is not contiguous | Presets 1 and 4 | medium |
+| 3, 5, 7, 9 | Always `00` or `81` in the samples. Meaning unknown | | unknown |
+
+- **Unassigned elements:** an element with no function has no record. Preset 4 has 47 records for 48 elements.
+- **Not decoded:** MMC records and GS/XG parameter names. NOTE and PC records are also open. So are the encoder default value and the `81` in byte 7 of the preset 2 and 3 records.
+- **Next test:** change one setting in Control Tribe, export, and diff. One field per change settles the encoder flag bits.
 
 **Limits of this analysis:** one firmware (1.0.3); five used controller slots; one sequencer change; the unit's own check is untested. The sequencer slot contents are not decoded beyond size. The `.bcl` fields are not yet matched to record bytes.
 
@@ -188,7 +207,7 @@ Run on firmware 1.0.3 on 2026-11-12, with the owner at the unit. Settings were a
 | Control-to-message map | Step 4.3 (done) |
 | Inbound effects with other settings (clock source USB, transpose on, pattern change on) | A session with the owner, tier 2, fresh backup check |
 | Editor-to-unit messages (what the editor asks) | A virtual port between the editor and the unit; decide with the owner |
-| Record layout of the dumps (the trailer rule is done) | Compare more changes: edit one setting in Control Tribe, export, diff (owner at the unit, step 4.5 or later) |
+| Rest of the record layout (bytes 1, 3, 5, 7, 9 and the type codes; see Controller record fields) | Compare more changes: edit one setting in Control Tribe, export, diff (owner at the unit, step 4.5 or later) |
 | Identity request (D1) | Done in step 4.4 (T1, T2): no reply. A test with another device ID needs the owner's yes |
 | Seven errata rows that need a change to the unit | A later session after the backup |
 | Legend colours on the parameter buttons | See below |
