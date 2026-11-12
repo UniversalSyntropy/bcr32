@@ -75,7 +75,7 @@ test("log and send: a known message on the IAC loopback port is logged correctly
   assert.equal(typeof rows[0]?.mono_ns, "number");
 });
 
-test("map: records the message after a step, none after Enter, none after a timeout, and skips clock", { skip: !mac }, (t) => {
+test("map --auto: records the message after a step, none after Enter, none after a timeout, and skips clock", { skip: !mac }, (t) => {
   if (!/IAC/i.test(run(["list"]).stdout)) return t.skip("no IAC bus on this computer");
   const steps = join(dir, "steps.json");
   const out = join(dir, "map.jsonl");
@@ -87,7 +87,7 @@ test("map: records the message after a step, none after Enter, none after a time
   const script = `
     (sleep 1.5; "${bin}" send --to IAC 90 3C 64) &
     (sleep 4.2; "${bin}" send --to IAC F8) &
-    (sleep 3.3; echo) | "${bin}" map --steps "${steps}" --port IAC --out "${out}" --quiet 0.4 --timeout 1.8
+    (sleep 3.3; echo) | "${bin}" map --steps "${steps}" --port IAC --out "${out}" --auto --quiet 0.4 --timeout 1.8
     wait`;
   const r = spawnSync("sh", ["-c", script], { encoding: "utf8", timeout: 40_000 });
   assert.equal(r.status, 0, r.stderr + r.stdout);
@@ -95,6 +95,28 @@ test("map: records the message after a step, none after Enter, none after a time
   assert.deepEqual(rows.map((x) => `${x.id}:${x.result}`), ["a:messages", "b:none", "c:none"], r.stdout);
   assert.deepEqual(rows[0]?.messages.map((m) => m.hex), ["90 3C 64"]);
   assert.match(r.stdout, /done: 3 of 3 steps, 1 with messages, 2 with none/);
+});
+
+test("map: saves on Enter, c clears a wrong control, n saves none", { skip: !mac }, (t) => {
+  if (!/IAC/i.test(run(["list"]).stdout)) return t.skip("no IAC bus on this computer");
+  const steps = join(dir, "steps-confirm.json");
+  const out = join(dir, "map-confirm.jsonl");
+  writeFileSync(steps, JSON.stringify([
+    { id: "a", action: "press", say: "step a" },
+    { id: "b", action: "press", say: "step b" },
+    { id: "c", action: "press", say: "step c" },
+  ]));
+  const script = `
+    (sleep 1.2; "${bin}" send --to IAC 90 3C 64) &
+    (sleep 2.6; "${bin}" send --to IAC 90 3D 64) &
+    (sleep 4.5; "${bin}" send --to IAC 90 3E 64) &
+    (sleep 2; echo; sleep 1.8; echo c; sleep 1.5; echo; sleep 0.8; echo n) | "${bin}" map --steps "${steps}" --port IAC --out "${out}"
+    wait`;
+  const r = spawnSync("sh", ["-c", script], { encoding: "utf8", timeout: 40_000 });
+  assert.equal(r.status, 0, r.stderr + r.stdout);
+  const rows = readFileSync(out, "utf8").trim().split("\n").map((l) => JSON.parse(l) as { id: string; result: string; messages: { hex: string }[] });
+  assert.deepEqual(rows.map((x) => `${x.id}:${x.result}`), ["a:messages", "b:messages", "c:none"], r.stdout);
+  assert.deepEqual(rows[1]?.messages.map((m) => m.hex), ["90 3E 64"]);
 });
 
 test("map: a bad steps file or a missing option is a usage error", { skip: !mac }, () => {

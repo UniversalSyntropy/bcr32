@@ -349,7 +349,8 @@ func runLog(args: [String]) -> Int32 {
 }
 
 // Guided map: shows one instruction at a time and records the messages that follow it.
-// Listen only. Enter = nothing happened, r = repeat the step, q = stop.
+// Listen only. Default (confirm mode): messages are shown as they arrive and saved when you press Enter.
+// c = clear what was heard, n = save "none", r = repeat the step, q = stop. With --auto the tool saves after a quiet gap.
 func runMap(args: [String]) -> Int32 {
     var filters: [String] = []
     var stepsPath: String? = nil
@@ -357,9 +358,11 @@ func runMap(args: [String]) -> Int32 {
     var quiet = 1.2
     var timeout = 6.0
     var skip: Set<String> = ["clock", "active-sensing"]
+    var auto = false
     var i = 0
     while i < args.count {
         switch args[i] {
+        case "--auto": auto = true
         case "--port": i += 1; if i < args.count { filters.append(args[i].lowercased()) }
         case "--steps": i += 1; if i < args.count { stepsPath = args[i] }
         case "--out": i += 1; if i < args.count { outPath = args[i] }
@@ -397,6 +400,7 @@ func runMap(args: [String]) -> Int32 {
     func deliver(_ r: Record) {
         if skip.contains(r.kind) { return }
         lock.lock(); buffer.append(r); lastMessage = Date(); lock.unlock()
+        if !auto { print("  heard: \(r.line())"); fflush(stdout) }
     }
     var connected = 0
     for s in 0..<MIDIGetNumberOfSources() {
@@ -408,7 +412,12 @@ func runMap(args: [String]) -> Int32 {
     }
     if connected == 0 { printErr("map: no source matched. Run `list` to see the ports."); return 1 }
     print("writing \(path)")
-    print("Do each step, then wait. Enter = nothing happened. r = repeat the step. q = stop.")
+    if auto {
+        print("Do each step, then wait. Enter = nothing happened. r = repeat the step. q = stop.")
+    } else {
+        print("Do each step, check the lines shown, then press Enter to save them.")
+        print("c = clear what was heard (wrong control). n = save \"none\". r = repeat the step. q = stop.")
+    }
 
     let reader = Thread {
         while let line = readLine() {
@@ -434,11 +443,18 @@ func runMap(args: [String]) -> Int32 {
             let got = buffer
             let last = lastMessage
             lock.unlock()
-            if let c = command {
+            if let c = command, !auto {
+                if c == "q" { outcome = "quit" }
+                else if c == "r" { outcome = "repeat" }
+                else if c == "n" { lock.lock(); buffer = []; lock.unlock(); outcome = "none" }
+                else if c == "c" { lock.lock(); buffer = []; lock.unlock(); print("  cleared. Do the step again.") }
+                else if got.isEmpty { print("  nothing heard yet. Do the step, or type n to save none.") }
+                else { outcome = "heard" }
+            } else if let c = command {
                 outcome = c == "r" ? "repeat" : (c == "q" ? "quit" : "none")
-            } else if !got.isEmpty && Date().timeIntervalSince(last) >= quiet {
+            } else if auto && !got.isEmpty && Date().timeIntervalSince(last) >= quiet {
                 outcome = "heard"
-            } else if got.isEmpty && Date().timeIntervalSince(start) >= timeout {
+            } else if auto && got.isEmpty && Date().timeIntervalSince(start) >= timeout {
                 outcome = "none"
             }
         }

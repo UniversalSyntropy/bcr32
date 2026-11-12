@@ -55,21 +55,25 @@ Type a line in the terminal while `log` runs, then press Enter. The tool writes 
 
 ## Guided map (step 4.3)
 
-The `map` command links each control to its message without action times. It shows one instruction. You do it. The tool records the messages that follow, then shows the next instruction.
+The `map` command links each control to its message. It shows one instruction. You do it. The tool shows each message as it arrives. You check the lines, then press Enter to save them and move on. There is no time limit.
 
 | Key | Result |
 | --- | --- |
-| nothing | after the quiet gap (default 1.2 s) the tool saves the messages and moves on |
-| Enter | nothing happened: the tool saves "no message" and moves on |
+| Enter | save the messages shown and go to the next step |
+| `c` then Enter | clear the messages (wrong control); do the step again |
+| `n` then Enter | save "no message" and go to the next step |
 | `r` then Enter | repeat the step |
 | `q` then Enter | stop; the file keeps the steps done so far |
+
+With `--auto` the tool uses the old timed mode: it saves after a quiet gap and moves on.
 
 | Option | Meaning |
 | --- | --- |
 | `--steps <file>` | JSON array of objects with string fields `id`, `action`, `say` |
 | `--port <name part>` | listen to the sources whose name holds this text |
-| `--quiet <s>` | silence that ends a step; default 1.2 |
-| `--timeout <s>` | wait for a first message; default 6 |
+| `--auto` | timed mode: no Enter needed |
+| `--quiet <s>` | with `--auto`: silence that ends a step; default 1.2 |
+| `--timeout <s>` | with `--auto`: wait for a first message; default 6 |
 | `--skip <kinds>` | message kinds to ignore; default `clock,active-sensing` |
 
 The output is JSON Lines, one record for each step: `id`, `action`, `say`, `result` (`messages` or `none`) and `messages`. Each message has the fields of a log record.
@@ -94,7 +98,8 @@ The output is JSON Lines, one record for each step: `id`, `action`, `say`, `resu
 | selftest | 13 known messages, including a SysEx in three packets, come back as the expected records |
 | send refusal | the unit and any other name are refused with exit code 2 |
 | loopback round trip | a message sent to the IAC bus is logged with the right bytes and time stamps |
-| map | one step records its message, Enter and a timeout record "none", and clock is skipped |
+| map --auto | one step records its message, Enter and a timeout record "none", and clock is skipped |
+| map | Enter saves, `c` clears a wrong control, `n` saves "none" |
 | map-steps | the list has 122 steps, leaves out the menu controls, and every instruction gives the printed number and the ID |
 
 A mutation check was done when the tool was written. Six deliberate faults were put in the decoder. The selftest caught five. The sixth was a mask on a SysEx byte count that never exceeds 6, so it cannot change the result.
