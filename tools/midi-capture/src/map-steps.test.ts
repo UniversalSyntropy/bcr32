@@ -31,3 +31,10 @@ test("every instruction names the control ID, and every knob or numbered button 
   assert.match(steps.find((s) => s.id === "E49 push")!.say, /printed 25.*\(E49\)/);
   assert.match(steps.find((s) => s.id === "B5 press")!.say, /printed 1, PITCH \(B5\)/);
 });
+
+test("every step has a picture with exactly one marked control: its own", () => {
+  for (const s of steps) {
+    const marks = [...s.picture.matchAll(/\[([A-Z0-9]+)\]/g)].map((m) => m[1]);
+    assert.deepEqual(marks, [s.id.split(" ")[0]], s.id);
+  }
+});

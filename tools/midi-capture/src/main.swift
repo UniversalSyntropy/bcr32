@@ -433,6 +433,7 @@ func runMap(args: [String]) -> Int32 {
         let step = steps[index]
         lock.lock(); buffer = []; commands = []; lock.unlock()
         print("\n[\(index + 1)/\(steps.count)] \(step["say"] ?? "")")
+        if let pic = step["picture"] { print("\n" + pic + "\n") }
         fflush(stdout)
         let start = Date()
         var outcome = ""
