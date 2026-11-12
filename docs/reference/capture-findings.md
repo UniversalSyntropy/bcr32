@@ -141,6 +141,11 @@ Matched by hand against the `.bcl` text of the same backup. Preset 1 (slot 0) sp
 - **Preset name location (verified):** the Send changed slot 0 bytes 996 to 1019 from `all controls` to `Mackie Control Universal` (the name in the editor). The records of slot 0 stayed equal. A second send of `all controls` restored slot 0. The restore export equals export 3 in slot 0. Slot 63 differed only at byte 99.
 - **Method rule:** to change slot 63, make preset 64 the unit's current preset first. Then edit and send. Check the export for the changed slot before you restore.
 - **Not read:** the sequencer preset. B63 and B64 gave no visible change in ZAQ mode. The step 1 pitch showed E 2 (Gb 2 in the last session); cause unknown.
+- **Export diff 3 (2026-11-12, firmware 1.0.3):** no bit decoded. The owner made preset 64 current and tried to send Enc 1 LED ring 2dot with the BCL Send button. Six exports (9 to 15) were identical in all 64 slots. Byte 99 of slot 63 also stayed the same.
+- **Editor label:** the LED Ring list item "2DOT IN" writes `.mode 12dot` in the BCL text. The 1dot item writes `.mode 1dot`. The text changes only when the list changes.
+- **Preset 64 records:** slot 63 has records for encoders 1 to 16 and the buttons. It has none for encoders 17 to 32. An edit to an unassigned encoder (here Enc 24) stores nothing.
+- **Preset becomes current with Select:** the General tab has a Preset list and a Select button. The unit display then showed `enc1 cc 16:rel3 66` on Enc 1. Slot 0 Enc 1 is CC 1, so preset 64 was current.
+- **Open:** the BCL Send button did not change the exported memory, even with preset 64 current. Diff 1 and diff 2 did change it. The cause is unknown. One test is left: send from the General tab after the change. Also check whether the export reads fresh from the unit (byte 99 was constant over six exports).
 - **Next test:** repeat the diff for the other encoder flag bits (2dot, pan, absolute vs relative) with preset 64 current. Then the NOTE, PC, MMC and GS/XG record types.
 
 **Limits of this analysis:** one firmware (1.0.3); five used controller slots; one sequencer change; the unit's own check is untested. The sequencer slot contents are not decoded beyond size. The `.bcl` fields are not yet matched to record bytes.
