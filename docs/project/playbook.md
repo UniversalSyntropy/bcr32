@@ -17,9 +17,9 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
 | Current step | none (2.5 closed on branch `r1b/p2-glossary`, stacked on `r1c/p4-backup`, not merged) |
-| Next step | 4.4 Inbound map (R1c), or 4.5 (owner at the unit) |
-| R1 progress | 24 of 27 steps done, 3 remain (4.4, 4.5, 4.7) |
-| Tokens used in R1 | about 1,330k of 1,550k (rough count; total raised 2026-11-12 in the owner's words) |
+| Next step | 4.4 Inbound map (R1c), then 4.7 |
+| R1 progress | 25 of 27 steps done, 2 remain (4.4, 4.7) |
+| Tokens used in R1 | about 1,360k of 1,550k (rough count; total raised 2026-11-12 in the owner's words) |
 | Blocked on | nothing. The repo is public since 2026-11-11 |
 | Last updated | 2026-11-11 (end of session 7) |
 
@@ -94,7 +94,7 @@ R1c can run beside R1b. Steps 4.5 and 4.6 are time-boxed: they report what the e
 | 4.2 | Backup | SysEx export of all sequencer and controller memory, kept local only | export file saved and non-empty | 10k | not measured | ✅ | exported with Control Tribe in `.syx` and `.bcl`; repeat exports identical; second copy held outside this computer; the panel export sent nothing on USB; see the [findings](../reference/capture-findings.md#backup-exports-step-42); branch `r1c/p4-backup`, not merged |
 | 4.3 | Outbound map | every button and encoder in CTRL mode, checked against the backup export | every tested control has a result row; silent controls are listed | 40k | about 90k | ☑ | guided `map` tool, 3 runs; ZAQ mode and presets 2, 3, 5 not tested |
 | 4.4 | Inbound map | identity request, clock, start and stop, transpose notes, pattern-switch CC, program change | each test has a result row | 30k | | ☐ | |
-| 4.5 | Editor protocol | messages between the vendor editor and the unit for each settings page; observed, never re-sent | time-boxed; findings recorded | 65k | | ☐ | observation only; no memory writes without the backup |
+| 4.5 | Editor protocol | messages between the vendor editor and the unit for each settings page; observed, never re-sent | time-boxed; findings recorded | 65k | about 30k | ✅ | [findings](../reference/capture-findings.md#editor-protocol-step-45): unit side only; BCL text lines, preset names, sequencer state; editor requests unseen; branch `r1c/p4-editor-protocol`, stacked on `r1c/p4-sysex-structure`, not merged |
 | 4.6 | SysEx dump structure | layout of the export files as far as the evidence shows | time-boxed; findings recorded | 30k | about 30k | ✅ | [findings](../reference/capture-findings.md#sysex-dump-structure-step-46): frame, nibble encoding, slots, clock-source location; trailer rule and record fields unresolved; branch `r1c/p4-sysex-structure`, not merged |
 | 4.7 | Publish the map | MIDI implementation chapter, `midi.json`, a MIDI column in the manual's function tables | docs-check, schema | 20k | | ☐ | |
 
@@ -125,6 +125,13 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-12, step 4.5
+
+- **Closed:** step 4.5 on branch `r1c/p4-editor-protocol`, stacked on `r1c/p4-sysex-structure`. Not merged, not pushed. The owner was at the unit.
+- **Found:** the unit's side of the editor protocol. See the [findings](../reference/capture-findings.md#editor-protocol-step-45).
+- **Mistake:** I told the owner the run was observation only. Selecting a preset in the editor changes the unit's current preset. The unit was put back to controller preset 1 and sequencer preset 1 and the owner confirmed it. No memory write happened.
+- **Next:** step 4.4 (needs a gated send option and the owner's yes), then 4.7.
 
 ### 2026-11-12, step 4.6
 

@@ -115,11 +115,50 @@ Offline analysis of the step 4.2 export files. Firmware 1.0.3. Nothing was sent 
 
 **Limits of this analysis:** one firmware (1.0.3); five used controller slots; one sequencer change. The sequencer slot contents are not decoded beyond size. The `.bcl` fields are not yet matched to record bytes.
 
+## Editor protocol (step 4.5)
+
+Observed on firmware 1.0.3 with Control Tribe 1.12.4, on 2026-11-12. The capture tool listens only. It sees what the unit sends. It does not see what the editor sends. Every row below is the unit's side of the exchange. The log is in `local/captures/` and is not tracked.
+
+**Frame:** `F0 00 20 32 00 64 <command> <data> F7`. Byte 4 is `00` here. The backup dumps have `7F` in that place. All messages came from the CTRL port.
+
+| Editor action | Unit sends | Count |
+| --- | --- | --- |
+| Connect | One message with command `00` that ends `01 00 03`. Then about 40 short messages (commands `17` to `1F`, `23` to `28`, `30`, `50` to `57`, `74`). Then commands `29` to `2D` once for each of tracks 0 to 3. Then commands `48`, `47`, `46` and `45` | 129 in 1.6 s |
+| Open the Device Settings page | Nothing | 0 |
+| Open the controller area | 65 preset names (command `21`), then the current preset as BCL text (command `20`) | 322 |
+| Select controller preset 2 | 65 preset names again. The current name is now "multi synth" | 65 |
+| Open the sequencer area | Nothing | 0 |
+| Open the track 1 tab | One message: `48 01 00` | 1 |
+| Select sequencer preset 2 | `48 02 00`, then the settings, the four-track block and the pattern block as at connect | 117 |
+| Select controller preset 1 | 65 preset names. The current name is "all controls" | 65 |
+| Select sequencer preset 1 | Nothing | 0 |
+
+| Command | Layout | Meaning |
+| --- | --- | --- |
+| `21` | `00`, slot, 32 ASCII characters | Preset name. Slot `7F` is the current preset. Slots 0 to 63 are the stored presets. The list has 65 messages |
+| `20` | line number (2 bytes, high first, 7 bits each), ASCII text | One line of BCL text. 257 lines (0 to 256) make a complete `$rev` to `$end` file |
+| `45`, `46`, `47`, `48` | `01`, track, index, values | Sequencer data for tracks 0 to 3. Field meaning is not decoded |
+| `29` to `2D` | track, values | Per-track values. Field meaning is not decoded |
+
+**BCL text check:** the 255 lines of the current preset match the `.bcl` backup of preset 1 in 248 lines. The 7 other lines differ only in `.default` values (3 and 2 against 0). They may be live knob positions. This is unverified.
+
+**What this means:**
+
+- The unit sends controller presets as plain BCL text, line by line. The backup `.syx` uses another format (nibbles, `7F` in byte 4).
+- The editor reads the settings and the sequencer state once at connect. It asks again only when you select a preset.
+- A change of the current controller preset changes the unit's state. Step 6 of the session put it back.
+- The `48` message may carry the preset number. Selecting sequencer preset 1 sent nothing, so this is not confirmed.
+
+> **Warning:** Selecting a preset in the editor changes the unit's current preset. It does not write to the memory. Check the preset on the unit after each session.
+
+**Limits:** the editor's own messages were not seen. They need a MIDI monitor that sits between the editor and the unit. The first step of any write is therefore still unknown. No message was re-sent to the unit.
+
 ## Open items
 
 | Item | Next step |
 | --- | --- |
 | Control-to-message map | Step 4.3 (done) |
+| Editor-to-unit messages (what the editor asks) | A virtual port between the editor and the unit; decide with the owner |
 | Trailer rule and record layout of the dumps | Compare more changes: edit one setting in Control Tribe, export, diff (owner at the unit, step 4.5 or later) |
 | Identity request (D1) | Step 4.2 is done. Needs a gated send option in step 4.4 and the owner's yes |
 | Seven errata rows that need a change to the unit | A later session after the backup |
