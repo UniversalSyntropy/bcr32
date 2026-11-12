@@ -47,6 +47,38 @@ function need(p: Params, key: string): string {
   return v;
 }
 
+// "1–8, 81–86": runs of two or more consecutive numbers collapse.
+export function numRanges(nums: number[]): string {
+  const s = [...new Set(nums)].sort((a, b) => a - b);
+  const out: string[] = [];
+  for (let i = 0; i < s.length; ) {
+    let j = i;
+    while (j + 1 < s.length && s[j + 1]! === s[j]! + 1) j++;
+    out.push(j > i ? `${s[i]}–${s[j]}` : `${s[i]}`);
+    i = j + 1;
+  }
+  return out.join(", ");
+}
+
+// MIDI the unit sent for the controls of one function (messages seen, not a promise).
+function midiSeen(d: DeviceData, mode: string, elements: string[]): string | undefined {
+  const ms = (d.midi?.messages ?? []).filter((m) => m.direction === "out" && m.mode === mode && m.trigger?.elements.some((e) => elements.includes(e)));
+  if (ms.length === 0) return undefined;
+  const byChannel = new Map<string, string[]>();
+  for (const m of ms) {
+    const key = m.channel === undefined ? "" : `ch ${m.channel}`;
+    const cc = m.type === "cc" ? m.number : undefined;
+    byChannel.set(key, [...(byChannel.get(key) ?? []), cc === undefined ? `${m.type}` : `${cc}`]);
+  }
+  return [...byChannel.entries()]
+    .map(([ch, items]) => {
+      const nums = items.filter((x) => /^\d+$/.test(x)).map(Number);
+      const other = [...new Set(items.filter((x) => !/^\d+$/.test(x)))];
+      return `${ch}${ch ? ": " : ""}${[nums.length ? `CC ${numRanges(nums)}` : "", ...other].filter(Boolean).join(", ")}`;
+    })
+    .join("; ");
+}
+
 const KIND_NAMES: Record<string, string> = { button: "Button", encoder: "Encoder", led: "LED", display: "Display", jack: "Jack" };
 
 export const GENERATORS: Record<string, Generator> = {
@@ -77,7 +109,7 @@ export const GENERATORS: Record<string, Generator> = {
     const mode = need(p, "mode");
     if (!d.modes.some((m) => m.id === mode)) throw new Error(`unknown mode '${mode}'`);
     return table(
-      ["Controls", "Function", "Action", "Values", "Default", "Source"],
+      ["Controls", "Function", "Action", "Values", "Default", "MIDI seen (firmware 1.0.3)", "Source"],
       d.functions
         .filter((f) => f.mode === mode)
         .map((f) => [
@@ -86,6 +118,7 @@ export const GENERATORS: Record<string, Generator> = {
           f.action === undefined ? undefined : code(f.action),
           f.values === undefined ? undefined : d.valueSets.find((v) => v.id === f.values)?.name,
           f.default,
+          midiSeen(d, f.mode, f.elements),
           f.source.source === "unit" ? `unit, firmware ${f.source.firmware}` : f.source.source,
         ]),
     );
@@ -113,6 +146,30 @@ export const GENERATORS: Record<string, Generator> = {
         .map((f) => [f.name, modeName.get(f.mode), idRanges(f.elements), f.action === undefined ? undefined : code(f.action)]),
     );
   },
+
+  // Every outbound message seen, one row per control and preset.
+  "midi-messages": (d) =>
+    table(
+      ["ID", "Port", "Mode", "Controls", "Type", "Channel", "Number", "Values", "Trigger"],
+      (d.midi?.messages ?? []).map((m) => [
+        code(m.id),
+        d.midi?.ports.find((p) => p.id === m.port)?.name,
+        m.mode,
+        m.trigger === undefined ? undefined : idRanges(m.trigger.elements),
+        m.type,
+        m.channel,
+        m.number,
+        m.values?.join(", "),
+        m.trigger?.confidence,
+      ]),
+    ),
+
+  // Tests that produced no message or no effect. Silence is a result.
+  "midi-silences": (d) =>
+    table(
+      ["ID", "Port", "Mode", "Action", "Result"],
+      (d.midi?.silences ?? []).map((s) => [code(s.id), d.midi?.ports.find((p) => p.id === s.port)?.name, s.mode, s.action, s.result]),
+    ),
 
   // One value set. Parameter: set=<value set ID>.
   values: (d, p) => {

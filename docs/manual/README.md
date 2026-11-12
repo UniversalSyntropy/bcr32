@@ -32,3 +32,4 @@ This manual restates the official Behringer BCR32 user manual (V2.0) as structur
 | 13 | [Glossary](13-glossary.md) |
 | 14 | [Generated tables and indexes](14-generated-tables-and-indexes.md) |
 | 15 | [Known issues](15-known-issues.md) |
+| 16 | [MIDI implementation](16-midi-implementation.md) |

@@ -8,7 +8,7 @@ import { test } from "node:test";
 
 import { loadDevice } from "@bcr32/device-data";
 
-import { generate, idRanges } from "./generate.ts";
+import { generate, idRanges, numRanges } from "./generate.ts";
 
 const ROOT = join(import.meta.dirname, "..", "..", "..");
 const loaded = loadDevice(join(ROOT, "data", "devices", "bcr32"));
@@ -53,7 +53,7 @@ test("each generator gives a table; parameters select the mode and the value set
   const modes = generate(doc("", "<!-- gen:modes -->"), data).text;
   assert.match(modes, /\| ZAQ Settings \| `hold B59 \+ B61` \| `press B60` \| `B5`–`B8` blue \|/);
   const functions = generate(doc("", "<!-- gen:functions mode=zaq-settings -->"), data).text;
-  assert.match(functions, /\| `B5` \| Gate output level \| `press B5` \| Gate output level \| — \| manual \|/);
+  assert.match(functions, /\| `B5` \| Gate output level \| `press B5` \| Gate output level \| — \| — \| manual \|/);
   assert.doesNotMatch(functions, /Tempo/);
   const values = generate(doc("", "<!-- gen:values set=lane-value -->"), data).text;
   assert.match(values, /\| Off \| — \|\n\| 1–127 \| — \|/);
@@ -95,4 +95,44 @@ test("the command: --check exits 1 on drift and writes nothing; a run without it
   assert.doesNotMatch(readFileSync(file, "utf8"), /stale/);
   assert.equal(run("--check").status, 0);
   assert.equal(spawnSync(process.execPath, [join(import.meta.dirname, "cli.ts"), "--nope"], { cwd: ROOT }).status, 2);
+});
+
+test("number ranges: runs of two or more collapse, duplicates and order do not matter", () => {
+  assert.equal(numRanges([83, 81, 82, 1, 2, 3, 5, 5]), "1–3, 5, 81–83");
+  assert.equal(numRanges([]), "");
+});
+
+test("MIDI column: the CTRL function row lists exactly the controller numbers seen, and other modes list none", () => {
+  const ctrl = generate(doc("", "<!-- gen:functions mode=ctrl -->"), data).text;
+  const row = ctrl.split("\n").find((l) => l.includes("Send the assigned MIDI message"));
+  assert.ok(row, "the row for the assigned message");
+  const cell = row.split("|").map((c) => c.trim()).find((c) => c.startsWith("ch 1: CC "));
+  assert.ok(cell, "a ch 1 cell");
+  const shown = new Set<number>();
+  for (const part of cell.replace("ch 1: CC ", "").split(", ")) {
+    const [a, b] = part.split("–").map(Number);
+    for (let n = a!; n <= (b ?? a!); n++) shown.add(n);
+  }
+  const seen = new Set(data.midi!.messages.filter((m) => m.type === "cc" && m.mode === "ctrl").map((m) => m.number!));
+  assert.deepEqual([...shown].sort((a, b) => a - b), [...seen].sort((a, b) => a - b));
+  const settings = generate(doc("", "<!-- gen:functions mode=zaq-settings -->"), data).text;
+  assert.doesNotMatch(settings, /CC [0-9]/);
+});
+
+test("midi tables: one row per message and per silence", () => {
+  const messages = generate(doc("", "<!-- gen:midi-messages -->"), data).text;
+  const rows = messages.split("\n").filter((l) => l.startsWith("| `"));
+  assert.equal(rows.length, data.midi!.messages.length);
+  const silences = generate(doc("", "<!-- gen:midi-silences -->"), data).text;
+  assert.equal(silences.split("\n").filter((l) => l.startsWith("| `")).length, data.midi!.silences.length);
+  assert.match(silences, /inbound-start-stop/);
+});
+
+test("MIDI column: a message the unit received is not listed as one it sent", () => {
+  const copy = structuredClone(data);
+  const target = copy.midi!.messages.find((m) => m.type === "cc" && m.mode === "ctrl" && m.number === 98)!;
+  const others = copy.midi!.messages.filter((m) => m.type === "cc" && m.mode === "ctrl" && m.number === 98 && m !== target);
+  for (const m of [target, ...others]) m.direction = "in";
+  const row = generate(doc("", "<!-- gen:functions mode=ctrl -->"), copy).text.split("\n").find((l) => l.includes("Send the assigned MIDI message"))!;
+  assert.doesNotMatch(row, /\b98\b/);
 });

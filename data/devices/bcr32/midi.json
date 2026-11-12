@@ -406,6 +406,36 @@
       "result": "28 of 32 pushes sent nothing. Four pushes sent a message that is not explained.",
       "note": "E36 sent F0 7F 7F 06 02 F7 (a MIDI Machine Control play message). E25, E26 and E42 sent controller changes that match other controls. A repeat run is open.",
       "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Runs 2, 3a and 3c of the guided map on 2026-11-12. Run 3c listened to all ports."}
+    },
+    {
+      "id": "inbound-identity-ctrl", "port": "ctrl", "mode": "zaq", "action": "Send the identity request F0 7E 7F 06 01 F7 to the CTRL port.",
+      "result": "No reply and no change on the unit.",
+      "note": "Inbound test (step 4.4). Sent with unit-send; a listener ran on all ports. A new sequencer export afterwards matched the first export.",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "T1" }
+    },
+    {
+      "id": "inbound-identity-zaq", "port": "zaq", "mode": "zaq", "action": "Send the identity request F0 7E 7F 06 01 F7 to the ZAQ port.",
+      "result": "No reply and no change on the unit.",
+      "note": "Inbound test (step 4.4). Sent with unit-send; a listener ran on all ports. A new sequencer export afterwards matched the first export.",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "T2" }
+    },
+    {
+      "id": "inbound-start-stop", "port": "zaq", "mode": "zaq", "action": "Send start (FA), then 3 seconds later stop (FC), to the ZAQ port.",
+      "result": "No reply. PLAY/STOP did not light. The unit stayed with the internal clock source.",
+      "note": "Inbound test (step 4.4). Sent with unit-send; a listener ran on all ports. A new sequencer export afterwards matched the first export.",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "T3" }
+    },
+    {
+      "id": "inbound-note", "port": "zaq", "mode": "zaq", "action": "Send note on (channel 1, note 60, velocity 100), then note off, to the ZAQ port.",
+      "result": "No reply and no change. Transpose was Off.",
+      "note": "Inbound test (step 4.4). Sent with unit-send; a listener ran on all ports. A new sequencer export afterwards matched the first export.",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "T4" }
+    },
+    {
+      "id": "inbound-cc-pc", "port": "zaq", "mode": "zaq", "action": "Send controller change 1 value 64, then program change 2, on channel 1 to the ZAQ port.",
+      "result": "No reply. The pattern did not change. Pattern change channel (B13) was Off.",
+      "note": "Inbound test (step 4.4). Sent with unit-send; a listener ran on all ports. A new sequencer export afterwards matched the first export.",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "T5" }
     }
   ]
 }

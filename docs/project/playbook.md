@@ -16,10 +16,10 @@ The [project plan](plan.md) explains why; this page tracks what and when.
 | Field | Value |
 | --- | --- |
 | Release in progress | R1, approved 2026-11-11, started 2026-11-11 |
-| Current step | none (2.5 closed on branch `r1b/p2-glossary`, stacked on `r1c/p4-backup`, not merged) |
-| Next step | 4.7 Publish the map (R1c) |
-| R1 progress | 26 of 27 steps done, 1 remains (4.7) |
-| Tokens used in R1 | about 1,410k of 1,550k (rough count; total raised 2026-11-12 in the owner's words) |
+| Current step | none (4.7 closed on branch `r1c/p4-publish-map`, not merged) |
+| Next step | none: R1 is complete except the merge of 4.7 and the owner's close-out |
+| R1 progress | 27 of 27 steps done |
+| Tokens used in R1 | about 1,460k of 1,550k (rough count; total raised 2026-11-12 in the owner's words) |
 | Blocked on | nothing. The repo is public since 2026-11-11 |
 | Last updated | 2026-11-11 (end of session 7) |
 
@@ -96,7 +96,7 @@ R1c can run beside R1b. Steps 4.5 and 4.6 are time-boxed: they report what the e
 | 4.4 | Inbound map | identity request, clock, start and stop, transpose notes, pattern-switch CC, program change | each test has a result row | 30k | about 45k | ✅ | [findings](../reference/capture-findings.md#inbound-tests-step-44): five tier 1 tests, no effect and no reply; transpose, pattern-switch and clock need a setting change (tier 2), not done; `unit-send` added (gated, 11 tests); export after the tests identical; branch `r1c/p4-inbound-map`, stacked, not merged |
 | 4.5 | Editor protocol | messages between the vendor editor and the unit for each settings page; observed, never re-sent | time-boxed; findings recorded | 65k | about 30k | ✅ | [findings](../reference/capture-findings.md#editor-protocol-step-45): unit side only; BCL text lines, preset names, sequencer state; editor requests unseen; branch `r1c/p4-editor-protocol`, stacked on `r1c/p4-sysex-structure`, not merged |
 | 4.6 | SysEx dump structure | layout of the export files as far as the evidence shows | time-boxed; findings recorded | 30k | about 30k | ✅ | [findings](../reference/capture-findings.md#sysex-dump-structure-step-46): frame, nibble encoding, slots, clock-source location; trailer rule and record fields unresolved; branch `r1c/p4-sysex-structure`, not merged |
-| 4.7 | Publish the map | MIDI implementation chapter, `midi.json`, a MIDI column in the manual's function tables | docs-check, schema | 20k | | ☐ | |
+| 4.7 | Publish the map | MIDI implementation chapter, `midi.json`, a MIDI column in the manual's function tables | docs-check, schema | 20k | about 45k | ✅ | [chapter 16](../manual/16-midi-implementation.md); five inbound silences added to `midi.json`; MIDI column in all function tables; two generators with tests (three mutations caught); branch `r1c/p4-publish-map`, not merged |
 
 ## Later releases
 
@@ -125,6 +125,14 @@ Steps for these are written out when the release is approved.
 ## Handover notes
 
 Newest first. One entry per session: what closed, what is next, anything the next session must know.
+
+### 2026-11-12, step 4.7 (R1 complete)
+
+- **Closed:** step 4.7 on branch `r1c/p4-publish-map`. Steps 4.3 to 4.4 are merged and pushed (`main` @ 6f644c0). 4.7 is not merged.
+- **Added:** [chapter 16](../manual/16-midi-implementation.md), five inbound silences in `midi.json`, and a MIDI column in every function table. `gen-tables` has `midi-messages` and `midi-silences`, with tests. Three mutations were caught.
+- **Cost:** about 45k against 20k. The estimate left out the generator work and its tests. The owner's total (1,550k) still holds: about 1,460k used.
+- **Open for R2 or later:** the trailer rule of the dumps; the editor's own messages; inbound tests that need a setting change; DIN ports; T4 red after the power cycle; ten documents on `ste-pending.txt`; CLI tests for `llms-full.ts`; "toggle" wording for mute and skip.
+- **Next:** the owner decides: merge and push 4.7, close R1, and whether R2 (web panel, 990k) is approved. Nothing in R2 is approved.
 
 ### 2026-11-12, step 4.4
 

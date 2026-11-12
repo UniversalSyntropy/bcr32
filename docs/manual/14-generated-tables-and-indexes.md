@@ -24,48 +24,48 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=zaq -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `B1` | Go to CTRL mode | `tap B1` | — | — | manual |
-| `E25`–`E56` | Step value of the selected parameter | `turn E` | — | — | manual |
-| `B59`, `E25`–`E56` | Change all steps together | `hold B59 + turn E` | — | — | manual |
-| `B5` | Pitch | `press B5` | Step pitch | 60 | manual |
-| `B6` | Velocity | `press B6` | Velocity | 100 | manual |
-| `B7` | Step mute | `press B7` | Step play or mute | play | manual |
-| `B8` | Timing shift | `press B8` | Timing shift | 0 | manual |
-| `B9` | Note length | `press B9` | Note length | 32 | manual |
-| `B10` | MIDI CTRL α value | `press B10` | MIDI CTRL lane value | — | manual |
-| `B11` | MIDI CTRL β value | `press B11` | MIDI CTRL lane value | — | manual |
-| `B12` | Wave generator | `hold B12` | — | — | manual |
-| `B12`, `E33` | Wave generator shape | `hold B12 + turn E33` | Wave generator shape | — | manual |
-| `B12`, `E34` | Wave generator gain | `hold B12 + turn E34` | Wave generator gain | 50 | manual |
-| `B12`, `E35` | Wave generator rate | `hold B12 + turn E35` | Wave generator rate | 5 | manual |
-| `B12`, `E36` | Wave generator offset | `hold B12 + turn E36` | Wave generator offset | 63 | manual |
-| `B12`, `B5`–`B11` | Apply the wave generator to a lane | `hold B12 + press B5` | — | — | manual |
-| `B13` | Chord | `press B13` | Chord type | Off | manual |
-| `B14` | Step skip | `press B14` | Step play or skip | play | manual |
-| `B15` | Start step | `press B15` | Step number | 1 | manual |
-| `B16` | Track length | `press B16` | Step number | 32 | manual |
-| `B17` | Track offset | `press B17` | Step offset | 0 | manual |
-| `B18`, `SEL` | Clock divider | `press B18` | Clock divider | 16 | manual |
-| `B19`, `E30` | Shuffle, even steps | `press B19` | Shuffle, even steps | 0 | manual |
-| `B19`, `E31` | Shuffle, odd steps | `press B19` | Shuffle, odd steps | 0 | manual |
-| `B20`, `SEL` | Play direction | `press B20` | Play direction | Forward | manual |
-| `B21`–`B24` | Select a track | `press B21` | — | — | manual |
-| `B21`–`B24` | Copy a track | `hold B21 + press B22` | — | — | manual |
-| `B10`, `B11` | Write the scale into the notes | `press B10 and B11 together` | — | — | manual |
-| `B59` | Open the ZAQ Global page | `press B59` | — | — | manual |
-| `B59`, `B61` | Open ZAQ Settings | `hold B59 + B61` | — | — | manual |
-| `B60` | Exit | `press B60` | — | — | manual |
-| `B61` | Open the pattern store view | `hold B61` | — | — | manual |
-| `SEL`, `B61` | Make the stored patterns permanent | `hold SEL + press B61` | — | — | manual |
-| `B62` | Open the pattern load view | `press B62` | — | — | manual |
-| `B65` | Real-time record on or off | `press B65` | — | — | manual |
-| `B66` | Open the mixer | `press B66` | — | — | manual |
-| `B67` | Go back to step 1 | `press B67` | — | — | manual |
-| `B68` | Start or stop the sequencer | `press B68` | — | — | manual |
-| `J74` | Footswitch 1: start or stop | — | — | — | manual |
-| `J75` | Footswitch 2: next pattern | — | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `B1` | Go to CTRL mode | `tap B1` | — | — | — | manual |
+| `E25`–`E56` | Step value of the selected parameter | `turn E` | — | — | — | manual |
+| `B59`, `E25`–`E56` | Change all steps together | `hold B59 + turn E` | — | — | — | manual |
+| `B5` | Pitch | `press B5` | Step pitch | 60 | — | manual |
+| `B6` | Velocity | `press B6` | Velocity | 100 | — | manual |
+| `B7` | Step mute | `press B7` | Step play or mute | play | — | manual |
+| `B8` | Timing shift | `press B8` | Timing shift | 0 | — | manual |
+| `B9` | Note length | `press B9` | Note length | 32 | — | manual |
+| `B10` | MIDI CTRL α value | `press B10` | MIDI CTRL lane value | — | — | manual |
+| `B11` | MIDI CTRL β value | `press B11` | MIDI CTRL lane value | — | — | manual |
+| `B12` | Wave generator | `hold B12` | — | — | — | manual |
+| `B12`, `E33` | Wave generator shape | `hold B12 + turn E33` | Wave generator shape | — | — | manual |
+| `B12`, `E34` | Wave generator gain | `hold B12 + turn E34` | Wave generator gain | 50 | — | manual |
+| `B12`, `E35` | Wave generator rate | `hold B12 + turn E35` | Wave generator rate | 5 | — | manual |
+| `B12`, `E36` | Wave generator offset | `hold B12 + turn E36` | Wave generator offset | 63 | — | manual |
+| `B12`, `B5`–`B11` | Apply the wave generator to a lane | `hold B12 + press B5` | — | — | — | manual |
+| `B13` | Chord | `press B13` | Chord type | Off | — | manual |
+| `B14` | Step skip | `press B14` | Step play or skip | play | — | manual |
+| `B15` | Start step | `press B15` | Step number | 1 | — | manual |
+| `B16` | Track length | `press B16` | Step number | 32 | — | manual |
+| `B17` | Track offset | `press B17` | Step offset | 0 | — | manual |
+| `B18`, `SEL` | Clock divider | `press B18` | Clock divider | 16 | — | manual |
+| `B19`, `E30` | Shuffle, even steps | `press B19` | Shuffle, even steps | 0 | — | manual |
+| `B19`, `E31` | Shuffle, odd steps | `press B19` | Shuffle, odd steps | 0 | — | manual |
+| `B20`, `SEL` | Play direction | `press B20` | Play direction | Forward | — | manual |
+| `B21`–`B24` | Select a track | `press B21` | — | — | — | manual |
+| `B21`–`B24` | Copy a track | `hold B21 + press B22` | — | — | — | manual |
+| `B10`, `B11` | Write the scale into the notes | `press B10 and B11 together` | — | — | — | manual |
+| `B59` | Open the ZAQ Global page | `press B59` | — | — | — | manual |
+| `B59`, `B61` | Open ZAQ Settings | `hold B59 + B61` | — | — | — | manual |
+| `B60` | Exit | `press B60` | — | — | — | manual |
+| `B61` | Open the pattern store view | `hold B61` | — | — | — | manual |
+| `SEL`, `B61` | Make the stored patterns permanent | `hold SEL + press B61` | — | — | — | manual |
+| `B62` | Open the pattern load view | `press B62` | — | — | — | manual |
+| `B65` | Real-time record on or off | `press B65` | — | — | — | manual |
+| `B66` | Open the mixer | `press B66` | — | — | — | manual |
+| `B67` | Go back to step 1 | `press B67` | — | — | — | manual |
+| `B68` | Start or stop the sequencer | `press B68` | — | — | — | manual |
+| `J74` | Footswitch 1: start or stop | — | — | — | — | manual |
+| `J75` | Footswitch 2: next pattern | — | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -73,19 +73,19 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=ctrl -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `B1` | Go to ZAQ mode | `tap B1` | — | — | manual |
-| `B5`–`B24`, `E25`–`E56`, `B65`–`B68` | Send the assigned MIDI message | — | — | — | manual |
-| `J74`, `J75` | Footswitch: send the assigned MIDI message | — | — | — | manual |
-| `B59`, `B5`–`B24`, `E25`–`E56`, `B65`–`B68` | Assign a control | `hold B59 + turn E` | — | — | manual |
-| `B62`, `B5`–`B24`, `E25`–`E56`, `B65`–`B68` | Learn a MIDI message | `hold B62 + turn E` | — | — | manual |
-| `B59`, `B61` | Open CTRL Settings | `hold B59 + B61` | — | — | manual |
-| `B63` | Previous preset | `press B63` | Controller preset | — | manual |
-| `B64` | Next preset | `press B64` | Controller preset | — | manual |
-| `B61` | Open the preset store view | `press B61` | — | — | manual |
-| `SEL`, `B61` | Make the stored presets permanent | `hold SEL + press B61` | — | — | manual |
-| `B60` | Exit | `press B60` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `B1` | Go to ZAQ mode | `tap B1` | — | — | — | manual |
+| `B5`–`B24`, `E25`–`E56`, `B65`–`B68` | Send the assigned MIDI message | — | — | — | ch 1: CC 5, 7, 9, 12, 14–18, 40–42, 44–53, 65–80, 85, 87–90, 97–98 | manual |
+| `J74`, `J75` | Footswitch: send the assigned MIDI message | — | — | — | — | manual |
+| `B59`, `B5`–`B24`, `E25`–`E56`, `B65`–`B68` | Assign a control | `hold B59 + turn E` | — | — | ch 1: CC 5, 7, 9, 12, 14–18, 40–42, 44–53, 65–80, 85, 87–90, 97–98 | manual |
+| `B62`, `B5`–`B24`, `E25`–`E56`, `B65`–`B68` | Learn a MIDI message | `hold B62 + turn E` | — | — | ch 1: CC 5, 7, 9, 12, 14–18, 40–42, 44–53, 65–80, 85, 87–90, 97–98 | manual |
+| `B59`, `B61` | Open CTRL Settings | `hold B59 + B61` | — | — | — | manual |
+| `B63` | Previous preset | `press B63` | Controller preset | — | — | manual |
+| `B64` | Next preset | `press B64` | Controller preset | — | — | manual |
+| `B61` | Open the preset store view | `press B61` | — | — | — | manual |
+| `SEL`, `B61` | Make the stored presets permanent | `hold SEL + press B61` | — | — | — | manual |
+| `B60` | Exit | `press B60` | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -93,21 +93,21 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=global-settings -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `SEL` | Change and save a setting | `turn SEL` | — | — | manual |
-| `B5` | Device mode at power-up | `press B5` | Device mode at power-up | — | manual |
-| `B6` | Device ID | `press B6` | Device ID | — | manual |
-| `B7` | Operation mode | `press B7` | Operation mode | — | unit, firmware 1.0.3 |
-| `B8` | Start CV calibration | `press B8` | — | — | manual |
-| `B9` | Footswitch 1 use | `press B9` | Footswitch 1 use | — | manual |
-| `B10` | Footswitch 2 use | `press B10` | Footswitch 2 use | — | manual |
-| `B11` | Show the firmware version | `press B11` | — | — | unit, firmware 1.0.3 |
-| `B12` | Factory restore | `press B12` | Confirm | — | manual |
-| `B13` | Pattern change channel | `press B13` | — | — | unit, firmware 1.0.3 |
-| `B14` | Encoder acceleration | `press B14` | — | — | unit, firmware 1.0.3 |
-| `B15` | Footswitch polarity | `press B15` | — | — | unit, firmware 1.0.3 |
-| `B1` | Exit | `tap B1` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `SEL` | Change and save a setting | `turn SEL` | — | — | — | manual |
+| `B5` | Device mode at power-up | `press B5` | Device mode at power-up | — | — | manual |
+| `B6` | Device ID | `press B6` | Device ID | — | — | manual |
+| `B7` | Operation mode | `press B7` | Operation mode | — | — | unit, firmware 1.0.3 |
+| `B8` | Start CV calibration | `press B8` | — | — | — | manual |
+| `B9` | Footswitch 1 use | `press B9` | Footswitch 1 use | — | — | manual |
+| `B10` | Footswitch 2 use | `press B10` | Footswitch 2 use | — | — | manual |
+| `B11` | Show the firmware version | `press B11` | — | — | — | unit, firmware 1.0.3 |
+| `B12` | Factory restore | `press B12` | Confirm | — | — | manual |
+| `B13` | Pattern change channel | `press B13` | — | — | — | unit, firmware 1.0.3 |
+| `B14` | Encoder acceleration | `press B14` | — | — | — | unit, firmware 1.0.3 |
+| `B15` | Footswitch polarity | `press B15` | — | — | — | unit, firmware 1.0.3 |
+| `B1` | Exit | `tap B1` | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -115,14 +115,14 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=cv-calibration -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `E25`–`E28` | Select CV output 1 to 4 | `turn E25` | — | — | manual |
-| `B5`–`B16`, `B19`, `B20` | Number pad | — | — | — | manual |
-| `E33`–`E36` | First meter reading, CV output 1 to 4 | `turn E33` | — | — | manual |
-| `E41`–`E44` | Second meter reading, CV output 1 to 4 | `turn E41` | — | — | manual |
-| `E25`–`E28` | Test the output | `push E25` | — | — | manual |
-| `B1` | Finish | `press B1` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `E25`–`E28` | Select CV output 1 to 4 | `turn E25` | — | — | — | manual |
+| `B5`–`B16`, `B19`, `B20` | Number pad | — | — | — | — | manual |
+| `E33`–`E36` | First meter reading, CV output 1 to 4 | `turn E33` | — | — | — | manual |
+| `E41`–`E44` | Second meter reading, CV output 1 to 4 | `turn E41` | — | — | — | manual |
+| `E25`–`E28` | Test the output | `push E25` | — | — | — | manual |
+| `B1` | Finish | `press B1` | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -130,13 +130,13 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=zaq-settings -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `B5` | Gate output level | `press B5` | Gate output level | — | manual |
-| `B6` | Sync input clock rate | `press B6` | Sync clock rate | — | manual |
-| `B7` | Sync output clock rate | `press B7` | Sync clock rate | — | manual |
-| `B8` | Sync input start | `press B8` | Sync input start | — | unit, firmware 1.0.3 |
-| `B60` | Exit | `press B60` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `B5` | Gate output level | `press B5` | Gate output level | — | — | manual |
+| `B6` | Sync input clock rate | `press B6` | Sync clock rate | — | — | manual |
+| `B7` | Sync output clock rate | `press B7` | Sync clock rate | — | — | manual |
+| `B8` | Sync input start | `press B8` | Sync input start | — | — | unit, firmware 1.0.3 |
+| `B60` | Exit | `press B60` | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -144,13 +144,13 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=ctrl-settings -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `B5` | Output routing | `press B5` | MIDI output routing | — | manual |
-| `B6`, `E28` | MIDI thru source | `press B6` | MIDI thru source | — | manual |
-| `B6`, `SEL` | MIDI thru destination | `press B6` | MIDI thru destination | — | manual |
-| `B7` | Echo dead time | `press B7` | — | — | unit, firmware 1.0.3 |
-| `B60` | Exit | `press B60` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `B5` | Output routing | `press B5` | MIDI output routing | — | — | manual |
+| `B6`, `E28` | MIDI thru source | `press B6` | MIDI thru source | — | — | manual |
+| `B6`, `SEL` | MIDI thru destination | `press B6` | MIDI thru destination | — | — | manual |
+| `B7` | Echo dead time | `press B7` | — | — | — | unit, firmware 1.0.3 |
+| `B60` | Exit | `press B60` | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -158,30 +158,30 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=zaq-global -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `E25` | Tempo | `turn E25` | Tempo | — | manual |
-| `E26` | Clock source | `turn E26` | Clock source | — | manual |
-| `E27` | Clock output | `turn E27` | Clock output | Off | manual |
-| `E28` | MIDI thru source | `turn E28` | MIDI thru source | — | manual |
-| `E28`, `SEL` | MIDI thru destination | `push SEL` | MIDI thru destination | — | manual |
-| `E29` | Note display | `turn E29` | Note display | — | manual |
-| `E30` | Scale | `turn E30` | Scale | OFF | manual |
-| `E31` | Scale base note | `turn E31` | Scale base note | — | manual |
-| `B10`, `E41`–`E52` | Set the user scale | `hold B10` | — | — | manual |
-| `E32` | Transpose input | `turn E32` | Transpose input | Off | manual |
-| `E33` | Pattern switch by CC: channel | `turn E33` | MIDI channel or off | — | manual |
-| `E34` | Pattern switch by CC: CC number | `turn E34` | CC number | — | manual |
-| `E35` | Quantize rate | `turn E35` | Note length | 32 | manual |
-| `E36` | Quantize on or off | `turn E36` | On or off | on | manual |
-| `E37`–`E40` | Track mode, tracks 1 to 4 | `turn E37` | Track mode | Chord | manual |
-| `E41`, `E43`, `E45`, `E47` | MIDI output, tracks 1 to 4 | `turn E41` | MIDI output routing | — | manual |
-| `E42`, `E44`, `E46`, `E48` | MIDI channel, tracks 1 to 4 | `turn E42` | MIDI channel | — | manual |
-| `E49`, `E51`, `E53`, `E55` | MIDI CTRL α target, tracks 1 to 4 | `turn E49` | MIDI CTRL lane target | off | manual |
-| `E50`, `E52`, `E54`, `E56` | MIDI CTRL β target, tracks 1 to 4 | `turn E50` | MIDI CTRL lane target | off | manual |
-| `B63`, `E25`–`E56` | Show a value with no change | `hold B63 + turn E` | — | — | manual |
-| `B21`–`B24`, `E25`–`E40` | Drum voice pitch | `hold B21 + turn E25` | Step pitch | — | manual |
-| `B60` | Exit | `press B60` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `E25` | Tempo | `turn E25` | Tempo | — | — | manual |
+| `E26` | Clock source | `turn E26` | Clock source | — | — | manual |
+| `E27` | Clock output | `turn E27` | Clock output | Off | — | manual |
+| `E28` | MIDI thru source | `turn E28` | MIDI thru source | — | — | manual |
+| `E28`, `SEL` | MIDI thru destination | `push SEL` | MIDI thru destination | — | — | manual |
+| `E29` | Note display | `turn E29` | Note display | — | — | manual |
+| `E30` | Scale | `turn E30` | Scale | OFF | — | manual |
+| `E31` | Scale base note | `turn E31` | Scale base note | — | — | manual |
+| `B10`, `E41`–`E52` | Set the user scale | `hold B10` | — | — | — | manual |
+| `E32` | Transpose input | `turn E32` | Transpose input | Off | — | manual |
+| `E33` | Pattern switch by CC: channel | `turn E33` | MIDI channel or off | — | — | manual |
+| `E34` | Pattern switch by CC: CC number | `turn E34` | CC number | — | — | manual |
+| `E35` | Quantize rate | `turn E35` | Note length | 32 | — | manual |
+| `E36` | Quantize on or off | `turn E36` | On or off | on | — | manual |
+| `E37`–`E40` | Track mode, tracks 1 to 4 | `turn E37` | Track mode | Chord | — | manual |
+| `E41`, `E43`, `E45`, `E47` | MIDI output, tracks 1 to 4 | `turn E41` | MIDI output routing | — | — | manual |
+| `E42`, `E44`, `E46`, `E48` | MIDI channel, tracks 1 to 4 | `turn E42` | MIDI channel | — | — | manual |
+| `E49`, `E51`, `E53`, `E55` | MIDI CTRL α target, tracks 1 to 4 | `turn E49` | MIDI CTRL lane target | off | — | manual |
+| `E50`, `E52`, `E54`, `E56` | MIDI CTRL β target, tracks 1 to 4 | `turn E50` | MIDI CTRL lane target | off | — | manual |
+| `B63`, `E25`–`E56` | Show a value with no change | `hold B63 + turn E` | — | — | — | manual |
+| `B21`–`B24`, `E25`–`E40` | Drum voice pitch | `hold B21 + turn E25` | Step pitch | — | — | manual |
+| `B60` | Exit | `press B60` | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -189,13 +189,13 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=zaq-mixer -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `B21`–`B24` | Mute a track | `press B21` | — | — | manual |
-| `B5`–`B20` | Mute a drum voice | `press B5` | — | — | manual |
-| `B64`, `E25`–`E56` | Note repeat rate | `hold B64 + turn E` | Note repeat rate | — | manual |
-| `B64`, `B21`–`B24`, `B5`–`B20` | Note repeat on a track or a drum voice | `hold B64 + press B21` | — | — | manual |
-| `B66`, `B60` | Leave the mixer | `press B66` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `B21`–`B24` | Mute a track | `press B21` | — | — | — | manual |
+| `B5`–`B20` | Mute a drum voice | `press B5` | — | — | — | manual |
+| `B64`, `E25`–`E56` | Note repeat rate | `hold B64 + turn E` | Note repeat rate | — | — | manual |
+| `B64`, `B21`–`B24`, `B5`–`B20` | Note repeat on a track or a drum voice | `hold B64 + press B21` | — | — | — | manual |
+| `B66`, `B60` | Leave the mixer | `press B66` | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -203,16 +203,16 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=zaq-record -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `B64` | Record sub-mode | `press B64` | Real-time record sub-mode | NOTE | manual |
-| `B6`, `B7`, `B9`–`B11`, `B13`–`B20` | Virtual keyboard | `press B13` | — | — | inference |
-| `B63`, `B5`–`B20` | Erase notes while the pattern plays | `hold B63 + press B13` | — | — | manual |
-| `B5`–`B20` | Select a drum voice | `press B5` | Drum voice | — | manual |
-| `E25`–`E56` | Set or remove a drum step | `turn E` | — | — | manual |
-| `B5`–`B20`, `E25`–`E56` | Fill or clear all steps of a drum voice | `hold B5 + turn E` | — | — | manual |
-| `B65`, `B12` | Random steps for a drum voice | `hold B65 + press B12` | — | — | manual |
-| `B65` | Leave real-time record | `press B65` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `B64` | Record sub-mode | `press B64` | Real-time record sub-mode | NOTE | — | manual |
+| `B6`, `B7`, `B9`–`B11`, `B13`–`B20` | Virtual keyboard | `press B13` | — | — | — | inference |
+| `B63`, `B5`–`B20` | Erase notes while the pattern plays | `hold B63 + press B13` | — | — | — | manual |
+| `B5`–`B20` | Select a drum voice | `press B5` | Drum voice | — | — | manual |
+| `E25`–`E56` | Set or remove a drum step | `turn E` | — | — | — | manual |
+| `B5`–`B20`, `E25`–`E56` | Fill or clear all steps of a drum voice | `hold B5 + turn E` | — | — | — | manual |
+| `B65`, `B12` | Random steps for a drum voice | `hold B65 + press B12` | — | — | — | manual |
+| `B65` | Leave real-time record | `press B65` | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -220,10 +220,10 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=zaq-store -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `B63`, `B64` | Pattern page | `press B64` | Pattern page | — | manual |
-| `B5`–`B20` | Store to a slot | `press B5` | Pattern slot | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `B63`, `B64` | Pattern page | `press B64` | Pattern page | — | — | manual |
+| `B5`–`B20` | Store to a slot | `press B5` | Pattern slot | — | — | manual |
 
 <!-- gen:end -->
 
@@ -231,11 +231,11 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=zaq-load -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `B63`, `B64` | Pattern page | `press B64` | Pattern page | — | manual |
-| `B5`–`B20` | Load a slot | `press B5` | Pattern slot | — | manual |
-| `B5`–`B20` | Chain patterns | `hold B5 + press B6` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `B63`, `B64` | Pattern page | `press B64` | Pattern page | — | — | manual |
+| `B5`–`B20` | Load a slot | `press B5` | Pattern slot | — | — | manual |
+| `B5`–`B20` | Chain patterns | `hold B5 + press B6` | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -243,18 +243,18 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=ctrl-edit -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `SEL` | Message type | `turn SEL` | Control message type | — | manual |
-| `B63`, `B64` | Previous or next setup field | `press B64` | — | — | manual |
-| `SEL` | Value of the setup field | `turn SEL` | — | — | manual |
-| `SEL` | Button mode field | `turn SEL` | Button mode | — | manual |
-| `SEL` | Encoder mode field | `turn SEL` | Encoder mode | — | manual |
-| `SEL` | LED ring style field | `turn SEL` | LED ring style | 1dot_in | manual |
-| `SEL` | GS parameter field | `turn SEL` | GS parameter | — | manual |
-| `SEL` | MMC command field | `turn SEL` | MMC command | — | manual |
-| `SEL` | MMC frame rate field | `turn SEL` | MMC frame rate | — | manual |
-| `B60` | Finish | `press B60` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `SEL` | Message type | `turn SEL` | Control message type | — | — | manual |
+| `B63`, `B64` | Previous or next setup field | `press B64` | — | — | — | manual |
+| `SEL` | Value of the setup field | `turn SEL` | — | — | — | manual |
+| `SEL` | Button mode field | `turn SEL` | Button mode | — | — | manual |
+| `SEL` | Encoder mode field | `turn SEL` | Encoder mode | — | — | manual |
+| `SEL` | LED ring style field | `turn SEL` | LED ring style | 1dot_in | — | manual |
+| `SEL` | GS parameter field | `turn SEL` | GS parameter | — | — | manual |
+| `SEL` | MMC command field | `turn SEL` | MMC command | — | — | manual |
+| `SEL` | MMC frame rate field | `turn SEL` | MMC frame rate | — | — | manual |
+| `B60` | Finish | `press B60` | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -262,9 +262,9 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=ctrl-learn -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `B60` | Exit | `press B60` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `B60` | Exit | `press B60` | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -272,10 +272,10 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=ctrl-store -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `B63`, `B64` | Preset location | `press B64` | Controller preset | — | manual |
-| `B61` | Confirm and write | `press B61` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `B63`, `B64` | Preset location | `press B64` | Controller preset | — | — | manual |
+| `B61` | Confirm and write | `press B61` | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -283,12 +283,12 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=memory-erase -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `E31` | Reset the sequencer global settings | `push E31` | — | — | manual |
-| `E32` | Erase all patterns, keep the global settings | `push E32` | — | — | manual |
-| `E32` | Erase all controller memory | `push E32` | — | — | manual |
-| `B60` | Exit | `press B60` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `E31` | Reset the sequencer global settings | `push E31` | — | — | — | manual |
+| `E32` | Erase all patterns, keep the global settings | `push E32` | — | — | — | manual |
+| `E32` | Erase all controller memory | `push E32` | — | — | — | manual |
+| `B60` | Exit | `press B60` | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -296,15 +296,15 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=sysex-export -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `E29` | Export all ZAQ memory | `push E29` | — | — | manual |
-| `E30` | Export the 12 pattern pages | `push E30` | — | — | manual |
-| `E31` | Export the current pattern page | `push E31` | — | — | manual |
-| `E32` | Export the current pattern | `push E32` | — | — | manual |
-| `E31` | Export all 64 presets | `push E31` | — | — | manual |
-| `E32` | Export the current preset | `push E32` | — | — | manual |
-| `B60` | Exit | `press B60` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `E29` | Export all ZAQ memory | `push E29` | — | — | — | manual |
+| `E30` | Export the 12 pattern pages | `push E30` | — | — | — | manual |
+| `E31` | Export the current pattern page | `push E31` | — | — | — | manual |
+| `E32` | Export the current pattern | `push E32` | — | — | — | manual |
+| `E31` | Export all 64 presets | `push E31` | — | — | — | manual |
+| `E32` | Export the current preset | `push E32` | — | — | — | manual |
+| `B60` | Exit | `press B60` | — | — | — | manual |
 
 <!-- gen:end -->
 
@@ -312,9 +312,9 @@ Each table lists the functions of one mode. The Source column shows where the fa
 
 <!-- gen:functions mode=sysex-import -->
 
-| Controls | Function | Action | Values | Default | Source |
-| --- | --- | --- | --- | --- | --- |
-| `B60` | Exit | `press B60` | — | — | manual |
+| Controls | Function | Action | Values | Default | MIDI seen (firmware 1.0.3) | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `B60` | Exit | `press B60` | — | — | — | manual |
 
 <!-- gen:end -->
 
