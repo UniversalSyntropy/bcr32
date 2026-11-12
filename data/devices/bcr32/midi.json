@@ -20,20 +20,6 @@
       "source": { "source": "unit", "firmware": "1.0.3", "ref": "H3" }
     },
     {
-      "id": "ctrl-cc65", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 65,
-      "name": "Portamento On/Off", "values": [127],
-      "trigger": { "elements": ["B5"], "confidence": "likely" },
-      "note": "Seen in run 2 only. Run 1 sent nothing for the same control.",
-      "source": { "source": "unit", "firmware": "1.0.3", "ref": "H3" }
-    },
-    {
-      "id": "ctrl-cc66", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 66,
-      "name": "Sustenuto Pedal", "values": [127, 0],
-      "trigger": { "elements": ["B6"], "confidence": "likely" },
-      "note": "Value 127 in run 1; value 0 in run 2. This looks like a toggle.",
-      "source": { "source": "unit", "firmware": "1.0.3", "ref": "H3" }
-    },
-    {
       "id": "ctrl-cc98", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 98,
       "name": "Non-Registered Parameter LSB", "values": [1, 2],
       "trigger": { "elements": ["E26"], "confidence": "likely" },
@@ -45,6 +31,321 @@
       "pattern": "F0 00 20 32 00 64 21 00 nn <24 ASCII bytes> F7",
       "note": "The unit sends one message per controller preset when the vendor editor opens the controller area. Bytes 2 to 4 are the vendor ID, then device ID 00, model 64, command 21. The byte nn is the preset index. The name is padded with spaces. Only the first 40 messages were read.",
       "source": { "source": "unit", "firmware": "1.0.3", "ref": "capture-1", "note": "Header matches the vendor's public protocol document. A second read is still due." }
+    },
+    {
+      "id": "ctrl.p1.b5", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 65,
+      "values": [127],
+      "trigger": {"elements": ["B5"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 1: CC 1 65 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b6", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 66,
+      "values": [127],
+      "trigger": {"elements": ["B6"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 2: CC 1 66 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b7", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 67,
+      "values": [127],
+      "trigger": {"elements": ["B7"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 3: CC 1 67 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b8", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 68,
+      "values": [127],
+      "trigger": {"elements": ["B8"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 4: CC 1 68 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b9", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 69,
+      "values": [127],
+      "trigger": {"elements": ["B9"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 5: CC 1 69 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b10", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 70,
+      "values": [127],
+      "trigger": {"elements": ["B10"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 6: CC 1 70 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b11", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 71,
+      "values": [127],
+      "trigger": {"elements": ["B11"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 7: CC 1 71 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b12", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 72,
+      "values": [127],
+      "trigger": {"elements": ["B12"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 8: CC 1 72 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b13", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 73,
+      "values": [127],
+      "trigger": {"elements": ["B13"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 9: CC 1 73 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b14", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 74,
+      "values": [127],
+      "trigger": {"elements": ["B14"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 10: CC 1 74 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b15", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 75,
+      "values": [127],
+      "trigger": {"elements": ["B15"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 11: CC 1 75 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b16", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 76,
+      "values": [127],
+      "trigger": {"elements": ["B16"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 12: CC 1 76 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b17", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 77,
+      "values": [127],
+      "trigger": {"elements": ["B17"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 13: CC 1 77 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b18", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 78,
+      "values": [127],
+      "trigger": {"elements": ["B18"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 14: CC 1 78 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b19", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 79,
+      "values": [127],
+      "trigger": {"elements": ["B19"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 15: CC 1 79 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p1.b20", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 80,
+      "values": [127],
+      "trigger": {"elements": ["B20"], "confidence": "proven"},
+      "note": "Preset 1 'all controls'. The stored assignment is button 16: CC 1 80 127 0 toggleon. The button is a toggle in the preset.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e25", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 5,
+      "values": [2, 3],
+      "trigger": {"elements": ["E25"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 1. The stored assignment is encoder 1: CC 1 5 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e26", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 40,
+      "values": [2, 3],
+      "trigger": {"elements": ["E26"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 2. The stored assignment is encoder 2: CC 1 40 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e27", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 41,
+      "values": [3, 4, 5],
+      "trigger": {"elements": ["E27"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 3. The stored assignment is encoder 3: CC 1 41 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e28", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 42,
+      "values": [1, 2],
+      "trigger": {"elements": ["E28"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 4. The stored assignment is encoder 4: CC 1 42 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e29", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 44,
+      "values": [1, 2],
+      "trigger": {"elements": ["E29"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 5. The stored assignment is encoder 5: CC 1 44 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e32", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 7,
+      "values": [0, 1],
+      "trigger": {"elements": ["E32"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 8. The stored assignment is encoder 8: CC 1 7 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e33", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 87,
+      "values": [0, 1],
+      "trigger": {"elements": ["E33"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 9. The stored assignment is encoder 9: CC 1 87 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e34", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 88,
+      "values": [0, 1],
+      "trigger": {"elements": ["E34"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 10. The stored assignment is encoder 10: CC 1 88 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e35", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 89,
+      "values": [0, 1],
+      "trigger": {"elements": ["E35"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 11. The stored assignment is encoder 11: CC 1 89 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e36", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 90,
+      "values": [0, 1],
+      "trigger": {"elements": ["E36"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 12. The stored assignment is encoder 12: CC 1 90 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e37", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 85,
+      "values": [0, 1],
+      "trigger": {"elements": ["E37"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 13. The stored assignment is encoder 13: CC 1 85 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e39", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 18,
+      "values": [0, 1],
+      "trigger": {"elements": ["E39"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 15. The stored assignment is encoder 15: CC 1 18 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e40", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 45,
+      "values": [0, 1],
+      "trigger": {"elements": ["E40"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 16. The stored assignment is encoder 16: CC 1 45 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e41", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 14,
+      "values": [0, 1],
+      "trigger": {"elements": ["E41"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 17. The stored assignment is encoder 17: CC 1 14 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e42", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 15,
+      "values": [0, 1],
+      "trigger": {"elements": ["E42"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 18. The stored assignment is encoder 18: CC 1 15 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e43", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 16,
+      "values": [0, 1],
+      "trigger": {"elements": ["E43"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 19. The stored assignment is encoder 19: CC 1 16 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e44", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 17,
+      "values": [1, 2],
+      "trigger": {"elements": ["E44"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 20. The stored assignment is encoder 20: CC 1 17 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e45", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 73,
+      "values": [126, 127],
+      "trigger": {"elements": ["E45"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 21. The stored assignment is encoder 21: CC 1 73 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e46", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 9,
+      "values": [0, 1],
+      "trigger": {"elements": ["E46"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 22. The stored assignment is encoder 22: CC 1 9 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e47", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 12,
+      "values": [0, 1],
+      "trigger": {"elements": ["E47"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 23. The stored assignment is encoder 23: CC 1 12 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e48", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 72,
+      "values": [126, 127],
+      "trigger": {"elements": ["E48"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 24. The stored assignment is encoder 24: CC 1 72 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e49", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 49,
+      "values": [0, 1],
+      "trigger": {"elements": ["E49"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 25. The stored assignment is encoder 25: CC 1 49 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e50", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 50,
+      "values": [0, 1],
+      "trigger": {"elements": ["E50"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 26. The stored assignment is encoder 26: CC 1 50 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e51", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 51,
+      "values": [0, 1],
+      "trigger": {"elements": ["E51"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 27. The stored assignment is encoder 27: CC 1 51 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e52", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 52,
+      "values": [0, 1],
+      "trigger": {"elements": ["E52"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 28. The stored assignment is encoder 28: CC 1 52 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e53", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 46,
+      "values": [0, 1],
+      "trigger": {"elements": ["E53"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 29. The stored assignment is encoder 29: CC 1 46 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e54", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 47,
+      "values": [1, 2],
+      "trigger": {"elements": ["E54"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 30. The stored assignment is encoder 30: CC 1 47 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e55", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 53,
+      "values": [0, 1],
+      "trigger": {"elements": ["E55"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 31. The stored assignment is encoder 31: CC 1 53 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
+    },
+    {
+      "id": "ctrl.p4.e56", "port": "ctrl", "mode": "ctrl", "direction": "out", "type": "cc", "channel": 1, "number": 48,
+      "values": [0, 1, 2, 3],
+      "trigger": {"elements": ["E56"], "confidence": "proven"},
+      "note": "Preset 4 'Reason Subtractor'. Knob printed 32. The stored assignment is encoder 32: CC 1 48 0 127 absolute.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Run 2 of the guided map on 2026-11-12. The numbers match the stored preset in the backup export."}
     }
   ],
   "silences": [
@@ -70,6 +371,41 @@
       "result": "Nothing on USB.",
       "note": "Later runs (H3) did send controller changes, so the first silence is not explained.",
       "source": { "source": "unit", "firmware": "1.0.3", "ref": "capture-1" }
+    },
+    {
+      "id": "ctrl-silent-track-buttons", "port": "ctrl", "mode": "ctrl",
+      "action": "Press B21, B22, B23 and B24 once each, in presets 1 and 4.",
+      "result": "Nothing on any port, in four runs.",
+      "note": "The stored presets give these buttons no assignment in preset 4. They may switch the preset on the unit. That is unproven.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Runs 2, 3a and 3c of the guided map on 2026-11-12. Run 3c listened to all ports."}
+    },
+    {
+      "id": "ctrl-silent-right-buttons", "port": "ctrl", "mode": "ctrl",
+      "action": "Press B65, B66, B67 and B68 once each.",
+      "result": "Nothing on any port, in four runs.",
+      "note": "The stored preset 4 gives these buttons no assignment.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Runs 2, 3a and 3c of the guided map on 2026-11-12. Run 3c listened to all ports."}
+    },
+    {
+      "id": "ctrl-silent-unassigned-knobs", "port": "ctrl", "mode": "ctrl",
+      "action": "Turn E30, E31 and E38 (knobs printed 6, 7 and 14) both ways.",
+      "result": "Nothing. The three knobs have no lit LED ring.",
+      "note": "Preset 4 has no assignment for encoders 6, 7 and 14. The backup export confirms this.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Runs 2, 3a and 3c of the guided map on 2026-11-12. Run 3c listened to all ports."}
+    },
+    {
+      "id": "ctrl-silent-preset-buttons", "port": "ctrl", "mode": "ctrl",
+      "action": "Press B64, then B63.",
+      "result": "Nothing on any port.",
+      "note": "The preset buttons act on the unit only, or the preset did not change. The display was not read.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Runs 2, 3a and 3c of the guided map on 2026-11-12. Run 3c listened to all ports."}
+    },
+    {
+      "id": "ctrl-pushes", "port": "ctrl", "mode": "ctrl",
+      "action": "Push each knob E25 to E56 once, without turning it.",
+      "result": "28 of 32 pushes sent nothing. Four pushes sent a message that is not explained.",
+      "note": "E36 sent F0 7F 7F 06 02 F7 (a MIDI Machine Control play message). E25, E26 and E42 sent controller changes that match other controls. A repeat run is open.",
+      "source": {"source": "unit", "firmware": "1.0.3", "ref": "map-run2", "note": "Runs 2, 3a and 3c of the guided map on 2026-11-12. Run 3c listened to all ports."}
     }
   ]
 }

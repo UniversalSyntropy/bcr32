@@ -2,6 +2,11 @@
 
 Notable changes to the documentation and tools. Newest first. Dates are ISO 8601.
 
+## 2026-11-12
+
+- Verified on firmware 1.0.3: the outbound map of CTRL mode (step 4.3). `midi.json` now has 45 message rows, each tied to a control and a preset, and five silent results. The `.bcl` backup export holds five controller presets. The run results match their stored assignments.
+- Added the `map` command to `midi-capture`. It shows a picture of the top panel with the target control marked. You press Enter to save each step. It listens only.
+
 ## 2026-11-11
 
 - Closed R1b. One review of steps 2.6 to 2.9 found 12 points. We fixed 11 and left one test refactor for later. The glossary skip now ignores markers in code fences and malformed markers. `llms-full` fails on an unnumbered chapter row. The function index sorts with a fixed locale. Five rows of the known-issues register changed, and K14 is new. `docs/manual/README.md` now follows the language rules.

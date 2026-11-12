@@ -36,19 +36,24 @@ This page lists the results. The MIDI facts are also in `data/devices/bcr32/midi
 - **CTRL mode:** the unit sent controller changes on the CTRL port, channel 1.
 - **Preset names:** when the vendor editor opens the controller area, the unit sends its preset names as SysEx. The layout is in `midi.json`.
 
-| Controller | Name | Values seen | Likely control |
-| --- | --- | --- | --- |
-| CC 97 | Data Decrement | 1, 2 | E25 turn |
-| CC 65 | Portamento On/Off | 127 | B5 |
-| CC 66 | Sustenuto Pedal | 127, 0 | B6 (toggle) |
-| CC 98 | NRPN LSB | 1, 2 | E26 turn |
+## Outbound map (step 4.3)
 
-> **Note:** the owner gave no action times. The "likely control" column is a guess. Step 4.3 maps each control to its message.
+Verified on firmware 1.0.3 on 2026-11-12, in CTRL mode, with the guided `map` tool. The tool listens only. Nothing was sent to the unit. The rows are in `midi.json`.
 
-Two facts need a second run:
+| Result | Detail |
+| --- | --- |
+| Buttons B5 to B20 | Each sends one controller change on channel 1, value 127. B5 to B20 send CC 65 to CC 80 in preset 1 ("all controls"). Preset 4 ("Reason Subtractor") sends other numbers |
+| Knobs E25 to E56 | 29 of 32 send one controller change each, in preset 4. Clockwise raises the value. Counter-clockwise lowers it |
+| Silent knobs | E30, E31 and E38 (knobs printed 6, 7 and 14) send nothing. They have no lit LED ring. Preset 4 has no assignment for them |
+| Silent buttons | B21 to B24 and B65 to B68 send nothing, on any port, in four runs |
+| Preset buttons | B64 and B63 sent nothing. The display was not read |
+| Knob pushes | 28 of 32 pushes sent nothing. E36 sent a MIDI Machine Control play message. E25, E26 and E42 sent controller changes that match other controls. A repeat run is open |
 
-- **B5:** run 1 sent no message for B5. Run 2 sent CC 65. The cause is unknown.
-- **E25 push:** the owner pushed E25 and saw no message. The push may be unassigned, or it needs a firmer push.
+**The preset decides the message.** The backup export holds five controller presets: "all controls", "multi synth", "gm/gs/xg synth", "Reason Subtractor" and "Mackie Control Universal". The run results match the stored assignments in the `.bcl` file: 16 of 16 buttons with preset 1, 29 of 29 knobs with preset 4. Run 1 matched preset 4 for the buttons.
+
+- **Preset change in run 2:** the buttons matched preset 1 and the knobs matched preset 4. The preset changed between B20 and E25. The cause is unproven. The silent buttons B21 to B24 or B65 to B68 may switch the preset.
+- **Earlier guess:** the first session listed CC 97 and CC 98 with a guessed control. These rows stay in `midi.json` as "likely". No stored preset explains them.
+- **Not tested:** presets 2, 3 and 5, the DIN port and the inbound direction (step 4.4).
 
 ## Corrections to the reference
 

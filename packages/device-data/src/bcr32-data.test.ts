@@ -110,10 +110,18 @@ test("BCR32 MIDI data: ports, USB IDs and the controller messages seen in test H
   assert.equal(midi.usb.productId, "12CF");
   assert.notEqual(midi.usb.productId, "12CE"); // 12CE = bootloader
   const cc = midi.messages.filter((m) => m.type === "cc");
-  assert.deepEqual(cc.map((m) => m.number).sort((a, b) => a! - b!), [65, 66, 97, 98]);
   assert.ok(cc.every((m) => m.port === "ctrl" && m.channel === 1));
-  // Nothing in the data claims a proven control mapping before step 4.3.
-  assert.ok(midi.messages.every((m) => m.trigger?.confidence !== "proven"));
+  // The two guessed rows from test H3 stay "likely"; every proven row comes from the guided map (step 4.3).
+  assert.deepEqual(midi.messages.filter((m) => m.id === "ctrl-cc97" || m.id === "ctrl-cc98").map((m) => m.trigger?.confidence), ["likely", "likely"]);
+  const proven = midi.messages.filter((m) => m.trigger?.confidence === "proven");
+  assert.equal(proven.length, 45);
+  assert.ok(proven.every((m) => m.source.ref === "map-run2" && /^ctrl\.p[14]\.[be]\d+$/.test(m.id)));
+  // One proven row for each control and preset; a control is never mapped twice in a preset.
+  assert.equal(new Set(proven.map((m) => m.id)).size, proven.length);
+  assert.ok(proven.every((m) => m.id.endsWith(m.trigger!.elements[0]!.toLowerCase()) && m.trigger!.elements.length === 1));
+  // Silent controls: E30, E31 and E38 never appear as a trigger.
+  const triggers = new Set(proven.flatMap((m) => m.trigger!.elements));
+  for (const e of ["E30", "E31", "E38", "B21", "B24", "B65", "B68"]) assert.ok(!triggers.has(e), e);
   // Every record names the firmware it was seen on.
   for (const r of [...midi.ports, ...midi.messages, ...midi.silences]) assert.equal(r.source.firmware, "1.0.3", r.id);
 });
