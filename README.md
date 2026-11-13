@@ -5,7 +5,7 @@ Unofficial documentation and tools for the Behringer BCR32 MIDI controller and s
 <a id="fig-3-1"></a>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/figures/fig-3-1-hero-dark.png">
-  <img src="docs/assets/figures/fig-3-1-hero-light.png" alt="Top view of the BCR32 with printed legends, lit buttons, lit knob rings and an enlarged view of the display." width="100%">
+  <img src="docs/assets/figures/fig-3-1-hero-light.png" alt="Top view of the BCR32 with printed legends, lit buttons, lit knob rings and the display." width="100%">
 </picture>
 
 **Figure 3-1.** The BCR32 top panel with PITCH selected. [List of figures](docs/manual/figures.md)
