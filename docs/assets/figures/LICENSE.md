@@ -1,3 +1,10 @@
+---
+title: Figures licence
+description: Licence and permission route for the figures in this repository. All rights reserved.
+status: draft
+last_updated: 2026-11-13
+---
+
 # Figures licence
 
 © 2026 bcr32 contributors. All rights reserved.
