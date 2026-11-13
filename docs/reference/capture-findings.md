@@ -164,6 +164,67 @@ Method: join `local/backups/ctrl-all-presets-1.bcl` to the slots of `ctrl-all-pr
 
 The editor item "2DOT IN" writes `.mode 12dot`, so it is nibble `3`. Encoder 1 of slot 63 is `C4` (mcu, relative-3). The 12dot setting would give `34`. The decode predicts that value, but no unit test has confirmed it.
 
+### Test preset A: import and decode (2026-11-13, verified on firmware 1.0.3)
+
+The owner imported `local/test-presets/preset-A-message-types.bcl` in Control Tribe, then exported All Presets (`local/ctrl-all-presets-17.syx`). No other step changed the unit.
+
+**Import behaviour (verified):**
+
+- **Import sends at once.** The Import button on the General tab sends every line to the unit. It does not wait for Send.
+- **The unit checks each line.** The editor reports the rejected lines: "wrong number of arguments".
+- **`$store 61` stores the preset.** Slot 60 (preset 61, ID 60) went from empty to the test preset. Slots 0 and 63 did not change. This is the way to load a preset.
+- **Rejected:** the two encoder aftertouch lines, `AT 1 all 0 127 absolute` and `AT 1 60 0 127 absolute`. The button forms were accepted. The encoder form is still unknown.
+
+**Record fields (verified from the 60 records of slot 60):**
+
+| Byte | Rule |
+| --- | --- |
+| 0, low 3 bits | Type: `1` PC, `2` CC, `3` NRPN, `4` NOTE and PB, `5` AT, `6` GS/XG, `7` MMC |
+| 0, high 5 bits | Channel minus 1. For MMC: device number, low 5 bits |
+| 1, buttons | `20` show value, `04` toggleoff, `08` increment. Toggleon has neither of the last two |
+| 1, encoders, low nibble | `0` absolute, `1` absolute/14, `2` relative-1, `3` relative-2, `4` relative-3, `5` relative-1/14, `8` inc/dec. Relative-2/14 and relative-3/14 are not read |
+| 2 and 3 | Controller, note, or NRPN number as 16 bits, little-endian. GS/XG parameter index. AT "all" and PC "off" are `FF FF` and `A5 F5` |
+| 4 | Minimum, or the first value. For 14-bit modes, bytes 6 and 7 hold the maximum, little-endian (`FF 3F` is 16383) |
+| 6 | Maximum, or the second value |
+| 8, buttons | Increment step |
+| MMC | Byte 2 is the command: `0` play, `1` pause, `2` stop, `3` fwd, `4` rew, `5` locate, `6` punch-in, `7` punch-out. Byte 1 holds `0C` plus the device number divided by 32. Locate time bytes 4 to 7 are mm, hh, ff, ss (unconfirmed order). Rate `25f` adds `08` to byte 1 |
+
+**Corrections and open points:**
+
+- **Byte 8 (encoders):** pitch bend gives `81` with `.default 0`. The earlier default rule is not proved. Test it with varied defaults.
+- **Pitch bend:** byte 4 holds the range value (127 and 62). Bytes 6 and 7 hold `5A FA` in both records. Meaning unknown.
+- **PC with bank:** `PC 3 5 6 7` stored bank byte `05` and `00`. The value 6 appears nowhere. A capture of the live output must show what the unit sends.
+- **Unseen:** LED nibbles `7` and `9` to `B`, and the button records at slot ids above `5A`.
+
+### Test preset A: live output (2026-11-13, verified on firmware 1.0.3)
+
+Capture `local/captures/capture-20261113-105151.jsonl` (not tracked). Preset 61 (ID 60) was active. The owner pressed buttons printed 1 to 16 and turned knobs E25 to E56 clockwise by 3 clicks. Messages match the stored records of export 17.
+
+| Setting | What the unit sends |
+| --- | --- |
+| CC absolute | CC value, first click gives 1 |
+| CC relative-1 | `01` per click clockwise (two's complement) |
+| CC relative-2 | `41` per click (offset 64) |
+| CC relative-3 | `01` per click (sign and magnitude) |
+| CC absolute/14 | CC n (high part), then CC n+32 (low part). The low part steps by `20` per click |
+| CC relative-1/14 | CC n = `00`, then CC n+32 = `01` per click |
+| NRPN | CC 99 (high), CC 98 (low), CC 6 (data). Inc/dec sends CC 96 with value `01` per click |
+| NRPN absolute/14 | CC 6 high part, then CC 38 low part, stepping `20` |
+| GS/XG cutoff and resonance | NRPN `01:20` and `01:21`, data in CC 6 |
+| GS/XG volume and panorama | Plain CC 7 and CC 10 |
+| Channel in byte 0 | Channels 5, 9, 13 and 16 give status bytes `0xB4`, `0xB8`, `0xBC`, `0xBF` |
+| Range | Min 10 max 20 starts at `0A`. Min 0 max 1 stops after one click. Min 127 max 127 sends `7F` once |
+| Pitch bend | Status bytes `0xE0` and `0xE1` for channels 1 and 2. High part `41`, `42`, `43` |
+| Button toggleoff | Value on press, value 2 on release |
+| Button toggleon | Value on press only |
+| Button increment | Sends the step (8) |
+| Button NOTE | Note on with the velocity, note on with `00` on release for toggleoff |
+| Button PC | `C0` with the program number as written (1 gives `01`) |
+| PC bank | Sends CC 0 (bank high part). Bank low part (CC 32) is not sent, even when written as 6 |
+| MMC | `F0 7F 7F 06 <cmd> F7`: play `02`, stop `01`, pause `09`, fast forward `04` |
+
+**Not seen:** the encoder AT records (the unit rejected them, so those knobs are silent). Buttons printed 17 to 28 send nothing. These are B21 to B24 and the right block. So the rest of the MMC, GS/XG, AT and NRPN button records are untested. Select sends the preset as BCL text on the CTRL port (253 lines) plus the 64 preset names.
+
 ### External source: bcr32-studio (MIT licence)
 
 Source: `github.com/TheLazyGeekGuy/bcr32-studio`, MIT licence, read 2026-11-12. Files: `docs/BCR32-PROTOCOL-1.0.2.md`, `docs/BCR32-PROTOCOL-1.0.3.md`, `docs/BCL-SYSEX-EDITOR.md`, `docs/work-items/2026-10-29-bcl-store-recall.md`. The facts below are paraphrased. We have not verified any of them on our unit. Label each as "external, unverified here".
