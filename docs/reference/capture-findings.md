@@ -223,11 +223,11 @@ Capture `local/captures/capture-20261113-105151.jsonl` (not tracked). Preset 61 
 | Button NOTE | Note on with the velocity, note on with `00` on release for toggleoff |
 | Button PC | `C0` with the program number as written (1 gives `01`) |
 | PC bank | Sends CC 0 (bank high part). Bank low part (CC 32) is not sent, even when written as 6 |
-| MMC | `F0 7F 7F 06 <cmd> F7`: play `02`, stop `01`, pause `09`, fast forward `04` |
+| MMC | `F0 7F <device> 06 <cmd> F7`: stop `01`, play `02`, fast forward `04`, rewind `05`, punch-in `06`, punch-out `07`, pause `09`. Device `7F` is all. Locate sends `F0 7F <device> 06 44 06 01 <hh> <mm> <ss> <ff> 00 F7`. The hour byte carries the rate in its top bits (`21` is hour 1 at 25 frames) |
 
 **Test preset B (2026-11-13, export 18):** LED nibbles `7` spread, `9` qual, `A` cut, `B` damp are verified. The byte 8 rule for encoders is verified: twice the default plus 1. The unit rejected `pan/off`, `spread/off`, `qual/off` and a CC `inc/dec`. It stored `relative-2/14` and `relative-3/14` as relative-2 and relative-3. Both documents on the preset formats carry these results.
 
-**Not seen:** Buttons printed 17 to 28 send nothing. These are B21 to B24 and the right block. So the rest of the MMC, GS/XG, AT and NRPN button records are untested. Select sends the preset as BCL text on the CTRL port (253 lines) plus the 64 preset names.
+**Knob pushes (verified 2026-11-13, `capture-20261113-131454.jsonl`):** `$button` 17 to 28 are the pushes of the knobs printed 1 to 12. Each push sent the message of its record. The messages were MMC rewind, locate, punch-in and punch-out. Then GS/XG cutoff, resonance, volume and reverb send. Then AT all, AT note 60, NRPN 127 and NRPN 5. The earlier statement that buttons 17 to 28 were B21 to B24 and the right block was wrong. Those keys sent nothing, and they have no known `$button` number. Select sends the preset as BCL text on the CTRL port (253 lines) plus the 64 preset names.
 
 ### External source: bcr32-studio (MIT licence)
 

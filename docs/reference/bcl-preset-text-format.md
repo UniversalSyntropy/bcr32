@@ -53,7 +53,7 @@ $end
 | `.snapshot`, `.request` | `off` or `on`. We used `off` | verified for `off` |
 | `.init` | Part of every preset header. Meaning not tested | verified as accepted |
 | `$encoder N` | Starts encoder N, 1 to 32. Encoder N is the knob printed N. Its control ID number is 24 plus N | verified |
-| `$button N` | Starts button N. Used numbers: 1 to 28, 49 and 50. For N 1 to 16, button N is the button printed N. Its control ID number is 4 plus N | verified; see Silent controls |
+| `$button N` | Starts button N. N 1 to 16 is the button printed N (its control ID number is 4 plus N). N 17 to 28 is the push of knob 1 to 12 (verified). N 17 to 48 is probably the push of knob 1 to 32. N 49 and 50 are untested | verified for 1 to 28 |
 | `$store N` | Stores the preset as preset N, 1 to 64. Use only empty presets | verified |
 | `$end` | Ends the file | verified |
 
@@ -131,9 +131,16 @@ The `.mode` line sets the ring style of an encoder. It is the high nibble of rec
 
 The unit rejects `pan/off`, `spread/off` and `qual/off`. A rejected `.mode` line leaves the ring at `1dot`.
 
-## Silent controls
+## Button numbers
 
-Buttons printed 17 to 28 sent nothing in our live test, so no line for them is verified at the unit. These are B21 to B24 and the right block. Buttons B65 to B68 also switch the preset.
+| `$button` N | Control | Status |
+| --- | --- | --- |
+| 1 to 16 | The buttons printed 1 to 16 (B5 to B20) | verified |
+| 17 to 28 | The push of the knob printed 1 to 12 (E25 to E36) | verified |
+| 29 to 48 | The push of the knob printed 13 to 32 | not tested; same rule |
+| 49, 50 | Probably the two footswitches | not tested |
+
+The keys T1 to T4 and the right-hand keys (EDIT to PLAY/STOP) have no `$button` number that we know of. In the live test, pressing them sent nothing. B63 and B64 change the preset.
 
 ## Rejected forms
 
