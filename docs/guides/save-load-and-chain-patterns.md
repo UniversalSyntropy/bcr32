@@ -41,6 +41,14 @@ The sequencer has 12 pages. Each page has 16 slots. The buttons printed 1 to 16 
 
 ## Load a pattern
 
+<a id="fig-G5-2"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-G5-2-load-and-chain-dark.png">
+  <img src="../assets/figures/fig-G5-2-load-and-chain-light.png" alt="Four panels. Press LD/LRN (B62). Choose the page with TAP DELETE (B63) or TAP WRITE (B64). Press a slot button. Hold one slot button and press another to chain." width="100%">
+</picture>
+
+**Figure G5-2.** Load a pattern, and chain two patterns. [List of figures](../manual/figures.md)
+
 1. Press the key printed LD/LRN (B62).
 2. Choose the page with B63 or B64.
 3. Press the slot button.

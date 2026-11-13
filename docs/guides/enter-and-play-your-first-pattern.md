@@ -62,6 +62,14 @@ Choose one route. See [use CV and gate with a synth](use-cv-and-gate-with-a-synt
 
 ## Step 4: shape the pattern
 
+<a id="fig-G4-2"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-G4-2-shape-pattern-dark.png">
+  <img src="../assets/figures/fig-G4-2-shape-pattern-light.png" alt="Five panels. Press LENGTH (B9). Turn a step knob. Hold LENGTH (B9) and turn one knob to change all steps. Press SEQ LENGTH (B16). Turn the knob of the last step." width="100%">
+</picture>
+
+**Figure G4-2.** Shape the pattern: one knob, or all steps at once. [List of figures](../manual/figures.md)
+
 Press a parameter button, then turn the knobs. The change works while the pattern plays.
 
 | Press (printed, ID) | Turn the knobs to change | Range |

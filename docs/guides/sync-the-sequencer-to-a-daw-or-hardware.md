@@ -27,6 +27,14 @@ Global Settings, button printed 3 MUTE (B7), decides which clock sources exist. 
 
 ## Step 2: choose the clock source
 
+<a id="fig-G3-1"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-G3-1-choose-clock-dark.png">
+  <img src="../assets/figures/fig-G3-1-choose-clock-light.png" alt="Three panels. Press EDIT (B59). Turn the knob printed 2 (E26) to EXT USB IN. Press EXIT (B60)." width="100%">
+</picture>
+
+**Figure G3-1.** Choose an outside clock in three key actions. [List of figures](../manual/figures.md)
+
 1. Press the key printed EDIT (B59). The ZAQ Global page opens.
 2. Turn the knob printed 2 CLOCK INT/EXT (E26) to the source.
 3. Press the key printed EXIT (B60).
@@ -34,6 +42,14 @@ Global Settings, button printed 3 MUTE (B7), decides which clock sources exist. 
 **Verified in USB mode:** E26 has two values. INT shows a BPM number (30.0 on our unit). EXT USB IN waits for clock from USB. The manual lists Internal, MIDI, USB and Sync.
 
 ## Step 3: send the clock from the DAW
+
+<a id="fig-G3-2"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-G3-2-clock-path-dark.png">
+  <img src="../assets/figures/fig-G3-2-clock-path-light.png" alt="The DAW sends clock and start and stop on the USB port BCR-32 ZAQ to the BCR32. The unit can send analog sync from J77 to a drum machine." width="100%">
+</picture>
+
+**Figure G3-2.** How the clock travels from your DAW to the unit. [List of figures](../manual/figures.md)
 
 **Ableton Live** (unverified on the BCR32):
 

@@ -42,6 +42,14 @@ The operation mode decides which ports work. It also decides how long the option
 
 ## Step 2: set the output and channel of each track
 
+<a id="fig-G2-2"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-G2-2-track-output-routing-dark.png">
+  <img src="../assets/figures/fig-G2-2-track-output-routing-light.png" alt="Knob 17 (E41) has three values in USB mode: U sends to the USB port, AB IN sends to the DIN outputs, and IN sends the notes to another track. Knob 3 (E27) has two values: OFF and U." width="100%">
+</picture>
+
+**Figure G2-2.** Where the track 1 output (E41) and clock out (E27) go. [List of figures](../manual/figures.md)
+
 <a id="fig-G2-1"></a>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-G2-1-global-routing-knobs-dark.png">

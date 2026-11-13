@@ -47,6 +47,14 @@ Check the result in your DAW. Turn the knob slowly in both directions. If the va
 
 ## Step 3: pick a ring style
 
+<a id="fig-8-1"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-8-1-ring-styles-dark.png">
+  <img src="../assets/figures/fig-8-1-ring-styles-light.png" alt="Sixteen knob rings. Row 1 shows eight LED styles at half value. Row 2 shows four more styles at half value, then four styles at zero." width="100%">
+</picture>
+
+**Figure 8-1.** LED styles around the knobs, at half value and at zero (model, unverified on the unit). [List of figures](../manual/figures.md)
+
 The ring shows 15 LEDs. The style is set in the setup of the control. The editor and the text file use different names.
 
 | Display name | Text file word | Stored code | Shows |

@@ -58,6 +58,14 @@ The fields for each type are in [Setup fields per type](../manual/08-controller.
 
 ## Step 3: use Learn instead
 
+<a id="fig-G8-2"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-G8-2-learn-and-store-dark.png">
+  <img src="../assets/figures/fig-G8-2-learn-and-store-light.png" alt="Four panels. Hold LD/LRN (B62) and press or turn a control. Press STORE (B61). Choose the location with B63 and B64. Hold the select knob and press STORE (B61) for a permanent store." width="100%">
+</picture>
+
+**Figure G8-2.** Learn a control, then store the result. [List of figures](../manual/figures.md)
+
 1. Hold the key printed LD/LRN (B62). Press or turn the control.
 2. Send the MIDI message from another device on DIN or USB.
 3. Fine-tune with EDIT (B59) if needed.

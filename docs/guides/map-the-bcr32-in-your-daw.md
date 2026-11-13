@@ -19,6 +19,14 @@ Goal: control a parameter in your DAW with a knob or a button of the BCR32.
 
 ## Before you start
 
+<a id="fig-G10-1"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-G10-1-daw-map-flow-dark.png">
+  <img src="../assets/figures/fig-G10-1-daw-map-flow-light.png" alt="Flow: the unit in CTRL mode sends on the USB port BCR-32 CTRL. The DAW is in MIDI map mode. Click a parameter, then move a knob." width="100%">
+</picture>
+
+**Figure G10-1.** Map a knob in your DAW. [List of figures](../manual/figures.md)
+
 1. Connect J70 to the computer. See [connect to Ableton Live](connect-to-ableton-live.md) for the ports.
 2. Put the unit in CTRL mode. The button printed ZQR/CTRL (B1) must be amber.
 3. Pick the knob mode. Use **Absolute** for a first test. See [choose encoder modes and LED rings](choose-encoder-modes-and-led-rings.md).

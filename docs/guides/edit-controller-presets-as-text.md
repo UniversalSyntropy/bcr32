@@ -56,6 +56,14 @@ All line forms are in the [BCL preset text format](../reference/bcl-preset-text-
 
 ## Step 3: import
 
+<a id="fig-G11-1"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-G11-1-text-preset-flow-dark.png">
+  <img src="../assets/figures/fig-G11-1-text-preset-flow-light.png" alt="Flow: a text file goes into Control Tribe with Import. Each line goes to the BCR32 at once. The line store N saves the preset. Selecting the preset sends it back as text." width="100%">
+</picture>
+
+**Figure G11-1.** Edit a controller preset as text: write, import, store, read back. [List of figures](../manual/figures.md)
+
 1. In Control Tribe, open the General tab.
 2. Press **Import**. Choose the file.
 3. Read the list of rejected lines. Each has a reason. Fix the file and import again.

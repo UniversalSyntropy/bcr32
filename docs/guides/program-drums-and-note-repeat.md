@@ -17,6 +17,14 @@ Goal: use a track as a drum track with up to 16 voices, and repeat notes.
 
 ## Step 1: set the track to drum mode
 
+<a id="fig-G6-1"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-G6-1-drum-track-dark.png">
+  <img src="../assets/figures/fig-G6-1-drum-track-light.png" alt="Five panels. Press EDIT (B59). Turn the knob printed 13 (E37) to DRUM. Hold T1 (B21). Turn the knobs printed 1 to 16 to set the voice notes. Press EXIT (B60)." width="100%">
+</picture>
+
+**Figure G6-1.** Set a track to drums and set the drum notes. [List of figures](../manual/figures.md)
+
 1. Press the key printed EDIT (B59). The ZAQ Global page opens.
 2. Turn the knob for the track: printed 13 to 16 (E37 to E40) are tracks 1 to 4.
 3. Set DRUM. The display shows "POLY MODE" with CHORD or DRUM.
@@ -33,6 +41,14 @@ On a drum track, the buttons printed 1 to 16 (B5 to B20) are drum voices 1 to 16
 3. The display and the ring show the note. The note also sounds on the outputs of the track.
 
 ## Step 3: enter drum steps
+
+<a id="fig-G6-2"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-G6-2-drum-steps-dark.png">
+  <img src="../assets/figures/fig-G6-2-drum-steps-light.png" alt="Five panels. Press INST SEL (B65). Press a drum button. Turn a step knob. Hold TAP WRITE (B64) and turn a knob. Press a track button while you hold B64." width="100%">
+</picture>
+
+**Figure G6-2.** Enter drum hits, and repeat notes. [List of figures](../manual/figures.md)
 
 1. Press the key printed INST SEL (B65).
 2. Press a drum button, B5 to B20.

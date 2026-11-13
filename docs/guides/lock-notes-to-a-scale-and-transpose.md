@@ -27,6 +27,14 @@ All three are on the ZAQ Global page. Press the key printed EDIT (B59) to open i
 
 ## Step 1: choose a scale
 
+<a id="fig-G7-1"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-G7-1-scale-knobs-dark.png">
+  <img src="../assets/figures/fig-G7-1-scale-knobs-light.png" alt="Three panels. On the Global menu turn knobs 6, 7 and 8 (E30, E31, E32). Press MIDI CTRL alpha and beta (B10 and B11) together to make the scale permanent. Hold B10 for a user scale." width="100%">
+</picture>
+
+**Figure G7-1.** Set the scale, the key and the transpose input. [List of figures](../manual/figures.md)
+
 1. Turn SCALE (E30) to the scale.
 2. Turn SCALE BASE (E31) to the key, for example C.
 

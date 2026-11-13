@@ -29,6 +29,14 @@ The sequencer keeps a pattern in working memory until you store it. A backup hol
 
 ## Back up with Control Tribe
 
+<a id="fig-G1-1"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-G1-1-backup-flow-dark.png">
+  <img src="../assets/figures/fig-G1-1-backup-flow-light.png" alt="Flow from the BCR32 over USB-C to a computer running Control Tribe, to two exported files, and to a second copy on a drive or cloud storage." width="100%">
+</picture>
+
+**Figure G1-1.** Back up: from the unit to two copies of the files. [List of figures](../manual/figures.md)
+
 Verified on firmware 1.0.3, Control Tribe 1.12.4, macOS.
 
 1. Connect J70 (POWER/DATA) to the computer. Wait until the unit starts.
