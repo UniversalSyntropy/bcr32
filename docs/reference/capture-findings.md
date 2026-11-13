@@ -173,7 +173,7 @@ The owner imported `local/test-presets/preset-A-message-types.bcl` in Control Tr
 - **Import sends at once.** The Import button on the General tab sends every line to the unit. It does not wait for Send.
 - **The unit checks each line.** The editor reports the rejected lines: "wrong number of arguments".
 - **`$store 61` stores the preset.** Slot 60 (preset 61, ID 60) went from empty to the test preset. Slots 0 and 63 did not change. This is the way to load a preset.
-- **Rejected:** the two encoder aftertouch lines, `AT 1 all 0 127 absolute` and `AT 1 60 0 127 absolute`. The button forms were accepted. The encoder form is still unknown.
+- **Rejected:** the two encoder aftertouch lines with a mode word, such as `AT 1 all 0 127 absolute`. A second import (preset 62, ID 61) found the valid form: `AT <channel> <all or note> <min> <max>`, with no mode word. Forms with 3 arguments, or with `absolute`, were rejected.
 
 **Record fields (verified from the 60 records of slot 60):**
 
@@ -214,6 +214,8 @@ Capture `local/captures/capture-20261113-105151.jsonl` (not tracked). Preset 61 
 | GS/XG volume and panorama | Plain CC 7 and CC 10 |
 | Channel in byte 0 | Channels 5, 9, 13 and 16 give status bytes `0xB4`, `0xB8`, `0xBC`, `0xBF` |
 | Range | Min 10 max 20 starts at `0A`. Min 0 max 1 stops after one click. Min 127 max 127 sends `7F` once |
+| Encoder AT, all notes | Channel pressure `0xD0`, value 1, 2, 3 per click (verified with the corrected preset A) |
+| Encoder AT, note 60 | Poly pressure `0xA0`, note `3C`, value 1, 2, 3 per click |
 | Pitch bend | Status bytes `0xE0` and `0xE1` for channels 1 and 2. High part `41`, `42`, `43` |
 | Button toggleoff | Value on press, value 2 on release |
 | Button toggleon | Value on press only |
@@ -223,7 +225,9 @@ Capture `local/captures/capture-20261113-105151.jsonl` (not tracked). Preset 61 
 | PC bank | Sends CC 0 (bank high part). Bank low part (CC 32) is not sent, even when written as 6 |
 | MMC | `F0 7F 7F 06 <cmd> F7`: play `02`, stop `01`, pause `09`, fast forward `04` |
 
-**Not seen:** the encoder AT records (the unit rejected them, so those knobs are silent). Buttons printed 17 to 28 send nothing. These are B21 to B24 and the right block. So the rest of the MMC, GS/XG, AT and NRPN button records are untested. Select sends the preset as BCL text on the CTRL port (253 lines) plus the 64 preset names.
+**Test preset B (2026-11-13, export 18):** LED nibbles `7` spread, `9` qual, `A` cut, `B` damp are verified. The byte 8 rule for encoders is verified: twice the default plus 1. The unit rejected `pan/off`, `spread/off`, `qual/off` and a CC `inc/dec`. It stored `relative-2/14` and `relative-3/14` as relative-2 and relative-3. Both documents on the preset formats carry these results.
+
+**Not seen:** Buttons printed 17 to 28 send nothing. These are B21 to B24 and the right block. So the rest of the MMC, GS/XG, AT and NRPN button records are untested. Select sends the preset as BCL text on the CTRL port (253 lines) plus the 64 preset names.
 
 ### External source: bcr32-studio (MIT licence)
 

@@ -14,6 +14,8 @@ last_updated: 2026-11-11
 | [Troubleshooting](guides/troubleshooting.md) | Symptoms and fixes | draft, unverified |
 | [Recovery runbook](guides/recovery-runbook.md) | Steps to recover a unit, least invasive first, with the unknowns | draft, unverified |
 | [Unit session findings](reference/capture-findings.md) | Results of the first unit session on firmware 1.0.3, MIDI facts, open items | draft, verified on firmware 1.0.3 |
+| [BCL preset text format](reference/bcl-preset-text-format.md) | Syntax of preset files that Control Tribe imports, each line form marked verified or unverified | draft, verified on firmware 1.0.3 |
+| [SysEx dump format](reference/sysex-dump-format.md) | Byte layout of the All Presets export: messages, slots, records, name, CRC | draft, verified on firmware 1.0.3 |
 | [Unit session script](guides/unit-session-script.md) | Ordered tests for the first session at a real unit: display reads, MIDI listening, photos | draft, unverified |
 | [Publish checklist](project/publish-checklist.md) | Pre-publish checks with results, licence and trademark notes, repo description and topics | draft |
 | [Announcement draft](project/announcement-draft.md) | Short and long text to announce the public repo | draft |

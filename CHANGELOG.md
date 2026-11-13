@@ -2,6 +2,11 @@
 
 Notable changes to the documentation and tools. Newest first. Dates are ISO 8601.
 
+## 2026-11-13
+
+- Added two reference pages: the [BCL preset text format](docs/reference/bcl-preset-text-format.md) and the [SysEx dump format](docs/reference/sysex-dump-format.md). Every line form is marked verified or unverified. Verified on firmware 1.0.3.
+- Verified on firmware 1.0.3: test preset A. Import sends each line to the unit at once, and `$store N` stores the preset. The unit rejects the encoder AT form with a mode word. We decoded the record type, channel, encoder mode, button mode and MMC bytes, and checked the live output of 30 controls.
+
 ## 2026-11-12
 
 - Found the preset name location in a controller slot: bytes 996 to 1019, 24 ASCII characters. Recorded that the editor's Send writes to the unit's current preset, not to the preset on screen. Export diff 2 decoded no encoder bit. Verified on firmware 1.0.3, one change.

@@ -17,6 +17,8 @@ Control IDs used across the docs: B<n> = button, E<n> = encoder, SEL = select en
 - [Troubleshooting](docs/guides/troubleshooting.md): symptoms and fixes (unverified)
 - [Recovery runbook](docs/guides/recovery-runbook.md): recovery steps from least to most invasive, with the unknowns (unverified)
 - [Unit session findings](docs/reference/capture-findings.md): results of the first unit session on firmware 1.0.3, MIDI facts seen, open items (draft)
+- [BCL preset text format](docs/reference/bcl-preset-text-format.md): preset file syntax for Control Tribe import, with verified and unverified line forms (draft)
+- [SysEx dump format](docs/reference/sysex-dump-format.md): byte layout of the All Presets export file (draft)
 - [Unit session script](docs/guides/unit-session-script.md): ordered tier 0 tests for the first session at a real unit, with a photo shot list and stop conditions (unverified)
 
 ## Project
