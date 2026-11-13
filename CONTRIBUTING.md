@@ -130,4 +130,4 @@ Do not commit the official PDF or copy large passages from it. Restate facts in 
 
 ## License of contributions
 
-By contributing, you agree that documentation you add is licensed under [CC BY 4.0](LICENSE-docs) and code under the [MIT License](LICENSE). Credit goes to "bcr32 contributors"; do not add personal names to license or copyright lines.
+By contributing, you agree that documentation you add is licensed under [CC BY 4.0](LICENSE-docs) and code under the [MIT License](LICENSE). Figures in `docs/assets/figures/` are not covered by this clause. They stay under [their own licence](docs/assets/figures/LICENSE.md). Credit goes to "bcr32 contributors"; do not add personal names to license or copyright lines.

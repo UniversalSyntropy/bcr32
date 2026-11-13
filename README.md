@@ -79,5 +79,5 @@ The manual explains each control with drawings. Every figure has a number, and t
 
 - **Documentation** (`docs/`, `README.md`, `llms.txt` and other prose): [Creative Commons Attribution 4.0](LICENSE-docs) (CC BY 4.0). Reuse it with credit to "bcr32 contributors".
 - **Code** (`tools/`, `packages/`) and **device data** (`data/`): [MIT](LICENSE).
-- **Figures** (`docs/assets/figures/`): © bcr32 contributors. All rights reserved. Do not copy or reuse them without permission. This applies in place of the documentation licence.
+- **Figures** (`docs/assets/figures/`): © 2026 bcr32 contributors. All rights reserved. Do not copy or reuse them without written permission. This applies in place of the documentation licence. See [the figures licence](docs/assets/figures/LICENSE.md) for how to ask.
 - **Official Behringer material** isn't covered by these licenses and isn't included in the repo.

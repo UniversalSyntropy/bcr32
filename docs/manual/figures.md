@@ -35,4 +35,4 @@ Each figure has a number. A manual figure uses the form `chapter-number`, for ex
 | [Figure G12-1](../guides/use-cv-and-gate-with-a-synth.md) | Set the [gate](13-glossary.md#gate) level to 5 V or 10 V | Guide: use [CV](13-glossary.md#cv) and gate with a synth |
 | [Figure G12-2](../guides/use-cv-and-gate-with-a-synth.md) | CV, gate and sync connections for one synth and one drum machine | Guide: use CV and gate with a synth |
 
-Each figure comes in a dark and a light version. Your browser setting picks one. The figures are drawn from measurements of one unit, and they are not true to size. See the [disclaimer](../../DISCLAIMER.md) and the licence note in the [README](../../README.md#license).
+Each figure comes in a dark and a light version. Your browser setting picks one. The figures are drawn from measurements of one unit, and they are not true to size. See the [disclaimer](../../DISCLAIMER.md) and the [figures licence](../assets/figures/LICENSE.md). The figures are all rights reserved.
