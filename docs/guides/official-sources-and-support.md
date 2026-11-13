@@ -21,13 +21,23 @@ This repository is unofficial. For official information, support or repair, use 
 | Support landing page on the Behringer site | [behringer.com/support](https://www.behringer.com/support) |
 | Product registration (free, optional) | [support.empowertribe.com/registration](https://support.empowertribe.com/registration) |
 | User manual PDF (multi-language, V2.0, 2026-04-06) | [Manual PDF](https://cdn-media.empowertribe.com/611d8696b95f80f8c46dbecd816d0b65/Manual_BE_0715-AAW_BCR32_A4_WW_2026-04-06_Rev1.pdf) |
+| Open-source repository (demo firmware, schematic, interface documents) | [MusicTribeOpenSource/0715-AAW](https://github.com/MusicTribeOpenSource/0715-AAW) |
 | Control Tribe app (editor and firmware updates) | Download links are on the product page. The page listed version 1.12.4 for Windows and macOS. |
 | Service centres (repair) | [Service centre locator](https://www.behringer.com/en/store-locator?tab=service) |
 | Where to buy | [Store locator](https://www.behringer.com/en/store-locator?tab=store) |
 
 ## Official source code
 
-We found no official Behringer source repository for the BCR32. The product page lists no GitHub link and no firmware download link. The firmware comes through the Control Tribe app. We will add a link here if Behringer publishes one.
+Music Tribe, the company behind Behringer, publishes a public repository for the BCR32: [MusicTribeOpenSource/0715-AAW](https://github.com/MusicTribeOpenSource/0715-AAW). Its description is "Behringer BCR32 demo firmware, schematic and MCU interface documentation."
+
+| Part | Contents |
+| --- | --- |
+| `demo/` | Demo firmware (bare-metal code that tests the buttons, encoders, display, CV and gate, MIDI and flash) and update image tools |
+| `docs/` | Microcontroller interface document, the board schematic (PDF), a firmware update protocol document and a guide to enter the bootloader |
+
+- **Not the production firmware:** the repository does not hold the firmware of the sequencer or the controller. Facts that we take from it are marked "repo, demo firmware" in the [recovery runbook](recovery-runbook.md), and they stay unverified for the production unit.
+- **Licence:** the code and documents are under AGPL-3.0-or-later. Parts from other makers keep their own licences. We link to the repository and do not copy from it.
+- **Status:** the repository says it is Music Tribe's own project. It does not call itself a support channel. Use the support links above for help.
 
 Other public projects exist, for example editors and format notes. They are not official. Our [web UI and prior art references](../project/web-ui-references.md) page lists the ones we checked.
 

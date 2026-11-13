@@ -72,7 +72,7 @@ The manual explains each control with drawings. Every figure has a number, and t
 
 - **User manual:** Behringer BCR32 User Manual V2.0, dated 2026-04-06. Download it from the product page on behringer.com and save it in `reference/`.
 - **Editor and firmware updates:** the Control Tribe app from Behringer.
-- **Product page and support:** see [Official sources and support](docs/guides/official-sources-and-support.md). We found no official source repository for the BCR32.
+- **Product page and support:** see [Official sources and support](docs/guides/official-sources-and-support.md). Music Tribe's open-source repository for the BCR32 (demo firmware, schematic, interface documents) is [MusicTribeOpenSource/0715-AAW](https://github.com/MusicTribeOpenSource/0715-AAW).
 
 ## License
 
