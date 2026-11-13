@@ -12,6 +12,14 @@ Layout is a grid. Coordinates `(row, col)` are for diagram use; row 0 is the top
 
 ## 3.1 Left block: parameter buttons (B5–B20)
 
+<a id="fig-3-3"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-3-3-parameter-buttons-dark.png">
+  <img src="../assets/figures/fig-3-3-parameter-buttons-light.png" alt="Two rows of eight parameter buttons, B5 to B12 above B13 to B20." width="100%">
+</picture>
+
+**Figure 3-3.** Parameter buttons B5 to B20 and the mode button B1. [List of figures](figures.md)
+
 | ID | Panel no. | Label | Pos | ZAQ meaning (§5) | [Global Settings](13-glossary.md#global-settings) | [ZAQ Settings](13-glossary.md#zaq-settings) | [CTRL Settings](13-glossary.md#ctrl-settings) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | B5 | 1 | PITCH | (0,0) | Note pitch per [step](13-glossary.md#step) | Device mode | [Gate](13-glossary.md#gate) out 5/10 V | Output routing |
@@ -56,6 +64,14 @@ Track buttons: current track flashes; green = playing, red = muted in [mixer](13
 
 ## 3.3 Encoder grid (E25–E56)
 
+<a id="fig-3-4"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-3-4-knob-grid-dark.png">
+  <img src="../assets/figures/fig-3-4-knob-grid-light.png" alt="Four rows of eight knobs. A number from 1 to 32 is printed above each knob." width="100%">
+</picture>
+
+**Figure 3-4.** Knob grid E25 to E56 with the printed numbers 1 to 32. [List of figures](figures.md)
+
 Each [encoder](13-glossary.md#encoder): push switch + LED ring. The step number (1–32) is printed above it. Steps 1, 5, 9 … 29 are boxed as beat markers. The label printed below is its ZAQ Global function (§6).
 
 | Row | Encoders | Steps | Labels below (ZAQ Global) |
@@ -87,6 +103,22 @@ Row 3 split labels: the first half (WAVE, GAIN, RATE, OFFSET) is the Wave Gen pa
 The label "◄ PAGES/PRESETS ►" sits above B63/B64.
 
 ## 3.5 Diagram of the top panel
+
+<a id="fig-3-1"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-3-1-hero-dark.png">
+  <img src="../assets/figures/fig-3-1-hero-light.png" alt="Top view of the BCR32 with printed legends, lit buttons, lit knob rings and an enlarged view of the display." width="100%">
+</picture>
+
+**Figure 3-1.** The BCR32 top panel with PITCH selected. [List of figures](figures.md)
+
+<a id="fig-3-2"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-3-2-top-panel-ids-dark.png">
+  <img src="../assets/figures/fig-3-2-top-panel-ids-light.png" alt="Top view of the BCR32 with every control labelled by its ID." width="100%">
+</picture>
+
+**Figure 3-2.** Top panel with the ID of every control. [List of figures](figures.md)
 
 This is our own drawing of the top panel, seen from above. Each cell is a [control ID](13-glossary.md#control-id). The number in a control ID is its [callout](13-glossary.md#callout) number, except for the LEDs: L2 has three LEDs, L3 has two and L4 has one. The drawing shows order and grouping. It does not show true sizes or spacing.
 

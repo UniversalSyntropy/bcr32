@@ -49,6 +49,14 @@ Each message type has its own fields. B63 and B64 step through the fields. SEL s
 
 ### 8.4.2 LED options
 
+<a id="fig-8-1"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/figures/fig-8-1-ring-styles-dark.png">
+  <img src="../assets/figures/fig-8-1-ring-styles-light.png" alt="Sixteen knob rings. Row 1 shows eight LED styles at half value. Row 2 shows four more styles at half value, then four styles at zero." width="100%">
+</picture>
+
+**Figure 8-1.** LED styles around the knobs, at half value and at zero (model, unverified on the unit). [List of figures](figures.md)
+
 The LED options set how the ring around an encoder shows its value. The default is 1dot_in. Manual page 26.
 
 | Style | Ring behaviour |

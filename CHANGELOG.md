@@ -4,6 +4,9 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-13
 
+- Added numbered figures (PNG, dark and light): the top panel, the parameter buttons, the encoder grid and the ring LED styles. Added a [list of figures](docs/manual/figures.md) and a hero figure in the README. Figures carry the repository address in the image and in the file metadata. Figures are all rights reserved.
+- Added a [disclaimer](DISCLAIMER.md): the repository is a reference guide only, with no warranty, no claim of accuracy and no liability for damage or loss. Added a short warning to the README, the manual index and chapter 0.
+- Added [Official sources and support](docs/guides/official-sources-and-support.md): official Behringer links, support routes, and what to prepare before you ask. No official source repository was found.
 - Added two reference pages: the [BCL preset text format](docs/reference/bcl-preset-text-format.md) and the [SysEx dump format](docs/reference/sysex-dump-format.md). Every line form is marked verified or unverified. Verified on firmware 1.0.3.
 - Verified on firmware 1.0.3: test preset A. Import sends each line to the unit at once, and `$store N` stores the preset. The unit rejects the encoder AT form with a mode word. We decoded the record type, channel, encoder mode, button mode and MMC bytes, and checked the live output of 30 controls.
 

@@ -1,12 +1,13 @@
 # bcr32
 
-> Unofficial documentation and tools for the Behringer BCR32 MIDI controller and 4-track, 32-step sequencer. Not affiliated with Behringer or Music Tribe.
+> Unofficial documentation and tools for the Behringer BCR32 MIDI controller and 4-track, 32-step sequencer. Not affiliated with Behringer or Music Tribe. Reference only: no warranty, no claim of accuracy, use at your own risk ([disclaimer](DISCLAIMER.md)).
 
 Control IDs used across the docs: B<n> = button, E<n> = encoder, SEL = select encoder, J<n> = rear jack. Step k = encoder E(24+k).
 
 ## Reference
 
 - [BCR32 manual](docs/manual/README.md): every control, mode, menu, value range and procedure, plus known errors in the official manual
+- [List of figures](docs/manual/figures.md): numbered drawings of the panel and its controls, with the chapter of each
 - [Known issues](docs/manual/15-known-issues.md): faults and limits of the unit and the editor, with source, firmware and status
 - [MIDI implementation](docs/manual/16-midi-implementation.md): what the unit sends and accepts on USB, seen on firmware 1.0.3, with the tests that gave no result
 - [Full manual in one file](llms-full.txt): `llms.txt` and every manual chapter joined, generated
@@ -14,6 +15,7 @@ Control IDs used across the docs: B<n> = button, E<n> = encoder, SEL = select en
 ## Guides
 
 - [Connect to Ableton Live](docs/guides/connect-to-ableton-live.md): USB-MIDI setup, track routing, clock master choice (unverified)
+- [Official sources and support](docs/guides/official-sources-and-support.md): official Behringer product page, manual, Control Tribe, support routes, and what to prepare before you ask (draft)
 - [Troubleshooting](docs/guides/troubleshooting.md): symptoms and fixes (unverified)
 - [Recovery runbook](docs/guides/recovery-runbook.md): recovery steps from least to most invasive, with the unknowns (unverified)
 - [Unit session findings](docs/reference/capture-findings.md): results of the first unit session on firmware 1.0.3, MIDI facts seen, open items (draft)
