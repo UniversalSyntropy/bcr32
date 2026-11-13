@@ -1,6 +1,6 @@
 ---
 title: 11. Display strings seen in the source
-description: Chapter 11 of the BCR32 manual: Display strings seen in the source.
+description: "Chapter 11 of the BCR32 manual: Display strings seen in the source."
 status: draft
 last_updated: 2026-11-11
 source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35

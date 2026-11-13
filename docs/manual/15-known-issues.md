@@ -1,6 +1,6 @@
 ---
 title: 15. Known issues
-description: Chapter 15 of the BCR32 manual: faults and limits of the unit and its editor software, from our own unit tests and from user reports. Each row has a source, a firmware version and a status.
+description: "Chapter 15 of the BCR32 manual: faults and limits of the unit and its editor software, from our own unit tests and from user reports. Each row has a source, a firmware version and a status."
 status: draft
 last_updated: 2026-11-11
 source: Unit session on firmware 1.0.3 (2026-11-11); user reports on public pages, checked 2026-11-11

@@ -1,6 +1,6 @@
 ---
 title: 5. Sequencer (ZAQ mode) — per-track parameters
-description: Chapter 5 of the BCR32 manual: Sequencer (ZAQ mode) — per-track parameters.
+description: "Chapter 5 of the BCR32 manual: Sequencer (ZAQ mode) — per-track parameters."
 status: draft
 last_updated: 2026-11-11
 source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35

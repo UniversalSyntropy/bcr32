@@ -1,6 +1,6 @@
 ---
 title: 12. Source errors and gaps
-description: Chapter 12 of the BCR32 manual: Source errors and gaps.
+description: "Chapter 12 of the BCR32 manual: Source errors and gaps."
 status: draft
 last_updated: 2026-11-11
 source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35

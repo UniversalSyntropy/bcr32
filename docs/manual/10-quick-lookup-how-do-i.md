@@ -1,6 +1,6 @@
 ---
-title: 10. Quick lookup: "how do I …"
-description: Chapter 10 of the BCR32 manual: a quick start for the sequencer and the controller, and a lookup of common tasks with key sequences.
+title: "10. Quick lookup: \"how do I …\""
+description: "Chapter 10 of the BCR32 manual: a quick start for the sequencer and the controller, and a lookup of common tasks with key sequences."
 status: draft
 last_updated: 2026-11-11
 source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35

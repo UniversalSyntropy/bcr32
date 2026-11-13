@@ -1,6 +1,6 @@
 ---
 title: 1. What the unit is
-description: Chapter 1 of the BCR32 manual: What the unit is.
+description: "Chapter 1 of the BCR32 manual: What the unit is."
 status: draft
 last_updated: 2026-11-11
 source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35

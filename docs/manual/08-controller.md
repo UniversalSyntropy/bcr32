@@ -1,6 +1,6 @@
 ---
 title: 8. Controller (CTRL mode)
-description: Chapter 8 of the BCR32 manual: Controller (CTRL mode).
+description: "Chapter 8 of the BCR32 manual: Controller (CTRL mode)."
 status: draft
 last_updated: 2026-11-11
 source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35

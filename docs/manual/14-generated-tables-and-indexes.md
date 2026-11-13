@@ -1,6 +1,6 @@
 ---
 title: 14. Generated tables and indexes
-description: Chapter 14 of the BCR32 manual: the control table of each mode, an index by control and an index by function. Written from the device data.
+description: "Chapter 14 of the BCR32 manual: the control table of each mode, an index by control and an index by function. Written from the device data."
 status: draft
 last_updated: 2026-11-11
 source: Generated from data/devices/bcr32 by tools/gen-tables

@@ -1,6 +1,6 @@
 ---
 title: 9. Global, sync, memory and maintenance
-description: Chapter 9 of the BCR32 manual: Global, sync, memory and maintenance.
+description: "Chapter 9 of the BCR32 manual: Global, sync, memory and maintenance."
 status: draft
 last_updated: 2026-11-11
 source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35

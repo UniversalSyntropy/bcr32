@@ -1,6 +1,6 @@
 ---
 title: 3. Top panel — control map
-description: Chapter 3 of the BCR32 manual: Top panel — control map.
+description: "Chapter 3 of the BCR32 manual: Top panel — control map."
 status: draft
 last_updated: 2026-11-11
 source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35

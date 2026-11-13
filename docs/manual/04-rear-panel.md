@@ -1,6 +1,6 @@
 ---
 title: 4. Rear panel
-description: Chapter 4 of the BCR32 manual: Rear panel.
+description: "Chapter 4 of the BCR32 manual: Rear panel."
 status: draft
 last_updated: 2026-11-11
 source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35

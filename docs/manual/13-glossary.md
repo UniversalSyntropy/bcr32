@@ -1,6 +1,6 @@
 ---
 title: 13. Glossary
-description: Chapter 13 of the BCR32 manual: the terms of the manual, each with one meaning. The first use of a term in each chapter links here.
+description: "Chapter 13 of the BCR32 manual: the terms of the manual, each with one meaning. The first use of a term in each chapter links here."
 status: draft
 last_updated: 2026-11-11
 source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35; terms marked "verified" were seen on firmware 1.0.3

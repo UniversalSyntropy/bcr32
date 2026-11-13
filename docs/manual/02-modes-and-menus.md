@@ -1,6 +1,6 @@
 ---
 title: 2. Modes and menus (state machine)
-description: Chapter 2 of the BCR32 manual: Modes and menus (state machine).
+description: "Chapter 2 of the BCR32 manual: Modes and menus (state machine)."
 status: draft
 last_updated: 2026-11-11
 source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35

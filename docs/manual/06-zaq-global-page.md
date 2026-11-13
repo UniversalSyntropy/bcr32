@@ -1,6 +1,6 @@
 ---
 title: 6. ZAQ Global page (press B59 in ZAQ)
-description: Chapter 6 of the BCR32 manual: ZAQ Global page (press B59 in ZAQ).
+description: "Chapter 6 of the BCR32 manual: ZAQ Global page (press B59 in ZAQ)."
 status: draft
 last_updated: 2026-11-11
 source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35

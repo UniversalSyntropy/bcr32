@@ -1,6 +1,6 @@
 ---
 title: 0. How to read this manual
-description: Chapter 0 of the BCR32 manual: How to read this manual.
+description: "Chapter 0 of the BCR32 manual: How to read this manual."
 status: draft
 last_updated: 2026-11-11
 source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
