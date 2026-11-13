@@ -15,6 +15,7 @@ Control IDs used across the docs: B<n> = button, E<n> = encoder, SEL = select en
 ## Guides
 
 - [Connect to Ableton Live](docs/guides/connect-to-ableton-live.md): USB-MIDI setup, track routing, clock master choice (unverified)
+- [How-to guides](docs/guides/README.md): enter a pattern, save and chain, back up, assign controls, encoder modes and rings, DAW mapping, presets as text, drums, scale and transpose, sync, routing, CV and gate
 - [Official sources and support](docs/guides/official-sources-and-support.md): official Behringer product page, manual, Control Tribe, Music Tribe's open-source BCR32 repository, support routes, and what to prepare before you ask (draft)
 - [Troubleshooting](docs/guides/troubleshooting.md): symptoms and fixes (unverified)
 - [Recovery runbook](docs/guides/recovery-runbook.md): recovery steps from least to most invasive, with the unknowns (unverified)
@@ -295,7 +296,7 @@ This is our own drawing of the rear panel, left to right as seen from behind. Ea
 
 Select the [track](13-glossary.md#track) first (B21–B24). B5–B20 settings are per track. Everything can change while playing.
 
-General rule: press a parameter button, then turn the [step](13-glossary.md#step) [encoders](13-glossary.md#encoder) E25–E56. `hold B59 + turn any E` moves every step together to its max or min.
+General rule: press a parameter button, then turn the [step](13-glossary.md#step) [encoders](13-glossary.md#encoder) E25–E56. `hold B59 + turn any E` moves every step together to its max or min (official manual). Verified on [firmware](13-glossary.md#firmware) 1.0.3: B59 opens the [ZAQ Global page](13-glossary.md#zaq-global-page) instead. Holding a parameter button, for example LENGTH (B9), and turning one knob changed all 32 steps. See [source errors and gaps](12-source-errors-and-gaps.md#12-source-errors-and-gaps).
 
 | Button | Encoders do | Range / options | Default |
 | --- | --- | --- | --- |
@@ -354,6 +355,19 @@ Scale notes:
 - **Make permanent:** press B10 + B11 together. This rewrites the notes and cannot be undone.
 - **User scale:** with SCALE (E30) active, `hold B10`. E41–E52 light up; set the 12 notes.
 
+Verified on [firmware](13-glossary.md#firmware) 1.0.3 (2026-11-13, USB operation mode). The option lists are shorter in USB mode.
+
+- **E26 clock source:** two values. INT shows a BPM number. EXT USB IN waits for USB clock.
+- **E27 clock out:** two values, OFF and U.
+- **E28 MIDI thru:** the source has OFF, MIDI and USB. The display shows the destination and the source together, for example "D:OFF THRU SRC MIDI".
+- **E32 transpose enable:** 31 values. OFF, CH 1 to CH 16, TRACK, then the overlapping windows 1-4 to 13-16.
+- **E33:** the display shows "PAT.N CH" (pattern change channel).
+- **E37 to E40:** the display shows "POLY MODE" with CHORD or DRUM. Track 1 showed DRUM.
+- **E41 MIDI out:** three values, U, AB IN and IN.
+- **E42 MIDI channel:** CH 2 was set on our unit.
+
+See the [guide to ports, channels and routing](../guides/set-midi-ports-channels-and-routing.md).
+
 ---
 
 <!-- file: docs/manual/07-sequencer-procedures.md -->
@@ -403,7 +417,7 @@ Scale notes:
 - **Store (temporary):** `hold B61`, [page](13-glossary.md#page) with B63/B64 (1–12), press [slot](13-glossary.md#slot) B5–B20. B61 stays lit.
 - **Store (permanent):** then press B60, `hold SEL + press B61`. DISP confirms. Without this step the pattern is lost at power-off.
 - **Load:** press B62, page with B63/B64, press slot. Press B60. A load while playing switches at the end of the current pattern.
-- **Chain:** `hold a pattern button + press another`; patterns play in order.
+- **Chain:** `hold a pattern button + press another`; patterns play in order. Unverified, from the ZAQ Audio forum: the chain switches when the slowest track has played once, and [quantize](13-glossary.md#quantize) on delays the switch. See the [guide](../guides/save-load-and-chain-patterns.md).
 - **No auto-load:** nothing loads at power-up.
 - **Copy track:** `hold destination track button + press source track button`.
 - **Copy pattern between tracks:** press the pattern button before the source track (source wording unclear).
@@ -845,6 +859,12 @@ ZQR, CTRL, USB, STDL, MIXED, Cancel, OK, MIN, NOTE, MONITOR, RECORD, OcMi, OCNa,
 | [MMC](13-glossary.md#mmc) parameter list (p. 34) | the list ends with a comma after "Out" and says "Location" | eight commands as printed; the list may be cut short; unverified |
 | Note and [PB](13-glossary.md#pitch-bend-pb) tables | fields are named "Parameter (controller)" and "Value"; pitch bend has no controller number | note number and velocity for Note; the PB meaning is unknown; unverified |
 | [PC](13-glossary.md#program-change-pc) tables | the parameter is named "bank number" | probably the program number; unverified |
+| ZAQ mode intro | "hold EDIT/GLOBAL (59) while moving any encoder adjusts all [steps](13-glossary.md#step) until max or min" | Verified on firmware 1.0.3: pressing EDIT (B59) opens the [ZAQ Global page](13-glossary.md#zaq-global-page) and the key flashes. It does not edit steps. Holding a parameter button (tested: LENGTH, B9) and turning one knob one notch changed all 32 steps. One notch back restored them. The max or min behaviour was not seen |
+| Transpose enable list | "1-4 … 13-16" | Verified on firmware 1.0.3: the list has 31 values: OFF, CH 1 to CH 16, [TRACK](13-glossary.md#track), then the windows 1-4, 2-5 and so on up to 13-16. The windows overlap |
+| MIDI out list (E41) | the full list is not shown | Verified on firmware 1.0.3 in USB mode: E41 has three values, U, AB IN and IN. The value IN is the routing for a transposing track. The full list needs MIXED |
+| MIDI through | "[SELECT encoder](13-glossary.md#select-encoder-sel) (58) switches Source to Destination" | Source set with E28: OFF, MIDI, USB (verified). In our test, turning E28 after the SEL push still changed the source. The destination list is not read. The manual says the select knob sets it |
+| Encoder modes REL1, REL3 | REL1 sends "minimum for CCW, maximum for CW". REL3 sends 1 for CCW and 65 for CW | Verified on firmware 1.0.3, clockwise side only: REL1 sends `01` per click, REL2 sends `41`, REL3 sends `01`. The counter-clockwise side is untested |
+| Pattern change channel (E33) | the manual calls E33 "trigger enable" | Verified on firmware 1.0.3: the [display](13-glossary.md#display-disp) shows "PAT.N CH" with the value OFF. It is the same setting as pattern change channel in Global Settings (B13) |
 
 Procedures that depend on a row in this table are unconfirmed until someone tests them on a unit. Record test results in the row and in the [changelog](../../CHANGELOG.md).
 
@@ -1688,6 +1708,7 @@ This chapter lists faults and limits of the unit and of its editor software. It 
 | K12 | Reviewers call the manual hard to follow. One example is the MIDI channel set-up in three sections | not stated | Thomann reviews | 2026-10-30 | retailer reviews, multiple | Unconfirmed | Use this manual and chapter 12 |
 | K13 | The press article says the launch firmware was weak. One reviewer says later updates fixed most faults and added encoder acceleration. No source names the faults | not stated | Synth Anatomy article; Thomann reviews | 2026-10-30, 2026-09-25 | press and retailer review | Unconfirmed | Update the firmware with the vendor editor |
 | K14 | The QR code on the box led to a missing page. No source says that it was fixed | not stated | Elektronauts thread, page 10; Thomann reviews | 2026-09-25 to 2026-09-27 | community, multiple | Unconfirmed | Use the manual from the vendor product page |
+| K15 | The keys at the right of the panel (EDIT, EXIT, STORE, LD/LRN, TAP DELETE, TAP WRITE, INST SEL, [MIXER](13-glossary.md#mixer), reset, play/stop) and the [track](13-glossary.md#track) keys T1 to T4 send no message in [CTRL mode](13-glossary.md#ctrl-mode). No `$button` number is known for them | 1.0.3 | own test, [MIDI implementation](16-midi-implementation.md) | 2026-11-13 | own test, repeated | Open | They work as menu keys. [ZAQ mode](13-glossary.md#zaq-mode) and the ZAQ port are untested |
 
 ## Claims that we could not confirm
 
@@ -1840,10 +1861,34 @@ Each "needs" entry is a guess from the settings. A test of each needs a setting 
 
 [Control Tribe](13-glossary.md#control-tribe) reads controller presets as text, one line per [SysEx](13-glossary.md#sysex) message. It also reads the sequencer state when you connect and when you select a sequencer preset. The [findings page](../reference/capture-findings.md#editor-protocol-step-45) has the message layout.
 
-The backup `.syx` files use another layout. The [findings page](../reference/capture-findings.md#sysex-dump-structure-step-46) describes it. The 2-byte check value at the end of each [slot](13-glossary.md#slot) is not solved. Do not build or edit a dump file.
+The backup `.syx` files use another layout. The [findings page](../reference/capture-findings.md#sysex-dump-structure-step-46) describes it. The check value at the end of each [slot](13-glossary.md#slot) is a CRC-32, and the dump rules are solved. See the [SysEx dump format](../reference/sysex-dump-format.md). Do not edit a dump file without a backup.
 
 ## 16.6 How to extend this chapter
 
 1. Test on the unit with `midi-capture`. Give the printed number and the ID of every control.
 2. Add the result to `data/devices/bcr32/midi.json` with the firmware version.
 3. Run `npm run gen:tables`. The tables above and the MIDI column in chapter 14 update.
+
+## 16.7 Message forms verified in test presets
+
+Verified on firmware 1.0.3 on 2026-11-13, USB port `BCR-32 CTRL`, with crafted test presets. The tables in 16.2 hold the first factory presets. This table holds the message forms.
+
+| Setting | What the unit sends |
+| --- | --- |
+| [CC](13-glossary.md#control-change-cc) absolute | The CC value. The first click gives 1 |
+| CC relative-1, relative-2, relative-3 | `01`, `41` and `01` per click clockwise |
+| CC absolute 14 bit | CC n (high part), then CC n+32 (low part) |
+| [NRPN](13-glossary.md#nrpn) | CC 99 (high), CC 98 (low), then CC 6 (data). Inc/dec sends CC 96 with `01` per click |
+| GS/XG cutoff and resonance | NRPN `01:20` and `01:21` |
+| GS/XG volume and panorama | Plain CC 7 and CC 10 |
+| Encoder [AT](13-glossary.md#aftertouch-at), all notes | Channel pressure (`0xD0`) |
+| Encoder AT, one note | Poly pressure (`0xA0`) |
+| [Pitch bend](13-glossary.md#pitch-bend-pb) | `0xE0` and `0xE1` for channels 1 and 2 |
+| Button toggle off | The value on press, the minimum on release |
+| Button toggle on | The value on press only |
+| Button PC | A program change with the number as written. The bank sends CC 0 only. CC 32 is never sent |
+| [MMC](13-glossary.md#mmc) | `F0 7F <device> 06 <command> F7`. Locate has the longer form with the time bytes |
+
+**Knob pushes:** The push of the knobs printed 1 to 12 (E25 to E36) is `$button` 17 to 28 in the preset text. Each push sent the message that the preset assigns to it. The pushes in 16.3 sent nothing because they had no assignment in those presets. See the [BCL preset text format](../reference/bcl-preset-text-format.md).
+
+**Rejected by the unit:** an encoder AT line with a mode word, a CC with inc/dec, and the LED words `pan/off`, `spread/off` and `qual/off`.

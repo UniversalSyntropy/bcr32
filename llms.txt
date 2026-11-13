@@ -15,6 +15,7 @@ Control IDs used across the docs: B<n> = button, E<n> = encoder, SEL = select en
 ## Guides
 
 - [Connect to Ableton Live](docs/guides/connect-to-ableton-live.md): USB-MIDI setup, track routing, clock master choice (unverified)
+- [How-to guides](docs/guides/README.md): enter a pattern, save and chain, back up, assign controls, encoder modes and rings, DAW mapping, presets as text, drums, scale and transpose, sync, routing, CV and gate
 - [Official sources and support](docs/guides/official-sources-and-support.md): official Behringer product page, manual, Control Tribe, Music Tribe's open-source BCR32 repository, support routes, and what to prepare before you ask (draft)
 - [Troubleshooting](docs/guides/troubleshooting.md): symptoms and fixes (unverified)
 - [Recovery runbook](docs/guides/recovery-runbook.md): recovery steps from least to most invasive, with the unknowns (unverified)

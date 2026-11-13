@@ -35,3 +35,16 @@ Scale notes:
 - **Non-destructive:** scale and base bend the notes at playback; the stored notes stay as they are.
 - **Make permanent:** press B10 + B11 together. This rewrites the notes and cannot be undone.
 - **User scale:** with SCALE (E30) active, `hold B10`. E41–E52 light up; set the 12 notes.
+
+Verified on [firmware](13-glossary.md#firmware) 1.0.3 (2026-11-13, USB operation mode). The option lists are shorter in USB mode.
+
+- **E26 clock source:** two values. INT shows a BPM number. EXT USB IN waits for USB clock.
+- **E27 clock out:** two values, OFF and U.
+- **E28 MIDI thru:** the source has OFF, MIDI and USB. The display shows the destination and the source together, for example "D:OFF THRU SRC MIDI".
+- **E32 transpose enable:** 31 values. OFF, CH 1 to CH 16, TRACK, then the overlapping windows 1-4 to 13-16.
+- **E33:** the display shows "PAT.N CH" (pattern change channel).
+- **E37 to E40:** the display shows "POLY MODE" with CHORD or DRUM. Track 1 showed DRUM.
+- **E41 MIDI out:** three values, U, AB IN and IN.
+- **E42 MIDI channel:** CH 2 was set on our unit.
+
+See the [guide to ports, channels and routing](../guides/set-midi-ports-channels-and-routing.md).

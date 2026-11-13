@@ -51,7 +51,7 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 - **Store (temporary):** `hold B61`, [page](13-glossary.md#page) with B63/B64 (1–12), press [slot](13-glossary.md#slot) B5–B20. B61 stays lit.
 - **Store (permanent):** then press B60, `hold SEL + press B61`. DISP confirms. Without this step the pattern is lost at power-off.
 - **Load:** press B62, page with B63/B64, press slot. Press B60. A load while playing switches at the end of the current pattern.
-- **Chain:** `hold a pattern button + press another`; patterns play in order.
+- **Chain:** `hold a pattern button + press another`; patterns play in order. Unverified, from the ZAQ Audio forum: the chain switches when the slowest track has played once, and [quantize](13-glossary.md#quantize) on delays the switch. See the [guide](../guides/save-load-and-chain-patterns.md).
 - **No auto-load:** nothing loads at power-up.
 - **Copy track:** `hold destination track button + press source track button`.
 - **Copy pattern between tracks:** press the pattern button before the source track (source wording unclear).

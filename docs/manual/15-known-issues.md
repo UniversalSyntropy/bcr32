@@ -43,6 +43,7 @@ This chapter lists faults and limits of the unit and of its editor software. It 
 | K12 | Reviewers call the manual hard to follow. One example is the MIDI channel set-up in three sections | not stated | Thomann reviews | 2026-10-30 | retailer reviews, multiple | Unconfirmed | Use this manual and chapter 12 |
 | K13 | The press article says the launch firmware was weak. One reviewer says later updates fixed most faults and added encoder acceleration. No source names the faults | not stated | Synth Anatomy article; Thomann reviews | 2026-10-30, 2026-09-25 | press and retailer review | Unconfirmed | Update the firmware with the vendor editor |
 | K14 | The QR code on the box led to a missing page. No source says that it was fixed | not stated | Elektronauts thread, page 10; Thomann reviews | 2026-09-25 to 2026-09-27 | community, multiple | Unconfirmed | Use the manual from the vendor product page |
+| K15 | The keys at the right of the panel (EDIT, EXIT, STORE, LD/LRN, TAP DELETE, TAP WRITE, INST SEL, [MIXER](13-glossary.md#mixer), reset, play/stop) and the [track](13-glossary.md#track) keys T1 to T4 send no message in [CTRL mode](13-glossary.md#ctrl-mode). No `$button` number is known for them | 1.0.3 | own test, [MIDI implementation](16-midi-implementation.md) | 2026-11-13 | own test, repeated | Open | They work as menu keys. [ZAQ mode](13-glossary.md#zaq-mode) and the ZAQ port are untested |
 
 ## Claims that we could not confirm
 

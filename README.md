@@ -22,6 +22,7 @@ The BCR32 combines two devices: a 4-track, 32-step sequencer (the "Zaquencer", w
 | --- | --- |
 | Look up a control, menu or procedure | [BCR32 manual](docs/manual/README.md) |
 | Connect the BCR32 to Ableton Live | [Connect to Ableton Live](docs/guides/connect-to-ableton-live.md) |
+| Do a task step by step | [How-to guides](docs/guides/README.md) |
 | Fix a problem | [Troubleshooting](docs/guides/troubleshooting.md) |
 | See what is planned | [Project plan](docs/project/plan.md) |
 | See where the work is | [Playbook and live status](docs/project/playbook.md) |

@@ -10,7 +10,7 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 
 Select the [track](13-glossary.md#track) first (B21–B24). B5–B20 settings are per track. Everything can change while playing.
 
-General rule: press a parameter button, then turn the [step](13-glossary.md#step) [encoders](13-glossary.md#encoder) E25–E56. `hold B59 + turn any E` moves every step together to its max or min.
+General rule: press a parameter button, then turn the [step](13-glossary.md#step) [encoders](13-glossary.md#encoder) E25–E56. `hold B59 + turn any E` moves every step together to its max or min (official manual). Verified on [firmware](13-glossary.md#firmware) 1.0.3: B59 opens the [ZAQ Global page](13-glossary.md#zaq-global-page) instead. Holding a parameter button, for example LENGTH (B9), and turning one knob changed all 32 steps. See [source errors and gaps](12-source-errors-and-gaps.md#12-source-errors-and-gaps).
 
 | Button | Encoders do | Range / options | Default |
 | --- | --- | --- | --- |

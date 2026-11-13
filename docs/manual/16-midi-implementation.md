@@ -133,10 +133,34 @@ Each "needs" entry is a guess from the settings. A test of each needs a setting 
 
 [Control Tribe](13-glossary.md#control-tribe) reads controller presets as text, one line per [SysEx](13-glossary.md#sysex) message. It also reads the sequencer state when you connect and when you select a sequencer preset. The [findings page](../reference/capture-findings.md#editor-protocol-step-45) has the message layout.
 
-The backup `.syx` files use another layout. The [findings page](../reference/capture-findings.md#sysex-dump-structure-step-46) describes it. The 2-byte check value at the end of each [slot](13-glossary.md#slot) is not solved. Do not build or edit a dump file.
+The backup `.syx` files use another layout. The [findings page](../reference/capture-findings.md#sysex-dump-structure-step-46) describes it. The check value at the end of each [slot](13-glossary.md#slot) is a CRC-32, and the dump rules are solved. See the [SysEx dump format](../reference/sysex-dump-format.md). Do not edit a dump file without a backup.
 
 ## 16.6 How to extend this chapter
 
 1. Test on the unit with `midi-capture`. Give the printed number and the ID of every control.
 2. Add the result to `data/devices/bcr32/midi.json` with the firmware version.
 3. Run `npm run gen:tables`. The tables above and the MIDI column in chapter 14 update.
+
+## 16.7 Message forms verified in test presets
+
+Verified on firmware 1.0.3 on 2026-11-13, USB port `BCR-32 CTRL`, with crafted test presets. The tables in 16.2 hold the first factory presets. This table holds the message forms.
+
+| Setting | What the unit sends |
+| --- | --- |
+| [CC](13-glossary.md#control-change-cc) absolute | The CC value. The first click gives 1 |
+| CC relative-1, relative-2, relative-3 | `01`, `41` and `01` per click clockwise |
+| CC absolute 14 bit | CC n (high part), then CC n+32 (low part) |
+| [NRPN](13-glossary.md#nrpn) | CC 99 (high), CC 98 (low), then CC 6 (data). Inc/dec sends CC 96 with `01` per click |
+| GS/XG cutoff and resonance | NRPN `01:20` and `01:21` |
+| GS/XG volume and panorama | Plain CC 7 and CC 10 |
+| Encoder [AT](13-glossary.md#aftertouch-at), all notes | Channel pressure (`0xD0`) |
+| Encoder AT, one note | Poly pressure (`0xA0`) |
+| [Pitch bend](13-glossary.md#pitch-bend-pb) | `0xE0` and `0xE1` for channels 1 and 2 |
+| Button toggle off | The value on press, the minimum on release |
+| Button toggle on | The value on press only |
+| Button PC | A program change with the number as written. The bank sends CC 0 only. CC 32 is never sent |
+| [MMC](13-glossary.md#mmc) | `F0 7F <device> 06 <command> F7`. Locate has the longer form with the time bytes |
+
+**Knob pushes:** The push of the knobs printed 1 to 12 (E25 to E36) is `$button` 17 to 28 in the preset text. Each push sent the message that the preset assigns to it. The pushes in 16.3 sent nothing because they had no assignment in those presets. See the [BCL preset text format](../reference/bcl-preset-text-format.md).
+
+**Rejected by the unit:** an encoder AT line with a mode word, a CC with inc/dec, and the LED words `pan/off`, `spread/off` and `qual/off`.

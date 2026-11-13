@@ -10,6 +10,7 @@ last_updated: 2026-11-11
 | Document | What it covers | Status |
 | --- | --- | --- |
 | [Official sources and support](guides/official-sources-and-support.md) | Official Behringer links, how to contact support, what to prepare first | draft |
+| [How-to guides](guides/README.md) | Twelve task guides: patterns, sync, routing, controller setup, backup, DAW mapping | draft, partly verified |
 | [List of figures](manual/figures.md) | Every numbered figure in the manual, with its chapter | draft |
 | [Disclaimer](../DISCLAIMER.md) | Terms of use: reference only, no warranty, no claim of accuracy, no liability | draft |
 | [BCR32 manual](manual/README.md) | Controls, modes, menus, values, procedures, errors in the official manual | draft |

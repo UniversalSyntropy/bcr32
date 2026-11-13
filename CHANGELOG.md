@@ -4,6 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-13
 
+- Added twelve [how-to guides](docs/guides/README.md) with an index. Each guide marks what was tested on firmware 1.0.3. Added verified results from a second unit session to chapters 5, 6, 7, 12, 15 and 16. They cover the option lists in USB mode, the all-steps rule, the transpose windows and the value IN on the MIDI out list. They also cover the message forms from the test presets. Corrected a note in chapter 16 about the slot check value.
 - Corrected an error in the support page and the README: Music Tribe does publish an open-source repository for the BCR32 (demo firmware, schematic, interface documents). It was added to [Official sources and support](docs/guides/official-sources-and-support.md).
 - Added numbered figures (PNG, dark and light): the top panel, the parameter buttons, the encoder grid and the ring LED styles. Added a [list of figures](docs/manual/figures.md) and a hero figure in the README. Figures carry the repository address in the image and in the file metadata. Figures are all rights reserved.
 - Added a [disclaimer](DISCLAIMER.md): the repository is a reference guide only, with no warranty, no claim of accuracy and no liability for damage or loss. Added a short warning to the README, the manual index and chapter 0.
