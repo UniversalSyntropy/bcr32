@@ -13,8 +13,8 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 | ZAQ (sequencer) | tap B1 until pink | tap B1 | B1 + used B5–B20 pink |
 | CTRL (controller) | tap B1 until amber | tap B1 | amber |
 | [Global Settings](13-glossary.md#global-settings) | `B1 ×3s` (either mode) | tap B1 | B1, B5–B12 blue |
-| [ZAQ Settings](13-glossary.md#zaq-settings) | in ZAQ: `hold B59 + B61` | B60 (to the [ZAQ Global page](13-glossary.md#zaq-global-page); unverified) | B5–B8 blue |
-| [CTRL Settings](13-glossary.md#ctrl-settings) | in CTRL: `hold B59 + B61` | B60 | B5–B6 blue |
+| [ZAQ Settings](13-glossary.md#zaq-settings) | in ZAQ: `hold B59 + press B61` | B60 (to the [ZAQ Global page](13-glossary.md#zaq-global-page); unverified) | B5–B8 blue |
+| [CTRL Settings](13-glossary.md#ctrl-settings) | in CTRL: `hold B59 + press B61` | B60 | B5–B6 blue |
 | ZAQ Global page | in ZAQ: press B59 | B60 | [encoders](13-glossary.md#encoder) = global params (§6) |
 | ZAQ [Mixer](13-glossary.md#mixer) | in ZAQ, sequencer stopped: press B66 | B66 / B60 | B21–24, B5–20 green/red |
 | [Real-time record](13-glossary.md#real-time-record) | in ZAQ: press B65 | press B65 | — |

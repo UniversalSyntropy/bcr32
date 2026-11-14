@@ -4,7 +4,7 @@ Notable changes to the documentation and tools. Newest first. Dates are ISO 8601
 
 ## 2026-11-14
 
-- Added the package `@bcr32/device-model`: the ring model for all 13 styles, the action parser, the panel view types and the guide checks. Added a data audit that parses every stored action. Changed four actions from `hold B59 + B61` to `hold B59 + press B61` (decision OQ14). Fixed four parked check gaps. A test now names a missing rings file. The ring count check moved to the BCR32 tests. The guide check flags a malformed `{` or `}`. Geometry views have an optional `prov` field.
+- Added the package `@bcr32/device-model`: the ring model for all 13 styles, the action parser, the panel view types and the guide checks. Added a data audit that parses every stored action. Changed four actions from `hold B59 + B61` to `hold B59 + press B61` (decision OQ14), and changed the same text in manual chapters 2, 8, 9 and 10. The anchors of headings 8.5 and 9.2 changed with it. Fixed four parked check gaps. A test now names a missing rings file. The ring count check moved to the BCR32 tests. The guide check flags a malformed `{` or `}`. Geometry views have an optional `prov` field.
 - Added the data schemas for panel geometry, ring styles and guide steps. Added the files `geometry.json` (88 control positions in mm, with provenance) and `rings.json` (13 ring styles, none verified). Added planted-fault tests and loader checks. Added decision D65.
 
 ## 2026-11-13

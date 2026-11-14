@@ -179,7 +179,7 @@ Buttons only.
 
 The printed parameter list ends with a comma. It may be cut short. See [Source errors and gaps](12-source-errors-and-gaps.md#12-source-errors-and-gaps).
 
-## 8.5 CTRL Settings (`hold B59 + B61` in CTRL)
+## 8.5 CTRL Settings (`hold B59 + press B61` in CTRL)
 
 - **B5 output routing:** USB, MIDI A, MIDI B, A&B, USB&A, USB&B, USB&A&B.
 - **B6 [MIDI thru](13-glossary.md#midi-thru):** source via E28 (Off, MIDI, USB); destination via SEL (Off, 7 routings, or 7 Filtered). Push SEL to save, B60 to exit.

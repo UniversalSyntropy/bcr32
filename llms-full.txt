@@ -86,8 +86,8 @@ Key numbers:
 | ZAQ (sequencer) | tap B1 until pink | tap B1 | B1 + used B5–B20 pink |
 | CTRL (controller) | tap B1 until amber | tap B1 | amber |
 | [Global Settings](13-glossary.md#global-settings) | `B1 ×3s` (either mode) | tap B1 | B1, B5–B12 blue |
-| [ZAQ Settings](13-glossary.md#zaq-settings) | in ZAQ: `hold B59 + B61` | B60 (to the [ZAQ Global page](13-glossary.md#zaq-global-page); unverified) | B5–B8 blue |
-| [CTRL Settings](13-glossary.md#ctrl-settings) | in CTRL: `hold B59 + B61` | B60 | B5–B6 blue |
+| [ZAQ Settings](13-glossary.md#zaq-settings) | in ZAQ: `hold B59 + press B61` | B60 (to the [ZAQ Global page](13-glossary.md#zaq-global-page); unverified) | B5–B8 blue |
+| [CTRL Settings](13-glossary.md#ctrl-settings) | in CTRL: `hold B59 + press B61` | B60 | B5–B6 blue |
 | ZAQ Global page | in ZAQ: press B59 | B60 | [encoders](13-glossary.md#encoder) = global params (§6) |
 | ZAQ [Mixer](13-glossary.md#mixer) | in ZAQ, sequencer stopped: press B66 | B66 / B60 | B21–24, B5–20 green/red |
 | [Real-time record](13-glossary.md#real-time-record) | in ZAQ: press B65 | press B65 | — |
@@ -603,7 +603,7 @@ Buttons only.
 
 The printed parameter list ends with a comma. It may be cut short. See [Source errors and gaps](12-source-errors-and-gaps.md#12-source-errors-and-gaps).
 
-## 8.5 CTRL Settings (`hold B59 + B61` in CTRL)
+## 8.5 CTRL Settings (`hold B59 + press B61` in CTRL)
 
 - **B5 output routing:** USB, MIDI A, MIDI B, A&B, USB&A, USB&B, USB&A&B.
 - **B6 [MIDI thru](13-glossary.md#midi-thru):** source via E28 (Off, MIDI, USB); destination via SEL (Off, 7 routings, or 7 Filtered). Push SEL to save, B60 to exit.
@@ -635,7 +635,7 @@ The printed parameter list ends with a comma. It may be cut short. See [Source e
 
 > **Note:** Verified on firmware 1.0.3 (2026-11-11): the menu lights B1 and B5–B15 (panel buttons 1–11) in blue, three more than the official manual lists. B11 shows the firmware version (1.0.3). B13 to B15 are the three extra settings above. LED luminosity, which the vendor editor lists, has no button. Read the display before you confirm anything on B12. The unit prints the numbers 1 to 16 above B5 to B20; the ID is the printed number plus 4.
 
-## 9.2 ZAQ Settings (`hold B59 + B61` in ZAQ)
+## 9.2 ZAQ Settings (`hold B59 + press B61` in ZAQ)
 
 B5 [gate](13-glossary.md#gate) level 5 V / 10 V. B6 sync-in [ppqn](13-glossary.md#ppqn) (1, 2, 4, 24, 48). B7 sync-out ppqn (same). B8 sync-in start: GATE (trigger on ring) or CLOCK (starts when clock on tip). Push [SEL](13-glossary.md#select-encoder-sel) to confirm each choice. B60 exits to the [ZAQ Global page](13-glossary.md#zaq-global-page) (the manual says "exit the menu to the ZAQ GLOBAL menu, and return to the Zaquencer functions"; unverified). Verified on firmware 1.0.3 (2026-11-11): B8 shows `SYN IN STRT` with the value GATE. The value CLOCK was not seen.
 
@@ -694,7 +694,7 @@ Goal: enter a short note [pattern](13-glossary.md#pattern) on [track](13-glossar
 
 | Route | Connect | Note |
 | --- | --- | --- |
-| CV and gate | J78 (CV 1) to the pitch input. J80 (CV 2) is track 2, and so on. J79 (GATE 1) to the gate input | CV is 1 V per octave. Gate is 5 V or 10 V ([ZAQ Settings](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--b61-in-zaq)) |
+| CV and gate | J78 (CV 1) to the pitch input. J80 (CV 2) is track 2, and so on. J79 (GATE 1) to the gate input | CV is 1 V per octave. Gate is 5 V or 10 V ([ZAQ Settings](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--press-b61-in-zaq)) |
 | MIDI | J72 (MIDI OUT A) to the synth MIDI IN | Set the track port and channel in step 6 |
 
 ### Enter the notes
@@ -792,8 +792,8 @@ Each row shows the mode, the key sequence and the chapter. The notation is in [H
 | Set the MIDI channel of a track | ZAQ | B59, turn E42, E44, E46 or E48 | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
 | Set the output port of a track | ZAQ | B59, turn E41, E43, E45 or E47 | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
 | Lock the notes to a [scale](13-glossary.md#scale) | ZAQ | B59, E30 for the scale, E31 for the root | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
-| Set the gate level (5 V or 10 V) | [ZAQ Settings](13-glossary.md#zaq-settings) | `hold B59 + B61`, B5 | [9.2](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--b61-in-zaq) |
-| Use the sync jacks | ZAQ Settings | `hold B59 + B61`, B6 to B8 | [9.2](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--b61-in-zaq) |
+| Set the gate level (5 V or 10 V) | [ZAQ Settings](13-glossary.md#zaq-settings) | `hold B59 + press B61`, B5 | [9.2](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--press-b61-in-zaq) |
+| Use the sync jacks | ZAQ Settings | `hold B59 + press B61`, B6 to B8 | [9.2](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--press-b61-in-zaq) |
 | Power the unit from a charger | any | connect J69 | [4](04-rear-panel.md#4-rear-panel) |
 
 ### Controller

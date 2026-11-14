@@ -23,7 +23,7 @@ Goal: enter a short note [pattern](13-glossary.md#pattern) on [track](13-glossar
 
 | Route | Connect | Note |
 | --- | --- | --- |
-| CV and gate | J78 (CV 1) to the pitch input. J80 (CV 2) is track 2, and so on. J79 (GATE 1) to the gate input | CV is 1 V per octave. Gate is 5 V or 10 V ([ZAQ Settings](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--b61-in-zaq)) |
+| CV and gate | J78 (CV 1) to the pitch input. J80 (CV 2) is track 2, and so on. J79 (GATE 1) to the gate input | CV is 1 V per octave. Gate is 5 V or 10 V ([ZAQ Settings](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--press-b61-in-zaq)) |
 | MIDI | J72 (MIDI OUT A) to the synth MIDI IN | Set the track port and channel in step 6 |
 
 ### Enter the notes
@@ -121,8 +121,8 @@ Each row shows the mode, the key sequence and the chapter. The notation is in [H
 | Set the MIDI channel of a track | ZAQ | B59, turn E42, E44, E46 or E48 | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
 | Set the output port of a track | ZAQ | B59, turn E41, E43, E45 or E47 | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
 | Lock the notes to a [scale](13-glossary.md#scale) | ZAQ | B59, E30 for the scale, E31 for the root | [6](06-zaq-global-page.md#6-zaq-global-page-press-b59-in-zaq) |
-| Set the gate level (5 V or 10 V) | [ZAQ Settings](13-glossary.md#zaq-settings) | `hold B59 + B61`, B5 | [9.2](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--b61-in-zaq) |
-| Use the sync jacks | ZAQ Settings | `hold B59 + B61`, B6 to B8 | [9.2](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--b61-in-zaq) |
+| Set the gate level (5 V or 10 V) | [ZAQ Settings](13-glossary.md#zaq-settings) | `hold B59 + press B61`, B5 | [9.2](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--press-b61-in-zaq) |
+| Use the sync jacks | ZAQ Settings | `hold B59 + press B61`, B6 to B8 | [9.2](09-global-sync-memory-and-maintenance.md#92-zaq-settings-hold-b59--press-b61-in-zaq) |
 | Power the unit from a charger | any | connect J69 | [4](04-rear-panel.md#4-rear-panel) |
 
 ### Controller

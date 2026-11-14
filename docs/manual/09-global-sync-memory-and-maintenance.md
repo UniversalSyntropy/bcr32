@@ -26,7 +26,7 @@ source: Behringer BCR32 User Manual V2.0 (2026-04-06), English pages 14–35
 
 > **Note:** Verified on firmware 1.0.3 (2026-11-11): the menu lights B1 and B5–B15 (panel buttons 1–11) in blue, three more than the official manual lists. B11 shows the firmware version (1.0.3). B13 to B15 are the three extra settings above. LED luminosity, which the vendor editor lists, has no button. Read the display before you confirm anything on B12. The unit prints the numbers 1 to 16 above B5 to B20; the ID is the printed number plus 4.
 
-## 9.2 ZAQ Settings (`hold B59 + B61` in ZAQ)
+## 9.2 ZAQ Settings (`hold B59 + press B61` in ZAQ)
 
 B5 [gate](13-glossary.md#gate) level 5 V / 10 V. B6 sync-in [ppqn](13-glossary.md#ppqn) (1, 2, 4, 24, 48). B7 sync-out ppqn (same). B8 sync-in start: GATE (trigger on ring) or CLOCK (starts when clock on tip). Push [SEL](13-glossary.md#select-encoder-sel) to confirm each choice. B60 exits to the [ZAQ Global page](13-glossary.md#zaq-global-page) (the manual says "exit the menu to the ZAQ GLOBAL menu, and return to the Zaquencer functions"; unverified). Verified on firmware 1.0.3 (2026-11-11): B8 shows `SYN IN STRT` with the value GATE. The value CLOCK was not seen.
 
