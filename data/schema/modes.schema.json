@@ -5,6 +5,32 @@
     "$schema": {
       "type": "string"
     },
+    "timing": {
+      "type": "object",
+      "properties": {
+        "holdMs": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "sequenceMs": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "prov": {
+          "type": "string",
+          "enum": [
+            "assumed",
+            "measured"
+          ]
+        }
+      },
+      "required": [
+        "holdMs",
+        "sequenceMs",
+        "prov"
+      ],
+      "additionalProperties": false
+    },
     "modes": {
       "minItems": 1,
       "type": "array",
@@ -104,6 +130,18 @@
                 "when": {
                   "type": "string",
                   "minLength": 1
+                },
+                "cond": {
+                  "type": "string",
+                  "enum": [
+                    "always",
+                    "selectedTrack",
+                    "trackPlays",
+                    "paramInUse",
+                    "selectedItem",
+                    "held",
+                    "running"
+                  ]
                 }
               },
               "required": [
@@ -166,6 +204,7 @@
     }
   },
   "required": [
+    "timing",
     "modes"
   ],
   "additionalProperties": false,

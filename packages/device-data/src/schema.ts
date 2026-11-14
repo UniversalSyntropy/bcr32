@@ -87,6 +87,17 @@ export const ElementsFile = z.strictObject({ ...fileHeader, elements: z.array(El
 // modes.json
 const ModeStep = z.strictObject({ action: Text, from: Key.optional(), note: Text.optional() });
 
+// Closed list of lit-rule conditions (D1 section 6). The demo engine evaluates `always` and `held`.
+export const LIT_CONDITIONS = ["always", "selectedTrack", "trackPlays", "paramInUse", "selectedItem", "held", "running"] as const;
+export type LitCondition = (typeof LIT_CONDITIONS)[number];
+
+// Times the manual does not give. One number for each, named here, changed from a unit test later.
+export const Timing = z.strictObject({
+  holdMs: z.number().positive(), // a press this long (or longer) is a hold
+  sequenceMs: z.number().positive(), // the second step of a sequence must follow within this time
+  prov: z.enum(["assumed", "measured"]),
+});
+
 export const Mode = z.strictObject({
   id: Key,
   name: Text,
@@ -100,6 +111,7 @@ export const Mode = z.strictObject({
       colour: Key,
       blink: z.boolean().optional(),
       when: Text.optional(),
+      cond: z.enum(LIT_CONDITIONS).optional(), // machine condition; absent: the demo draws the rule as unknown
     }),
   ),
   manualAnchor: Text.optional(),
@@ -107,7 +119,7 @@ export const Mode = z.strictObject({
   source: Source,
 });
 
-export const ModesFile = z.strictObject({ ...fileHeader, modes: z.array(Mode).min(1) });
+export const ModesFile = z.strictObject({ ...fileHeader, timing: Timing, modes: z.array(Mode).min(1) });
 
 // values.json
 export const ValueSet = z
@@ -443,6 +455,7 @@ export type Element = z.infer<typeof Element>;
 export type ElementsFile = z.infer<typeof ElementsFile>;
 export type Mode = z.infer<typeof Mode>;
 export type ModesFile = z.infer<typeof ModesFile>;
+export type Timing = z.infer<typeof Timing>;
 export type ValueSet = z.infer<typeof ValueSet>;
 export type ValuesFile = z.infer<typeof ValuesFile>;
 export type DeviceFunction = z.infer<typeof DeviceFunction>;
@@ -459,6 +472,7 @@ export interface DeviceData {
   device: DeviceFile;
   elements: Element[];
   modes: Mode[];
+  timing: Timing | undefined;
   valueSets: ValueSet[];
   functions: DeviceFunction[];
   glossary: GlossaryFile["terms"];

@@ -1,8 +1,9 @@
 // StaticEngine: one fixed PanelView. A turn moves a known ring value, a press and
 // a release set and clear `pressed`. No mode logic. Pure reducer plus a thin store.
-import type { ControlEvent, Engine, PanelView } from "./view.ts";
+import type { ClockTick, ControlEvent, Engine, PanelView } from "./view.ts";
 
-export function reduceStatic(view: PanelView, e: ControlEvent): PanelView {
+export function reduceStatic(view: PanelView, e: ControlEvent | ClockTick): PanelView {
+  if (e.type === "tick") return view; // no time in a static view
   if (e.type !== "turn") {
     const held = view.pressed.includes(e.id);
     if (e.type === "press") return held ? view : { ...view, pressed: [...view.pressed, e.id] };

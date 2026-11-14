@@ -6,3 +6,5 @@ export { LayerToggles } from "./Layers.tsx";
 export { DevPanel, provCounts, PROVS } from "./DevPanel.tsx";
 export { DEFAULT_LAYERS, isLayer, LAYER_NAME, LAYERS, layerLabels, placeLayer, obstacles, catalogue, fnKey, functionText, idText, type LayerId, type LayerLabel } from "./labels.ts";
 export { arcAngle, pointerLine, textBox, ringAngle, TEXT_W_PER_CAP, FONT_PER_CAP, type TextBox } from "./layout.ts";
+export { clickPlan, BUTTON_PRESS, KNOB_PUSH, type ClickKind, type ClickPhase } from "./sound-plan.ts";
+export { createClicker, type Clicker } from "./sound.ts";

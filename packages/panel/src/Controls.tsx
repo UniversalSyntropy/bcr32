@@ -6,6 +6,7 @@ import { useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 
 import { accessName, describeEvent, encoderAria, litText } from "./a11y.ts";
 import { keyEffect, nextIndex } from "./keys.ts";
+import type { ClickKind, ClickPhase } from "./sound-plan.ts";
 import { controlBox, type Layout, type LayoutItem, type ViewBox } from "./layout.ts";
 
 // Vertical drag: one detent for this many CSS pixels. Below DRAG_MIN the gesture is a click.
@@ -24,6 +25,7 @@ export interface ControlsProps {
   announce: (text: string) => void;
   onFocusId: (id: string | null) => void;
   onSelect: (id: string) => void;
+  onSound?: (kind: ClickKind, phase: ClickPhase) => void; // set only while click sounds are on
 }
 
 const now = () => Math.round(performance.now());
@@ -46,10 +48,12 @@ export function Controls(p: ControlsProps) {
   const press = (item: LayoutItem) => {
     if (held.current.has(item.id)) return;
     held.current.add(item.id);
+    p.onSound?.(item.kind === "encoder" ? "knob" : "button", "down");
     fire({ type: "press", id: item.id, t: now() }, item);
   };
   const release = (item: LayoutItem) => {
     if (!held.current.delete(item.id)) return;
+    p.onSound?.(item.kind === "encoder" ? "knob" : "button", "up");
     fire({ type: "release", id: item.id, t: now() }, item);
   };
 
@@ -69,6 +73,7 @@ export function Controls(p: ControlsProps) {
                 const el = p.elements.get(item.id)!;
                 const isKnob = item.kind === "encoder";
                 const lit = litText(item.id, p.view.buttons[item.id]);
+                const unknownLit = p.view.unknownLit?.includes(item.id) === true;
                 const common = {
                   "data-id": item.id,
                   className: "ctl",
@@ -106,7 +111,7 @@ export function Controls(p: ControlsProps) {
                       {...common}
                       key={item.id}
                       type="button"
-                      aria-label={lit === undefined ? name(item.id) : `${name(item.id)}, ${lit.slice(item.id.length + 1)}`}
+                      aria-label={lit === undefined ? (unknownLit ? `${name(item.id)}, light unknown` : name(item.id)) : `${name(item.id)}, ${lit.slice(item.id.length + 1)}`}
                       onKeyDown={onKeyDown}
                       onKeyUp={onKeyUp}
                       onPointerDown={() => {

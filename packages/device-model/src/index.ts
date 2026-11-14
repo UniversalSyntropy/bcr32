@@ -7,6 +7,7 @@ export {
   RING_STYLE_IDS,
   ViewPatch,
   type BlinkRate,
+  type ClockTick,
   type ControlEvent,
   type DisplayState,
   type Engine,
@@ -16,3 +17,17 @@ export {
   type RingState,
   type RingStyleId,
 } from "./view.ts";
+export {
+  demoEngine,
+  eventsOf,
+  initialDemo,
+  loadDemo,
+  NOT_SIMULATED,
+  pathTo,
+  reduceDemo,
+  viewOf,
+  type DemoData,
+  type DemoRule,
+  type DemoRules,
+  type DemoState,
+} from "./demo-engine.ts";

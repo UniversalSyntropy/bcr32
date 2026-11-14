@@ -18,6 +18,12 @@ export type ControlEvent =
   | { type: "press" | "release"; id: string; t: number }
   | { type: "turn"; id: string; steps: number; t: number }; // steps: detents, + is clockwise
 
+// The clock is an input (D69). The app sends a tick while a button is held. The model has no timer.
+export interface ClockTick {
+  type: "tick";
+  t: number;
+}
+
 // Inputs only. The ring model derives the LEDs.
 export interface RingState {
   style: RingStyleId | "unknown";
@@ -46,6 +52,7 @@ export interface PanelView {
   leds: Record<string, LedState>;
   display: DisplayState;
   pressed: string[]; // held now; drawn as the press mark
+  unknownLit?: string[]; // buttons that a rule lights under a condition the model cannot evaluate; drawn as unknown
 }
 
 // Guide `after` field: a JSON Merge Patch of PanelView. null removes a key. `pressed` is not allowed.
@@ -73,7 +80,7 @@ export type ViewPatch = z.infer<typeof ViewPatch>;
 
 // An engine holds one PanelView and changes it on control events.
 export interface Engine {
-  dispatch(e: ControlEvent): void;
+  dispatch(e: ControlEvent | ClockTick): void;
   getView(): PanelView;
   subscribe(fn: () => void): () => void;
 }

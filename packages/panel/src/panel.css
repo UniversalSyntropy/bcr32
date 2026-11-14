@@ -42,6 +42,8 @@
 
 .light-shape { fill: var(--c); stroke: var(--part-edge); stroke-width: var(--pen-4); }
 .light { color: var(--c); filter: var(--glow); pointer-events: none; }
+.light-unknown { pointer-events: none; }
+.light-unknown-shape { fill: none; stroke: var(--hatch); stroke-width: var(--pen-4); stroke-dasharray: 1.5 1; }
 .ring-led { fill: var(--ring-off); stroke: none; }
 .ring-led[data-lit="true"] { fill: var(--ring-on); stroke: var(--legend); stroke-width: var(--pen-5); }
 .ring-led-unknown { fill: none; stroke: var(--hatch); stroke-width: var(--pen-4); stroke-dasharray: 1.5 1; }

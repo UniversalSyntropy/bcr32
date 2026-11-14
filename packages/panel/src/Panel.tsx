@@ -10,6 +10,7 @@ import { DEFAULT_LAYERS, layerLabels, type LayerId } from "./labels.ts";
 import { LayerText } from "./Layers.tsx";
 import { buildLayout, isControl, type Layout, type LayoutItem, type ViewBox, type ViewId } from "./layout.ts";
 import { PrintedMarks, PrintedText } from "./Printed.tsx";
+import type { ClickKind, ClickPhase } from "./sound-plan.ts";
 import { Ring } from "./Ring.tsx";
 import { useEngine } from "./useEngine.ts";
 
@@ -28,6 +29,7 @@ export interface PanelProps {
   only?: string | null; // show the controls of one group only
   layers?: ReadonlySet<LayerId>; // label layers that are on; default: printed only
   dev?: boolean; // colour parts by provenance
+  onSound?: (kind: ClickKind, phase: ClickPhase) => void; // click sounds; absent: silent
 }
 
 // A shape for one part, centred. `extra` grows it on every side (marks and the focus ring).
@@ -57,7 +59,7 @@ function Display({ item, view }: { item: LayoutItem; view: PanelView }) {
 
 const DEFAULT_ON: ReadonlySet<LayerId> = new Set(DEFAULT_LAYERS);
 
-export function Panel({ data, engine, view, viewBox, only = null, layers = DEFAULT_ON, dev = false }: PanelProps) {
+export function Panel({ data, engine, view, viewBox, only = null, layers = DEFAULT_ON, dev = false, onSound }: PanelProps) {
   const state = useEngine(engine);
   const layout: Layout = useMemo(() => buildLayout(data.geometry, data.elements, view, data.groupNames), [data, view]);
   const elements = useMemo(() => new Map(data.elements.map((e) => [e.id, e])), [data]);
@@ -110,6 +112,12 @@ export function Panel({ data, engine, view, viewBox, only = null, layers = DEFAU
             ))}
           </g>
           <g id="lights">
+            {(state.unknownLit ?? []).map((id) => {
+              const item = byId.get(id);
+              return item === undefined || state.buttons[id] !== undefined ? null : (
+                <g key={id} data-id={id} className="light-unknown" data-known="false"><Shape item={item} className="light-unknown-shape" /></g>
+              );
+            })}
             {layout.items.map((item) => {
               const led = item.kind === "button" || item.kind === "led" ? state.buttons[item.id] ?? state.leds[item.id] : undefined;
               if (item.kind === "encoder") return <Ring key={item.id} item={item} ring={state.rings[item.id]} />;
@@ -145,6 +153,7 @@ export function Panel({ data, engine, view, viewBox, only = null, layers = DEFAU
           announce={announce}
           onFocusId={setFocusId}
           onSelect={setSelected}
+          {...(onSound === undefined ? {} : { onSound })}
         />
       </div>
       {layout.missing.length > 0 ? <p className="rear-note">{MSG.noJacks}</p> : null}
@@ -159,15 +168,20 @@ export function Panel({ data, engine, view, viewBox, only = null, layers = DEFAU
               className="knob-push"
               aria-label={`Push ${selItem.id}`}
               onPointerDown={() => {
+                onSound?.("knob", "down");
                 engine.dispatch({ type: "press", id: selItem.id, t: Math.round(performance.now()) });
                 announce(`${selItem.id} pushed`);
               }}
-              onPointerUp={() => engine.dispatch({ type: "release", id: selItem.id, t: Math.round(performance.now()) })}
+              onPointerUp={() => {
+                onSound?.("knob", "up");
+                engine.dispatch({ type: "release", id: selItem.id, t: Math.round(performance.now()) });
+              }}
               onPointerCancel={() => engine.dispatch({ type: "release", id: selItem.id, t: Math.round(performance.now()) })}
               onClick={(ev) => {
                 // Keyboard or screen reader activation has no pointer events: press and release at once.
                 if (ev.detail !== 0) return;
                 const t = Math.round(performance.now());
+                onSound?.("knob", "down");
                 engine.dispatch({ type: "press", id: selItem.id, t });
                 engine.dispatch({ type: "release", id: selItem.id, t });
                 announce(`${selItem.id} pushed`);

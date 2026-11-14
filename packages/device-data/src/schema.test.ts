@@ -35,6 +35,7 @@ function fixture(): Record<FileName, any> {
       ],
     },
     "modes.json": {
+      timing: { holdMs: 500, sequenceMs: 2000, prov: "assumed" },
       modes: [
         { id: "seq", name: "Sequencer", kind: "mode", enter: [{ action: "tap B1" }], exit: [{ action: "tap B1" }],
           lit: [{ elements: ["B1"], colour: "pink" }], source: manual },
@@ -102,6 +103,9 @@ const broken: [string, (f: Record<FileName, any>) => void, RegExp][] = [
   ["unknown label colour", (f) => (f["elements.json"].elements[0].labels[0].colour = "gold"), /unknown label colour 'gold'/],
   ["mode lights unknown element", (f) => (f["modes.json"].modes[0].lit[0].elements = ["B9"]), /unknown element 'B9'/],
   ["mode with unknown parent", (f) => (f["modes.json"].modes[0].parent = "ctrl"), /unknown parent 'ctrl'/],
+  ["lit rule with an unknown condition", (f) => (f["modes.json"].modes[0].lit[0].cond = "sometimes"), /Invalid option/],
+  ["hold time of zero", (f) => (f["modes.json"].timing.holdMs = 0), />0/],
+  ["hold time below zero", (f) => (f["modes.json"].timing.holdMs = -5), />0/],
   ["value set with neither options nor range", (f) => {
     delete f["values.json"].valueSets[0].options;
     delete f["values.json"].valueSets[0].range;

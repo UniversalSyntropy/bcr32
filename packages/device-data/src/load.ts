@@ -37,6 +37,7 @@ export function validateDevice(raw: RawFiles): LoadResult {
     device: parsed["device.json"] as DeviceData["device"],
     elements: (parsed["elements.json"] as { elements: DeviceData["elements"] }).elements,
     modes: (parsed["modes.json"] as { modes: DeviceData["modes"] } | undefined)?.modes ?? [],
+    timing: (parsed["modes.json"] as { timing: DeviceData["timing"] } | undefined)?.timing,
     valueSets: (parsed["values.json"] as { valueSets: DeviceData["valueSets"] } | undefined)?.valueSets ?? [],
     functions: (parsed["functions.json"] as { functions: DeviceData["functions"] } | undefined)?.functions ?? [],
     glossary: (parsed["glossary.json"] as { terms: DeviceData["glossary"] } | undefined)?.terms ?? [],
