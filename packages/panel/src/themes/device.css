@@ -1,0 +1,23 @@
+/* Theme device: dark unit, lit LEDs glow. A border token sets the unit apart from a dark page. */
+[data-theme="device"] {
+  color-scheme: dark;
+  --page: #0e0f12;
+  --page-text: #e8eaee;
+  --face: #1c1f26;
+  --case: #2a2e38;
+  --legend: #d9dde5;
+  --part: #3a3f4b;
+  --part-edge: #8b93a3;
+  --ring-on: #f2f4f8;
+  --ring-off: #3c4250;
+  --led-off: #2b2f38;
+  --led-pink: #ff6fb1;
+  --led-amber: #ffb020;
+  --led-blue: #4aa3ff;
+  --led-green: #3ddc84;
+  --led-red: #ff5a5a;
+  --focus: #ffd60a;
+  --hatch: #9aa3b5;
+  --glow: drop-shadow(0 0 2px currentColor);
+  --border: #6b7385;
+}

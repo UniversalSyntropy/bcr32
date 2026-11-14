@@ -26,7 +26,7 @@ export interface RingState {
   min: number;
   max: number;
   known: boolean; // false: draw the unknown style
-  source: "local" | "host";
+  source: "local" | "host" | "fixture"; // fixture: test data, not a unit state
 }
 
 export interface DisplayState {
@@ -58,7 +58,7 @@ const RingPatch = z.strictObject({
   min: z.number().nullable().optional(),
   max: z.number().nullable().optional(),
   known: z.boolean().nullable().optional(),
-  source: z.enum(["local", "host"]).nullable().optional(),
+  source: z.enum(["local", "host", "fixture"]).nullable().optional(),
 });
 const DisplayPatch = z.strictObject({ lines: z.array(z.string()).nullable().optional(), known: z.boolean().nullable().optional() });
 
@@ -70,3 +70,10 @@ export const ViewPatch = z.strictObject({
   display: DisplayPatch.nullable().optional(),
 });
 export type ViewPatch = z.infer<typeof ViewPatch>;
+
+// An engine holds one PanelView and changes it on control events.
+export interface Engine {
+  dispatch(e: ControlEvent): void;
+  getView(): PanelView;
+  subscribe(fn: () => void): () => void;
+}

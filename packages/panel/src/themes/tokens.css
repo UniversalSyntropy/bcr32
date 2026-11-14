@@ -1,0 +1,13 @@
+/* Tokens that do not change with the theme. Colours are in the theme files, same names in each. */
+:root {
+  /* Pen widths in CSS pixels. The same ratios as a drafting series. */
+  --pen-1: 2px;
+  --pen-2: 1.5px;
+  --pen-3: 1px;
+  --pen-4: 0.75px;
+  --pen-5: 0.5px;
+  --font: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Blink periods. Both stay under 3 flashes a second. */
+  --blink-slow: 1s;
+  --blink-fast: 0.5s;
+}

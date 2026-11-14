@@ -1,0 +1,13 @@
+{
+  "name": "@bcr32/web",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Static web shell for the BCR32 panel.",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@bcr32/device-data": "*",
+    "@bcr32/device-model": "*",
+    "@bcr32/panel": "*"
+  }
+}

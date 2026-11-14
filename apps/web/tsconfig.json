@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": { "lib": ["es2024", "dom", "dom.iterable"], "jsx": "react-jsx", "types": ["node"] },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "vite.config.ts"]
+}

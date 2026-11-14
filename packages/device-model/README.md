@@ -21,10 +21,11 @@ The code in `src/` has no side effects. It reads no file, clock, network or scre
 | `RING_RULES` | Maps each of the 13 style IDs to its rule. |
 | `parseAction` | Parses an action text. It returns an action or an error with an offset. |
 | `elementIndex` | Builds the element index that `parseAction` needs. |
+| `staticEngine`, `reduceStatic` | One fixed panel view. A turn moves a known ring value inside its range. A press and a release set and clear `pressed`. |
 | `ViewPatch` | Zod schema of the `after` field of a guide step. |
 | `checkGuideActions` | Checks that each guide action parses and names one control. |
 | `checkGuideAfter` | Checks each `after` patch against the schema and the data. |
-| Types | `ControlEvent`, `PanelView`, `RingState`, `DisplayState` and the style and mode names. |
+| Types | `Engine`, `ControlEvent`, `PanelView`, `RingState`, `DisplayState` and the style and mode names. |
 
 ## Examples
 

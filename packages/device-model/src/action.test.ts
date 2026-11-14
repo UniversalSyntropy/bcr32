@@ -63,6 +63,14 @@ test("rule: dir only after turn", () => bad("press B5 cw", /only follows 'turn'/
 test("rule: the group E only after turn", () => {
   bad("press E", /group 'E'/, 6);
   bad("hold E + press B5", /group 'E'/, 5);
+  bad("hold B59 + push E", /group 'E'/, 16);
+});
+test("rule: a timed action is a positive whole number of seconds on a button", () => {
+  bad("B1 ×0s", /bad time/, 3);
+  bad("B1 ×1.5s", /bad time/, 3);
+  bad("E25 ×3s", /timed action is for a button/, 0);
+  bad("SEL ×3s", /timed action is for a button/, 0);
+  assert.deepEqual(ok("B1 ×3s"), { kind: "timed", target: { id: "B1" }, seconds: 3 });
 });
 test("rule: an unknown ID fails", () => bad("press B99", /unknown element 'B99'/, 6));
 test("rule: hold X + Y with no verb fails", () => bad("hold B59 + B61", /missing verb after '\+'/, 11));

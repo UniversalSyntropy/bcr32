@@ -1,10 +1,11 @@
 // Checks for the BCR32 data set: counts (playbook step 1.3), reference cross-check (step 1.4).
 import assert from "node:assert/strict";
-import { readdirSync, readFileSync } from "node:fs";
+import { cpSync, mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 
-import { GeometryFile, GuideFile, RingsFile, checkGeometry, checkGuide, checkRings, loadDevice, validateDevice } from "./index.ts";
+import { GeometryFile, GuideFile, RingsFile, checkGeometry, checkGuide, checkRings, loadDevice } from "./index.ts";
 
 const dir = join(import.meta.dirname, "..", "..", "..", "data", "devices", "bcr32");
 
@@ -149,12 +150,18 @@ const ringSetIssues = (rings: { code: string }[]) => {
   return issues;
 };
 
+// The one check that BCR32 data holds geometry and rings. Both the clean-data test and the missing-file test call it.
+function assertGeometryAndRings(r: ReturnType<typeof loadDevice>) {
+  assert.ok(r.ok, "device data must load");
+  assert.ok(r.data.geometry, "geometry missing");
+  assert.ok(r.data.rings.length > 0, "rings missing");
+}
+
 test("BCR32 geometry and rings: clean data gives no issue", () => {
   const r = loadDevice(dir);
   assert.deepEqual(r.issues, []);
+  assertGeometryAndRings(r);
   assert.ok(r.ok);
-  assert.ok(r.data.geometry, "geometry missing");
-  assert.ok(r.data.rings.length > 0, "rings missing");
   assert.deepEqual(ringSetIssues(r.data.rings), []);
   assert.equal(Object.keys(r.data.geometry!.place).length, 88);
   assert.equal(r.data.rings.length, 13);
@@ -305,13 +312,17 @@ test("guide: a duplicate step id", () => {
   assert.deepEqual(guideIssues(g), ["guide 'demo': duplicate step id 's1'"]);
 });
 
-test("clean-data test names a missing rings file, not a TypeError", () => {
-  const raw = Object.fromEntries(
-    readdirSync(dir).filter((n) => n.endsWith(".json")).filter((n) => n !== "rings.json").map((n) => [n, JSON.parse(readFileSync(join(dir, n), "utf8"))]),
-  );
-  const r = validateDevice(raw);
-  assert.ok(r.ok);
-  assert.throws(() => assert.ok(r.data.rings.length > 0, "rings missing"), /rings missing/);
+test("clean-data check names a missing rings file, not a TypeError", () => {
+  const copy = mkdtempSync(join(tmpdir(), "bcr32-rings-"));
+  try {
+    cpSync(dir, copy, { recursive: true });
+    rmSync(join(copy, "rings.json"));
+    const r = loadDevice(copy);
+    assert.ok(r.ok, "the loader accepts a folder with no rings file");
+    assert.throws(() => assertGeometryAndRings(r), /rings missing/);
+  } finally {
+    rmSync(copy, { recursive: true, force: true });
+  }
 });
 
 test("geometry: a view prov outside the enum fails", () => {
@@ -319,6 +330,13 @@ test("geometry: a view prov outside the enum fails", () => {
   assert.ok(GeometryFile.safeParse(g).success);
   g.views.top.prov = "maybe";
   assert.ok(!GeometryFile.safeParse(g).success);
+});
+
+test("geometry: the rear view size is measured (width and height)", () => {
+  const g = rawGeometry();
+  assert.equal(g.views.rear.prov, "measured");
+  assert.equal(g.views.rear.height, 34.5);
+  assert.ok(GeometryFile.safeParse(g).success);
 });
 
 test("guide: a malformed token gives one named issue each", () => {

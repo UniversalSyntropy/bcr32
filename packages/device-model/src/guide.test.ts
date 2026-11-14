@@ -66,7 +66,38 @@ test("ViewPatch: null removes a key; an unknown key fails", () => {
   assert.ok(!ViewPatch.safeParse({ extra: 1 }).success);
 });
 
-// Purity: the model reads no file, clock, network or DOM.
+// Purity: the model reads no file, clock, random source, network or DOM.
+const FORBIDDEN = [
+  "node:", "react", "document", "window", "setTimeout", "setInterval", "Date.now", "fetch",
+  "import(", "require(", "import (", "require (", "new Date", "Date(", "Math.random", "performance.", "globalThis", "process.",
+];
+
+// Removes comments and string literals, so a word in a comment or a message does not fail the scan.
+// Import specifiers are checked apart, before this runs.
+function stripCommentsAndStrings(src: string): string {
+  return src
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/\/\/[^\n]*/g, "")
+    .replace(/"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|`(?:[^`\\]|\\.)*`/g, '""');
+}
+
+const forbiddenIn = (src: string) => FORBIDDEN.filter((w) => stripCommentsAndStrings(src).includes(w));
+
+test("purity scan: each forbidden form fails and a comment passes", () => {
+  const planted: Record<string, string> = {
+    "import(": 'const m = await import("x");',
+    "require(": 'const m = require("x");',
+    "new Date": "const t = new Date();",
+    "Date(": "const t = Date();",
+    "Math.random": "const r = Math.random();",
+    "performance.": "const t = performance.now();",
+    globalThis: "globalThis.x = 1;",
+    "process.": "process.exit(1);",
+  };
+  for (const [word, src] of Object.entries(planted)) assert.ok(forbiddenIn(src).includes(word), `${word} must fail`);
+  assert.deepEqual(forbiddenIn("// new Date and Math.random\n/* process. import( */ const a = 'globalThis';"), []);
+});
+
 test("purity: source files import only relative paths, device-data and zod", () => {
   const files = readdirSync(import.meta.dirname).filter((n) => n.endsWith(".ts") && !n.endsWith(".test.ts"));
   assert.ok(files.length >= 5);
@@ -76,7 +107,6 @@ test("purity: source files import only relative paths, device-data and zod", () 
       const spec = m[1]!;
       assert.ok(spec.startsWith("./") || spec === "@bcr32/device-data" || spec === "zod", `${f} imports '${spec}'`);
     }
-    for (const word of ["node:", "react", "document", "window", "setTimeout", "setInterval", "Date.now", "fetch"])
-      assert.ok(!text.includes(word), `${f} contains '${word}'`);
+    assert.deepEqual(forbiddenIn(text), [], `${f} holds a forbidden form`);
   }
 });

@@ -19,3 +19,6 @@ LIVE-STATUS.md
 
 # midi-capture build output
 tools/midi-capture/build/
+
+# web build output
+apps/web/dist/

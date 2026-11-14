@@ -74,7 +74,11 @@ function parsePart(text: string, base: number, els: ElementIndex): Action {
   if (!VERBS.has(head.text)) {
     const secs = t[1] === undefined ? null : /^×(\d+(?:\.\d+)?)s$/.exec(t[1].text);
     if (secs === null || t.length > 2) throw new Fail(`unknown verb '${head.text}'`, head.at);
-    return { kind: "timed", target: target(head, els, false), seconds: Number(secs[1]) };
+    const seconds = Number(secs[1]);
+    if (!/^\d+$/.test(secs[1]!) || seconds < 1) throw new Fail(`bad time '${t[1]!.text}'; use × and a positive whole number of seconds, then s`, t[1]!.at);
+    const tg = target(head, els, false);
+    if (els.get((tg as { id: string }).id) !== "button") throw new Fail(`a timed action is for a button, '${head.text}' is a ${els.get(head.text)}`, head.at);
+    return { kind: "timed", target: tg, seconds };
   }
 
   if (head.text === "hold" && t.some((x) => x.text === "+")) return parseCombo(t, els);
@@ -134,7 +138,7 @@ function parseSimple(t: Tok[], i: number, els: ElementIndex): Simple {
   return out;
 }
 
-// The group E is valid only after 'turn', also as the 'then' part of a combo.
+// The group E is valid only as the target of 'turn'. 'hold X + push E' fails: 'push' takes one encoder.
 function target(tok: Tok, els: ElementIndex, groupOk: boolean): Target {
   if (tok.text === "E") {
     if (groupOk) return { group: "E" };

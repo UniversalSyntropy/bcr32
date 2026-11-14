@@ -1,0 +1,57 @@
+/* Structure and state of the panel. Every colour, pen width and font is a token. */
+.panel { width: 100%; font-family: var(--font); color: var(--page-text); }
+.stage { user-select: none; -webkit-user-select: none; position: relative; width: min(100%, calc((100dvh - var(--chrome, 200px)) * var(--ar, 1.3))); margin: 0 auto; overflow: hidden; border-radius: 6px; border: var(--pen-2) solid var(--border); background: var(--face); }
+.panel-svg { position: absolute; inset: 0; display: block; width: 100%; height: 100%; direction: ltr; }
+.panel-svg * { vector-effect: non-scaling-stroke; }
+
+.case-face { fill: var(--face); stroke: var(--case); stroke-width: var(--pen-1); }
+.note, .display-text { fill: var(--legend); font-family: var(--font); font-size: 4px; }
+.display-text { font-size: 3px; }
+.legend { fill: var(--legend); font-family: var(--font); font-weight: 700; pointer-events: none; }
+.display-unknown-text { fill: var(--hatch); }
+.part { fill: var(--part); stroke: var(--part-edge); stroke-width: var(--pen-3); }
+.part-led { fill: var(--led-off); stroke-width: var(--pen-5); }
+.part-display { fill: var(--case); stroke-width: var(--pen-4); }
+.display-window { fill: var(--face); stroke: var(--part-edge); stroke-width: var(--pen-5); }
+.display-unknown { stroke: var(--hatch); stroke-dasharray: 3 2; }
+
+.light-shape { fill: var(--c); stroke: var(--legend); stroke-width: var(--pen-4); }
+.light { color: var(--c); filter: var(--glow); pointer-events: none; }
+.ring-led { fill: var(--ring-off); stroke: none; }
+.ring-led[data-lit="true"] { fill: var(--ring-on); stroke: var(--legend); stroke-width: var(--pen-5); }
+.ring-led-unknown { fill: none; stroke: var(--hatch); stroke-width: var(--pen-4); stroke-dasharray: 1.5 1; }
+
+.mark-press { fill: none; stroke: var(--focus); stroke-width: var(--pen-2); }
+.focus-ring { fill: none; stroke: var(--focus); stroke-width: var(--pen-1); }
+#case, #legends, #lights, #marks, #highlight { pointer-events: none; }
+
+@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.2; } }
+.light[data-blink="slow"] { animation: blink var(--blink-slow) steps(1) infinite; }
+.light[data-blink="fast"] { animation: blink var(--blink-fast) steps(1) infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .light[data-blink] { animation: none; }
+  .light[data-blink] .light-shape { stroke-dasharray: 2 1; stroke-width: var(--pen-2); }
+}
+
+/* The access layer. Transparent controls in the same box as the parts. */
+.ctl-group { display: contents; }
+.ctl { user-select: none; -webkit-user-select: none; position: absolute; box-sizing: border-box; margin: 0; padding: 0; border: 0; background: transparent; cursor: pointer; touch-action: none; -webkit-tap-highlight-color: transparent; border-radius: 4px; }
+.ctl:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.ctl[role="slider"], .ctl[role="spinbutton"] { border-radius: 50%; touch-action: none; cursor: ns-resize; }
+
+.knob-tools { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+.knob-tools button { min-width: 44px; min-height: 44px; font: inherit; font-size: 1.25rem; color: var(--page-text); background: var(--part); border: var(--pen-2) solid var(--part-edge); border-radius: 6px; }
+.rear-note { margin: 8px 0 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+/* Forced colours: system colours. A lit state keeps a border as well as a fill. */
+@media (forced-colors: active) {
+  .stage, .case-face { background: Canvas; fill: Canvas; border-color: CanvasText; stroke: CanvasText; }
+  .part, .display-window { fill: Canvas; stroke: CanvasText; }
+  .light-shape { fill: Highlight; stroke: CanvasText; stroke-width: 2px; }
+  .ring-led[data-lit="true"] { fill: Highlight; stroke: CanvasText; stroke-width: 1px; }
+  .ring-led { fill: Canvas; stroke: GrayText; stroke-width: 1px; }
+  .focus-ring, .mark-press { stroke: Highlight; }
+  .note, .display-text, .legend { fill: CanvasText; }
+  .ctl:focus-visible { outline: 2px solid CanvasText; }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@bcr32/panel",
+  "version": "0.0.0",
+  "private": true,
+  "description": "BCR32 panel: placement, SVG parts, access layer and themes.",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./panel.css": "./src/panel.css",
+    "./themes/tokens.css": "./src/themes/tokens.css",
+    "./themes/device.css": "./src/themes/device.css",
+    "./themes/flat.css": "./src/themes/flat.css"
+  },
+  "dependencies": {
+    "@bcr32/device-data": "*",
+    "@bcr32/device-model": "*"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  }
+}

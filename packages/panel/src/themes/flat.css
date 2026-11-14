@@ -1,0 +1,45 @@
+/* Theme flat: two-tone, no glow. A light set and a dark set. */
+[data-theme="flat"][data-scheme="light"] {
+  color-scheme: light;
+  --page: #f4f5f7;
+  --page-text: #14171c;
+  --face: #e9ecf1;
+  --case: #cfd5de;
+  --legend: #1a1d24;
+  --part: #ffffff;
+  --part-edge: #4a5262;
+  --ring-on: #14171c;
+  --ring-off: #b4bcc9;
+  --led-off: #c5ccd6;
+  --led-pink: #c2185b;
+  --led-amber: #9a5b00;
+  --led-blue: #1565c0;
+  --led-green: #1b7a3a;
+  --led-red: #c62828;
+  --focus: #0b3fd6;
+  --hatch: #4f586a;
+  --glow: none;
+  --border: #4a5262;
+}
+[data-theme="flat"][data-scheme="dark"] {
+  color-scheme: dark;
+  --page: #15181d;
+  --page-text: #e6e9ee;
+  --face: #232830;
+  --case: #333a45;
+  --legend: #e6e9ee;
+  --part: #2c323c;
+  --part-edge: #98a1b1;
+  --ring-on: #e6e9ee;
+  --ring-off: #454d5b;
+  --led-off: #3a4150;
+  --led-pink: #f06fa8;
+  --led-amber: #f0a830;
+  --led-blue: #5aa9f5;
+  --led-green: #4ccd84;
+  --led-red: #f06868;
+  --focus: #ffd60a;
+  --hatch: #a2abbb;
+  --glow: none;
+  --border: #98a1b1;
+}

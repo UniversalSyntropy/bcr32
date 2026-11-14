@@ -14,7 +14,7 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -25,9 +25,12 @@ jobs:
       - run: npm run lint:md
       - run: npm run typecheck
       - run: npm test
+      - run: npm run build:web
       - run: npm run check:schema
       - run: npm run validate:data
       - run: npm run check:tables
       - run: npm run check:docs
       - run: npm run check:coverage
       - run: npm run check:privacy
+      - run: npx playwright install --with-deps chromium webkit
+      - run: npm run test:browser
