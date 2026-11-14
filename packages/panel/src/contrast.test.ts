@@ -67,3 +67,23 @@ test("LED names: each name in data has a token in every theme", () => {
   assert.ok(ledNames.length >= 6);
   for (const [name, t] of Object.entries(sets())) for (const led of ledNames) assert.ok(`led-${led}` in t, `${name} has no --led-${led}`);
 });
+
+const printNames = ["red", "orange", "yellow", "lime", "green", "teal", "cyan", "magenta", "white"];
+
+test("printed colours: at least 4.5 to 1 on the face and on a part; bar text on a bar", () => {
+  for (const [name, t] of Object.entries(sets())) {
+    for (const c of printNames) {
+      assert.ok(ratio(t[`print-${c}`]!, t["face"]!) >= 4.5, `${name}: print-${c} on face is ${ratio(t[`print-${c}`]!, t["face"]!).toFixed(2)}`);
+      assert.ok(ratio(t[`print-${c}`]!, t["part"]!) >= 4.5, `${name}: print-${c} on part is ${ratio(t[`print-${c}`]!, t["part"]!).toFixed(2)}`);
+    }
+    assert.ok(ratio(t["bar-text"]!, t["bar"]!) >= 4.5, `${name}: bar-text on bar`);
+  }
+});
+
+test("lit button: the legend colour (on-led) is at least 4.5 to 1 on every lit LED colour, in each theme", () => {
+  for (const [name, t] of Object.entries(sets()))
+    for (const led of ledNames.filter((n) => n !== "off")) {
+      const r = ratio(t["on-led"]!, t[`led-${led}`]!);
+      assert.ok(r >= 4.5, `${name}: on-led on led-${led} is ${r.toFixed(2)}`);
+    }
+});

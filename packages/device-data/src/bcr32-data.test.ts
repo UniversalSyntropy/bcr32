@@ -209,7 +209,76 @@ test("geometry: two overlapping knobs", () => {
 test("geometry: a legend with a label index that does not exist", () => {
   const g = rawGeometry();
   g.legends.push({ for: "E25", label: 9, x: 19, y: 120, anchor: "middle", capHeight: 1.8, prov: "assumed" });
-  assert.deepEqual(geometryIssues(g), ["legend 0: 'E25' has no label 9"]);
+  assert.deepEqual(geometryIssues(g), [`legend ${g.legends.length - 1}: 'E25' has no label 9`]);
+});
+
+// B4: legends, marks and brand. Each planted fault gives one named issue.
+test("geometry B4: clean data has 164 legends, one for each label, and one brand text", () => {
+  const r = loadDevice(dir);
+  assert.ok(r.ok && r.data.geometry);
+  const labels = r.data.elements.reduce((n, e) => n + e.labels.length, 0);
+  assert.equal(labels, 164);
+  assert.equal(r.data.geometry.legends.length, labels);
+  assert.equal(r.data.geometry.brand.length, 1);
+  assert.equal(r.data.geometry.brand[0]!.text, "BCR32");
+  assert.ok(r.data.geometry.marks.length > 0);
+});
+
+test("geometry B4: a label with no legend entry", () => {
+  const g = rawGeometry();
+  const i = g.legends.findIndex((l: any) => l.for === "E26" && l.label === 0);
+  g.legends.splice(i, 1);
+  assert.deepEqual(geometryIssues(g), ["label 0 of 'E26' has no legend"]);
+});
+
+test("geometry B4: a second legend for one label", () => {
+  const g = rawGeometry();
+  g.legends.push({ ...g.legends.find((l: any) => l.for === "E26" && l.label === 0) });
+  assert.deepEqual(geometryIssues(g), [`legend ${g.legends.length - 1}: 'E26' label 0 has a second legend`]);
+});
+
+test("geometry B4: a legend that copies the label text is rejected by the schema", () => {
+  const g = rawGeometry();
+  g.legends[0].text = "ZQR/CTRL";
+  assert.match(JSON.stringify(GeometryFile.safeParse(g).error?.issues), /[Uu]nrecognized key/);
+});
+
+test("geometry B4: a positioned label with no position", () => {
+  const g = rawGeometry();
+  const l = g.legends.find((l: any) => l.for === "E26" && l.label === 0);
+  delete l.x;
+  delete l.y;
+  assert.deepEqual(geometryIssues(g), [`legend ${g.legends.indexOf(l)}: 'E26' label 0 has no position`]);
+});
+
+test("geometry B4: a mark outside the view", () => {
+  const g = rawGeometry();
+  g.marks[0].x = 400;
+  assert.deepEqual(geometryIssues(g), [`mark '${g.marks[0].id}' lies outside view 'top'`]);
+});
+
+test("geometry B4: a second brand text and a brand outside the view", () => {
+  const two = rawGeometry();
+  two.brand.push({ ...two.brand[0] });
+  assert.ok(!GeometryFile.safeParse(two).success);
+  const out = rawGeometry();
+  out.brand[0].x = 999;
+  assert.deepEqual(geometryIssues(out), ["brand text lies outside view 'top'"]);
+});
+
+test("geometry B4: a line mark with a width, and a box with no label index", () => {
+  const line = rawGeometry();
+  line.marks.find((m: any) => m.kind === "line").w = 3;
+  assert.ok(!GeometryFile.safeParse(line).success);
+  const box = rawGeometry();
+  delete box.marks.find((m: any) => m.kind === "box").label;
+  assert.ok(!GeometryFile.safeParse(box).success);
+});
+
+test("geometry B4: knob crown is measured", () => {
+  const r = loadDevice(dir);
+  assert.ok(r.ok && r.data.geometry);
+  assert.deepEqual(r.data.geometry.parts["knob"]!.crown, { diaAtBrim: 14.5, diaAtTop: 12.4, prov: "measured" });
 });
 
 test("geometry: schema rejects 'measured' without x, a penWidth key and a missing part with coordinates", () => {

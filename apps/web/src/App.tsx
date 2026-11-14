@@ -1,5 +1,5 @@
 import { staticEngine } from "@bcr32/device-model";
-import { buildLayout, groupViewBox, Panel } from "@bcr32/panel";
+import { buildLayout, DevPanel, groupViewBox, LAYERS, LayerToggles, Panel } from "@bcr32/panel";
 import { useEffect, useMemo, useState } from "react";
 
 import { data } from "./data.ts";
@@ -26,6 +26,8 @@ export function App() {
   const [showTitle, setShowTitle] = useState(true);
   const [group, setGroup] = useState<string | null>(null);
   const engine = useMemo(() => staticEngine(fixture), []);
+  const dev = useMemo(() => new URLSearchParams(location.search).get("dev") === "1", []);
+  const layers = useMemo(() => new Set(state.layers), [state.layers]);
   const narrow = useMedia(NARROW);
   const systemDark = useMedia("(prefers-color-scheme: dark)");
 
@@ -38,11 +40,11 @@ export function App() {
   useEffect(() => {
     writeStored(state);
     try {
-      history.replaceState(null, "", toSearch(state));
+      history.replaceState(null, "", toSearch(state) + (dev ? "&dev=1" : ""));
     } catch {
       /* some embeds block history */
     }
-  }, [state]);
+  }, [state, dev]);
 
   const layout = useMemo(() => buildLayout(data.geometry, data.elements, state.view, data.groupNames), [state.view]);
   const groups = layout.groups.filter((g) => g.controls.length > 0);
@@ -74,6 +76,7 @@ export function App() {
             ))}
           </select>
         </label>
+        <LayerToggles on={layers} onChange={(next) => setState({ ...state, layers: LAYERS.filter((l) => next.has(l)) })} />
         {narrow && groups.length > 0 ? (
           <label>
             Group{" "}
@@ -87,8 +90,9 @@ export function App() {
         ) : null}
       </div>
       <div>
-        <Panel data={data} engine={engine} view={state.view} {...(zoom === undefined ? {} : { viewBox: zoom })} only={zoom === undefined ? null : current} />
+        <Panel data={data} engine={engine} view={state.view} {...(zoom === undefined ? {} : { viewBox: zoom })} only={zoom === undefined ? null : current} layers={layers} dev={dev} />
       </div>
+      {dev ? <DevPanel geometry={data.geometry} engine={engine} /> : null}
       <ul className="facts">
         <li>Fixture: not a unit state</li>
         <li>Mode of the fixture: ctrl. Three knobs show a value. The other knobs and the display are unknown.</li>

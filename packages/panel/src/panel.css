@@ -8,6 +8,31 @@
 .note, .display-text { fill: var(--legend); font-family: var(--font); font-size: 4px; }
 .display-text { font-size: 3px; }
 .legend { fill: var(--legend); font-family: var(--font); font-weight: 700; pointer-events: none; }
+.legend[data-colour="red"] { fill: var(--print-red); }
+.legend[data-colour="orange"] { fill: var(--print-orange); }
+.legend[data-colour="yellow"] { fill: var(--print-yellow); }
+.legend[data-colour="lime"] { fill: var(--print-lime); }
+.legend[data-colour="green"] { fill: var(--print-green); }
+.legend[data-colour="teal"] { fill: var(--print-teal); }
+.legend[data-colour="cyan"] { fill: var(--print-cyan); }
+.legend[data-colour="magenta"] { fill: var(--print-magenta); }
+.legend[data-colour="white"] { fill: var(--print-white); }
+.legend[data-colour="dark"] { fill: var(--print-dark); }
+.legend[data-colour="bar"] { fill: var(--bar-text); }
+.legend[data-colour].legend-lit { fill: var(--on-led); }
+.brand { fill: var(--legend); font-family: var(--font); pointer-events: none; }
+.mark-line { stroke: var(--legend); fill: none; }
+.mark-bar { fill: var(--bar); stroke: none; }
+.pen-hairline { stroke-width: var(--pen-5); }
+.pen-detail { stroke-width: var(--pen-4); }
+.pen-outline { stroke-width: var(--pen-2); }
+.layer-label { fill: var(--layer-text, var(--legend)); font-family: var(--font); font-weight: 400; pointer-events: none; }
+.layer-callout { fill: var(--print-cyan); }
+.layer-id { fill: var(--print-yellow); }
+.layer-function { fill: var(--print-green); }
+.part-crown { fill: none; stroke: var(--part-edge); stroke-width: var(--pen-4); }
+.part-crown-top { fill: var(--part); }
+.pointer { stroke: var(--legend); stroke-width: var(--pen-1); stroke-linecap: round; pointer-events: none; }
 .display-unknown-text { fill: var(--hatch); }
 .part { fill: var(--part); stroke: var(--part-edge); stroke-width: var(--pen-3); }
 .part-led { fill: var(--led-off); stroke-width: var(--pen-5); }
@@ -15,7 +40,7 @@
 .display-window { fill: var(--face); stroke: var(--part-edge); stroke-width: var(--pen-5); }
 .display-unknown { stroke: var(--hatch); stroke-dasharray: 3 2; }
 
-.light-shape { fill: var(--c); stroke: var(--legend); stroke-width: var(--pen-4); }
+.light-shape { fill: var(--c); stroke: var(--part-edge); stroke-width: var(--pen-4); }
 .light { color: var(--c); filter: var(--glow); pointer-events: none; }
 .ring-led { fill: var(--ring-off); stroke: none; }
 .ring-led[data-lit="true"] { fill: var(--ring-on); stroke: var(--legend); stroke-width: var(--pen-5); }
@@ -23,15 +48,39 @@
 
 .mark-press { fill: none; stroke: var(--focus); stroke-width: var(--pen-2); }
 .focus-ring { fill: none; stroke: var(--focus); stroke-width: var(--pen-1); }
-#case, #legends, #lights, #marks, #highlight { pointer-events: none; }
+#case, #printed-marks, #legends, #labels, #lights, #marks, #highlight { pointer-events: none; }
 
 @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.2; } }
 .light[data-blink="slow"] { animation: blink var(--blink-slow) steps(1) infinite; }
 .light[data-blink="fast"] { animation: blink var(--blink-fast) steps(1) infinite; }
+@keyframes blink-text { 0%, 49% { fill: var(--on-led); } 50%, 100% { fill: var(--legend); } }
+.legend[data-colour].legend-lit[data-blink="slow"] { animation: blink-text var(--blink-slow) steps(1) infinite; }
+.legend[data-colour].legend-lit[data-blink="fast"] { animation: blink-text var(--blink-fast) steps(1) infinite; }
 @media (prefers-reduced-motion: reduce) {
+  .legend[data-colour].legend-lit[data-blink] { animation: none; }
   .light[data-blink] { animation: none; }
   .light[data-blink] .light-shape { stroke-dasharray: 2 1; stroke-width: var(--pen-2); }
 }
+
+/* Developer view: parts take the colour of their provenance. */
+[data-dev="true"] g[data-prov="measured"] > .part { fill: var(--prov-measured); }
+[data-dev="true"] g[data-prov="derived"] > .part { fill: var(--prov-derived); }
+[data-dev="true"] g[data-prov="owner"] > .part { fill: var(--prov-owner); }
+[data-dev="true"] g[data-prov="assumed"] > .part { fill: var(--prov-assumed); }
+[data-dev="true"] g[data-prov="missing"] > .part { fill: var(--prov-missing); }
+[data-dev="true"] .legend[data-colour] { fill: var(--page); }
+.prov-chip { display: inline-block; width: 0.8em; height: 0.8em; border: 1px solid var(--part-edge); }
+.prov-chip[data-prov="measured"] { background: var(--prov-measured); }
+.prov-chip[data-prov="derived"] { background: var(--prov-derived); }
+.prov-chip[data-prov="owner"] { background: var(--prov-owner); }
+.prov-chip[data-prov="assumed"] { background: var(--prov-assumed); }
+.prov-chip[data-prov="missing"] { background: var(--prov-missing); }
+.dev-panel { margin-top: 12px; padding: 8px 12px; border: var(--pen-2) solid var(--border); border-radius: 6px; }
+.dev-panel table { border-collapse: collapse; }
+.dev-panel th, .dev-panel td { padding: 2px 10px; text-align: left; }
+.layers { display: flex; flex-wrap: wrap; gap: 4px 16px; border: 0; margin: 0; padding: 0; }
+.layers legend { padding: 0 8px 0 0; float: left; }
+.layers label { min-height: 44px; display: inline-flex; align-items: center; }
 
 /* The access layer. Transparent controls in the same box as the parts. */
 .ctl-group { display: contents; }
@@ -52,6 +101,10 @@
   .ring-led[data-lit="true"] { fill: Highlight; stroke: CanvasText; stroke-width: 1px; }
   .ring-led { fill: Canvas; stroke: GrayText; stroke-width: 1px; }
   .focus-ring, .mark-press { stroke: Highlight; }
-  .note, .display-text, .legend { fill: CanvasText; }
+  .note, .display-text, .legend, .brand, .legend[data-colour] { fill: CanvasText; }
+  .legend[data-colour].legend-lit { fill: HighlightText; }
+  .mark-bar { fill: Canvas; stroke: CanvasText; }
+  .mark-line, .pointer { stroke: CanvasText; }
+  .layer-label { fill: CanvasText; }
   .ctl:focus-visible { outline: 2px solid CanvasText; }
 }

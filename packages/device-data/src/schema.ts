@@ -256,6 +256,8 @@ const GeometryView = z
 const GeometryPart = z
   .strictObject({
     shape: z.enum(["circle", "rect"]),
+    // Knob crown: two more circles in the top view, inside the brim circle (dia).
+    crown: z.strictObject({ diaAtBrim: z.number().positive(), diaAtTop: z.number().positive(), prov: Provenance }).optional(),
     dia: z.number().positive().optional(), // circle
     w: z.number().positive().optional(), // rect
     h: z.number().positive().optional(), // rect
@@ -286,13 +288,71 @@ const GeometryPlace = z
     message: "'missing' has no x, y; every other provenance needs part, x and y",
   });
 
-const GeometryLegend = z.strictObject({
-  for: ElementId,
-  label: z.int().min(0), // index into the labels of that element
+// One entry for each label of elements.json. The text stays in elements.json (for + label index).
+// An 'on' label may leave x and y out: it sits at the centre of its part. A label that another
+// label draws (sharedWith) has no position. A label with prov 'missing' has no position either.
+const GeometryLegend = z
+  .strictObject({
+    for: ElementId,
+    label: z.int().min(0), // index into the labels of that element
+    x: z.number().optional(), // centre of the text box (anchor 'middle'), or its start or end edge
+    y: z.number().optional(), // vertical centre of the text
+    anchor: z.enum(["start", "middle", "end"]),
+    capHeight: z.number().positive(),
+    rot: z.number().optional(), // degrees, clockwise
+    sharedWith: ElementId.optional(), // the element whose legend entry draws the same printed text
+    prov: Provenance,
+  })
+  .refine((l) => (l.x === undefined) === (l.y === undefined), { message: "x and y come together" })
+  .refine((l) => l.sharedWith === undefined || (l.x === undefined && l.sharedWith !== l.for), {
+    message: "a shared legend names another element and has no x, y",
+  })
+  .refine((l) => l.prov !== "missing" || (l.x === undefined && l.sharedWith === undefined), {
+    message: "'missing' has no x, y and no sharedWith",
+  });
+
+// Printed lines, bars and boxed markers. Pen widths and colours come from the theme, not from here.
+const GeometryMark = z
+  .strictObject({
+    id: Key,
+    view: Key,
+    kind: z.enum(["line", "bar", "box"]),
+    x1: z.number().optional(),
+    y1: z.number().optional(),
+    x2: z.number().optional(),
+    y2: z.number().optional(),
+    x: z.number().optional(), // bar and box: top-left corner
+    y: z.number().optional(),
+    w: z.number().positive().optional(),
+    h: z.number().positive().optional(),
+    pen: z.enum(["hairline", "detail", "outline"]),
+    for: ElementId.optional(), // a box that frames one label
+    label: z.int().min(0).optional(),
+    prov: Provenance,
+  })
+  .refine(
+    (m) => {
+      const line = [m.x1, m.y1, m.x2, m.y2].every((v) => v !== undefined);
+      const rect = [m.x, m.y, m.w, m.h].every((v) => v !== undefined);
+      const noLine = [m.x1, m.y1, m.x2, m.y2].every((v) => v === undefined);
+      const noRect = [m.x, m.y, m.w, m.h].every((v) => v === undefined);
+      return m.kind === "line" ? line && noRect : rect && noLine;
+    },
+    { message: "a line needs x1, y1, x2, y2 only; a bar or box needs x, y, w, h only" },
+  )
+  .refine((m) => (m.for === undefined) === (m.label === undefined) && (m.for === undefined || m.kind === "box"), {
+    message: "only a box has for and label, and it has both",
+  });
+
+// The model name as plain text on the panel face. At most one entry. No logo shape.
+const GeometryBrand = z.strictObject({
+  view: Key,
+  text: Text,
   x: z.number(),
   y: z.number(),
+  size: z.number().positive(), // font size in mm
   anchor: z.enum(["start", "middle", "end"]),
-  capHeight: z.number().positive(),
+  weight: z.int().min(100).max(900),
   prov: Provenance,
 });
 
@@ -305,6 +365,8 @@ export const GeometryFile = z.strictObject({
   ring: GeometryRing.optional(),
   place: z.record(ElementId, GeometryPlace),
   legends: z.array(GeometryLegend),
+  marks: z.array(GeometryMark),
+  brand: z.array(GeometryBrand).max(1),
 });
 
 // rings.json: one row per LED ring style.

@@ -75,6 +75,35 @@
               "rect"
             ]
           },
+          "crown": {
+            "type": "object",
+            "properties": {
+              "diaAtBrim": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "diaAtTop": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "prov": {
+                "type": "string",
+                "enum": [
+                  "measured",
+                  "derived",
+                  "owner",
+                  "assumed",
+                  "missing"
+                ]
+              }
+            },
+            "required": [
+              "diaAtBrim",
+              "diaAtTop",
+              "prov"
+            ],
+            "additionalProperties": false
+          },
           "dia": {
             "type": "number",
             "exclusiveMinimum": 0
@@ -239,6 +268,13 @@
             "type": "number",
             "exclusiveMinimum": 0
           },
+          "rot": {
+            "type": "number"
+          },
+          "sharedWith": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Za-z0-9]*(\\.[a-z0-9]+)?$"
+          },
           "prov": {
             "type": "string",
             "enum": [
@@ -253,10 +289,154 @@
         "required": [
           "for",
           "label",
-          "x",
-          "y",
           "anchor",
           "capHeight",
+          "prov"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "marks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+          },
+          "view": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "line",
+              "bar",
+              "box"
+            ]
+          },
+          "x1": {
+            "type": "number"
+          },
+          "y1": {
+            "type": "number"
+          },
+          "x2": {
+            "type": "number"
+          },
+          "y2": {
+            "type": "number"
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "w": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "h": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "pen": {
+            "type": "string",
+            "enum": [
+              "hairline",
+              "detail",
+              "outline"
+            ]
+          },
+          "for": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Za-z0-9]*(\\.[a-z0-9]+)?$"
+          },
+          "label": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "prov": {
+            "type": "string",
+            "enum": [
+              "measured",
+              "derived",
+              "owner",
+              "assumed",
+              "missing"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "view",
+          "kind",
+          "pen",
+          "prov"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "brand": {
+      "maxItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "view": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "size": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "anchor": {
+            "type": "string",
+            "enum": [
+              "start",
+              "middle",
+              "end"
+            ]
+          },
+          "weight": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 900
+          },
+          "prov": {
+            "type": "string",
+            "enum": [
+              "measured",
+              "derived",
+              "owner",
+              "assumed",
+              "missing"
+            ]
+          }
+        },
+        "required": [
+          "view",
+          "text",
+          "x",
+          "y",
+          "size",
+          "anchor",
+          "weight",
           "prov"
         ],
         "additionalProperties": false
@@ -269,7 +449,9 @@
     "views",
     "parts",
     "place",
-    "legends"
+    "legends",
+    "marks",
+    "brand"
   ],
   "additionalProperties": false,
   "$id": "geometry.schema.json",

@@ -20,6 +20,25 @@
   --hatch: #4f586a;
   --glow: none;
   --border: #4a5262;
+  /* Printed text: one token for each print colour. A bar is a light band; text on it uses bar-text. */
+  --print-red: #b3261e;
+  --print-orange: #9c4a00;
+  --print-yellow: #6f5a00;
+  --print-lime: #476800;
+  --print-green: #1b6e3a;
+  --print-teal: #0b6655;
+  --print-cyan: #00667a;
+  --print-magenta: #a3178f;
+  --print-white: #1a1d24;
+  --print-dark: #1a1d24;
+  --bar: #aeb8c6;
+  --bar-text: #14171c;
+  --on-led: #ffffff;
+  --prov-measured: #1b7a3a;
+  --prov-derived: #1565c0;
+  --prov-owner: #7a6200;
+  --prov-assumed: #b45309;
+  --prov-missing: #c62828;
 }
 [data-theme="flat"][data-scheme="dark"] {
   color-scheme: dark;
@@ -42,4 +61,23 @@
   --hatch: #a2abbb;
   --glow: none;
   --border: #98a1b1;
+  /* Printed text: one token for each print colour. A bar is a light band; text on it uses bar-text. */
+  --print-red: #ff8a80;
+  --print-orange: #ffa866;
+  --print-yellow: #ffe066;
+  --print-lime: #c2ee62;
+  --print-green: #5ee89a;
+  --print-teal: #4be0c6;
+  --print-cyan: #5adcf0;
+  --print-magenta: #ff8ae6;
+  --print-white: #e6e9ee;
+  --print-dark: #1f2933;
+  --bar: #c9ced4;
+  --bar-text: #14171c;
+  --on-led: #0e0f12;
+  --prov-measured: #4ccd84;
+  --prov-derived: #5aa9f5;
+  --prov-owner: #ffd60a;
+  --prov-assumed: #f0a830;
+  --prov-missing: #f06868;
 }

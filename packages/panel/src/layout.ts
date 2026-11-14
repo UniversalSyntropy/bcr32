@@ -12,15 +12,38 @@ export const VIEW_MARGIN_MM = 4;
 // One ring LED is a rectangle: short edge toward the knob centre, long edge radial. In mm.
 export const RING_LED_W_MM = 1;
 export const RING_LED_H_MM = 3;
-// Cap height of a printed legend, in mm, when the geometry file gives none for it.
-export const LEGEND_CAP_MM = 2;
+// Font size of printed text as a multiple of its cap height.
+export const FONT_PER_CAP = 1 / 0.7;
+// Estimated width of a text box: characters x cap height x this number. The browser test measures the real boxes.
+export const TEXT_W_PER_CAP = 0.9;
+// Cap height of the text of the callout, id and function layers, in mm.
+export const LAYER_CAP_MM = 1.6;
 // Padding around a group when the narrow-screen view zooms to it, in mm.
 export const ZOOM_PAD_MM = 3;
 // The unit has no LED ring around SELECT. The data has no per-element ring field yet.
 const NO_RING = new Set(["SEL"]);
 
-export type RingGeom = { dia: number; leds: { i: number; x: number; y: number; w: number; h: number; rot: number }[] };
-export type Legend = { text: string; colour: string | undefined; cap: number };
+export type Arc = { zero: number; start: number; end: number };
+export type RingGeom = { dia: number; arc: Arc; pointerR: number; leds: { i: number; x: number; y: number; w: number; h: number; rot: number }[] };
+export type Anchor = "start" | "middle" | "end";
+export type LayoutLegend = {
+  key: string; // element ID and label index
+  id: string;
+  label: number;
+  text: string;
+  colour: string | undefined;
+  x: number;
+  y: number;
+  anchor: Anchor;
+  cap: number;
+  rot: number | undefined;
+  onPart: boolean; // the label has placement 'on': it sits on its own part
+  onBar: boolean; // the text centre lies on a printed bar or box
+  prov: Prov;
+};
+export type LayoutMark = GeometryFile["marks"][number];
+export type LayoutBrand = GeometryFile["brand"][number];
+export type TextBox = { x0: number; x1: number; y0: number; y1: number };
 export type LayoutItem = {
   id: string;
   kind: ElementKind;
@@ -33,7 +56,7 @@ export type LayoutItem = {
   group: string;
   grid?: { row: number; col: number };
   ring?: RingGeom;
-  legends: Legend[]; // printed text of the labels with placement 'on'
+  crown?: { rBrim: number; rTop: number }; // knob: the two inner circles of the top view
 };
 export type GroupSpec = { id: string; name: string; ids: string[]; controls: string[] };
 export type ViewBox = [number, number, number, number];
@@ -44,15 +67,40 @@ export type Layout = {
   items: LayoutItem[];
   missing: string[];
   groups: GroupSpec[];
+  legends: LayoutLegend[]; // printed text that has a position in this view
+  marks: LayoutMark[];
+  brand: LayoutBrand[];
+  unplaced: string[]; // labels of this view with no position: "ID#index"
 };
 
 // Buttons and encoders take input. Status LEDs and the display do not.
 export const isControl = (kind: ElementKind) => kind === "button" || kind === "encoder";
 
+const arcOf = (ring: NonNullable<GeometryFile["ring"]>): Arc => ({ zero: { up: 0, right: 90, down: 180, left: 270 }[ring.zeroDeg], start: ring.startDeg, end: ring.endDeg });
+
+// Angle at a fraction (0 to 1) of the arc, in degrees clockwise from the top.
+export const arcAngle = (arc: Arc, frac: number): number => arc.zero + arc.start + frac * (arc.end - arc.start);
+
 // Angle of ring LED i in degrees, clockwise from the top.
 export function ringAngle(ring: NonNullable<GeometryFile["ring"]>, i: number): number {
-  const zero = { up: 0, right: 90, down: 180, left: 270 }[ring.zeroDeg];
-  return zero + ring.startDeg + (i * (ring.endDeg - ring.startDeg)) / (ring.count - 1);
+  return arcAngle(arcOf(ring), i / (ring.count - 1));
+}
+
+// Pointer of a knob: a line from the centre to the edge of the crown top, at the angle of the value.
+// No pointer when the value is unknown or the range is empty.
+export function pointerLine(item: LayoutItem, value: number | null, min: number, max: number) {
+  if (item.ring === undefined || item.crown === undefined || value === null || !(max > min)) return null;
+  const deg = arcAngle(item.ring.arc, Math.min(1, Math.max(0, (value - min) / (max - min))));
+  const a = (deg * Math.PI) / 180;
+  const r = item.ring.pointerR;
+  return { deg, x1: item.cx, y1: item.cy, x2: item.cx + r * Math.sin(a), y2: item.cy - r * Math.cos(a) };
+}
+
+// Estimated box of printed text. y is the vertical centre of the text; the box is one cap height tall.
+export function textBox(text: string, x: number, y: number, anchor: Anchor, cap: number): TextBox {
+  const w = [...text].length * cap * TEXT_W_PER_CAP;
+  const x0 = anchor === "start" ? x : anchor === "end" ? x - w : x - w / 2;
+  return { x0, x1: x0 + w, y0: y - cap / 2, y1: y + cap / 2 };
 }
 
 function ringGeom(ring: NonNullable<GeometryFile["ring"]>, part: PartSpec, cx: number, cy: number): RingGeom {
@@ -64,7 +112,7 @@ function ringGeom(ring: NonNullable<GeometryFile["ring"]>, part: PartSpec, cx: n
     const r = dia / 2 - RING_LED_H_MM / 2;
     return { i, x: cx + r * Math.sin(a), y: cy - r * Math.cos(a), w: RING_LED_W_MM, h: RING_LED_H_MM, rot };
   });
-  return { dia, leds };
+  return { dia, arc: arcOf(ring), pointerR: (part.crown?.diaAtTop ?? part.dia! * 0.7) / 2, leds };
 }
 
 const byGrid = (a: { grid?: { row: number; col: number } }, b: { grid?: { row: number; col: number } }) =>
@@ -82,6 +130,7 @@ export function buildLayout(
   const height = (v.depth ?? v.height)!;
   const items: LayoutItem[] = [];
   const missing: string[] = [];
+  const elementsById = new Map(elements.map((e) => [e.id, e]));
   for (const el of elements) {
     const place = geometry.place[el.id];
     if (place === undefined) throw new Error(`element '${el.id}' has no place`);
@@ -98,11 +147,8 @@ export function buildLayout(
       w: part.shape === "circle" ? part.dia! : part.w!,
       h: part.shape === "circle" ? part.dia! : part.h!,
       prov: place.prov, group: el.group,
-      legends: el.labels
-        .map((l, label) => ({ l, cap: geometry.legends.find((g) => g.for === el.id && g.label === label)?.capHeight ?? LEGEND_CAP_MM }))
-        .filter((x) => x.l.placement === "on")
-        .map((x) => ({ text: x.l.text, colour: x.l.colour, cap: x.cap })),
     };
+    if (part.crown !== undefined) item.crown = { rBrim: part.crown.diaAtBrim / 2, rTop: part.crown.diaAtTop / 2 };
     if (el.grid !== undefined) item.grid = el.grid;
     if (el.kind === "encoder" && geometry.ring !== undefined && part.ringDia !== undefined && !NO_RING.has(el.id))
       item.ring = ringGeom(geometry.ring, part, cx, cy);
@@ -121,6 +167,34 @@ export function buildLayout(
     .sort((a, b) => byPos(a.first, b.first) || byGrid(a.first, b.first) || a.id.localeCompare(b.id));
   const ordered = groups.flatMap((g) => g.sorted);
 
+  // Printed text. A label that another label draws (sharedWith) has an entry and no second drawing.
+  const marks = geometry.marks.filter((mk) => mk.view === view);
+  const bars = marks.filter((mk) => mk.kind !== "line");
+  const centres = new Map(items.map((i) => [i.id, i]));
+  const legends: LayoutLegend[] = [];
+  const unplaced: string[] = [];
+  for (const g of geometry.legends) {
+    const el = elementsById.get(g.for)!;
+    if (geometry.place[g.for]!.view !== view) continue;
+    if (g.sharedWith !== undefined) continue;
+    const lab = el.labels[g.label]!;
+    const it = centres.get(g.for);
+    const x = g.x ?? it?.cx;
+    const y = g.y ?? it?.cy;
+    if (g.prov === "missing" || x === undefined || y === undefined) {
+      unplaced.push(`${g.for}#${g.label}`);
+      continue;
+    }
+    const box = textBox(lab.text, x, y, g.anchor, g.capHeight);
+    const [mx, my] = [(box.x0 + box.x1) / 2, y];
+    legends.push({
+      key: `${g.for}#${g.label}`, id: g.for, label: g.label, text: lab.text, colour: lab.colour, x, y, anchor: g.anchor, cap: g.capHeight, rot: g.rot,
+      onPart: lab.placement === "on",
+      onBar: bars.some((b) => mx >= b.x! && mx <= b.x! + b.w! && my >= b.y! && my <= b.y! + b.h!),
+      prov: g.prov,
+    });
+  }
+
   const m = VIEW_MARGIN_MM;
   return {
     view,
@@ -134,6 +208,10 @@ export function buildLayout(
       ids: g.sorted.map((i) => i.id),
       controls: g.sorted.filter((i) => isControl(i.kind)).map((i) => i.id),
     })),
+    legends,
+    marks,
+    brand: geometry.brand.filter((b) => b.view === view),
+    unplaced,
   };
 }
 

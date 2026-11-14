@@ -19,7 +19,12 @@
     "knob": {
       "shape": "circle",
       "dia": 18,
-      "ringDia": 25
+      "ringDia": 25,
+      "crown": {
+        "diaAtBrim": 14.5,
+        "diaAtTop": 12.4,
+        "prov": "measured"
+      }
     },
     "button": {
       "shape": "rect",
@@ -622,5 +627,1635 @@
       "prov": "missing"
     }
   },
-  "legends": []
+  "legends": [
+    {
+      "for": "B1",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "L2.in",
+      "label": 0,
+      "x": 261.3,
+      "y": 21.25,
+      "anchor": "middle",
+      "capHeight": 1.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "L2.in",
+      "label": 1,
+      "x": 253.0,
+      "y": 29.65,
+      "anchor": "middle",
+      "capHeight": 1.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "L2.a",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 1.6,
+      "sharedWith": "L2.in",
+      "prov": "assumed"
+    },
+    {
+      "for": "L2.a",
+      "label": 1,
+      "x": 261.3,
+      "y": 29.65,
+      "anchor": "middle",
+      "capHeight": 1.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "L2.b",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 1.6,
+      "sharedWith": "L2.in",
+      "prov": "assumed"
+    },
+    {
+      "for": "L2.b",
+      "label": 1,
+      "x": 269.6,
+      "y": 29.65,
+      "anchor": "middle",
+      "capHeight": 1.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "L3.1",
+      "label": 0,
+      "x": 282.05,
+      "y": 21.25,
+      "anchor": "middle",
+      "capHeight": 1.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "L3.1",
+      "label": 1,
+      "x": 277.9,
+      "y": 29.65,
+      "anchor": "middle",
+      "capHeight": 1.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "L3.2",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 1.6,
+      "sharedWith": "L3.1",
+      "prov": "assumed"
+    },
+    {
+      "for": "L3.2",
+      "label": 1,
+      "x": 286.2,
+      "y": 29.65,
+      "anchor": "middle",
+      "capHeight": 1.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "L4",
+      "label": 0,
+      "x": 294.5,
+      "y": 21.25,
+      "anchor": "middle",
+      "capHeight": 1.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "L4",
+      "label": 1,
+      "x": 294.5,
+      "y": 29.65,
+      "anchor": "middle",
+      "capHeight": 1.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B5",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B5",
+      "label": 1,
+      "x": 19.0,
+      "y": 40.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B6",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B6",
+      "label": 1,
+      "x": 47.57,
+      "y": 40.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B7",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B7",
+      "label": 1,
+      "x": 76.14,
+      "y": 40.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B8",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B8",
+      "label": 1,
+      "x": 104.71,
+      "y": 40.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B9",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B9",
+      "label": 1,
+      "x": 133.29,
+      "y": 40.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B10",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.36,
+      "prov": "assumed"
+    },
+    {
+      "for": "B10",
+      "label": 1,
+      "x": 161.86,
+      "y": 40.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B11",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.36,
+      "prov": "assumed"
+    },
+    {
+      "for": "B11",
+      "label": 1,
+      "x": 190.43,
+      "y": 40.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B12",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B12",
+      "label": 1,
+      "x": 219.0,
+      "y": 40.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B13",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B13",
+      "label": 1,
+      "x": 19.0,
+      "y": 61.6,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B14",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B14",
+      "label": 1,
+      "x": 47.57,
+      "y": 61.6,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B15",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B15",
+      "label": 1,
+      "x": 76.14,
+      "y": 61.6,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B16",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B16",
+      "label": 1,
+      "x": 104.71,
+      "y": 61.6,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B17",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B17",
+      "label": 1,
+      "x": 133.29,
+      "y": 61.6,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B18",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.36,
+      "prov": "assumed"
+    },
+    {
+      "for": "B18",
+      "label": 1,
+      "x": 161.86,
+      "y": 61.6,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B19",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B19",
+      "label": 1,
+      "x": 190.43,
+      "y": 61.6,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B20",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B20",
+      "label": 1,
+      "x": 219.0,
+      "y": 61.6,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B21",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B22",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B23",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B24",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "E25",
+      "label": 0,
+      "x": 19.0,
+      "y": 114.2,
+      "anchor": "middle",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "E25",
+      "label": 1,
+      "x": 19.0,
+      "y": 84.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E26",
+      "label": 0,
+      "x": 47.57,
+      "y": 114.2,
+      "anchor": "middle",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "E26",
+      "label": 1,
+      "x": 47.57,
+      "y": 84.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E27",
+      "label": 0,
+      "x": 76.14,
+      "y": 114.2,
+      "anchor": "middle",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "E27",
+      "label": 1,
+      "x": 76.14,
+      "y": 84.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E28",
+      "label": 0,
+      "x": 104.71,
+      "y": 114.2,
+      "anchor": "middle",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "E28",
+      "label": 1,
+      "x": 104.71,
+      "y": 84.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E29",
+      "label": 0,
+      "x": 133.29,
+      "y": 114.2,
+      "anchor": "middle",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "E29",
+      "label": 1,
+      "x": 133.29,
+      "y": 84.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E30",
+      "label": 0,
+      "x": 161.86,
+      "y": 114.2,
+      "anchor": "middle",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "E30",
+      "label": 1,
+      "x": 161.86,
+      "y": 84.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E31",
+      "label": 0,
+      "x": 190.43,
+      "y": 114.2,
+      "anchor": "middle",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "E31",
+      "label": 1,
+      "x": 190.43,
+      "y": 84.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E32",
+      "label": 0,
+      "x": 219.0,
+      "y": 114.2,
+      "anchor": "middle",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E32",
+      "label": 1,
+      "x": 219.0,
+      "y": 84.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E33",
+      "label": 0,
+      "x": 5.77,
+      "y": 152.2,
+      "anchor": "start",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E33",
+      "label": 1,
+      "x": 15.22,
+      "y": 152.2,
+      "anchor": "start",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E33",
+      "label": 2,
+      "x": 19.0,
+      "y": 122.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E34",
+      "label": 0,
+      "x": 34.34,
+      "y": 152.2,
+      "anchor": "start",
+      "capHeight": 1.96,
+      "prov": "assumed"
+    },
+    {
+      "for": "E34",
+      "label": 1,
+      "x": 43.16,
+      "y": 152.2,
+      "anchor": "start",
+      "capHeight": 1.96,
+      "prov": "assumed"
+    },
+    {
+      "for": "E34",
+      "label": 2,
+      "x": 47.57,
+      "y": 122.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E35",
+      "label": 0,
+      "x": 66.24,
+      "y": 152.2,
+      "anchor": "start",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "E35",
+      "label": 1,
+      "x": 76.14,
+      "y": 152.2,
+      "anchor": "start",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "E35",
+      "label": 2,
+      "x": 76.14,
+      "y": 122.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E36",
+      "label": 0,
+      "x": 91.48,
+      "y": 152.2,
+      "anchor": "start",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E36",
+      "label": 1,
+      "x": 104.71,
+      "y": 152.2,
+      "anchor": "start",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E36",
+      "label": 2,
+      "x": 104.71,
+      "y": 122.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E37",
+      "label": 0,
+      "x": 133.29,
+      "y": 152.2,
+      "anchor": "middle",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "E37",
+      "label": 1,
+      "x": 133.29,
+      "y": 122.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E38",
+      "label": 0,
+      "x": 161.86,
+      "y": 152.2,
+      "anchor": "middle",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "E38",
+      "label": 1,
+      "x": 161.86,
+      "y": 122.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E39",
+      "label": 0,
+      "x": 190.43,
+      "y": 152.2,
+      "anchor": "middle",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "E39",
+      "label": 1,
+      "x": 190.43,
+      "y": 122.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E40",
+      "label": 0,
+      "x": 219.0,
+      "y": 152.2,
+      "anchor": "middle",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "E40",
+      "label": 1,
+      "x": 219.0,
+      "y": 122.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E41",
+      "label": 0,
+      "x": 19.0,
+      "y": 190.2,
+      "anchor": "middle",
+      "capHeight": 1.96,
+      "prov": "assumed"
+    },
+    {
+      "for": "E41",
+      "label": 1,
+      "x": 19.0,
+      "y": 160.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E42",
+      "label": 0,
+      "x": 47.57,
+      "y": 190.2,
+      "anchor": "middle",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E42",
+      "label": 1,
+      "x": 47.57,
+      "y": 160.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E43",
+      "label": 0,
+      "x": 76.14,
+      "y": 190.2,
+      "anchor": "middle",
+      "capHeight": 1.96,
+      "prov": "assumed"
+    },
+    {
+      "for": "E43",
+      "label": 1,
+      "x": 76.14,
+      "y": 160.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E44",
+      "label": 0,
+      "x": 104.71,
+      "y": 190.2,
+      "anchor": "middle",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E44",
+      "label": 1,
+      "x": 104.71,
+      "y": 160.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E45",
+      "label": 0,
+      "x": 133.29,
+      "y": 190.2,
+      "anchor": "middle",
+      "capHeight": 1.96,
+      "prov": "assumed"
+    },
+    {
+      "for": "E45",
+      "label": 1,
+      "x": 133.29,
+      "y": 160.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E46",
+      "label": 0,
+      "x": 161.86,
+      "y": 190.2,
+      "anchor": "middle",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E46",
+      "label": 1,
+      "x": 161.86,
+      "y": 160.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E47",
+      "label": 0,
+      "x": 190.43,
+      "y": 190.2,
+      "anchor": "middle",
+      "capHeight": 1.96,
+      "prov": "assumed"
+    },
+    {
+      "for": "E47",
+      "label": 1,
+      "x": 190.43,
+      "y": 160.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E48",
+      "label": 0,
+      "x": 219.0,
+      "y": 190.2,
+      "anchor": "middle",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E48",
+      "label": 1,
+      "x": 219.0,
+      "y": 160.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E49",
+      "label": 0,
+      "x": 19.0,
+      "y": 228.2,
+      "anchor": "middle",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E49",
+      "label": 1,
+      "x": 19.0,
+      "y": 198.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E50",
+      "label": 0,
+      "x": 47.57,
+      "y": 228.2,
+      "anchor": "middle",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E50",
+      "label": 1,
+      "x": 47.57,
+      "y": 198.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E51",
+      "label": 0,
+      "x": 76.14,
+      "y": 228.2,
+      "anchor": "middle",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E51",
+      "label": 1,
+      "x": 76.14,
+      "y": 198.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E52",
+      "label": 0,
+      "x": 104.71,
+      "y": 228.2,
+      "anchor": "middle",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E52",
+      "label": 1,
+      "x": 104.71,
+      "y": 198.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E53",
+      "label": 0,
+      "x": 133.29,
+      "y": 228.2,
+      "anchor": "middle",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E53",
+      "label": 1,
+      "x": 133.29,
+      "y": 198.1,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E54",
+      "label": 0,
+      "x": 161.86,
+      "y": 228.2,
+      "anchor": "middle",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E54",
+      "label": 1,
+      "x": 161.86,
+      "y": 198.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E55",
+      "label": 0,
+      "x": 190.43,
+      "y": 228.2,
+      "anchor": "middle",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E55",
+      "label": 1,
+      "x": 190.43,
+      "y": 198.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "E56",
+      "label": 0,
+      "x": 219.0,
+      "y": 228.2,
+      "anchor": "middle",
+      "capHeight": 2.1,
+      "prov": "assumed"
+    },
+    {
+      "for": "E56",
+      "label": 1,
+      "x": 219.0,
+      "y": 198.3,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "SEL",
+      "label": 0,
+      "x": 282.25,
+      "y": 112.15,
+      "anchor": "start",
+      "capHeight": 2.7,
+      "prov": "assumed"
+    },
+    {
+      "for": "B59",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B59",
+      "label": 1,
+      "x": 259.8,
+      "y": 130.45,
+      "anchor": "middle",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "B60",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B61",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B62",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B63",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 1.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B63",
+      "label": 1,
+      "x": 273.75,
+      "y": 159.95,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B64",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 1.78,
+      "prov": "assumed"
+    },
+    {
+      "for": "B64",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "sharedWith": "B63",
+      "prov": "assumed"
+    },
+    {
+      "for": "B64",
+      "label": 2,
+      "x": 288.0,
+      "y": 177.5,
+      "anchor": "middle",
+      "capHeight": 2.2,
+      "prov": "assumed"
+    },
+    {
+      "for": "B65",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.0,
+      "prov": "assumed"
+    },
+    {
+      "for": "B66",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B67",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "B68",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2.6,
+      "prov": "assumed"
+    },
+    {
+      "for": "J69",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J70",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J71",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J71",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J72",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J72",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J73",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J73",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J74",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J74",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J75",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J75",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J76",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J76",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J77",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J77",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J78",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J78",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J79",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J79",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J80",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J80",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J81",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J81",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J82",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J82",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J83",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J83",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J84",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J84",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J85",
+      "label": 0,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    },
+    {
+      "for": "J85",
+      "label": 1,
+      "anchor": "middle",
+      "capHeight": 2,
+      "prov": "missing"
+    }
+  ],
+  "marks": [
+    {
+      "view": "top",
+      "id": "strip-1",
+      "kind": "bar",
+      "x": 4.8,
+      "y": 112.4,
+      "w": 228.4,
+      "h": 3.6,
+      "pen": "detail",
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "strip-2",
+      "kind": "bar",
+      "x": 4.8,
+      "y": 150.4,
+      "w": 228.4,
+      "h": 3.6,
+      "pen": "detail",
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "strip-3",
+      "kind": "bar",
+      "x": 4.8,
+      "y": 188.4,
+      "w": 228.4,
+      "h": 3.6,
+      "pen": "detail",
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "strip-4",
+      "kind": "bar",
+      "x": 4.8,
+      "y": 226.4,
+      "w": 228.4,
+      "h": 3.6,
+      "pen": "detail",
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "beat-1",
+      "kind": "box",
+      "x": 16.5,
+      "y": 82.3,
+      "w": 5.0,
+      "h": 3.6,
+      "pen": "detail",
+      "for": "E25",
+      "label": 1,
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "beat-5",
+      "kind": "box",
+      "x": 130.79,
+      "y": 82.3,
+      "w": 5.0,
+      "h": 3.6,
+      "pen": "detail",
+      "for": "E29",
+      "label": 1,
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "beat-9",
+      "kind": "box",
+      "x": 16.5,
+      "y": 120.3,
+      "w": 5.0,
+      "h": 3.6,
+      "pen": "detail",
+      "for": "E33",
+      "label": 2,
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "beat-13",
+      "kind": "box",
+      "x": 130.79,
+      "y": 120.3,
+      "w": 5.0,
+      "h": 3.6,
+      "pen": "detail",
+      "for": "E37",
+      "label": 1,
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "beat-17",
+      "kind": "box",
+      "x": 16.5,
+      "y": 158.3,
+      "w": 5.0,
+      "h": 3.6,
+      "pen": "detail",
+      "for": "E41",
+      "label": 1,
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "beat-21",
+      "kind": "box",
+      "x": 130.79,
+      "y": 158.3,
+      "w": 5.0,
+      "h": 3.6,
+      "pen": "detail",
+      "for": "E45",
+      "label": 1,
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "beat-25",
+      "kind": "box",
+      "x": 16.5,
+      "y": 196.3,
+      "w": 5.0,
+      "h": 3.6,
+      "pen": "detail",
+      "for": "E49",
+      "label": 1,
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "beat-29",
+      "kind": "box",
+      "x": 130.79,
+      "y": 196.3,
+      "w": 5.0,
+      "h": 3.6,
+      "pen": "detail",
+      "for": "E53",
+      "label": 1,
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "select-1",
+      "kind": "line",
+      "x1": 268.7,
+      "y1": 122.25,
+      "x2": 278.8,
+      "y2": 122.25,
+      "pen": "detail",
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "select-2",
+      "kind": "line",
+      "x1": 273.75,
+      "y1": 122.25,
+      "x2": 273.75,
+      "y2": 112.25,
+      "pen": "detail",
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "select-3",
+      "kind": "line",
+      "x1": 273.75,
+      "y1": 112.25,
+      "x2": 280.65,
+      "y2": 112.25,
+      "pen": "detail",
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "global",
+      "kind": "bar",
+      "x": 251.5,
+      "y": 128.6,
+      "w": 16.6,
+      "h": 3.7,
+      "pen": "detail",
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "noterpt",
+      "kind": "line",
+      "x1": 288.0,
+      "y1": 180.5,
+      "x2": 288.0,
+      "y2": 190.0,
+      "pen": "detail",
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "flank-1l",
+      "kind": "line",
+      "x1": 250.0,
+      "y1": 165.1,
+      "x2": 250.0,
+      "y2": 175.4,
+      "pen": "outline",
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "flank-1r",
+      "kind": "line",
+      "x1": 269.25,
+      "y1": 165.1,
+      "x2": 269.25,
+      "y2": 175.4,
+      "pen": "outline",
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "flank-2l",
+      "kind": "line",
+      "x1": 278.5,
+      "y1": 165.1,
+      "x2": 278.5,
+      "y2": 175.4,
+      "pen": "outline",
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "flank-2r",
+      "kind": "line",
+      "x1": 297.75,
+      "y1": 165.1,
+      "x2": 297.75,
+      "y2": 175.4,
+      "pen": "outline",
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "flank-3l",
+      "kind": "line",
+      "x1": 250.0,
+      "y1": 191.1,
+      "x2": 250.0,
+      "y2": 201.4,
+      "pen": "outline",
+      "prov": "assumed"
+    },
+    {
+      "view": "top",
+      "id": "flank-3r",
+      "kind": "line",
+      "x1": 269.25,
+      "y1": 191.1,
+      "x2": 269.25,
+      "y2": 201.4,
+      "pen": "outline",
+      "prov": "assumed"
+    }
+  ],
+  "brand": [
+    {
+      "view": "top",
+      "text": "BCR32",
+      "x": 149.9,
+      "y": 14.1,
+      "size": 11.4,
+      "anchor": "middle",
+      "weight": 800,
+      "prov": "assumed"
+    }
+  ]
 }

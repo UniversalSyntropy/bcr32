@@ -2,13 +2,14 @@
 // An unknown ring draws outline LEDs with the hatch token and no data-lit attribute.
 import { ringLit, type RingState } from "@bcr32/device-model";
 
-import { type LayoutItem } from "./layout.ts";
+import { pointerLine, type LayoutItem } from "./layout.ts";
 
 export function Ring({ item, ring }: { item: LayoutItem; ring: RingState | undefined }) {
   const geom = item.ring;
   if (geom === undefined) return null;
   const known = ring !== undefined && ring.known && ring.style !== "unknown" && ring.encMode !== "unknown";
   const lit = known ? ringLit({ style: ring.style as never, encMode: ring.encMode as never, value: ring.value, min: ring.min, max: ring.max }, geom.leds.length) : [];
+  const ptr = known ? pointerLine(item, ring.value, ring.min, ring.max) : null;
   return (
     <g className="ring" data-id={item.id} data-known={known ? "true" : "false"}>
       {geom.leds.map((l) => {
@@ -27,6 +28,7 @@ export function Ring({ item, ring }: { item: LayoutItem; ring: RingState | undef
           />
         );
       })}
+      {ptr === null ? null : <line className="pointer" data-deg={ptr.deg.toFixed(3)} x1={ptr.x1} y1={ptr.y1} x2={ptr.x2} y2={ptr.y2} />}
     </g>
   );
 }

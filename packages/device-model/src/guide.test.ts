@@ -72,13 +72,69 @@ const FORBIDDEN = [
   "import(", "require(", "import (", "require (", "new Date", "Date(", "Math.random", "performance.", "globalThis", "process.",
 ];
 
-// Removes comments and string literals, so a word in a comment or a message does not fail the scan.
-// Import specifiers are checked apart, before this runs.
+// Limit: a regex literal that holds a slash or a quote can hide code after it on the same line.
+// The device-model sources use none. Add a regex-aware case if one is ever needed.
+// One pass over the source. It drops comments, string literals and the text parts of template
+// literals, and keeps the code inside ${...}. A "//" inside a string is not a comment; a word in a
+// comment or a message does not fail the scan. Import specifiers are checked apart, before this runs.
 function stripCommentsAndStrings(src: string): string {
-  return src
-    .replace(/\/\*[\s\S]*?\*\//g, "")
-    .replace(/\/\/[^\n]*/g, "")
-    .replace(/"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|`(?:[^`\\]|\\.)*`/g, '""');
+  let out = "";
+  let i = 0;
+  // Stack of open template literals: each entry counts the braces open inside its ${ }.
+  const stack: number[] = [];
+  const text = (quote: string) => {
+    // Inside a string or template text: skip to the closing quote. Return true if a ${ opened.
+    while (i < src.length) {
+      const c = src[i]!;
+      if (c === "\\") i += 2;
+      else if (quote === "`" && c === "$" && src[i + 1] === "{") {
+        i += 2;
+        stack.push(0);
+        out += " ";
+        return;
+      } else if (c === quote) {
+        i++;
+        return;
+      } else i++;
+    }
+  };
+  while (i < src.length) {
+    const c = src[i]!;
+    const n = src[i + 1];
+    if (c === "/" && n === "/") {
+      while (i < src.length && src[i] !== "\n") i++;
+    } else if (c === "/" && n === "*") {
+      const end = src.indexOf("*/", i + 2);
+      i = end < 0 ? src.length : end + 2;
+    } else if (c === '"' || c === "'") {
+      i++;
+      text(c);
+      out += '""';
+    } else if (c === "`") {
+      i++;
+      text("`");
+      out += '""';
+    } else if (stack.length > 0 && c === "{") {
+      stack[stack.length - 1]!++;
+      out += c;
+      i++;
+    } else if (stack.length > 0 && c === "}") {
+      if (stack[stack.length - 1] === 0) {
+        stack.pop();
+        i++;
+        text("`"); // back in the template text
+        out += " ";
+      } else {
+        stack[stack.length - 1]!--;
+        out += c;
+        i++;
+      }
+    } else {
+      out += c;
+      i++;
+    }
+  }
+  return out;
 }
 
 const forbiddenIn = (src: string) => FORBIDDEN.filter((w) => stripCommentsAndStrings(src).includes(w));
@@ -96,6 +152,24 @@ test("purity scan: each forbidden form fails and a comment passes", () => {
   };
   for (const [word, src] of Object.entries(planted)) assert.ok(forbiddenIn(src).includes(word), `${word} must fail`);
   assert.deepEqual(forbiddenIn("// new Date and Math.random\n/* process. import( */ const a = 'globalThis';"), []);
+});
+
+// L2 and L3: a "//" inside a string must not hide the code after it; a template body is code.
+test("purity scan L2: a slash pair inside a string does not start a comment", () => {
+  assert.ok(forbiddenIn('const s = "a // b"; Math.random();').includes("Math.random"));
+  assert.ok(forbiddenIn("const s = 'http://x'; Math.random();").includes("Math.random"));
+});
+
+test("purity scan L3: the body of a template literal is scanned; its text is not", () => {
+  assert.ok(forbiddenIn("const s = `${Math.random()}`;").includes("Math.random"));
+  assert.ok(forbiddenIn("const s = `a ${ `b ${Math.random()}` } c`;").includes("Math.random"));
+  assert.ok(forbiddenIn("const s = `a ${ { x: 1 }.x } ${Math.random()}`;").includes("Math.random"));
+  assert.deepEqual(forbiddenIn("const s = `Math.random and globalThis in text`;"), []);
+  assert.deepEqual(forbiddenIn("const s = `a ${1 + 1} // not a comment` + 2;"), []);
+});
+
+test("purity scan: a comment that holds the word passes", () => {
+  assert.deepEqual(forbiddenIn("const a = 1; // Math.random\n/* globalThis */ const b = 2;"), []);
 });
 
 test("purity: source files import only relative paths, device-data and zod", () => {

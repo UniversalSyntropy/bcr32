@@ -67,10 +67,10 @@ test("ring LEDs are 1 x 3 mm rectangles rotated to their angle", () => {
 
 test("legends: one text for each label with placement on; B1 shows its label", () => {
   const want = elements.filter((e) => e.view === "top").flatMap((e) => e.labels.filter((l) => l.placement === "on").map((l) => `${e.id}:${l.text}`));
-  const got = top.items.flatMap((i) => i.legends.map((l) => `${i.id}:${l.text}`));
+  const got = top.legends.filter((l) => l.onPart).map((l) => `${l.id}:${l.text}`);
   assert.deepEqual(got.sort(), want.sort());
   assert.equal(want.length, 31);
-  assert.deepEqual(top.items.find((i) => i.id === "B1")!.legends.map((l) => l.text), ["ZQR/CTRL"]);
+  assert.deepEqual(top.legends.filter((l) => l.id === "B1").map((l) => l.text), ["ZQR/CTRL"]);
 });
 
 test("group order is reading order of the first member", () => {

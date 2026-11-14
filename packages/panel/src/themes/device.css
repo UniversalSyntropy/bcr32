@@ -20,4 +20,23 @@
   --hatch: #9aa3b5;
   --glow: drop-shadow(0 0 2px currentColor);
   --border: #6b7385;
+  /* Printed text: one token for each print colour. A bar is a light band; text on it uses bar-text. */
+  --print-red: #ff8a80;
+  --print-orange: #ffa866;
+  --print-yellow: #ffe066;
+  --print-lime: #c2ee62;
+  --print-green: #5ee89a;
+  --print-teal: #4be0c6;
+  --print-cyan: #5adcf0;
+  --print-magenta: #ff8ae6;
+  --print-white: #f2f4f8;
+  --print-dark: #1f2933;
+  --bar: #c9ced4;
+  --bar-text: #1f2933;
+  --on-led: #0e0f12;
+  --prov-measured: #3ddc84;
+  --prov-derived: #4aa3ff;
+  --prov-owner: #ffd60a;
+  --prov-assumed: #ff9f43;
+  --prov-missing: #ff5a5a;
 }

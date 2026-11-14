@@ -179,7 +179,7 @@ interface Box {
 }
 
 // Placed parts are boxes around their centre; a circle is the box of its diameter.
-export function checkGeometry(g: NonNullable<DeviceData["geometry"]>, elements: { id: string; labels: unknown[] }[]): Issue[] {
+export function checkGeometry(g: NonNullable<DeviceData["geometry"]>, elements: { id: string; labels: { text: string; placement: string }[] }[]): Issue[] {
   const elementIds = elements.map((e) => e.id);
   const issues: Issue[] = [];
   const add = (path: string, message: string) => issues.push({ file: "geometry.json", path, message });
@@ -213,11 +213,43 @@ export function checkGeometry(g: NonNullable<DeviceData["geometry"]>, elements: 
         add(a.id, `part of '${a.id}' overlaps part of '${b.id}'`);
     }
 
-  const labelCount = new Map(elements.map((e) => [e.id, e.labels.length]));
+  const labels = new Map(elements.map((e) => [e.id, e.labels]));
+  const inView = (view: string | undefined, x: number, y: number) => {
+    const v = view === undefined ? undefined : g.views[view];
+    return v !== undefined && x >= 0 && y >= 0 && x <= v.width && y <= (v.depth ?? v.height!);
+  };
+  const seen = new Set<string>();
   g.legends.forEach((l, i) => {
-    const n = labelCount.get(l.for);
-    if (n === undefined) add(`legends.${i}`, `legend ${i}: unknown element '${l.for}'`);
-    else if (l.label >= n) add(`legends.${i}`, `legend ${i}: '${l.for}' has no label ${l.label}`);
+    const own = labels.get(l.for);
+    const at = `legends.${i}`;
+    if (own === undefined) return add(at, `legend ${i}: unknown element '${l.for}'`);
+    if (l.label >= own.length) return add(at, `legend ${i}: '${l.for}' has no label ${l.label}`);
+    const key = `${l.for}#${l.label}`;
+    if (seen.has(key)) add(at, `legend ${i}: '${l.for}' label ${l.label} has a second legend`);
+    seen.add(key);
+    const text = own[l.label]!;
+    if (l.sharedWith !== undefined) {
+      const same = g.legends.some((o) => o.for === l.sharedWith && o.x !== undefined && labels.get(o.for)?.[o.label]?.text === text.text);
+      if (!same) add(at, `legend ${i}: '${l.for}' shares with '${l.sharedWith}', which has no positioned legend of the same text`);
+    } else if (l.x === undefined && l.prov !== "missing" && text.placement !== "on") add(at, `legend ${i}: '${l.for}' label ${l.label} has no position`);
+    const pv = g.place[l.for]?.view;
+    if (l.x !== undefined && pv !== undefined && g.views[pv] !== undefined && !inView(pv, l.x, l.y!)) add(at, `legend ${i}: '${l.for}' label ${l.label} lies outside its view`);
+  });
+  elements.forEach((e) =>
+    e.labels.forEach((_, n) => {
+      if (!seen.has(`${e.id}#${n}`)) add(e.id, `label ${n} of '${e.id}' has no legend`);
+    }),
+  );
+  for (const id of duplicates(g.marks.map((m) => m.id))) add(id, `duplicate mark '${id}'`);
+  g.marks.forEach((m, i) => {
+    const v = g.views[m.view];
+    if (v === undefined) return add(`marks.${i}`, `mark '${m.id}': unknown view '${m.view}'`);
+    const pts = m.kind === "line" ? [[m.x1!, m.y1!], [m.x2!, m.y2!]] : [[m.x!, m.y!], [m.x! + m.w!, m.y! + m.h!]];
+    if (pts.some(([x, y]) => !inView(m.view, x!, y!))) add(`marks.${i}`, `mark '${m.id}' lies outside view '${m.view}'`);
+    if (m.for !== undefined && (labels.get(m.for)?.length ?? 0) <= m.label!) add(`marks.${i}`, `mark '${m.id}': '${m.for}' has no label ${m.label}`);
+  });
+  g.brand.forEach((b, i) => {
+    if (!inView(b.view, b.x, b.y)) add(`brand.${i}`, `brand text lies outside view '${b.view}'`);
   });
   return issues;
 }

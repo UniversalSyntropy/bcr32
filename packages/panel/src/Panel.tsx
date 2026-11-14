@@ -6,7 +6,10 @@ import { useMemo, useState, type CSSProperties } from "react";
 
 import { litText, MSG } from "./a11y.ts";
 import { Controls } from "./Controls.tsx";
+import { DEFAULT_LAYERS, layerLabels, type LayerId } from "./labels.ts";
+import { LayerText } from "./Layers.tsx";
 import { buildLayout, isControl, type Layout, type LayoutItem, type ViewBox, type ViewId } from "./layout.ts";
+import { PrintedMarks, PrintedText } from "./Printed.tsx";
 import { Ring } from "./Ring.tsx";
 import { useEngine } from "./useEngine.ts";
 
@@ -23,6 +26,8 @@ export interface PanelProps {
   view: ViewId;
   viewBox?: ViewBox; // a zoom; the same drawing, a different window
   only?: string | null; // show the controls of one group only
+  layers?: ReadonlySet<LayerId>; // label layers that are on; default: printed only
+  dev?: boolean; // colour parts by provenance
 }
 
 // A shape for one part, centred. `extra` grows it on every side (marks and the focus ring).
@@ -50,10 +55,25 @@ function Display({ item, view }: { item: LayoutItem; view: PanelView }) {
   );
 }
 
-export function Panel({ data, engine, view, viewBox, only = null }: PanelProps) {
+const DEFAULT_ON: ReadonlySet<LayerId> = new Set(DEFAULT_LAYERS);
+
+export function Panel({ data, engine, view, viewBox, only = null, layers = DEFAULT_ON, dev = false }: PanelProps) {
   const state = useEngine(engine);
   const layout: Layout = useMemo(() => buildLayout(data.geometry, data.elements, view, data.groupNames), [data, view]);
   const elements = useMemo(() => new Map(data.elements.map((e) => [e.id, e])), [data]);
+  const added = useMemo(
+    () =>
+      layerLabels({
+        layout,
+        panelNumbers: new Map(data.elements.map((e) => [e.id, e.panelNumber])),
+        callouts: new Map(data.elements.map((e) => [e.id, e.callout])),
+        functions: data.functions,
+        mode: state.mode,
+      }).placed,
+    [layout, data, state.mode],
+  );
+  const lit = new Map<string, { colour: string; blink: string }>();
+  for (const [id, b] of Object.entries(state.buttons)) if (b.colour !== "off") lit.set(id, { colour: b.colour, blink: b.blink });
   const [focusId, setFocusId] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [live, setLive] = useState({ n: 0, text: "" });
@@ -66,7 +86,7 @@ export function Panel({ data, engine, view, viewBox, only = null }: PanelProps) 
   const ledItems = layout.items.filter((i) => i.kind === "led");
 
   return (
-    <div className="panel" data-view={view}>
+    <div className="panel" data-view={view} data-dev={dev ? "true" : undefined}>
       <div className="stage" style={{ aspectRatio: `${vb[2]} / ${vb[3]}`, ["--ar" as string]: vb[2] / vb[3] } as CSSProperties}>
         <svg className="panel-svg" aria-hidden="true" viewBox={vb.join(" ")} direction="ltr" preserveAspectRatio="xMidYMid meet" focusable="false">
           <g id="case" data-prov={layout.case.prov}>
@@ -75,19 +95,17 @@ export function Panel({ data, engine, view, viewBox, only = null }: PanelProps) 
               <text className="note" x={layout.case.w / 2} y={layout.case.h / 2} textAnchor="middle">{MSG.noJacks}</text>
             ) : null}
           </g>
-          <g id="legends">
-            {layout.items.flatMap((item) =>
-              item.legends.map((l, n) => (
-                <text key={`${item.id}.${n}`} className="legend" data-id={item.id} x={item.cx} y={item.cy} textAnchor="middle" dominantBaseline="central" fontSize={l.cap / 0.7}>
-                  {l.text}
-                </text>
-              )),
-            )}
-          </g>
+          {layers.has("printed") ? <PrintedMarks layout={layout} /> : null}
           <g id="controls">
             {layout.items.map((item) => (
               <g key={item.id} data-id={item.id} data-kind={item.kind} data-prov={item.prov} data-pressed={state.pressed.includes(item.id) ? "true" : undefined}>
                 {item.kind === "display" ? <Display item={item} view={state} /> : <Shape item={item} className={`part part-${item.part.shape === "circle" && item.kind === "encoder" ? "knob" : item.kind}`} />}
+                {item.crown === undefined ? null : (
+                  <>
+                    <circle className="part-crown" cx={item.cx} cy={item.cy} r={item.crown.rBrim} />
+                    <circle className="part-crown part-crown-top" cx={item.cx} cy={item.cy} r={item.crown.rTop} />
+                  </>
+                )}
               </g>
             ))}
           </g>
@@ -98,11 +116,13 @@ export function Panel({ data, engine, view, viewBox, only = null }: PanelProps) 
               if (led === undefined || led.colour === "off") return null;
               return (
                 <g key={item.id} data-id={item.id} className="light" data-colour={led.colour} data-blink={led.blink === "none" ? undefined : led.blink} style={{ "--c": `var(--led-${led.colour})` } as CSSProperties}>
-                  <Shape item={item} inset={item.kind === "button" ? 1.2 : 0} className="light-shape" />
+                  <Shape item={item} className="light-shape" />
                 </g>
               );
             })}
           </g>
+          {layers.has("printed") ? <PrintedText layout={layout} lit={lit} /> : null}
+          <LayerText labels={added} on={layers} />
           <g id="marks">
             {state.pressed.map((id) => {
               const item = byId.get(id);

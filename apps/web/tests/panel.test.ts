@@ -49,7 +49,7 @@ for (const [engine, type] of ENGINES) {
       const p = await page();
       assert.equal(await p.locator('.ctl[tabindex="0"]').count(), GROUPS_WITH_CONTROLS);
       assert.equal(await p.locator(".ctl-group").count(), GROUPS_WITH_CONTROLS);
-      await p.focus(".tools select");
+      await p.focus(".layers label:last-of-type input");
       const seen: string[] = [];
       for (let i = 0; i < GROUPS_WITH_CONTROLS; i++) {
         await p.keyboard.press("Tab");
@@ -177,7 +177,8 @@ for (const [engine, type] of ENGINES) {
     test("legends: B1 shows text from data; one text per label with placement on", async () => {
       const p = await page();
       assert.equal(await p.locator('#legends text[data-id="B1"]').textContent(), "ZQR/CTRL");
-      assert.equal(await p.locator("#legends text").count(), 31);
+      assert.equal(await p.locator('#legends text[data-on="true"]').count(), 31);
+      assert.equal(await p.locator("#legends text.legend").count(), 128, "all printed text of the top view: 164 labels less rear and shared");
       await p.context().close();
     });
 
