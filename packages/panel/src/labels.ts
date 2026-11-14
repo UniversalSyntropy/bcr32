@@ -2,7 +2,7 @@
 // The three added layers share one rule: put the text in the free space next to the part, nearest first.
 import type { DeviceFunction } from "@bcr32/device-data";
 
-import { LAYER_CAP_MM, textBox, type Layout, type LayoutItem, type TextBox } from "./layout.ts";
+import { LAYER_CAP_MM, TEXT_W_PER_CAP, LAYER_WIDTH_MARGIN, textBox, type Layout, type LayoutItem, type TextBox } from "./layout.ts";
 
 export type LayerId = "printed" | "callout" | "id" | "function";
 export const LAYERS: readonly LayerId[] = ["printed", "callout", "id", "function"];
@@ -44,7 +44,7 @@ export function obstacles(layout: Layout): TextBox[] {
     const r = Math.max(i.w, i.h, i.ring?.dia ?? 0) / 2;
     out.push(i.part.shape === "circle" || i.ring !== undefined ? { x0: i.cx - r, x1: i.cx + r, y0: i.cy - r, y1: i.cy + r } : { x0: i.cx - i.w / 2, x1: i.cx + i.w / 2, y0: i.cy - i.h / 2, y1: i.cy + i.h / 2 });
   }
-  for (const l of layout.legends) if (!l.onPart) out.push(textBox(l.text, l.x, l.y, l.anchor, l.cap));
+  for (const l of layout.legends) if (!l.onPart) out.push(textBox(l.text, l.x, l.y, l.anchor, l.cap, LAYER_WIDTH_MARGIN));
   for (const m of layout.marks)
     out.push(m.kind === "line" ? { x0: Math.min(m.x1!, m.x2!) - 0.3, x1: Math.max(m.x1!, m.x2!) + 0.3, y0: Math.min(m.y1!, m.y2!) - 0.3, y1: Math.max(m.y1!, m.y2!) + 0.3 } : { x0: m.x!, x1: m.x! + m.w!, y0: m.y!, y1: m.y! + m.h! });
   for (const b of layout.brand) {
@@ -76,10 +76,10 @@ export function placeLayer(layout: Layout, layer: LayerLabel["layer"], textOf: (
   for (const item of layout.items) {
     const text = textOf(item);
     if (text === undefined) continue;
-    const w = [...text].length * cap * 0.9;
+    const w = [...text].length * cap * TEXT_W_PER_CAP * LAYER_WIDTH_MARGIN;
     let done = false;
     for (const [x, y] of candidates(item, w, cap)) {
-      const box = textBox(text, x, y, "middle", cap);
+      const box = textBox(text, x, y, "middle", cap, LAYER_WIDTH_MARGIN);
       if (!inside(box) || taken.some((t) => hit(t, box))) continue;
       placed.push({ key: `${layer}:${item.id}`, id: item.id, layer, text, x, y, cap });
       taken.push(box);

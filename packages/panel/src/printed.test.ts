@@ -163,4 +163,4 @@ test("id text puts the ID and the printed number together", () => {
 });
 
 // Layer labels that found no free spot within the distance limit. Reported, not hidden.
-const EXPECTED_UNPLACED = ["B5", "B13", "B22", "B24", "E25", "E33", "E35", "E37", "E39", "E41", "E43", "E45", "E47", "E49", "SEL", "B66", "B68"].map((id) => `function:${id}`);
+const EXPECTED_UNPLACED = ["B5", "B13", "B16", "B18", "B22", "B24", "E25", "E26", "E27", "E28", "E29", "E30", "E31", "E32", "E33", "E34", "E35", "E36", "E37", "E38", "E39", "E40", "E41", "E42", "E43", "E44", "E45", "E46", "E47", "E48", "E49", "SEL", "B62", "B65", "B66", "B68"].map((id) => `function:${id}`);

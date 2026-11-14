@@ -16,6 +16,9 @@ export const RING_LED_H_MM = 3;
 export const FONT_PER_CAP = 1 / 0.7;
 // Estimated width of a text box: characters x cap height x this number. The browser test measures the real boxes.
 export const TEXT_W_PER_CAP = 0.9;
+// The callout, id and function layers reserve a box this much wider than the estimate, so a wider
+// system font (about 25 percent) still leaves the text clear of its neighbours.
+export const LAYER_WIDTH_MARGIN = 1.4;
 // Cap height of the text of the callout, id and function layers, in mm.
 export const LAYER_CAP_MM = 1.6;
 // Padding around a group when the narrow-screen view zooms to it, in mm.
@@ -97,8 +100,8 @@ export function pointerLine(item: LayoutItem, value: number | null, min: number,
 }
 
 // Estimated box of printed text. y is the vertical centre of the text; the box is one cap height tall.
-export function textBox(text: string, x: number, y: number, anchor: Anchor, cap: number): TextBox {
-  const w = [...text].length * cap * TEXT_W_PER_CAP;
+export function textBox(text: string, x: number, y: number, anchor: Anchor, cap: number, widthFactor = 1): TextBox {
+  const w = [...text].length * cap * TEXT_W_PER_CAP * widthFactor;
   const x0 = anchor === "start" ? x : anchor === "end" ? x - w : x - w / 2;
   return { x0, x1: x0 + w, y0: y - cap / 2, y1: y + cap / 2 };
 }

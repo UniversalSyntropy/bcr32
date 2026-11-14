@@ -125,8 +125,10 @@ for (const [engine, type] of ENGINES) {
       await p.context().close();
     });
 
-    test("layers from the URL; all layers on keep every part and text apart", async () => {
+    for (const wide of [false, true])
+    test(`layers from the URL; all layers on keep every part and text apart${wide ? " (wide system font)" : ""}`, async () => {
       const p = await open(browser, url, `view=top&theme=device&layers=${ALL}`);
+      if (wide) await p.addStyleTag({ content: ".panel-svg text { font-family: Verdana, 'DejaVu Sans', sans-serif !important; letter-spacing: 0.15em; }" });
       await p.evaluate(() => document.fonts.ready);
       assert.equal(await p.getByLabel("Control IDs").isChecked(), true);
       const boxes = await p.$$eval("#labels text", (n) => n.map((t) => { const b = (t as SVGTextElement).getBBox(); return { key: `${(t as SVGElement).dataset["layer"]}:${(t as SVGElement).dataset["id"]}`, x0: b.x, x1: b.x + b.width, y0: b.y, y1: b.y + b.height }; }));
