@@ -1,0 +1,624 @@
+{
+  "version": "0.1.0",
+  "units": "mm",
+  "views": {
+    "top": {
+      "width": 304,
+      "depth": 238,
+      "cornerRadius": 5,
+      "origin": "left edge, back edge; x to the right, y to the front"
+    },
+    "rear": {
+      "width": 304,
+      "height": 34.5
+    }
+  },
+  "parts": {
+    "knob": {
+      "shape": "circle",
+      "dia": 18,
+      "ringDia": 25
+    },
+    "button": {
+      "shape": "rect",
+      "w": 25,
+      "h": 8.5
+    },
+    "key": {
+      "shape": "rect",
+      "w": 16,
+      "h": 8.5
+    },
+    "led": {
+      "shape": "circle",
+      "dia": 3
+    },
+    "display": {
+      "shape": "rect",
+      "w": 34,
+      "h": 16.2,
+      "window": {
+        "w": 24,
+        "h": 8
+      }
+    }
+  },
+  "ring": {
+    "count": 15,
+    "startDeg": -150,
+    "endDeg": 150,
+    "zeroDeg": "up",
+    "prov": {
+      "count": "owner",
+      "arc": "assumed"
+    }
+  },
+  "place": {
+    "B1": {
+      "view": "top",
+      "part": "button",
+      "x": 219.0,
+      "y": 25.25,
+      "prov": "measured"
+    },
+    "L2.in": {
+      "view": "top",
+      "part": "led",
+      "x": 253.0,
+      "y": 25.25,
+      "prov": "assumed"
+    },
+    "L2.a": {
+      "view": "top",
+      "part": "led",
+      "x": 261.3,
+      "y": 25.25,
+      "prov": "assumed"
+    },
+    "L2.b": {
+      "view": "top",
+      "part": "led",
+      "x": 269.6,
+      "y": 25.25,
+      "prov": "assumed"
+    },
+    "L3.1": {
+      "view": "top",
+      "part": "led",
+      "x": 277.9,
+      "y": 25.25,
+      "prov": "assumed"
+    },
+    "L3.2": {
+      "view": "top",
+      "part": "led",
+      "x": 286.2,
+      "y": 25.25,
+      "prov": "assumed"
+    },
+    "L4": {
+      "view": "top",
+      "part": "led",
+      "x": 294.5,
+      "y": 25.25,
+      "prov": "assumed"
+    },
+    "B5": {
+      "view": "top",
+      "part": "button",
+      "x": 19.0,
+      "y": 46.75,
+      "prov": "derived"
+    },
+    "B6": {
+      "view": "top",
+      "part": "button",
+      "x": 47.57,
+      "y": 46.75,
+      "prov": "derived"
+    },
+    "B7": {
+      "view": "top",
+      "part": "button",
+      "x": 76.14,
+      "y": 46.75,
+      "prov": "derived"
+    },
+    "B8": {
+      "view": "top",
+      "part": "button",
+      "x": 104.71,
+      "y": 46.75,
+      "prov": "derived"
+    },
+    "B9": {
+      "view": "top",
+      "part": "button",
+      "x": 133.29,
+      "y": 46.75,
+      "prov": "derived"
+    },
+    "B10": {
+      "view": "top",
+      "part": "button",
+      "x": 161.86,
+      "y": 46.75,
+      "prov": "derived"
+    },
+    "B11": {
+      "view": "top",
+      "part": "button",
+      "x": 190.43,
+      "y": 46.75,
+      "prov": "derived"
+    },
+    "B12": {
+      "view": "top",
+      "part": "button",
+      "x": 219.0,
+      "y": 46.75,
+      "prov": "derived"
+    },
+    "B13": {
+      "view": "top",
+      "part": "button",
+      "x": 19.0,
+      "y": 68.25,
+      "prov": "derived"
+    },
+    "B14": {
+      "view": "top",
+      "part": "button",
+      "x": 47.57,
+      "y": 68.25,
+      "prov": "derived"
+    },
+    "B15": {
+      "view": "top",
+      "part": "button",
+      "x": 76.14,
+      "y": 68.25,
+      "prov": "derived"
+    },
+    "B16": {
+      "view": "top",
+      "part": "button",
+      "x": 104.71,
+      "y": 68.25,
+      "prov": "derived"
+    },
+    "B17": {
+      "view": "top",
+      "part": "button",
+      "x": 133.29,
+      "y": 68.25,
+      "prov": "derived"
+    },
+    "B18": {
+      "view": "top",
+      "part": "button",
+      "x": 161.86,
+      "y": 68.25,
+      "prov": "derived"
+    },
+    "B19": {
+      "view": "top",
+      "part": "button",
+      "x": 190.43,
+      "y": 68.25,
+      "prov": "derived"
+    },
+    "B20": {
+      "view": "top",
+      "part": "button",
+      "x": 219.0,
+      "y": 68.25,
+      "prov": "derived"
+    },
+    "B21": {
+      "view": "top",
+      "part": "key",
+      "x": 259.5,
+      "y": 46.75,
+      "prov": "derived"
+    },
+    "B22": {
+      "view": "top",
+      "part": "key",
+      "x": 288.0,
+      "y": 46.75,
+      "prov": "derived"
+    },
+    "B23": {
+      "view": "top",
+      "part": "key",
+      "x": 259.5,
+      "y": 68.25,
+      "prov": "derived"
+    },
+    "B24": {
+      "view": "top",
+      "part": "key",
+      "x": 288.0,
+      "y": 68.25,
+      "prov": "derived"
+    },
+    "E25": {
+      "view": "top",
+      "part": "knob",
+      "x": 19.0,
+      "y": 99.5,
+      "prov": "derived"
+    },
+    "E26": {
+      "view": "top",
+      "part": "knob",
+      "x": 47.57,
+      "y": 99.5,
+      "prov": "derived"
+    },
+    "E27": {
+      "view": "top",
+      "part": "knob",
+      "x": 76.14,
+      "y": 99.5,
+      "prov": "derived"
+    },
+    "E28": {
+      "view": "top",
+      "part": "knob",
+      "x": 104.71,
+      "y": 99.5,
+      "prov": "derived"
+    },
+    "E29": {
+      "view": "top",
+      "part": "knob",
+      "x": 133.29,
+      "y": 99.5,
+      "prov": "derived"
+    },
+    "E30": {
+      "view": "top",
+      "part": "knob",
+      "x": 161.86,
+      "y": 99.5,
+      "prov": "derived"
+    },
+    "E31": {
+      "view": "top",
+      "part": "knob",
+      "x": 190.43,
+      "y": 99.5,
+      "prov": "derived"
+    },
+    "E32": {
+      "view": "top",
+      "part": "knob",
+      "x": 219.0,
+      "y": 99.5,
+      "prov": "derived"
+    },
+    "E33": {
+      "view": "top",
+      "part": "knob",
+      "x": 19.0,
+      "y": 137.5,
+      "prov": "derived"
+    },
+    "E34": {
+      "view": "top",
+      "part": "knob",
+      "x": 47.57,
+      "y": 137.5,
+      "prov": "derived"
+    },
+    "E35": {
+      "view": "top",
+      "part": "knob",
+      "x": 76.14,
+      "y": 137.5,
+      "prov": "derived"
+    },
+    "E36": {
+      "view": "top",
+      "part": "knob",
+      "x": 104.71,
+      "y": 137.5,
+      "prov": "derived"
+    },
+    "E37": {
+      "view": "top",
+      "part": "knob",
+      "x": 133.29,
+      "y": 137.5,
+      "prov": "derived"
+    },
+    "E38": {
+      "view": "top",
+      "part": "knob",
+      "x": 161.86,
+      "y": 137.5,
+      "prov": "derived"
+    },
+    "E39": {
+      "view": "top",
+      "part": "knob",
+      "x": 190.43,
+      "y": 137.5,
+      "prov": "derived"
+    },
+    "E40": {
+      "view": "top",
+      "part": "knob",
+      "x": 219.0,
+      "y": 137.5,
+      "prov": "derived"
+    },
+    "E41": {
+      "view": "top",
+      "part": "knob",
+      "x": 19.0,
+      "y": 175.5,
+      "prov": "derived"
+    },
+    "E42": {
+      "view": "top",
+      "part": "knob",
+      "x": 47.57,
+      "y": 175.5,
+      "prov": "derived"
+    },
+    "E43": {
+      "view": "top",
+      "part": "knob",
+      "x": 76.14,
+      "y": 175.5,
+      "prov": "derived"
+    },
+    "E44": {
+      "view": "top",
+      "part": "knob",
+      "x": 104.71,
+      "y": 175.5,
+      "prov": "derived"
+    },
+    "E45": {
+      "view": "top",
+      "part": "knob",
+      "x": 133.29,
+      "y": 175.5,
+      "prov": "derived"
+    },
+    "E46": {
+      "view": "top",
+      "part": "knob",
+      "x": 161.86,
+      "y": 175.5,
+      "prov": "derived"
+    },
+    "E47": {
+      "view": "top",
+      "part": "knob",
+      "x": 190.43,
+      "y": 175.5,
+      "prov": "derived"
+    },
+    "E48": {
+      "view": "top",
+      "part": "knob",
+      "x": 219.0,
+      "y": 175.5,
+      "prov": "derived"
+    },
+    "E49": {
+      "view": "top",
+      "part": "knob",
+      "x": 19.0,
+      "y": 213.5,
+      "prov": "derived"
+    },
+    "E50": {
+      "view": "top",
+      "part": "knob",
+      "x": 47.57,
+      "y": 213.5,
+      "prov": "derived"
+    },
+    "E51": {
+      "view": "top",
+      "part": "knob",
+      "x": 76.14,
+      "y": 213.5,
+      "prov": "derived"
+    },
+    "E52": {
+      "view": "top",
+      "part": "knob",
+      "x": 104.71,
+      "y": 213.5,
+      "prov": "derived"
+    },
+    "E53": {
+      "view": "top",
+      "part": "knob",
+      "x": 133.29,
+      "y": 213.5,
+      "prov": "derived"
+    },
+    "E54": {
+      "view": "top",
+      "part": "knob",
+      "x": 161.86,
+      "y": 213.5,
+      "prov": "derived"
+    },
+    "E55": {
+      "view": "top",
+      "part": "knob",
+      "x": 190.43,
+      "y": 213.5,
+      "prov": "derived"
+    },
+    "E56": {
+      "view": "top",
+      "part": "knob",
+      "x": 219.0,
+      "y": 213.5,
+      "prov": "derived"
+    },
+    "DISP": {
+      "view": "top",
+      "part": "display",
+      "x": 260.0,
+      "y": 99.5,
+      "prov": "derived"
+    },
+    "SEL": {
+      "view": "top",
+      "part": "knob",
+      "x": 288.0,
+      "y": 99.5,
+      "prov": "owner"
+    },
+    "B59": {
+      "view": "top",
+      "part": "key",
+      "x": 259.5,
+      "y": 122.25,
+      "prov": "measured"
+    },
+    "B60": {
+      "view": "top",
+      "part": "key",
+      "x": 288.0,
+      "y": 122.25,
+      "prov": "measured"
+    },
+    "B61": {
+      "view": "top",
+      "part": "key",
+      "x": 259.5,
+      "y": 144.25,
+      "prov": "measured"
+    },
+    "B62": {
+      "view": "top",
+      "part": "key",
+      "x": 288.0,
+      "y": 144.25,
+      "prov": "measured"
+    },
+    "B63": {
+      "view": "top",
+      "part": "key",
+      "x": 259.5,
+      "y": 170.25,
+      "prov": "measured"
+    },
+    "B64": {
+      "view": "top",
+      "part": "key",
+      "x": 288.0,
+      "y": 170.25,
+      "prov": "measured"
+    },
+    "B65": {
+      "view": "top",
+      "part": "key",
+      "x": 259.5,
+      "y": 196.25,
+      "prov": "measured"
+    },
+    "B66": {
+      "view": "top",
+      "part": "key",
+      "x": 288.0,
+      "y": 196.25,
+      "prov": "measured"
+    },
+    "B67": {
+      "view": "top",
+      "part": "key",
+      "x": 259.5,
+      "y": 218.25,
+      "prov": "measured"
+    },
+    "B68": {
+      "view": "top",
+      "part": "key",
+      "x": 288.0,
+      "y": 218.25,
+      "prov": "measured"
+    },
+    "J69": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J70": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J71": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J72": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J73": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J74": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J75": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J76": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J77": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J78": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J79": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J80": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J81": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J82": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J83": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J84": {
+      "view": "rear",
+      "prov": "missing"
+    },
+    "J85": {
+      "view": "rear",
+      "prov": "missing"
+    }
+  },
+  "legends": []
+}

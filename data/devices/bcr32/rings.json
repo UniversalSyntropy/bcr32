@@ -1,0 +1,148 @@
+{
+  "$schema": "../../schema/rings.schema.json",
+  "styles": [
+    {
+      "id": "off",
+      "code": "0",
+      "name": "Off",
+      "rule": "none",
+      "status": "model-unverified",
+      "source": {
+        "source": "inference",
+        "note": "one photo of test preset B, firmware 1.0.3, not published"
+      }
+    },
+    {
+      "id": "1dot",
+      "code": "1",
+      "name": "One dot",
+      "rule": "dot",
+      "status": "model-unverified",
+      "source": {
+        "source": "inference",
+        "note": "one photo of test preset B, firmware 1.0.3, not published"
+      }
+    },
+    {
+      "id": "1dot/off",
+      "code": "2",
+      "name": "One dot, dark at minimum",
+      "rule": "dot-off",
+      "status": "model-unverified",
+      "source": {
+        "source": "inference",
+        "note": "one photo of test preset B, firmware 1.0.3, not published"
+      }
+    },
+    {
+      "id": "12dot",
+      "code": "3",
+      "name": "One or two dots, half steps",
+      "rule": "half-dot",
+      "status": "model-unverified",
+      "source": {
+        "source": "inference",
+        "note": "one photo of test preset B, firmware 1.0.3, not published"
+      }
+    },
+    {
+      "id": "12dot/off",
+      "code": "4",
+      "name": "One or two dots, dark at minimum",
+      "rule": "half-dot-off",
+      "status": "model-disagrees",
+      "source": {
+        "source": "inference",
+        "note": "one photo of test preset B, firmware 1.0.3, not published"
+      }
+    },
+    {
+      "id": "bar",
+      "code": "5",
+      "name": "Bar",
+      "rule": "bar",
+      "status": "model-unverified",
+      "source": {
+        "source": "inference",
+        "note": "one photo of test preset B, firmware 1.0.3, not published"
+      }
+    },
+    {
+      "id": "bar/off",
+      "code": "6",
+      "name": "Bar, dark at minimum",
+      "rule": "bar-off",
+      "status": "model-unverified",
+      "source": {
+        "source": "inference",
+        "note": "one photo of test preset B, firmware 1.0.3, not published"
+      }
+    },
+    {
+      "id": "spread",
+      "code": "7",
+      "name": "Spread from centre",
+      "rule": "spread",
+      "status": "model-unverified",
+      "source": {
+        "source": "inference",
+        "note": "one photo of test preset B, firmware 1.0.3, not published"
+      }
+    },
+    {
+      "id": "pan",
+      "code": "8",
+      "name": "Pan from centre",
+      "rule": "pan",
+      "status": "model-unverified",
+      "source": {
+        "source": "inference",
+        "note": "one photo of test preset B, firmware 1.0.3, not published"
+      }
+    },
+    {
+      "id": "qual",
+      "code": "9",
+      "name": "Quality spread",
+      "rule": "qual",
+      "status": "model-disagrees",
+      "source": {
+        "source": "inference",
+        "note": "one photo of test preset B, firmware 1.0.3, not published"
+      }
+    },
+    {
+      "id": "cut",
+      "code": "A",
+      "name": "Cut",
+      "rule": "cut",
+      "status": "model-unverified",
+      "source": {
+        "source": "inference",
+        "note": "one photo of test preset B, firmware 1.0.3, not published"
+      }
+    },
+    {
+      "id": "damp",
+      "code": "B",
+      "name": "Damp",
+      "rule": "damp",
+      "status": "model-unverified",
+      "source": {
+        "source": "inference",
+        "note": "one photo of test preset B, firmware 1.0.3, not published"
+      }
+    },
+    {
+      "id": "mcu",
+      "code": "C",
+      "name": "Host controlled",
+      "rule": "host",
+      "status": "unknown",
+      "source": {
+        "source": "inference",
+        "note": "one photo of test preset B, firmware 1.0.3, not published"
+      }
+    }
+  ]
+}

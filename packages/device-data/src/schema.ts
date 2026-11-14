@@ -237,6 +237,127 @@ export const MidiFile = z.strictObject({
   silences: z.array(MidiSilence),
 });
 
+// geometry.json: where each element sits, in mm, centre point. Layout facts only; no drawing style.
+export const Provenance = z.enum(["measured", "derived", "owner", "assumed", "missing"]);
+
+const GeometryView = z
+  .strictObject({
+    width: z.number().positive(),
+    depth: z.number().positive().optional(), // plan view
+    height: z.number().positive().optional(), // side or rear view
+    cornerRadius: z.number().min(0).optional(),
+    origin: Text.optional(), // where x and y start, and which way they grow
+  })
+  .refine((v) => (v.depth !== undefined) !== (v.height !== undefined), {
+    message: "a view needs a depth or a height, not both",
+  });
+
+const GeometryPart = z
+  .strictObject({
+    shape: z.enum(["circle", "rect"]),
+    dia: z.number().positive().optional(), // circle
+    w: z.number().positive().optional(), // rect
+    h: z.number().positive().optional(), // rect
+    ringDia: z.number().positive().optional(), // diameter of an LED ring around the part
+    window: z.strictObject({ w: z.number().positive(), h: z.number().positive() }).optional(),
+  })
+  .refine((p) => (p.shape === "circle" ? p.dia !== undefined && p.w === undefined && p.h === undefined : p.dia === undefined && p.w !== undefined && p.h !== undefined), {
+    message: "a circle needs dia only; a rect needs w and h only",
+  });
+
+const GeometryRing = z.strictObject({
+  count: z.int().positive(),
+  startDeg: z.number(),
+  endDeg: z.number(),
+  zeroDeg: z.enum(["up", "down", "left", "right"]), // direction of zero degrees; angles grow clockwise
+  prov: z.record(Key, Provenance),
+});
+
+const GeometryPlace = z
+  .strictObject({
+    view: Key,
+    part: Key.optional(), // absent only when prov is 'missing'
+    x: z.number().optional(), // centre of the part
+    y: z.number().optional(),
+    prov: Provenance,
+  })
+  .refine((p) => (p.prov === "missing" ? p.x === undefined && p.y === undefined : p.x !== undefined && p.y !== undefined && p.part !== undefined), {
+    message: "'missing' has no x, y; every other provenance needs part, x and y",
+  });
+
+const GeometryLegend = z.strictObject({
+  for: ElementId,
+  label: z.int().min(0), // index into the labels of that element
+  x: z.number(),
+  y: z.number(),
+  anchor: z.enum(["start", "middle", "end"]),
+  capHeight: z.number().positive(),
+  prov: Provenance,
+});
+
+export const GeometryFile = z.strictObject({
+  ...fileHeader,
+  version: SemVer,
+  units: z.literal("mm"),
+  views: z.record(Key, GeometryView),
+  parts: z.record(Key, GeometryPart),
+  ring: GeometryRing.optional(),
+  place: z.record(ElementId, GeometryPlace),
+  legends: z.array(GeometryLegend),
+});
+
+// rings.json: one row per LED ring style.
+export const RingStyle = z.strictObject({
+  id: Text, // word in the preset text file: 1dot/off
+  code: z.string().regex(/^[0-9A-C]$/), // stored code, one hex digit
+  name: Text,
+  rule: Key, // name of the rule in the ring model
+  status: z.enum(["model-unverified", "model-disagrees", "unknown", "verified"]),
+  source: Source,
+});
+
+export const RingsFile = z.strictObject({
+  ...fileHeader,
+  styles: z.array(RingStyle).min(1),
+  // position (0 to 100 percent as text) → lit LED indexes; filled by the ring test pass
+  table: z.record(Text, z.array(z.int().min(0))).optional(),
+}).superRefine((f, ctx) => {
+  f.styles.forEach((s, i) => {
+    if (s.status === "verified" && (s.source.source !== "unit" || s.source.firmware === undefined))
+      ctx.addIssue({ code: "custom", path: ["styles", i, "source"], message: "'verified' needs source 'unit' and a firmware version" });
+  });
+});
+
+// Guide files live in docs/guides/data/, not in a device folder (see guide.ts).
+const Message = z.strictObject({ key: Key, en: Text });
+
+export const GuideStep = z.strictObject({
+  id: Key,
+  action: Text.optional(), // grammar is checked by the action parser
+  focus: z.array(ElementId).min(1).max(8),
+  target: z.record(z.string(), z.unknown()).optional(),
+  after: z.record(z.string(), z.unknown()).optional(), // patch of the panel view
+  held: z.array(ElementId).optional(),
+  caption: Message,
+  expect: Message.optional(),
+  advance: z.enum(["on-action", "manual"]),
+  warn: Message.optional(),
+  source: Source.optional(),
+});
+
+export const GuideFile = z
+  .strictObject({
+    ...fileHeader,
+    id: Key,
+    version: z.int().positive(),
+    title: Message,
+    doc: Text.optional(),
+    firmware: Text,
+    status: z.enum(["verified", "unverified"]),
+    start: z.strictObject({ mode: Key, view: z.record(z.string(), z.unknown()) }),
+    steps: z.array(GuideStep).min(1).max(12),
+  });
+
 // File name → schema. `required` files must exist in every device folder.
 export const FILES = {
   "device.json": { schema: DeviceFile, required: true },
@@ -247,6 +368,8 @@ export const FILES = {
   "glossary.json": { schema: GlossaryFile, required: false },
   "section-map.json": { schema: SectionMapFile, required: false },
   "midi.json": { schema: MidiFile, required: false },
+  "geometry.json": { schema: GeometryFile, required: false },
+  "rings.json": { schema: RingsFile, required: false },
 } as const;
 
 export type FileName = keyof typeof FILES;
@@ -263,7 +386,11 @@ export type DeviceFunction = z.infer<typeof DeviceFunction>;
 export type FunctionsFile = z.infer<typeof FunctionsFile>;
 export type GlossaryFile = z.infer<typeof GlossaryFile>;
 export type SectionMapItem = z.infer<typeof SectionMapItem>;
+export type RingStyle = z.infer<typeof RingStyle>;
 export type MidiFile = z.infer<typeof MidiFile>;
+export type GeometryFile = z.infer<typeof GeometryFile>;
+export type RingsFile = z.infer<typeof RingsFile>;
+export type GuideFile = z.infer<typeof GuideFile>;
 
 export interface DeviceData {
   device: DeviceFile;
@@ -274,4 +401,6 @@ export interface DeviceData {
   glossary: GlossaryFile["terms"];
   sectionMap: SectionMapItem[];
   midi: MidiFile | undefined;
+  geometry: GeometryFile | undefined;
+  rings: RingStyle[];
 }

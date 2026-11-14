@@ -2,7 +2,7 @@
 // refinements are not expressible there; loadDevice is the full validator.
 import { z } from "zod";
 
-import { FILES, SCHEMA_VERSION, type FileName } from "./schema.ts";
+import { FILES, GuideFile, SCHEMA_VERSION, type FileName } from "./schema.ts";
 
 // Output file name → schema text, e.g. "elements.schema.json".
 export function jsonSchemas(): Map<string, string> {
@@ -16,5 +16,11 @@ export function jsonSchemas(): Map<string, string> {
     };
     out.set(file, `${JSON.stringify(schema, null, 2)}\n`);
   }
+  // Guide files are not in a device folder, so they are not in FILES.
+  out.set("guide.schema.json", `${JSON.stringify({
+    ...z.toJSONSchema(GuideFile, { target: "draft-2020-12" }),
+    $id: "guide.schema.json",
+    title: `guide file (schema version ${SCHEMA_VERSION})`,
+  }, null, 2)}\n`);
   return out;
 }

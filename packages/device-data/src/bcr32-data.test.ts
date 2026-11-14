@@ -4,7 +4,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { test } from "node:test";
 
-import { loadDevice } from "./index.ts";
+import { GeometryFile, GuideFile, RingsFile, checkGeometry, checkGuide, checkRings, loadDevice } from "./index.ts";
 
 const dir = join(import.meta.dirname, "..", "..", "..", "data", "devices", "bcr32");
 
@@ -124,4 +124,168 @@ test("BCR32 MIDI data: ports, USB IDs and the controller messages seen in test H
   for (const e of ["E30", "E31", "E38", "B21", "B24", "B65", "B68"]) assert.ok(!triggers.has(e), e);
   // Every record names the firmware it was seen on.
   for (const r of [...midi.ports, ...midi.messages, ...midi.silences]) assert.equal(r.source.firmware, "1.0.3", r.id);
+});
+
+// Geometry, rings and guide checks (R2 batch B1). Each planted fault gives one named issue.
+const rawGeometry = () => JSON.parse(readFileSync(join(dir, "geometry.json"), "utf8"));
+const rawRings = () => JSON.parse(readFileSync(join(dir, "rings.json"), "utf8"));
+const bcrElements = () => {
+  const r = loadDevice(dir);
+  assert.ok(r.ok);
+  return r.data.elements;
+};
+const geometryIssues = (g: any) => {
+  const parsed = GeometryFile.safeParse(g);
+  assert.ok(parsed.success, JSON.stringify(parsed.error?.issues));
+  return checkGeometry(parsed.data, bcrElements()).map((i) => i.message);
+};
+
+test("BCR32 geometry and rings: clean data gives no issue", () => {
+  const r = loadDevice(dir);
+  assert.deepEqual(r.issues, []);
+  assert.ok(r.ok);
+  assert.equal(Object.keys(r.data.geometry!.place).length, 88);
+  assert.equal(r.data.rings.length, 13);
+  const prov = Object.values(r.data.geometry!.place).filter((p) => p.prov === "missing").map((p) => p.view);
+  assert.equal(prov.length, 17);
+  assert.ok(prov.every((v) => v === "rear"));
+});
+
+test("geometry: an extra element ID", () => {
+  const g = rawGeometry();
+  g.place.B99 = { view: "top", part: "button", x: 150, y: 10, prov: "assumed" };
+  assert.deepEqual(geometryIssues(g), ["place 'B99' is not an element"]);
+});
+
+test("geometry: a missing element ID", () => {
+  const g = rawGeometry();
+  delete g.place.E30;
+  assert.deepEqual(geometryIssues(g), ["element 'E30' has no place"]);
+});
+
+test("geometry: an unknown part", () => {
+  const g = rawGeometry();
+  g.place.E30.part = "slider";
+  assert.deepEqual(geometryIssues(g), ["unknown part 'slider'"]);
+});
+
+test("geometry: an unknown view", () => {
+  const g = rawGeometry();
+  g.place.E30.view = "side";
+  assert.deepEqual(geometryIssues(g), ["unknown view 'side'"]);
+});
+
+test("geometry: a part outside the view", () => {
+  const g = rawGeometry();
+  g.place.E25.x = 5; // knob dia 18 reaches x = -4
+  assert.deepEqual(geometryIssues(g), ["part of 'E25' lies outside view 'top'"]);
+});
+
+test("geometry: two overlapping knobs", () => {
+  const g = rawGeometry();
+  g.place.E26.x = g.place.E25.x + 10;
+  assert.deepEqual(geometryIssues(g), ["part of 'E25' overlaps part of 'E26'"]);
+});
+
+test("geometry: a legend with a label index that does not exist", () => {
+  const g = rawGeometry();
+  g.legends.push({ for: "E25", label: 9, x: 19, y: 120, anchor: "middle", capHeight: 1.8, prov: "assumed" });
+  assert.deepEqual(geometryIssues(g), ["legend 0: 'E25' has no label 9"]);
+});
+
+test("geometry: schema rejects 'measured' without x, a penWidth key and a missing part with coordinates", () => {
+  const noX = rawGeometry();
+  delete noX.place.B1.x;
+  assert.ok(!GeometryFile.safeParse(noX).success);
+  const pen = rawGeometry();
+  pen.penWidth = 0.5;
+  assert.match(JSON.stringify(GeometryFile.safeParse(pen).error?.issues), /[Uu]nrecognized key/);
+  const missing = rawGeometry();
+  missing.place.J69.x = 1;
+  assert.ok(!GeometryFile.safeParse(missing).success);
+});
+
+test("rings: a duplicate code", () => {
+  const f = rawRings();
+  f.styles[3].code = "2";
+  const parsed = RingsFile.parse(f);
+  assert.deepEqual(checkRings(parsed.styles).map((i) => i.message), ["duplicate code '2'", "code '3' has no row"]);
+});
+
+test("rings: a 14th row", () => {
+  const f = rawRings();
+  f.styles.push({ ...f.styles[0], id: "extra", code: "D" });
+  assert.ok(!RingsFile.safeParse(f).success); // code D is not a style code
+  f.styles[13].code = "0";
+  assert.deepEqual(checkRings(RingsFile.parse(f).styles).map((i) => i.message), ["14 rows, expected 13", "duplicate code '0'"]);
+});
+
+test("rings: 'verified' with no firmware", () => {
+  const f = rawRings();
+  f.styles[0].status = "verified"; // source is 'inference'
+  assert.match(JSON.stringify(RingsFile.safeParse(f).error?.issues), /'verified' needs source 'unit' and a firmware version/);
+  f.styles[0].source = { source: "unit" };
+  assert.match(JSON.stringify(RingsFile.safeParse(f).error?.issues), /needs a firmware version/);
+});
+
+// Guide checks.
+const manual = { source: "manual", ref: "p. 1" };
+const guideFixture = (): any => ({
+  id: "demo",
+  version: 1,
+  title: { key: "guide.demo.title", en: "Demo" },
+  firmware: "1.0.3",
+  status: "unverified",
+  start: { mode: "zaq", view: {} },
+  steps: [
+    { id: "s1", action: "press B59", focus: ["B59"], caption: { key: "guide.demo.s1", en: "Press {B59}." }, advance: "on-action", source: manual },
+  ],
+});
+const guideIssues = (g: any, name = "demo") => {
+  const parsed = GuideFile.safeParse(g);
+  assert.ok(parsed.success, JSON.stringify(parsed.error?.issues));
+  return checkGuide(parsed.data, { elements: bcrElements() }, name).map((i) => i.message);
+};
+const stepOf = (n: number) => ({ id: `s${n}`, focus: ["B59"], caption: { key: `guide.demo.s${n}`, en: "Look." }, advance: "manual" });
+
+test("guide: clean guide gives no issue", () => assert.deepEqual(guideIssues(guideFixture()), []));
+
+test("guide: 13 steps", () => {
+  const g = guideFixture();
+  g.steps = Array.from({ length: 13 }, (_, i) => stepOf(i + 1));
+  assert.ok(!GuideFile.safeParse(g).success);
+  g.steps.pop();
+  assert.ok(GuideFile.safeParse(g).success);
+});
+
+test("guide: 9 focus IDs", () => {
+  const g = guideFixture();
+  g.steps[0].focus = ["B5", "B6", "B7", "B8", "B9", "B10", "B11", "B12", "B13"];
+  assert.ok(!GuideFile.safeParse(g).success);
+});
+
+test("guide: an unknown ID in a caption token and in focus", () => {
+  const g = guideFixture();
+  g.steps[0].caption.en = "Press {B99}.";
+  assert.deepEqual(guideIssues(g), ["guide 'demo', step 's1': unknown element 'B99' in text"]);
+  g.steps[0].caption.en = "Press {B59}.";
+  g.steps[0].focus = ["B98"];
+  assert.deepEqual(guideIssues(g), ["guide 'demo', step 's1': unknown element 'B98' in focus"]);
+});
+
+test("guide: empty firmware fails the schema", () => {
+  const g = guideFixture();
+  g.status = "verified";
+  g.firmware = "";
+  assert.ok(!GuideFile.safeParse(g).success);
+});
+
+test("guide: a guide id that differs from the file name", () => {
+  assert.deepEqual(guideIssues(guideFixture(), "other"), ["guide id 'demo' differs from file name 'other'"]);
+});
+
+test("guide: a duplicate step id", () => {
+  const g = guideFixture();
+  g.steps.push({ ...stepOf(1) });
+  assert.deepEqual(guideIssues(g), ["guide 'demo': duplicate step id 's1'"]);
 });

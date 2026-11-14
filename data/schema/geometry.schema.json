@@ -1,0 +1,267 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "units": {
+      "type": "string",
+      "const": "mm"
+    },
+    "views": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "width": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "depth": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "height": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "cornerRadius": {
+            "type": "number",
+            "minimum": 0
+          },
+          "origin": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "width"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "parts": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "shape": {
+            "type": "string",
+            "enum": [
+              "circle",
+              "rect"
+            ]
+          },
+          "dia": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "w": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "h": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "ringDia": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "window": {
+            "type": "object",
+            "properties": {
+              "w": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "h": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            },
+            "required": [
+              "w",
+              "h"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "shape"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "ring": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "startDeg": {
+          "type": "number"
+        },
+        "endDeg": {
+          "type": "number"
+        },
+        "zeroDeg": {
+          "type": "string",
+          "enum": [
+            "up",
+            "down",
+            "left",
+            "right"
+          ]
+        },
+        "prov": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "enum": [
+              "measured",
+              "derived",
+              "owner",
+              "assumed",
+              "missing"
+            ]
+          }
+        }
+      },
+      "required": [
+        "count",
+        "startDeg",
+        "endDeg",
+        "zeroDeg",
+        "prov"
+      ],
+      "additionalProperties": false
+    },
+    "place": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[A-Z][A-Za-z0-9]*(\\.[a-z0-9]+)?$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "view": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+          },
+          "part": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)*$"
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "prov": {
+            "type": "string",
+            "enum": [
+              "measured",
+              "derived",
+              "owner",
+              "assumed",
+              "missing"
+            ]
+          }
+        },
+        "required": [
+          "view",
+          "prov"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "legends": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "for": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Za-z0-9]*(\\.[a-z0-9]+)?$"
+          },
+          "label": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "anchor": {
+            "type": "string",
+            "enum": [
+              "start",
+              "middle",
+              "end"
+            ]
+          },
+          "capHeight": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "prov": {
+            "type": "string",
+            "enum": [
+              "measured",
+              "derived",
+              "owner",
+              "assumed",
+              "missing"
+            ]
+          }
+        },
+        "required": [
+          "for",
+          "label",
+          "x",
+          "y",
+          "anchor",
+          "capHeight",
+          "prov"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "version",
+    "units",
+    "views",
+    "parts",
+    "place",
+    "legends"
+  ],
+  "additionalProperties": false,
+  "$id": "geometry.schema.json",
+  "title": "geometry.json (schema version 1)"
+}

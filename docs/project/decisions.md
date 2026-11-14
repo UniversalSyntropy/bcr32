@@ -75,7 +75,7 @@ Items marked "needs approval" are recommendations and wait for the owner.
 | D18 | Controls and panel renderer in one package | One consumer today; split on the second | Separate controls library now |
 | D19 | The view contract is `PanelView` in, `ControlEvent` out | Any engine or a live unit can sit behind the panel | Components that own device logic |
 | D20 | Own 30-line store with `useSyncExternalStore` | The engine interface is already a store | Redux, Zustand |
-| D21 | Elements are HTML with inline SVG, one SVG layer for the overlay | Native focus and roles work in Safari; one coordinate system for labels | One large SVG for everything; canvas |
+| D21 | **Replaced by D65.** Elements are HTML with inline SVG, one SVG layer for the overlay | Native focus and roles work in Safari; one coordinate system for labels | One large SVG for everything; canvas |
 | D22 | Own control components, no third-party knob library | Push encoders with LED rings and state-driven colour fit no surveyed library; the GPL option is excluded | audiocn, ouestlabs audio-ui, NexusUI |
 | D23 | Vertical drag for encoders | Radial drag is fiddly at this size, as an earlier project found | Radial drag |
 | D24 | Motion only in the overlay, highlights and app shell | Base controls stay light and reduced-motion handling stays in one place | Motion inside every control |
@@ -130,4 +130,5 @@ The brief asked to follow the rules of a sister UI library and to drop what cost
 | D62 | `docs-check` applies the language rules to all documents except those on a pending list; the list fails when it is stale | D60 lets existing documents change when they are edited; the list makes the remaining work visible | Language rules off until step 2.8; a rewrite of all documents in step 1.5 |
 | D63 | `privacy-check` adds an e-mail rule to the patterns of the first leak guard | An e-mail address is personal data; no tracked file holds one | Same patterns as before |
 | D64 | The action notation check in `docs-check` is a minimal shape check until the manual restructure | The strict grammar belongs with the parser in `device-model` (R2); a strict rule now fails valid text in the reference | Strict grammar now |
+| D65 | One SVG in mm, drawn from `geometry.json`, replaces D21 | One coordinate system for the picture and the UI; the file lists each control, so a check can find a missing or overlapping part | HTML elements with an SVG overlay |
 | D60 | Documentation keeps the existing documentation standard and adds Simplified Technical English rules based on ASD-STE100; where the two disagree, the STE rule applies | The standard already agrees with STE on most points; STE adds sentence limits, one word for one meaning and no contractions, which help readers who scan and readers of English as a second language | Full ASD-STE100 with its dictionary (the specification is licensed and its word list is for aerospace); the existing standard alone |

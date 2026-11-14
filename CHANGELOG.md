@@ -2,6 +2,10 @@
 
 Notable changes to the documentation and tools. Newest first. Dates are ISO 8601.
 
+## 2026-11-14
+
+- Added the data schemas for panel geometry, ring styles and guide steps. Added the files `geometry.json` (88 control positions in mm, with provenance) and `rings.json` (13 ring styles, none verified). Added planted-fault tests and loader checks. Added decision D65.
+
 ## 2026-11-13
 
 - Added twelve [how-to guides](docs/guides/README.md) with an index. Each guide marks what was tested on firmware 1.0.3. Added verified results from a second unit session to chapters 5, 6, 7, 12, 15 and 16. They cover the option lists in USB mode, the all-steps rule, the transpose windows and the value IN on the MIDI out list. They also cover the message forms from the test presets. Corrected a note in chapter 16 about the slot check value.

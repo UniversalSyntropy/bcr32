@@ -42,6 +42,8 @@ export function validateDevice(raw: RawFiles): LoadResult {
     glossary: (parsed["glossary.json"] as { terms: DeviceData["glossary"] } | undefined)?.terms ?? [],
     sectionMap: (parsed["section-map.json"] as { items: DeviceData["sectionMap"] } | undefined)?.items ?? [],
     midi: parsed["midi.json"] as DeviceData["midi"],
+    geometry: parsed["geometry.json"] as DeviceData["geometry"],
+    rings: (parsed["rings.json"] as { styles: DeviceData["rings"] } | undefined)?.styles ?? [],
   };
 
   issues.push(...crossCheck(data));
@@ -155,8 +157,78 @@ export function crossCheck(d: DeviceData): Issue[] {
     }
   }
 
+  // geometry.json
+  if (d.geometry !== undefined) issues.push(...checkGeometry(d.geometry, d.elements));
+
+  // rings.json
+  if (d.rings.length > 0) issues.push(...checkRings(d.rings));
+
   // section-map.json
   for (const id of duplicates(d.sectionMap.map((i) => i.id))) add("section-map.json", id, "duplicate item ID");
 
+  return issues;
+}
+
+interface Box {
+  id: string;
+  view: string;
+  x0: number;
+  x1: number;
+  y0: number;
+  y1: number;
+}
+
+// Placed parts are boxes around their centre; a circle is the box of its diameter.
+export function checkGeometry(g: NonNullable<DeviceData["geometry"]>, elements: { id: string; labels: unknown[] }[]): Issue[] {
+  const elementIds = elements.map((e) => e.id);
+  const issues: Issue[] = [];
+  const add = (path: string, message: string) => issues.push({ file: "geometry.json", path, message });
+
+  const want = new Set(elementIds);
+  const have = new Set(Object.keys(g.place));
+  for (const id of want) if (!have.has(id)) add(id, `element '${id}' has no place`);
+  for (const id of have) if (!want.has(id)) add(id, `place '${id}' is not an element`);
+
+  const boxes: Box[] = [];
+  for (const [id, p] of Object.entries(g.place)) {
+    const view = g.views[p.view];
+    if (view === undefined) add(id, `unknown view '${p.view}'`);
+    const part = p.part === undefined ? undefined : g.parts[p.part];
+    if (p.part !== undefined && part === undefined) add(id, `unknown part '${p.part}'`);
+    if (p.prov === "missing" || view === undefined || part === undefined || p.x === undefined || p.y === undefined) continue;
+    const w = part.shape === "circle" ? part.dia! : part.w!;
+    const h = part.shape === "circle" ? part.dia! : part.h!;
+    const box: Box = { id, view: p.view, x0: p.x - w / 2, x1: p.x + w / 2, y0: p.y - h / 2, y1: p.y + h / 2 };
+    const vh = view.depth ?? view.height!;
+    if (box.x0 < 0 || box.y0 < 0 || box.x1 > view.width || box.y1 > vh) add(id, `part of '${id}' lies outside view '${p.view}'`);
+    boxes.push(box);
+  }
+
+  const eps = 1e-9;
+  for (let i = 0; i < boxes.length; i++)
+    for (let j = i + 1; j < boxes.length; j++) {
+      const a = boxes[i]!;
+      const b = boxes[j]!;
+      if (a.view === b.view && a.x0 < b.x1 - eps && b.x0 < a.x1 - eps && a.y0 < b.y1 - eps && b.y0 < a.y1 - eps)
+        add(a.id, `part of '${a.id}' overlaps part of '${b.id}'`);
+    }
+
+  const labelCount = new Map(elements.map((e) => [e.id, e.labels.length]));
+  g.legends.forEach((l, i) => {
+    const n = labelCount.get(l.for);
+    if (n === undefined) add(`legends.${i}`, `legend ${i}: unknown element '${l.for}'`);
+    else if (l.label >= n) add(`legends.${i}`, `legend ${i}: '${l.for}' has no label ${l.label}`);
+  });
+  return issues;
+}
+
+export function checkRings(rings: NonNullable<DeviceData["rings"]>): Issue[] {
+  const issues: Issue[] = [];
+  const add = (path: string, message: string) => issues.push({ file: "rings.json", path, message });
+  if (rings.length !== 13) add("styles", `${rings.length} rows, expected 13`);
+  for (const id of duplicates(rings.map((r) => r.id))) add(id, `duplicate style id '${id}'`);
+  for (const c of duplicates(rings.map((r) => r.code))) add(c, `duplicate code '${c}'`);
+  const codes = new Set(rings.map((r) => r.code));
+  for (const c of "0123456789ABC") if (!codes.has(c)) add(c, `code '${c}' has no row`);
   return issues;
 }

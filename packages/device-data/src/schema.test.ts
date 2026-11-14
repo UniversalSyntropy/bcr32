@@ -69,7 +69,7 @@ function fixture(): Record<FileName, any> {
       ],
       silences: [{ id: "idle", mode: "seq", action: "Wait.", result: "Nothing.", source: { source: "unit", firmware: "1.0.3" } }],
     },
-  };
+  } as Record<FileName, any>; // geometry.json and rings.json are tested in bcr32-data.test.ts
 }
 
 test("the valid fixture passes", () => {
@@ -172,8 +172,9 @@ test("the validate command exits 0 on a valid folder and 1 on a broken one", () 
 test("JSON Schema is generated for every data file and rejects unknown keys", () => {
   const schemas = jsonSchemas();
   assert.deepEqual([...schemas.keys()].sort(), [
-    "device.schema.json", "elements.schema.json", "functions.schema.json",
-    "glossary.schema.json", "midi.schema.json", "modes.schema.json", "section-map.schema.json", "values.schema.json",
+    "device.schema.json", "elements.schema.json", "functions.schema.json", "geometry.schema.json",
+    "glossary.schema.json", "guide.schema.json", "midi.schema.json", "modes.schema.json", "rings.schema.json",
+    "section-map.schema.json", "values.schema.json",
   ]);
   const elements = JSON.parse(schemas.get("elements.schema.json")!);
   assert.equal(elements.additionalProperties, false);
