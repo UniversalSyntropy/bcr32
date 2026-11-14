@@ -178,6 +178,15 @@ for (const [engine, type] of ENGINES) {
       await p.context().close();
     });
 
+    test("375 px with a wide system font: no horizontal scroll in the static and demo engines", async () => {
+      for (const q of ["view=top&theme=device", "view=top&theme=device&engine=demo&dev=1&sound=1"]) {
+        const p = await page(q, { viewport: { width: 375, height: 800 } });
+        await p.addStyleTag({ content: "body, body * { font-family: Verdana, 'DejaVu Sans', sans-serif !important; letter-spacing: 0.08em; }" });
+        assert.equal(await p.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true, q);
+        await p.context().close();
+      }
+    });
+
     test("reduced motion: a blinking LED has no running animation", async () => {
       const anim = (p: Page) => p.evaluate(() => document.querySelector('.light[data-blink="slow"]')!.getAnimations().length);
       const on = await page();
