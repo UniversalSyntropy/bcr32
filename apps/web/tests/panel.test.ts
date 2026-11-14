@@ -105,6 +105,33 @@ for (const [engine, type] of ENGINES) {
       await p.context().close();
     });
 
+    test("knob push by mouse: the Push button presses on down and releases on up; keyboard activation does both", async () => {
+      const p = await page();
+      assert.equal(await p.locator(".knob-push").count(), 0, "no knob selected, no Push button");
+      await p.click('.ctl[data-id="E26"]');
+      assert.equal(await p.locator(".knob-push").count(), 1);
+      const box = (await p.locator(".knob-push").boundingBox())!;
+      await p.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+      await p.mouse.down();
+      assert.equal(await p.locator('#marks g[data-id="E26"]').count(), 1);
+      await p.mouse.up();
+      assert.equal(await p.locator('#marks g[data-id="E26"]').count(), 0);
+      await p.locator(".knob-push").focus();
+      await p.keyboard.press("Enter");
+      assert.match(await p.locator('[role="status"]').innerText(), /E26/);
+      await p.context().close();
+    });
+
+    test("lit ring LEDs are red in every theme", async () => {
+      for (const q of ["view=top&theme=device", "view=top&theme=flat-light", "view=top&theme=flat-dark"]) {
+        const p = await page(q);
+        const c = await p.locator('#lights g.ring[data-id="E26"] rect[data-lit="true"]').first().evaluate((e) => getComputedStyle(e).fill);
+        const [r, g, b] = c.match(/\d+/g)!.map(Number) as [number, number, number];
+        assert.ok(r > 180 && g < 100 && b < 100, `${q}: ${c}`);
+        await p.context().close();
+      }
+    });
+
     test("ring LEDs: lit count follows the ring model; unknown rings carry no data-lit", async () => {
       const p = await page();
       const lit = (id: string) => p.locator(`#lights g.ring[data-id="${id}"] rect[data-lit="true"]`).count();

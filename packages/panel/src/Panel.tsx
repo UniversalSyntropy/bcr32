@@ -153,6 +153,29 @@ export function Panel({ data, engine, view, viewBox, only = null, layers = DEFAU
           <button type="button" onClick={() => engine.dispatch({ type: "turn", id: selItem.id, steps: -1, t: Math.round(performance.now()) })}>-</button>
           <span>{selItem.id}</span>
           <button type="button" onClick={() => engine.dispatch({ type: "turn", id: selItem.id, steps: 1, t: Math.round(performance.now()) })}>+</button>
+          {elements.get(selItem.id)?.push === true ? (
+            <button
+              type="button"
+              className="knob-push"
+              aria-label={`Push ${selItem.id}`}
+              onPointerDown={() => {
+                engine.dispatch({ type: "press", id: selItem.id, t: Math.round(performance.now()) });
+                announce(`${selItem.id} pushed`);
+              }}
+              onPointerUp={() => engine.dispatch({ type: "release", id: selItem.id, t: Math.round(performance.now()) })}
+              onPointerCancel={() => engine.dispatch({ type: "release", id: selItem.id, t: Math.round(performance.now()) })}
+              onClick={(ev) => {
+                // Keyboard or screen reader activation has no pointer events: press and release at once.
+                if (ev.detail !== 0) return;
+                const t = Math.round(performance.now());
+                engine.dispatch({ type: "press", id: selItem.id, t });
+                engine.dispatch({ type: "release", id: selItem.id, t });
+                announce(`${selItem.id} pushed`);
+              }}
+            >
+              Push
+            </button>
+          ) : null}
         </div>
       )}
       <ul className="sr-only" aria-label="Status LEDs and display">
