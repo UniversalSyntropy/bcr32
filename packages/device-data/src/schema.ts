@@ -247,6 +247,7 @@ const GeometryView = z
     height: z.number().positive().optional(), // side or rear view
     cornerRadius: z.number().min(0).optional(),
     origin: Text.optional(), // where x and y start, and which way they grow
+    prov: Provenance.optional(), // how the view size is known
   })
   .refine((v) => (v.depth !== undefined) !== (v.height !== undefined), {
     message: "a view needs a depth or a height, not both",

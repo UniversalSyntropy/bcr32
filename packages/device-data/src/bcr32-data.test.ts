@@ -4,7 +4,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { test } from "node:test";
 
-import { GeometryFile, GuideFile, RingsFile, checkGeometry, checkGuide, checkRings, loadDevice } from "./index.ts";
+import { GeometryFile, GuideFile, RingsFile, checkGeometry, checkGuide, checkRings, loadDevice, validateDevice } from "./index.ts";
 
 const dir = join(import.meta.dirname, "..", "..", "..", "data", "devices", "bcr32");
 
@@ -140,10 +140,22 @@ const geometryIssues = (g: any) => {
   return checkGeometry(parsed.data, bcrElements()).map((i) => i.message);
 };
 
+// BCR32 ring set: 13 styles with codes 0 to C. Not a generic rule, so it lives here.
+const ringSetIssues = (rings: { code: string }[]) => {
+  const issues: string[] = [];
+  if (rings.length !== 13) issues.push(`${rings.length} rows, expected 13`);
+  const codes = new Set(rings.map((r) => r.code));
+  for (const c of "0123456789ABC") if (!codes.has(c)) issues.push(`code '${c}' has no row`);
+  return issues;
+};
+
 test("BCR32 geometry and rings: clean data gives no issue", () => {
   const r = loadDevice(dir);
   assert.deepEqual(r.issues, []);
   assert.ok(r.ok);
+  assert.ok(r.data.geometry, "geometry missing");
+  assert.ok(r.data.rings.length > 0, "rings missing");
+  assert.deepEqual(ringSetIssues(r.data.rings), []);
   assert.equal(Object.keys(r.data.geometry!.place).length, 88);
   assert.equal(r.data.rings.length, 13);
   const prov = Object.values(r.data.geometry!.place).filter((p) => p.prov === "missing").map((p) => p.view);
@@ -209,7 +221,8 @@ test("rings: a duplicate code", () => {
   const f = rawRings();
   f.styles[3].code = "2";
   const parsed = RingsFile.parse(f);
-  assert.deepEqual(checkRings(parsed.styles).map((i) => i.message), ["duplicate code '2'", "code '3' has no row"]);
+  assert.deepEqual(checkRings(parsed.styles).map((i) => i.message), ["duplicate code '2'"]);
+  assert.deepEqual(ringSetIssues(parsed.styles), ["code '3' has no row"]);
 });
 
 test("rings: a 14th row", () => {
@@ -217,7 +230,9 @@ test("rings: a 14th row", () => {
   f.styles.push({ ...f.styles[0], id: "extra", code: "D" });
   assert.ok(!RingsFile.safeParse(f).success); // code D is not a style code
   f.styles[13].code = "0";
-  assert.deepEqual(checkRings(RingsFile.parse(f).styles).map((i) => i.message), ["14 rows, expected 13", "duplicate code '0'"]);
+  const styles = RingsFile.parse(f).styles;
+  assert.deepEqual(checkRings(styles).map((i) => i.message), ["duplicate code '0'"]);
+  assert.deepEqual(ringSetIssues(styles), ["14 rows, expected 13"]);
 });
 
 test("rings: 'verified' with no firmware", () => {
@@ -288,4 +303,28 @@ test("guide: a duplicate step id", () => {
   const g = guideFixture();
   g.steps.push({ ...stepOf(1) });
   assert.deepEqual(guideIssues(g), ["guide 'demo': duplicate step id 's1'"]);
+});
+
+test("clean-data test names a missing rings file, not a TypeError", () => {
+  const raw = Object.fromEntries(
+    readdirSync(dir).filter((n) => n.endsWith(".json")).filter((n) => n !== "rings.json").map((n) => [n, JSON.parse(readFileSync(join(dir, n), "utf8"))]),
+  );
+  const r = validateDevice(raw);
+  assert.ok(r.ok);
+  assert.throws(() => assert.ok(r.data.rings.length > 0, "rings missing"), /rings missing/);
+});
+
+test("geometry: a view prov outside the enum fails", () => {
+  const g = rawGeometry();
+  assert.ok(GeometryFile.safeParse(g).success);
+  g.views.top.prov = "maybe";
+  assert.ok(!GeometryFile.safeParse(g).success);
+});
+
+test("guide: a malformed token gives one named issue each", () => {
+  for (const bad of ["{b59}", "{B59", "B59}", "{}"]) {
+    const g = guideFixture();
+    g.steps[0].caption.en = `Press ${bad} now.`;
+    assert.deepEqual(guideIssues(g), [`guide 'demo', step 's1': malformed token '${bad}' in text`], bad);
+  }
 });

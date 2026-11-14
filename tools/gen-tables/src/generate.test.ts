@@ -51,7 +51,7 @@ test("planted fault: a change in the data is drift", () => {
 
 test("each generator gives a table; parameters select the mode and the value set", () => {
   const modes = generate(doc("", "<!-- gen:modes -->"), data).text;
-  assert.match(modes, /\| ZAQ Settings \| `hold B59 \+ B61` \| `press B60` \| `B5`–`B8` blue \|/);
+  assert.match(modes, /\| ZAQ Settings \| `hold B59 \+ press B61` \| `press B60` \| `B5`–`B8` blue \|/);
   const functions = generate(doc("", "<!-- gen:functions mode=zaq-settings -->"), data).text;
   assert.match(functions, /\| `B5` \| Gate output level \| `press B5` \| Gate output level \| — \| — \| manual \|/);
   assert.doesNotMatch(functions, /Tempo/);

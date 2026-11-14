@@ -41,6 +41,16 @@
           "origin": {
             "type": "string",
             "minLength": 1
+          },
+          "prov": {
+            "type": "string",
+            "enum": [
+              "measured",
+              "derived",
+              "owner",
+              "assumed",
+              "missing"
+            ]
           }
         },
         "required": [

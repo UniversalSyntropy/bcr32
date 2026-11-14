@@ -6,11 +6,13 @@
       "width": 304,
       "depth": 238,
       "cornerRadius": 5,
-      "origin": "left edge, back edge; x to the right, y to the front"
+      "origin": "left edge, back edge; x to the right, y to the front",
+      "prov": "measured"
     },
     "rear": {
       "width": 304,
-      "height": 34.5
+      "height": 34.5,
+      "prov": "assumed"
     }
   },
   "parts": {

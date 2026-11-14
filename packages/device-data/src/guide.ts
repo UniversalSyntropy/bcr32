@@ -6,6 +6,8 @@ import type { Issue } from "./load.ts";
 import { GuideFile, type DeviceData } from "./schema.ts";
 
 const TOKEN = /\{([A-Z][A-Za-z0-9]*(?:\.[a-z0-9]+)?)\}/g;
+// A brace piece left after the valid tokens are removed: "{b59}", "{B59", "B59}" or "{}".
+const STRAY_BRACE = /\{[^{}\s]*\}?|[^{}\s]*\}/g;
 
 // Checks one parsed guide against the device. `fileName` is the file name without ".json".
 export function checkGuide(guide: GuideFile, device: Pick<DeviceData, "elements">, fileName: string): Issue[] {
@@ -27,6 +29,10 @@ export function checkGuide(guide: GuideFile, device: Pick<DeviceData, "elements"
       if (m !== undefined)
         for (const [, id] of m.en.matchAll(TOKEN))
           if (!ids.has(id!)) add(at, `guide '${guide.id}', step '${step.id}': unknown element '${id}' in text`);
+    for (const m of [step.caption, step.expect, step.warn])
+      if (m !== undefined)
+        for (const [bad] of m.en.replace(TOKEN, " ").matchAll(STRAY_BRACE))
+          add(at, `guide '${guide.id}', step '${step.id}': malformed token '${bad}' in text`);
   }
   return issues;
 }

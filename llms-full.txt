@@ -1149,7 +1149,7 @@ Each table lists the functions of one mode. The Source column shows where the fa
 | `B21`–`B24` | Copy a track | `hold B21 + press B22` | — | — | — | manual |
 | `B10`, `B11` | Write the scale into the notes | `press B10 and B11 together` | — | — | — | manual |
 | `B59` | Open the ZAQ Global page | `press B59` | — | — | — | manual |
-| `B59`, `B61` | Open ZAQ Settings | `hold B59 + B61` | — | — | — | manual |
+| `B59`, `B61` | Open ZAQ Settings | `hold B59 + press B61` | — | — | — | manual |
 | `B60` | Exit | `press B60` | — | — | — | manual |
 | `B61` | Open the pattern store view | `hold B61` | — | — | — | manual |
 | `SEL`, `B61` | Make the stored patterns permanent | `hold SEL + press B61` | — | — | — | manual |
@@ -1174,7 +1174,7 @@ Each table lists the functions of one mode. The Source column shows where the fa
 | `J74`, `J75` | Footswitch: send the assigned MIDI message | — | — | — | — | manual |
 | `B59`, `B5`–`B24`, `E25`–`E56`, `B65`–`B68` | Assign a control | `hold B59 + turn E` | — | — | ch 1: CC 5, 7, 9, 12, 14–18, 40–42, 44–53, 65–80, 85, 87–90, 97–98 | manual |
 | `B62`, `B5`–`B24`, `E25`–`E56`, `B65`–`B68` | Learn a MIDI message | `hold B62 + turn E` | — | — | ch 1: CC 5, 7, 9, 12, 14–18, 40–42, 44–53, 65–80, 85, 87–90, 97–98 | manual |
-| `B59`, `B61` | Open CTRL Settings | `hold B59 + B61` | — | — | — | manual |
+| `B59`, `B61` | Open CTRL Settings | `hold B59 + press B61` | — | — | — | manual |
 | `B63` | Previous preset | `press B63` | Controller preset | — | — | manual |
 | `B64` | Next preset | `press B64` | Controller preset | — | — | manual |
 | `B61` | Open the preset store view | `press B61` | — | — | — | manual |
@@ -1600,13 +1600,13 @@ Find a function by name. The table lists the mode, the controls and the action.
 | Note repeat on a track or a drum voice | ZAQ Mixer | `B64`, `B21`–`B24`, `B5`–`B20` | `hold B64 + press B21` |
 | Note repeat rate | ZAQ Mixer | `B64`, `E25`–`E56` | `hold B64 + turn E` |
 | Number pad | CV calibration | `B5`–`B16`, `B19`, `B20` | — |
-| Open CTRL Settings | CTRL (controller) | `B59`, `B61` | `hold B59 + B61` |
+| Open CTRL Settings | CTRL (controller) | `B59`, `B61` | `hold B59 + press B61` |
 | Open the mixer | ZAQ (sequencer) | `B66` | `press B66` |
 | Open the pattern load view | ZAQ (sequencer) | `B62` | `press B62` |
 | Open the pattern store view | ZAQ (sequencer) | `B61` | `hold B61` |
 | Open the preset store view | CTRL (controller) | `B61` | `press B61` |
 | Open the ZAQ Global page | ZAQ (sequencer) | `B59` | `press B59` |
-| Open ZAQ Settings | ZAQ (sequencer) | `B59`, `B61` | `hold B59 + B61` |
+| Open ZAQ Settings | ZAQ (sequencer) | `B59`, `B61` | `hold B59 + press B61` |
 | Operation mode | Global Settings | `B7` | `press B7` |
 | Output routing | CTRL Settings | `B5` | `press B5` |
 | Pattern change channel | Global Settings | `B13` | `press B13` |

@@ -222,13 +222,11 @@ export function checkGeometry(g: NonNullable<DeviceData["geometry"]>, elements: 
   return issues;
 }
 
+// Generic checks only. The BCR32 set of 13 rows and codes 0 to C is checked in bcr32-data.test.ts.
 export function checkRings(rings: NonNullable<DeviceData["rings"]>): Issue[] {
   const issues: Issue[] = [];
   const add = (path: string, message: string) => issues.push({ file: "rings.json", path, message });
-  if (rings.length !== 13) add("styles", `${rings.length} rows, expected 13`);
   for (const id of duplicates(rings.map((r) => r.id))) add(id, `duplicate style id '${id}'`);
   for (const c of duplicates(rings.map((r) => r.code))) add(c, `duplicate code '${c}'`);
-  const codes = new Set(rings.map((r) => r.code));
-  for (const c of "0123456789ABC") if (!codes.has(c)) add(c, `code '${c}' has no row`);
   return issues;
 }
