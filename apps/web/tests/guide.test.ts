@@ -122,6 +122,7 @@ for (const [engine, type] of ENGINES) {
       await p.keyboard.press("Enter");
       assert.equal(await phase(p), "cue");
       assert.match((await p.textContent(".guide-hint")) ?? "", /not the control/);
+      await settled(p); // focus on B1 widened the window; wait for the zoom before the click
       await clickCtl(p, "B59");
       assert.equal(await phase(p), "result");
       assert.equal(await p.textContent(".guide-hint"), "");
