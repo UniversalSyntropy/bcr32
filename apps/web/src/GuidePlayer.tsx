@@ -101,7 +101,10 @@ export function GuidePlayer({ guide, engine, inner, data, view, layers, dev, sou
   const parsed = useMemo(() => parseSteps(guide, { elements: demoData.elements, timing: demoData.timing }), [guide]);
   const gstep = guide.steps[step.index]!;
   const layout = useMemo(() => buildLayout(data.geometry, data.elements, view, data.groupNames), [data, view]);
-  const target = useMemo(() => focusViewBox(layout, gstep.focus), [layout, gstep]);
+  // Focus on a control outside the zoom window widens the window to include it, so focus is never invisible.
+  const [extra, setExtra] = useState<string | null>(null);
+  useEffect(() => setExtra(null), [step.index]);
+  const target = useMemo(() => focusViewBox(layout, extra === null ? gstep.focus : [...gstep.focus, extra]), [layout, gstep, extra]);
   const vb = useZoom(target, reduced);
   const cues = useMemo(() => (step.phase === "cue" ? cuesOf(parsed[step.index]!.action, demoData.timing.holdMs) : []), [parsed, step.index, step.phase]);
   const total = guide.steps.length;
@@ -135,7 +138,9 @@ export function GuidePlayer({ guide, engine, inner, data, view, layers, dev, sou
   const banner =
     src?.source === "unit"
       ? `This step: tested on a unit, firmware ${src.firmware ?? guide.firmware}.`
-      : guide.status === "unverified"
+      : src !== undefined
+        ? `This step: not tested on a unit (source: ${src.source}). Firmware ${guide.firmware}.`
+        : guide.status === "unverified"
         ? `Unverified: not tested on a unit. Firmware ${guide.firmware}.`
         : `Verified on a unit, firmware ${guide.firmware}.`;
   const gaps = engine.getLog();
@@ -143,7 +148,13 @@ export function GuidePlayer({ guide, engine, inner, data, view, layers, dev, sou
 
   return (
     <div className="guide-layout" data-guide={guide.id} data-step={idx} data-phase={step.phase} data-target-vb={target.map((v) => v.toFixed(2)).join(" ")}>
-      <div className="guide-panel">
+      <div
+        className="guide-panel"
+        onFocus={(e) => {
+          const id = (e.target as HTMLElement).closest<HTMLElement>(".ctl")?.dataset.id;
+          if (id !== undefined && !gstep.focus.includes(id)) setExtra(id);
+        }}
+      >
         <Panel data={data} engine={engine} view={view} viewBox={vb} layers={layers} dev={dev} guide={{ focus: done ? [] : gstep.focus, cues }} {...(sound === undefined ? {} : { onSound: sound })} />
       </div>
       <section className="guide-card" aria-labelledby="guide-title">

@@ -45,6 +45,22 @@ for (const [engine, type] of ENGINES) {
       await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2);
     };
 
+    test("focus on a control outside the zoom window widens the window to include it", async () => {
+      const p = await page("guide=choose-clock");
+      await settled(p);
+      const before = await target(p);
+      await p.locator('.ctl[data-id="B1"]').focus();
+      await p.waitForFunction((b) => document.querySelector(".guide-layout")?.getAttribute("data-target-vb") !== b, before);
+      await settled(p);
+      const inside = await p.evaluate(() => {
+        const v = document.querySelector(".panel-svg")!.getAttribute("viewBox")!.split(" ").map(Number);
+        const r = document.querySelector('.ctl[data-id="B1"]')!.getBoundingClientRect();
+        const s = document.querySelector(".panel-stage, .stage")?.getBoundingClientRect() ?? document.body.getBoundingClientRect();
+        return { w: v[2], inView: r.left >= s.left - 1 && r.right <= s.right + 1 && r.top >= s.top - 1 && r.bottom <= s.bottom + 1 };
+      });
+      assert.equal(inside.inView, true, "the focused control is inside the stage");
+    });
+
     test("store-pattern loads at step 1 of 4 with the unverified banner and a zoom to the focus", async () => {
       const p = await page("guide=store-pattern");
       assert.equal(await progress(p), "Step 1 of 4");
