@@ -15,6 +15,7 @@ This folder holds one JSON file per guide. Three guides exist. All three are unv
 | [choose-clock.json](choose-clock.json) | [Sync the sequencer to a DAW or hardware](../sync-the-sequencer-to-a-daw-or-hardware.md) | 3 |
 | [all-steps-length.json](all-steps-length.json) | [Enter and play your first pattern](../enter-and-play-your-first-pattern.md) | 2 |
 
+- **Player:** the web panel plays a guide with `?guide=<id>`. Add `&step=<n>` to start at a step.
 - **Schema:** [guide.schema.json](../../../data/schema/guide.schema.json). The Zod source is `packages/device-data/src/schema.ts`.
 - **File name:** the file name without `.json` equals the `id` field in the file.
 - **Text:** a caption names each control with a token such as `{B59}`. The tool expands it to the printed legend and the ID. A caption has 20 words or fewer. An `expect` or `warn` text has 25 words or fewer.

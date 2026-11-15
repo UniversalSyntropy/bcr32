@@ -9,12 +9,14 @@ export interface AppState {
   layers: LayerId[]; // label layers that are on, in the fixed order of LAYERS
   engine: EngineKind; // URL only: ?engine=demo
   sound: boolean; // click sounds; off by default
+  guide: string | null; // ?guide=<id>; read once at load
+  step: number; // ?step=<n>, 1-based; written on each step change
 }
 export type EngineKind = "static" | "demo";
 
 export const THEMES: readonly Theme[] = ["device", "flat", "flat-light", "flat-dark"];
 const KEY = "bcr32-panel";
-const DEFAULT: AppState = { view: "top", theme: "device", layers: [...DEFAULT_LAYERS], engine: "static", sound: false };
+const DEFAULT: AppState = { view: "top", theme: "device", layers: [...DEFAULT_LAYERS], engine: "static", sound: false, guide: null, step: 1 };
 
 // "printed,id" to layers in fixed order; unknown names are dropped; "none" is the empty list.
 export function parseLayers(v: unknown): LayerId[] | undefined {
@@ -56,10 +58,12 @@ export function initialState(search: string, stored: Partial<AppState>): AppStat
     theme: isTheme(theme) ? theme : (stored.theme ?? DEFAULT.theme),
     layers: parseLayers(q.get("layers")) ?? stored.layers ?? DEFAULT.layers,
     engine: q.get("engine") === "demo" ? "demo" : "static",
+    guide: /^[a-z0-9-]{1,64}$/.test(q.get("guide") ?? "") ? q.get("guide") : null,
+    step: Math.max(1, Math.min(99, Number.parseInt(q.get("step") ?? "1", 10) || 1)),
     sound: q.has("sound") ? q.get("sound") === "1" : (stored.sound ?? false),
   };
 }
 
 export function toSearch(s: AppState): string {
-  return `?view=${s.view}&theme=${s.theme}&layers=${s.layers.length === 0 ? "none" : s.layers.join(",")}${s.engine === "demo" ? "&engine=demo" : ""}${s.sound ? "&sound=1" : ""}`;
+  return `?view=${s.view}&theme=${s.theme}&layers=${s.layers.length === 0 ? "none" : s.layers.join(",")}${s.engine === "demo" ? "&engine=demo" : ""}${s.sound ? "&sound=1" : ""}${s.guide === null ? "" : `&guide=${s.guide}&step=${s.step}`}`;
 }

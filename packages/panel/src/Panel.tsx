@@ -7,6 +7,8 @@ import { useMemo, useState, type CSSProperties } from "react";
 import { litText, MSG } from "./a11y.ts";
 import { Controls } from "./Controls.tsx";
 import { DEFAULT_LAYERS, layerLabels, type LayerId } from "./labels.ts";
+import type { Cue } from "./cues.ts";
+import { Highlight } from "./Highlight.tsx";
 import { LayerText } from "./Layers.tsx";
 import { buildLayout, isControl, type Layout, type LayoutItem, type ViewBox, type ViewId } from "./layout.ts";
 import { PrintedMarks, PrintedText } from "./Printed.tsx";
@@ -29,6 +31,7 @@ export interface PanelProps {
   only?: string | null; // show the controls of one group only
   layers?: ReadonlySet<LayerId>; // label layers that are on; default: printed only
   dev?: boolean; // colour parts by provenance
+  guide?: { focus: readonly string[]; cues: readonly Cue[] }; // a guide step: dim the other controls, draw the cue marks
   onSound?: (kind: ClickKind, phase: ClickPhase) => void; // click sounds; absent: silent
 }
 
@@ -59,7 +62,7 @@ function Display({ item, view }: { item: LayoutItem; view: PanelView }) {
 
 const DEFAULT_ON: ReadonlySet<LayerId> = new Set(DEFAULT_LAYERS);
 
-export function Panel({ data, engine, view, viewBox, only = null, layers = DEFAULT_ON, dev = false, onSound }: PanelProps) {
+export function Panel({ data, engine, view, viewBox, only = null, layers = DEFAULT_ON, dev = false, guide, onSound }: PanelProps) {
   const state = useEngine(engine);
   const layout: Layout = useMemo(() => buildLayout(data.geometry, data.elements, view, data.groupNames), [data, view]);
   const elements = useMemo(() => new Map(data.elements.map((e) => [e.id, e])), [data]);
@@ -100,7 +103,7 @@ export function Panel({ data, engine, view, viewBox, only = null, layers = DEFAU
           {layers.has("printed") ? <PrintedMarks layout={layout} /> : null}
           <g id="controls">
             {layout.items.map((item) => (
-              <g key={item.id} data-id={item.id} data-kind={item.kind} data-prov={item.prov} data-pressed={state.pressed.includes(item.id) ? "true" : undefined}>
+              <g key={item.id} data-id={item.id} data-kind={item.kind} data-prov={item.prov} className={guide !== undefined && !guide.focus.includes(item.id) ? "dim" : undefined} data-pressed={state.pressed.includes(item.id) ? "true" : undefined}>
                 {item.kind === "display" ? <Display item={item} view={state} /> : <Shape item={item} className={`part part-${item.part.shape === "circle" && item.kind === "encoder" ? "knob" : item.kind}`} />}
                 {item.crown === undefined ? null : (
                   <>
@@ -138,6 +141,7 @@ export function Panel({ data, engine, view, viewBox, only = null, layers = DEFAU
             })}
           </g>
           <g id="highlight">
+            {guide === undefined ? null : <Highlight items={byId} cues={guide.cues} />}
             {focusItem === undefined ? null : <Shape item={focusItem} extra={focusItem.kind === "encoder" ? 1.8 : 1.4} className="focus-ring" />}
           </g>
         </svg>

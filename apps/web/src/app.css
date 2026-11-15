@@ -17,3 +17,20 @@ h1 { margin: 8px 0; font-size: 1.5rem; }
 .tools label { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; max-width: 100%; }
 .tools select { max-width: 100%; min-width: 0; }
 .dev-panel { max-width: 100%; overflow-x: auto; }
+
+/* Guide player. The card goes below the panel under 720 px. Nothing here depends on a text width. */
+.guide-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.guide-panel { min-width: 0; }
+.guide-card { min-width: 0; box-sizing: border-box; padding: 8px 12px; border: var(--pen-2) solid var(--border); border-radius: 6px; overflow-wrap: anywhere; }
+.guide-card h2 { margin: 4px 0; font-size: 1.2rem; }
+.guide-card p { margin: 6px 0; }
+.guide-banner { padding: 4px 8px; border: var(--pen-2) dashed var(--border); border-radius: 6px; font-weight: 700; }
+.guide-progress { font-weight: 700; }
+.guide-caption { font-size: 1.1rem; }
+.guide-hint { min-height: 1.5em; font-weight: 700; }
+.guide-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.guide-buttons button, .guide-dev button { min-height: 44px; min-width: 44px; font: inherit; color: var(--page-text); background: var(--part); border: var(--pen-2) solid var(--part-edge); border-radius: 6px; padding: 0 12px; }
+.guide-buttons button:disabled { opacity: 0.6; }
+.guide-error { padding: 4px 8px; border: var(--pen-2) solid var(--border); border-radius: 6px; font-weight: 700; }
+.guide-dev { grid-column: 1 / -1; }
+@media (min-width: 720px) { .guide-layout { grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr); align-items: start; } }

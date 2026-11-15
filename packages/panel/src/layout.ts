@@ -241,3 +241,27 @@ export function groupViewBox(layout: Layout, groupId: string, pad = ZOOM_PAD_MM)
   const y1 = Math.max(...members.map((i) => i.cy + ext(i))) + pad;
   return [x0, y0, x1 - x0, y1 - y0];
 }
+
+// Margin around the focus controls of a guide step, in mm (B6 brief 5.3).
+export const FOCUS_MARGIN_MM = 6;
+// The smallest window of a guide zoom, in mm, so one button does not fill the screen.
+export const FOCUS_MIN_W_MM = 48;
+export const FOCUS_MIN_H_MM = 30;
+
+// ViewBox that shows the focus controls of a guide step: their union plus a fixed margin, never
+// smaller than the minimum window, moved inside the base view. Unknown IDs are ignored.
+export function focusViewBox(layout: Layout, ids: readonly string[], margin = FOCUS_MARGIN_MM): ViewBox {
+  const members = layout.items.filter((i) => ids.includes(i.id));
+  if (members.length === 0) return layout.viewBox;
+  const ext = (i: LayoutItem) => Math.max(i.w, i.h, i.ring?.dia ?? 0) / 2;
+  const x0 = Math.min(...members.map((i) => i.cx - ext(i))) - margin;
+  const x1 = Math.max(...members.map((i) => i.cx + ext(i))) + margin;
+  const y0 = Math.min(...members.map((i) => i.cy - ext(i))) - margin;
+  const y1 = Math.max(...members.map((i) => i.cy + ext(i))) + margin;
+  const [bx, by, bw, bh] = layout.viewBox;
+  const w = Math.min(bw, Math.max(x1 - x0, FOCUS_MIN_W_MM));
+  const h = Math.min(bh, Math.max(y1 - y0, FOCUS_MIN_H_MM));
+  const x = Math.min(Math.max((x0 + x1) / 2 - w / 2, bx), bx + bw - w);
+  const y = Math.min(Math.max((y0 + y1) / 2 - h / 2, by), by + bh - h);
+  return [x, y, w, h];
+}

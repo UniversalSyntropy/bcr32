@@ -104,7 +104,7 @@ Steps for these are written out when the release is approved.
 
 | Release | Contains | Est. | Status |
 | --- | --- | --- | --- |
-| R2 | Web panel, label overlay, guided steps (P4, P5) | 990k | ☐ |
+| R2 | Web panel, label overlay, guided steps (P4, P5); the guide player (batch 6b) is built on branch `r2/b6b-guide-player`, not merged | 990k | ☐ |
 | R3 | BCR2000 and Zaquencer lineage section (P6) | 300k | ☐ |
 | R4 | Docs site with the panel embedded (P7) | 150k | ☐ |
 | R5 | Engine and live mirror (P8) | re-estimate after R1 | ☐ |

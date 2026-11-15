@@ -1,6 +1,6 @@
 import { demoEngine, pathTo, staticEngine, type Engine } from "@bcr32/device-model";
 import { buildLayout, createClicker, DevPanel, groupViewBox, LAYERS, LayerToggles, Panel } from "@bcr32/panel";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { startClock } from "./clock.ts";
 import { data, demoData } from "./data.ts";
@@ -8,6 +8,8 @@ import { DemoDev } from "./DemoDev.tsx";
 import { fixture } from "./fixture.ts";
 import { initialState, readStored, THEMES, toSearch, writeStored, type AppState, type EngineKind, type Theme } from "./state.ts";
 import { useEngine } from "@bcr32/panel";
+import { GuidePlayer, makeGuide } from "./GuidePlayer.tsx";
+import { guides } from "./guides.ts";
 
 const THEME_LABEL: Record<Theme, string> = { device: "Device (dark)", flat: "Flat (system)", "flat-light": "Flat light", "flat-dark": "Flat dark" };
 const NARROW = "(max-width: 479px)";
@@ -48,8 +50,12 @@ export function App() {
     if (reset.goto !== null) for (const ev of pathTo(reset.goto, demoData, initial) ?? []) e.dispatch(ev);
     return e;
   }, [state.engine, reset]);
+  // A guide: the id is read once at load. An unknown id shows an error line and the normal panel.
+  const guideFile = useMemo(() => (state.guide === null ? undefined : guides.get(state.guide)), []); // eslint-disable-line react-hooks/exhaustive-deps
+  const guideRun = useMemo(() => (guideFile === undefined ? undefined : makeGuide(guideFile, state.step)), [guideFile]); // eslint-disable-line react-hooks/exhaustive-deps
+  const onStep = useCallback((n: number) => setState((s) => (s.step === n ? s : { ...s, step: n })), []);
   const clicker = useMemo(() => createClicker(), []); // makes no AudioContext until its first click
-  useEffect(() => (state.engine === "demo" ? startClock(engine) : undefined), [engine, state.engine]);
+  useEffect(() => (state.engine === "demo" && guideRun === undefined ? startClock(engine) : undefined), [engine, state.engine, guideRun]);
   const dev = useMemo(() => new URLSearchParams(location.search).get("dev") === "1", []);
   const layers = useMemo(() => new Set(state.layers), [state.layers]);
   const narrow = useMedia(NARROW);
@@ -74,7 +80,7 @@ export function App() {
   const groups = layout.groups.filter((g) => g.controls.length > 0);
   const all = group === "all";
   const current = group !== null && groups.some((g) => g.id === group) ? group : (groups[0]?.id ?? null);
-  const zoom = narrow && !all && current !== null ? groupViewBox(layout, current) : undefined;
+  const zoom = guideRun === undefined && narrow && !all && current !== null ? groupViewBox(layout, current) : undefined;
 
   return (
     <main className="app">
@@ -83,6 +89,7 @@ export function App() {
         <button type="button" onClick={() => setShowTitle((v) => !v)} aria-pressed={!showTitle}>
           {showTitle ? "Hide title" : "Show title"}
         </button>
+        {guideRun !== undefined ? null : (
         <label>
           Engine{" "}
           <select value={state.engine} onChange={(e) => setState({ ...state, engine: e.target.value as EngineKind })}>
@@ -90,6 +97,7 @@ export function App() {
             <option value="demo">Demo (mode logic)</option>
           </select>
         </label>
+        )}
         <label>
           <input type="checkbox" checked={state.sound} onChange={(e) => setState({ ...state, sound: e.target.checked })} /> Click sounds (off by default)
         </label>
@@ -123,14 +131,21 @@ export function App() {
           </label>
         ) : null}
       </div>
-      {state.engine === "demo" ? <ModeReadout engine={engine} /> : null}
+      {state.guide !== null && guideFile === undefined ? <p className="guide-error" role="alert">Unknown guide: {state.guide}. The normal panel is shown.</p> : null}
+      {state.engine === "demo" && guideRun === undefined ? <ModeReadout engine={engine} /> : null}
+      {guideFile !== undefined && guideRun !== undefined ? (
+        <GuidePlayer guide={guideFile} engine={guideRun.engine} inner={guideRun.inner} data={data} view={state.view} layers={layers} dev={dev} {...(state.sound ? { sound: clicker.click } : {})} onStep={onStep} />
+      ) : (
       <div>
         <Panel data={data} engine={engine} {...(state.sound ? { onSound: clicker.click } : {})} view={state.view} {...(zoom === undefined ? {} : { viewBox: zoom })} only={zoom === undefined ? null : current} layers={layers} dev={dev} />
       </div>
-      {dev ? <DevPanel geometry={data.geometry} engine={engine} /> : null}
-      {dev && state.engine === "demo" ? <DemoDev data={demoData} onGo={(goto) => setReset((r) => ({ n: r.n + 1, goto }))} /> : null}
+      )}
+      {dev && guideRun === undefined ? <DevPanel geometry={data.geometry} engine={engine} /> : null}
+      {dev && state.engine === "demo" && guideRun === undefined ? <DemoDev data={demoData} onGo={(goto) => setReset((r) => ({ n: r.n + 1, goto }))} /> : null}
       <ul className="facts">
-        {state.engine === "demo" ? (
+        {guideRun !== undefined ? (
+          <li>Guide: the panel runs on the demo logic. Steps that the data does not state are drawn as unknown.</li>
+        ) : state.engine === "demo" ? (
           <>
             <li>Demo: the mode logic comes from the data. A light that the data does not state is drawn as unknown.</li>
             <li>Three knobs show a fixture value. The other knobs and the display are unknown.</li>
