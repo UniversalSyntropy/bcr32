@@ -1,0 +1,39 @@
+{
+  "$schema": "../../../data/schema/guide.schema.json",
+  "id": "choose-clock",
+  "version": 1,
+  "title": { "key": "guide.choose-clock.title", "en": "Choose an outside clock" },
+  "doc": "docs/guides/sync-the-sequencer-to-a-daw-or-hardware.md",
+  "firmware": "1.0.3",
+  "status": "unverified",
+  "start": { "mode": "zaq", "view": {} },
+  "steps": [
+    {
+      "id": "open-global",
+      "action": "press B59",
+      "focus": ["B59", "B60"],
+      "after": { "mode": "zaq-global" },
+      "caption": { "key": "guide.choose-clock.s1", "en": "Press {B59}." },
+      "expect": { "key": "guide.choose-clock.s1x", "en": "The ZAQ Global page opens." },
+      "advance": "on-action"
+    },
+    {
+      "id": "set-source",
+      "action": "turn E26",
+      "focus": ["E25", "E26", "E27", "E28"],
+      "after": { "rings": { "E26": { "known": false } }, "display": { "lines": [], "known": false } },
+      "caption": { "key": "guide.choose-clock.s2", "en": "Turn the knob {E26} to the outside clock source." },
+      "expect": { "key": "guide.choose-clock.s2x", "en": "The display shows the new clock source. Check it on the unit." },
+      "advance": "on-action"
+    },
+    {
+      "id": "leave-global",
+      "action": "press B60",
+      "focus": ["B59", "B60"],
+      "after": { "mode": "zaq" },
+      "caption": { "key": "guide.choose-clock.s3", "en": "Press {B60}." },
+      "expect": { "key": "guide.choose-clock.s3x", "en": "The unit leaves the Global page." },
+      "advance": "on-action"
+    }
+  ]
+}

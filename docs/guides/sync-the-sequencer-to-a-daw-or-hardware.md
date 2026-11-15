@@ -35,6 +35,8 @@ Global Settings, button printed 3 MUTE (B7), decides which clock sources exist. 
 
 **Figure G3-1.** Choose an outside clock in three key actions. [List of figures](../manual/figures.md)
 
+Interactive version: `?guide=choose-clock` (3 steps).
+
 1. Press the key printed EDIT (B59). The ZAQ Global page opens.
 2. Turn the knob printed 2 CLOCK INT/EXT (E26) to the source.
 3. Press the key printed EXIT (B60).

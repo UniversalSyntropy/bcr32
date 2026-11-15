@@ -1,0 +1,49 @@
+{
+  "$schema": "../../../data/schema/guide.schema.json",
+  "id": "store-pattern",
+  "version": 1,
+  "title": { "key": "guide.store-pattern.title", "en": "Store a pattern in permanent memory" },
+  "doc": "docs/guides/save-load-and-chain-patterns.md",
+  "firmware": "1.0.3",
+  "status": "unverified",
+  "start": { "mode": "zaq", "view": {} },
+  "steps": [
+    {
+      "id": "hold-store",
+      "action": "hold B61",
+      "focus": ["B61", "B62", "B63", "B64"],
+      "held": ["B61"],
+      "after": { "mode": "zaq-store" },
+      "caption": { "key": "guide.store-pattern.s1", "en": "Hold {B61}. Keep it down." },
+      "expect": { "key": "guide.store-pattern.s1x", "en": "Choose the page with {B63} or {B64}." },
+      "advance": "on-action"
+    },
+    {
+      "id": "press-slot",
+      "action": "press B5",
+      "focus": ["B5", "B6", "B7", "B8"],
+      "after": { "buttons": { "B61": { "colour": "pink", "blink": "none" } } },
+      "caption": { "key": "guide.store-pattern.s2", "en": "Press a slot button, for example {B5}." },
+      "expect": { "key": "guide.store-pattern.s2x", "en": "{B61} stays lit. This is the temporary store." },
+      "advance": "on-action"
+    },
+    {
+      "id": "press-exit",
+      "action": "press B60",
+      "focus": ["B59", "B60"],
+      "after": { "mode": "zaq" },
+      "caption": { "key": "guide.store-pattern.s3", "en": "Press {B60}." },
+      "expect": { "key": "guide.store-pattern.s3x", "en": "The unit leaves the store view." },
+      "advance": "on-action"
+    },
+    {
+      "id": "store-permanent",
+      "action": "hold SEL + press B61",
+      "focus": ["SEL", "B61", "B62"],
+      "after": { "display": { "lines": [], "known": false } },
+      "caption": { "key": "guide.store-pattern.s4", "en": "Hold {SEL} and press {B61}." },
+      "expect": { "key": "guide.store-pattern.s4x", "en": "The display confirms the permanent store." },
+      "advance": "on-action"
+    }
+  ]
+}

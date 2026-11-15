@@ -1,0 +1,31 @@
+{
+  "$schema": "../../../data/schema/guide.schema.json",
+  "id": "all-steps-length",
+  "version": 1,
+  "title": { "key": "guide.all-steps-length.title", "en": "Change the length of all steps" },
+  "doc": "docs/guides/enter-and-play-your-first-pattern.md",
+  "firmware": "1.0.3",
+  "status": "unverified",
+  "start": { "mode": "zaq", "view": {} },
+  "steps": [
+    {
+      "id": "press-length",
+      "action": "press B9",
+      "focus": ["B9", "B10", "B11", "B12"],
+      "after": { "display": { "lines": [], "known": false } },
+      "caption": { "key": "guide.all-steps-length.s1", "en": "Press {B9}." },
+      "expect": { "key": "guide.all-steps-length.s1x", "en": "The display shows the length of a step." },
+      "advance": "on-action"
+    },
+    {
+      "id": "all-steps-length",
+      "action": "hold B9 + turn E25 cw ×1",
+      "focus": ["B9", "E25", "E26", "E27", "E28"],
+      "after": { "rings": { "E25": { "known": false } } },
+      "caption": { "key": "guide.all-steps-length.s2", "en": "Hold {B9} and turn {E25} one click clockwise." },
+      "expect": { "key": "guide.all-steps-length.s2x", "en": "The length of all 32 steps changes." },
+      "advance": "on-action",
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "test U3" }
+    }
+  ]
+}

@@ -2,6 +2,10 @@
 
 Notable changes to the documentation and tools. Newest first. Dates are ISO 8601.
 
+## 2026-11-15
+
+- Added the guide engine, the guide check and three guide files (R2 batch 6, part a). `guideEngine` in `@bcr32/device-model` plays a guide on top of the demo engine. It matches the action of each step, folds the `after` patches and logs each field where the demo engine view differs. Added `guide-check` (`npm run check:guides`, part of `npm run check`). It runs 13 checks and reads files from the working tree. Added the guides `store-pattern`, `choose-clock` and `all-steps-length` in `docs/guides/data/`. Three guide documents have a line that links the interactive version. Added decision D70.
+
 ## 2026-11-14
 
 - Added the demo engine to the panel (R2 batch 5). `?engine=demo` makes the keys change the mode as the data says. A tap of B1 swaps ZAQ and CTRL. Menus, pages and states open and close with the actions in `modes.json`. A hold, a timed hold, a combo and a sequence work from a clock tick that the web app sends while a key is held. A lit rule with no condition is drawn as unknown. Three modes are not simulated, because the data does not say where they start. `modes.json` has a new `timing` block (`holdMs` 500 and `sequenceMs` 2000, both assumed) and a `cond` field on 8 lit rules. The data version is now 0.4.0. Added optional click sounds (off by default, two synthesised clicks, no audio file). Added decision D69. `?dev=1` lists each mode with a "Go to" button.

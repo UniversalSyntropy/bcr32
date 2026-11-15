@@ -70,6 +70,8 @@ Choose one route. See [use CV and gate with a synth](use-cv-and-gate-with-a-synt
 
 **Figure G4-2.** Shape the pattern: one knob, or all steps at once. [List of figures](../manual/figures.md)
 
+Interactive version: `?guide=all-steps-length` (2 steps).
+
 Press a parameter button, then turn the knobs. The change works while the pattern plays.
 
 | Press (printed, ID) | Turn the knobs to change | Range |

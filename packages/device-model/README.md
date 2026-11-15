@@ -2,7 +2,7 @@
 title: device-model package
 description: Pure ring model, action parser and view types for the BCR32 panel.
 status: draft
-last_updated: 2026-11-14
+last_updated: 2026-11-15
 ---
 
 # @bcr32/device-model
@@ -25,6 +25,10 @@ The code in `src/` has no side effects. It reads no file, clock, network or scre
 | `ViewPatch` | Zod schema of the `after` field of a guide step. |
 | `checkGuideActions` | Checks that each guide action parses and names one control. |
 | `checkGuideAfter` | Checks each `after` patch against the schema and the data. |
+| `guideEngine` | Plays one guide on an inner engine. It matches the action of each step, folds the `after` patches and logs each gap. It has `next`, `back`, `restart` and `getLog`. |
+| `eventsForAction` | Gives events that complete one parsed action. A test or the "Show me" button can send them. |
+| `mergePatch`, `foldPatches` | JSON Merge Patch (RFC 7386) for the `after` patches. |
+| `expandTokens`, `tokensOf`, `strayBraces` | Expand `{B59}` to the printed legend and the ID, and find tokens and bad braces. |
 | Types | `Engine`, `ControlEvent`, `PanelView`, `RingState`, `DisplayState` and the style and mode names. |
 
 ## Examples

@@ -31,6 +31,8 @@ The sequencer has 12 pages. Each page has 16 slots. The buttons printed 1 to 16 
 
 **Figure G5-1.** Store a pattern in permanent memory. [List of figures](../manual/figures.md)
 
+Interactive version: `?guide=store-pattern` (4 steps).
+
 1. Hold the key printed STORE (B61). Keep it down.
 2. Choose the page. Press the key printed TAP DELETE (B63) or TAP WRITE (B64). The pages are 1 to 12.
 3. Press a slot button, B5 to B20. B61 stays lit. This is the **temporary** store.
