@@ -298,7 +298,7 @@ export function guideEngine(guide: GuideFile, inner: Engine | (() => Engine), da
     state = reduceGuide(state, e, ctx());
   };
 
-  // Rebuild the state at the cue of step `target`. The fold never subtracts. A factory gives a fresh inner engine.
+  // Rebuild the state at the cue of step `target`. The fold never subtracts. A factory gives a fresh inner engine. A plain Engine cannot be reset: the guide state and the fold rebuild, but the inner view keeps its later events. Pass a factory when back() must reset the panel.
   const rebuild = (target: number): void => {
     const history = state.history.slice(0, target);
     if (factory !== undefined) {

@@ -25,7 +25,7 @@
       "caption": { "key": "guide.all-steps-length.s2", "en": "Hold {B9} and turn {E25} one click clockwise." },
       "expect": { "key": "guide.all-steps-length.s2x", "en": "The length of all 32 steps changes." },
       "advance": "on-action",
-      "source": { "source": "unit", "firmware": "1.0.3", "ref": "test U3" }
+      "source": { "source": "unit", "firmware": "1.0.3", "ref": "docs/guides/enter-and-play-your-first-pattern.md, verified line" }
     }
   ]
 }

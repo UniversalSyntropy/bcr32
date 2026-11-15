@@ -242,3 +242,13 @@ test("eventsForAction gives events that complete the action", () => {
     assert.equal(phase(run(g, eventsForAction(r.action, [], [], 100, HOLD))), "0:result", row.action);
   }
 });
+
+test("back() with a plain Engine rebuilds the guide step; the inner view is not reset (documented limit)", () => {
+  const g = make([step("a", { action: "press B5" }), step("b", { action: "press B6" })]);
+  const e = guideEngine(g, demoEngine(demo), demo);
+  e.dispatch(press("B5", 1));
+  e.dispatch(release("B5", 2));
+  e.back();
+  assert.equal(e.getStep().index, 0);
+  assert.equal(e.getStep().phase, "cue");
+});
