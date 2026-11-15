@@ -166,6 +166,7 @@ for (const [engine, type] of ENGINES) {
       assert.match((await live.textContent()) ?? "", /^Step 1 of 3\. Press .*\(B59\)\.$/);
       assert.equal(await live.getAttribute("aria-live"), "polite");
       await p.getByRole("button", { name: "Show me" }).click();
+      await p.waitForFunction(() => document.querySelector('[data-guide-live="true"]')?.textContent === "The ZAQ Global page opens.");
       assert.equal(await live.textContent(), "The ZAQ Global page opens.");
       await p.context().close();
     });
