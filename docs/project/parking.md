@@ -2,7 +2,7 @@
 title: Parking file
 description: Ideas held outside the active task list until the owner adds them to a release.
 status: draft
-last_updated: 2026-11-11
+last_updated: 2026-11-15
 ---
 
 # Parking file
@@ -17,3 +17,4 @@ Ideas wait here. Nothing in this file is planned or estimated until the owner mo
 | 2026-11-11 | Public website built on the finished panel UI, on domains the owner holds | Stack: React, Tailwind, the controller widgets, possibly Framer Motion. Needs: SEO, alt text, accessibility, privacy and cookie handling, legal pages, a clear notice that the site is not affiliated with Behringer. Port the multi-language support of the owner's other web UI project if possible, and reuse its web UI resources. Starts after the main development. Domain names stay out of tracked files |
 | 2026-11-11 | MCP connector so an LLM can make settings templates, DAW scripts and sequencer content. Also a learning resource: visual step-by-step setup guides served through the MCP, for complex setups | Split in two. First part reads our data and writes files only, with no path to the unit. Second part writes to the unit and needs the confirmed SysEx format, a tested backup and the owner's yes each session. Needs the R1c MIDI chapter first |
 | 2026-11-11 | Diagram skills to test for manual and site figures: the `anatomy` skill (original repo `wheresryan22/anatomy`, MIT, interactive isometric SVG with exploded views) and the `technical-drawing` skill (static line drawings) | Owner chose the original `anatomy` repo, not the fork. Read `SKILL.md` and the scripts before any install. Check each licence before output goes in the docs. Static drawings suit the Markdown manual; interactive figures suit the site |
+| 2026-11-15 | Knob pointer and ring LED drift | The owner counted 24 clicks in 360 degrees on the unit. The ring has 15 LEDs over an assumed 300 degree arc. The pointer moves 15 degrees for each click, so it drifts from the lit LED. The panel keeps 24 clicks for now. Open: the click count from the first LED to the last, and the encoder mode of the test (unverified) |
