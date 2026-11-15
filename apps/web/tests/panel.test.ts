@@ -148,6 +148,25 @@ for (const [engine, type] of ENGINES) {
       await p.context().close();
     });
 
+    test("button text is white while the button is not lit; a lit button shows its colour", async () => {
+      const p = await page("view=top&theme=device");
+      const on = '#legends text.legend[data-id="B7"][data-on="true"]';
+      assert.equal(await p.locator(on).first().getAttribute("data-colour"), "white", "B7 is not lit (print is yellow in the data)");
+      assert.ok(!((await p.locator(on).first().getAttribute("class")) ?? "").includes("legend-lit"));
+      const lit = '#legends text.legend[data-id="B5"][data-on="true"]';
+      assert.ok(((await p.locator(lit).first().getAttribute("class")) ?? "").includes("legend-lit"), "B5 is lit in the fixture");
+      await p.context().close();
+    });
+
+    test("the knob pointer has no end stop: 30 detents turn it past the ring end, the LEDs stay clamped", async () => {
+      const p = await page("view=top&theme=device");
+      await p.focus('.ctl[data-id="E25"]');
+      for (let i = 0; i < 30; i++) await p.keyboard.press("Shift+ArrowUp"); // 30 detents; value clamps at 127
+      const deg = Number(await p.locator('#lights g.ring[data-id="E25"] line.pointer').getAttribute("data-deg"));
+      assert.ok(deg > 150, `pointer at ${deg} is past the ring end (+150)`);
+      await p.context().close();
+    });
+
     for (const width of [1280, 375]) {
       test(`each control box matches its part box within 0.5 px at ${width} px`, async () => {
         const p = await page("view=top&theme=device", { viewport: { width, height: 900 } });

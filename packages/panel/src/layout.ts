@@ -40,6 +40,7 @@ export type LayoutLegend = {
   anchor: Anchor;
   cap: number;
   rot: number | undefined;
+  onButton: boolean; // an on-part label of a button: white when the button is not lit
   onPart: boolean; // the label has placement 'on': it sits on its own part
   onBar: boolean; // the text centre lies on a printed bar or box
   prov: Prov;
@@ -87,6 +88,18 @@ export const arcAngle = (arc: Arc, frac: number): number => arc.zero + arc.start
 // Angle of ring LED i in degrees, clockwise from the top.
 export function ringAngle(ring: NonNullable<GeometryFile["ring"]>, i: number): number {
   return arcAngle(arcOf(ring), i / (ring.count - 1));
+}
+
+// The encoder has 24 indexed steps in 360 degrees (owner count on the unit, 2026-11-15) and no end stop.
+export const DETENTS_PER_TURN = 24;
+export const DETENT_DEG = 360 / DETENTS_PER_TURN;
+
+// Pointer at a free angle (degrees clockwise from the top), for the endless knob.
+export function pointerAt(item: LayoutItem, deg: number) {
+  if (item.ring === undefined || item.crown === undefined) return null;
+  const a = (deg * Math.PI) / 180;
+  const r = item.ring.pointerR;
+  return { deg, x1: item.cx, y1: item.cy, x2: item.cx + r * Math.sin(a), y2: item.cy - r * Math.cos(a) };
 }
 
 // Pointer of a knob: a line from the centre to the edge of the crown top, at the angle of the value.
@@ -193,6 +206,7 @@ export function buildLayout(
     legends.push({
       key: `${g.for}#${g.label}`, id: g.for, label: g.label, text: lab.text, colour: lab.colour, x, y, anchor: g.anchor, cap: g.capHeight, rot: g.rot,
       onPart: lab.placement === "on",
+      onButton: lab.placement === "on" && el.kind === "button",
       onBar: bars.some((b) => mx >= b.x! && mx <= b.x! + b.w! && my >= b.y! && my <= b.y! + b.h!),
       prov: g.prov,
     });

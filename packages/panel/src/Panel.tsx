@@ -10,10 +10,10 @@ import { DEFAULT_LAYERS, layerLabels, type LayerId } from "./labels.ts";
 import type { Cue } from "./cues.ts";
 import { Highlight } from "./Highlight.tsx";
 import { LayerText } from "./Layers.tsx";
-import { buildLayout, isControl, type Layout, type LayoutItem, type ViewBox, type ViewId } from "./layout.ts";
+import { buildLayout, isControl, pointerLine, type Layout, type LayoutItem, type ViewBox, type ViewId } from "./layout.ts";
 import { PrintedMarks, PrintedText } from "./Printed.tsx";
 import type { ClickKind, ClickPhase } from "./sound-plan.ts";
-import { Ring } from "./Ring.tsx";
+import { Ring, type PointerTrack } from "./Ring.tsx";
 import { useEngine } from "./useEngine.ts";
 
 export interface PanelData {
@@ -81,6 +81,13 @@ export function Panel({ data, engine, view, viewBox, only = null, layers = DEFAU
   for (const [id, b] of Object.entries(state.buttons)) if (b.colour !== "off") lit.set(id, { colour: b.colour, blink: b.blink });
   const [focusId, setFocusId] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
+  const [tracks, setTracks] = useState<Record<string, PointerTrack>>({});
+  const onTurn = (id: string, steps: number) => {
+    const item = layout.items.find((i) => i.id === id);
+    const r = state.rings[id];
+    const before = item === undefined || r === undefined || !r.known ? null : pointerLine(item, r.value, r.min, r.max)?.deg ?? null;
+    setTracks((t) => ({ ...t, [id]: { base: t[id]?.base ?? before, n: (t[id]?.n ?? 0) + steps } }));
+  };
   const [live, setLive] = useState({ n: 0, text: "" });
   const vb = viewBox ?? layout.viewBox;
   const byId = new Map(layout.items.map((i) => [i.id, i]));
@@ -123,7 +130,7 @@ export function Panel({ data, engine, view, viewBox, only = null, layers = DEFAU
             })}
             {layout.items.map((item) => {
               const led = item.kind === "button" || item.kind === "led" ? state.buttons[item.id] ?? state.leds[item.id] : undefined;
-              if (item.kind === "encoder") return <Ring key={item.id} item={item} ring={state.rings[item.id]} />;
+              if (item.kind === "encoder") return <Ring key={item.id} item={item} ring={state.rings[item.id]} track={tracks[item.id]} />;
               if (led === undefined || led.colour === "off") return null;
               return (
                 <g key={item.id} data-id={item.id} className="light" data-colour={led.colour} data-blink={led.blink === "none" ? undefined : led.blink} style={{ "--c": `var(--led-${led.colour})` } as CSSProperties}>
@@ -157,6 +164,7 @@ export function Panel({ data, engine, view, viewBox, only = null, layers = DEFAU
           announce={announce}
           onFocusId={setFocusId}
           onSelect={setSelected}
+          onTurn={onTurn}
           {...(onSound === undefined ? {} : { onSound })}
         />
       </div>

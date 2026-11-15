@@ -23,7 +23,8 @@ export function PrintedText({ layout, lit }: { layout: Layout; lit: ReadonlyMap<
     <g id="legends">
       {layout.legends.map((l) => {
         const on = l.onPart ? lit.get(l.id) : undefined;
-        const colour = l.onBar ? "bar" : (l.colour ?? "default");
+        // Owner: button text is white while the button is not lit; a lit button shows its LED colour.
+        const colour = l.onBar ? "bar" : l.onButton ? "white" : (l.colour ?? "default");
         return (
           <text
             key={l.key}

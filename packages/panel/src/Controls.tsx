@@ -26,6 +26,7 @@ export interface ControlsProps {
   onFocusId: (id: string | null) => void;
   onSelect: (id: string) => void;
   onSound?: (kind: ClickKind, phase: ClickPhase) => void; // set only while click sounds are on
+  onTurn?: (id: string, steps: number) => void; // net detents of a turn, for the endless pointer
 }
 
 const now = () => Math.round(performance.now());
@@ -44,7 +45,11 @@ export function Controls(p: ControlsProps) {
     const text = describeEvent(name(item.id), e, p.getView(), item.kind === "encoder");
     if (text !== undefined) p.announce(text);
   };
-  const turn = (item: LayoutItem, steps: number) => fire({ type: "turn", id: item.id, steps, t: now() }, item);
+  const turn = (item: LayoutItem, steps: number) => {
+    p.onTurn?.(item.id, steps);
+    for (let i = 0; i < Math.min(Math.abs(steps), 3); i++) p.onSound?.("detent", "down"); // at most 3 clicks per event
+    fire({ type: "turn", id: item.id, steps, t: now() }, item);
+  };
   const press = (item: LayoutItem) => {
     if (held.current.has(item.id)) return;
     held.current.add(item.id);

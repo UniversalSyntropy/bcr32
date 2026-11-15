@@ -91,7 +91,7 @@ export interface GuidePlayerProps {
   view: "top" | "rear";
   layers: ReadonlySet<LayerId>;
   dev: boolean;
-  sound?: (kind: "button" | "knob", phase: "down" | "up") => void;
+  sound?: (kind: "button" | "knob" | "detent", phase: "down" | "up") => void;
   onStep: (n: number) => void; // 1-based
 }
 

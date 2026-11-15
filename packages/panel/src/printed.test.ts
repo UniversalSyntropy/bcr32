@@ -6,7 +6,7 @@ import { test } from "node:test";
 import { loadDevice } from "@bcr32/device-data";
 
 import { layerLabels, obstacles } from "./labels.ts";
-import { buildLayout, pointerLine, textBox, type Layout, type TextBox } from "./layout.ts";
+import { buildLayout, DETENT_DEG, DETENTS_PER_TURN, pointerAt, pointerLine, textBox, type Layout, type TextBox } from "./layout.ts";
 
 const loaded = loadDevice(join(import.meta.dirname, "..", "..", "..", "data", "devices", "bcr32"));
 assert.ok(loaded.ok && loaded.data.geometry !== undefined, "device data must load");
@@ -164,3 +164,20 @@ test("id text puts the ID and the printed number together", () => {
 
 // Layer labels that found no free spot within the distance limit. Reported, not hidden.
 const EXPECTED_UNPLACED = ["B5", "B13", "B16", "B18", "B22", "B24", "E25", "E26", "E27", "E28", "E29", "E30", "E31", "E32", "E33", "E34", "E35", "E36", "E37", "E38", "E39", "E40", "E41", "E42", "E43", "E44", "E45", "E46", "E47", "E48", "E49", "SEL", "B62", "B65", "B66", "B68"].map((id) => `function:${id}`);
+
+test("pointer has no end stop: 24 detents per turn, 15 degrees each, past the ring end", () => {
+  const e25 = top.items.find((i) => i.id === "E25")!;
+  assert.equal(DETENTS_PER_TURN, 24);
+  assert.equal(DETENT_DEG, 15);
+  assert.ok(Math.abs(pointerAt(e25, 150 + 15 * 5)!.deg - 225) < 1e-9);
+  const a = pointerAt(e25, 0)!;
+  const b = pointerAt(e25, 360)!;
+  assert.ok(Math.abs(a.x2 - b.x2) < 1e-9 && Math.abs(a.y2 - b.y2) < 1e-9, "360 degrees is a full turn");
+});
+
+test("an on-part button legend is marked onButton; knob and bar text is not", () => {
+  const on = top.legends.filter((l) => l.onButton);
+  assert.ok(on.length > 0);
+  assert.ok(on.every((l) => l.onPart && l.id.startsWith("B")));
+  assert.ok(top.legends.filter((l) => l.id.startsWith("E")).every((l) => !l.onButton));
+});

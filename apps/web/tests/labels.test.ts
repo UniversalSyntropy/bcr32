@@ -189,7 +189,7 @@ for (const [engine, type] of ENGINES) {
       assert.equal(await p.locator('#lights g.ring[data-id="E28"] .pointer').count(), 0);
       await p.focus('.ctl[data-id="E26"]');
       await p.keyboard.press("Shift+ArrowUp");
-      assert.equal(await p.getAttribute('#lights g.ring[data-id="E26"] .pointer', "data-deg"), (-150 + (300 * 65) / 127).toFixed(3));
+      assert.equal(await p.getAttribute('#lights g.ring[data-id="E26"] .pointer', "data-deg"), (-150 + (300 * 64) / 127 + 15).toFixed(3)); // one detent turns the pointer 15 degrees (owner count: 24 per turn)
       await p.context().close();
     });
 
