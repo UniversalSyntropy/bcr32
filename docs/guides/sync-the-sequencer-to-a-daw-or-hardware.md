@@ -2,7 +2,7 @@
 title: Sync the sequencer to a DAW or hardware
 description: How to make the BCR32 sequencer follow an outside clock from a DAW over USB or DIN, or from analog sync, and how to send its own clock out.
 status: draft
-last_updated: 2026-11-13
+last_updated: 2026-11-18
 ---
 
 # Sync the sequencer to a DAW or hardware
@@ -13,7 +13,7 @@ Goal: make the sequencer run on the tempo of your DAW or of another machine, or 
 | --- | --- |
 | Mode | ZAQ |
 | Time | 15 minutes |
-| Firmware tested | 1.0.3. The clock source names are verified. The sync from a DAW is unverified |
+| Firmware tested | 1.0.3. The clock source names and the sync from Ableton Live are verified |
 
 ## Step 1: choose the operation mode
 
@@ -53,15 +53,19 @@ Interactive version: `?guide=choose-clock` (3 steps).
 
 **Figure G3-2.** How the clock travels from your DAW to the unit. [List of figures](../manual/figures.md)
 
-**Ableton Live** (unverified on the BCR32):
+> **Note:** Correction (2026-11-18): the figure shows the port BCR-32 ZAQ. The unit reads clock and start/stop on the port BCR-32 CTRL. An updated figure is to follow.
 
-1. Open Preferences, then Link, Tempo and MIDI.
-2. In the MIDI Ports list, find the output `BCR-32 ZAQ`. Set **Sync** to On.
+**Ableton Live** (verified on firmware 1.0.3, 2026-11-18):
+
+1. Open Settings, then Link, Tempo and MIDI.
+2. In the MIDI Ports list, find the output `BCR-32 CTRL`. Set **Sync** to On.
 3. Set the tempo. Press Play in Live.
 
-**Expect:** The playhead moves on the rings. The display shows the tempo. In external mode the start and stop come from the DAW.
+**Expect:** The playhead moves on the rings. In external mode the start and stop come from the DAW. PLAY/STOP (B68) on the unit flashes and does not start the sequencer.
 
-**Other DAWs:** Switch on "send clock" or "MIDI sync" for the output port `BCR-32 ZAQ`.
+**Verified on firmware 1.0.3 (2026-11-18):** the unit reads clock and start/stop on the port `BCR-32 CTRL`. With Sync on the output `BCR-32 ZAQ` only, the sequencer did not start. See [connect to Ableton Live](connect-to-ableton-live.md) for the full port table.
+
+**Other DAWs:** Switch on "send clock" or "MIDI sync" for the output port `BCR-32 CTRL`.
 
 ## Step 4: send the clock out
 
@@ -74,7 +78,7 @@ For analog gear, use J77 SYNC OUT. It carries clock and start/stop. J76 SYNC IN 
 Community advice from the ZAQ Audio forum for the BCR2000 firmware. Check each item. These are not tests on the BCR32.
 
 - **Clock source:** the clock source is still INT.
-- **Port:** the DAW sends the clock on another port.
+- **Port:** the DAW sends the clock on another port. The unit reads clock on `BCR-32 CTRL` (verified on firmware 1.0.3).
 - **Mute:** the track is muted in the mixer. A muted track shows red. See [program drums and note repeat](program-drums-and-note-repeat.md).
 - **Track output:** the output port or the channel of the track does not match the synth.
 - **Start:** in external mode the start and stop come from the DAW, not from the unit.

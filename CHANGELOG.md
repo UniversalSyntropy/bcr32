@@ -2,6 +2,10 @@
 
 Notable changes to the documentation and tools. Newest first. Dates are ISO 8601.
 
+## 2026-11-18
+
+- Corrected the Ableton Live setup after a test on the unit (firmware 1.0.3). The sequencer reads clock and start/stop on the port BCR-32 CTRL, not BCR-32 ZAQ. Rewrote [Connect to Ableton Live](docs/guides/connect-to-ableton-live.md). It now has the port names as Live shows them and a port table. It also covers Live as clock master, Ableton Link, and three fixes: one missing port, no notes and no start. Changed step 3 of [Sync the sequencer](docs/guides/sync-the-sequencer-to-a-daw-or-hardware.md) to the CTRL port and added a correction note to Figure G3-2. Added verified sequencer note output on USB, the mixer mute cause and the clock port to [MIDI implementation](docs/manual/16-midi-implementation.md).
+
 ## 2026-11-15
 
 - Changed the panel after owner tests on the unit. Button text is white while the button is not lit, and a lit button shows its LED colour. The knob pointer has no end stop. It turns 15 degrees for each click, because the unit has 24 indexed steps in 360 degrees. The ring LEDs stay at the end of the range. Added a short click for each knob step to the optional click sounds. The ring response of 1 LED for each click is not in the data, because the encoder mode of that test is not recorded.

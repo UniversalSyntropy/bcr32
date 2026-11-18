@@ -14,7 +14,7 @@ last_updated: 2026-11-11
 | [List of figures](manual/figures.md) | Every numbered figure in the manual, with its chapter | draft |
 | [Disclaimer](../DISCLAIMER.md) | Terms of use: reference only, no warranty, no claim of accuracy, no liability | draft |
 | [BCR32 manual](manual/README.md) | Controls, modes, menus, values, procedures, errors in the official manual | draft |
-| [Connect to Ableton Live](guides/connect-to-ableton-live.md) | USB-MIDI setup, track routing, clock master | draft, unverified |
+| [Connect to Ableton Live](guides/connect-to-ableton-live.md) | USB-MIDI setup, track routing, clock master, port fixes | draft, verified on firmware 1.0.3 (Live as master) |
 | [Troubleshooting](guides/troubleshooting.md) | Symptoms and fixes | draft, unverified |
 | [Recovery runbook](guides/recovery-runbook.md) | Steps to recover a unit, least invasive first, with the unknowns | draft, unverified |
 | [Unit session findings](reference/capture-findings.md) | Results of the first unit session on firmware 1.0.3, MIDI facts, open items | draft, verified on firmware 1.0.3 |

@@ -2,8 +2,8 @@
 title: MIDI implementation
 description: What the BCR32 sends and accepts on its two USB MIDI ports, seen on firmware 1.0.3, with the tests that produced no result.
 status: draft
-last_updated: 2026-11-12
-source: tests on a unit, firmware 1.0.3, 2026-11-11 and 2026-11-12
+last_updated: 2026-11-18
+source: tests on a unit, firmware 1.0.3, 2026-11-11, 2026-11-12 and 2026-11-18
 ---
 
 # MIDI implementation
@@ -18,8 +18,12 @@ The unit shows two USB MIDI ports to the computer.
 
 | Port | Use |
 | --- | --- |
-| BCR-32 CTRL | The controller part. The unit sends controller messages from here. |
-| BCR-32 ZAQ | The sequencer part. The unit sends nothing here in the tests so far. |
+| BCR-32 CTRL | The controller part. The unit sends controller messages from here. The sequencer reads clock and start/stop from here. |
+| BCR-32 ZAQ | The sequencer part. |
+
+In Ableton Live on macOS the names show as "Behringer BCR-32 (BCR-32 CTRL)" and "Behringer BCR-32 (BCR-32 ZAQ)".
+
+> **Note:** One computer showed only one port, "Behringer BCR-32", and an offline device "BCR-001". That was an old port list in macOS, not a unit fault. A delete of the grey icons in Audio MIDI Setup and a replug gave the two ports. See [connect to Ableton Live](../guides/connect-to-ableton-live.md#only-one-bcr32-port-in-live).
 
 The USB vendor ID is 1397. The product ID is 12CF in normal mode. See `data/devices/bcr32/midi.json` for the full record.
 
@@ -89,6 +93,14 @@ The table below lists every message seen. Each row names the controls, the prese
 - **Silent controls:** buttons B21 to B24 and B65 to B68 sent nothing on any port. The [encoders](13-glossary.md#encoder) E30, E31 and E38 are unassigned in preset 4.
 - **Preset switch:** the unit changed its active preset between two runs. The cause is not proven.
 
+### Sequencer notes on USB
+
+Verified on firmware 1.0.3 (2026-11-18), with Ableton Live as clock master ([clock source](13-glossary.md#clock-source) `EXT USB IN`, [track](13-glossary.md#track) outputs `U`, channels 1 to 4):
+
+- **Notes:** all four tracks sent note on and note off on USB, one channel per track. The test listened on both ports together, so the port of the notes is not yet split.
+- **Stop and start:** at each Stop and Play from Live, the unit sent one controller change on each of the 16 channels. The controller number was not logged. It is probably "all notes off".
+- **No notes:** a track muted in the [mixer](13-glossary.md#mixer) (MIXER, B66) sends no notes on any output. The earlier `zaq-transport` result in section 16.3 may have the same cause. That is not proven.
+
 ## 16.3 What the unit did not do
 
 A test with no message or no effect is a result. These tests found nothing to log.
@@ -118,16 +130,16 @@ A test with no message or no effect is a result. These tests found nothing to lo
 
 ## 16.4 What the unit accepts
 
-Five tests sent standard messages to the unit with the settings as found. None had an effect. Section 16.3 lists them.
+Five tests sent standard messages to the unit with the settings as found. None had an effect. Section 16.3 lists them. A later test with the clock source set to USB proved clock and start/stop.
 
 | Message | Needs, probably | Tested |
 | --- | --- | --- |
-| Start and stop | USB [clock source](13-glossary.md#clock-source) | no |
+| Clock, start and stop | USB [clock source](13-glossary.md#clock-source) (`EXT USB IN`), sent to the port BCR-32 CTRL | yes, firmware 1.0.3 (2026-11-18). Sent to BCR-32 ZAQ only: no start |
 | Notes as [transpose](13-glossary.md#transpose) | Transpose on (E32) | no |
 | [Program change](13-glossary.md#program-change-pc) as [pattern](13-glossary.md#pattern) switch | Pattern change channel (B13) on | no |
 | Identity request | A device ID that matches | no |
 
-Each "needs" entry is a guess from the settings. A test of each needs a setting change on the unit. That test needs a fresh backup check first. See the [unit safety protocol](../project/unit-safety.md).
+Each untested "needs" entry is a guess from the settings. A test of each needs a setting change on the unit. That test needs a fresh backup check first. See the [unit safety protocol](../project/unit-safety.md).
 
 ## 16.5 Editor and dump format
 
